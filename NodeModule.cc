@@ -31,7 +31,7 @@ void NodeModule::initialize()
     self.ID = ShortId;
     self.genesisBlock = self.createGenBlock();
     self.myTangle.push_back(self.genesisBlock);
-    self.myTips.insert({0,self.genesisBlock});
+    self.myTips.insert({"Genesis",self.genesisBlock});
 
     LOG_SIM << simTime() << " Initialization complete, starting first try to issue a transaction" << std::endl;
     EV << "Initialization complete, starting first try to issue a transaction" << std::endl;
@@ -61,18 +61,18 @@ void NodeModule::handleMessage(cMessage * msg)
 
         if(test && sizeTangle < trLimit)
         {
-            LOG_SIM << simTime() << " TSA procedure for ";
             TrCount++;
             pTr_S new_tr;
             int tipsNb = 0;
             std::string trId = ShortId + std::to_string(TrCount);
 
             EV << "TSA procedure for " << trId<< std::endl;
-            LOG_SIM << trId << std::endl;
+            LOG_SIM << simTime() << " TSA procedure for " << trId << std::endl;
 
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
-               std::map<int,pTr_S> tipsCopy = self.giveTips();
+               std::map<std::string, pTr_S> tipsCopy = self.giveTips();
+               LOG_SIM << " Tips number : " << tipsCopy.size() << std::endl;
                VpTr_S chosenTips = self.IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
                new_tr = self.attach(trId,simTime(),chosenTips);
@@ -80,7 +80,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(strcmp(par("TSA"),"GIOTA") == 0)
             {
-               std::map<int,pTr_S> tipsCopy = self.giveTips();
+               std::map<std::string, pTr_S> tipsCopy = self.giveTips();
                VpTr_S chosenTips = self.GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
                new_tr = self.attach(trId,simTime(),chosenTips);
@@ -88,7 +88,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(strcmp(par("TSA"),"EIOTA") == 0)
             {
-                std::map<int,pTr_S> tipsCopy = self.giveTips();
+                std::map<std::string, pTr_S> tipsCopy = self.giveTips();
                 VpTr_S chosenTips = self.EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
                 new_tr = self.attach(trId,simTime(),chosenTips);

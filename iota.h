@@ -60,7 +60,7 @@ class Node
         VpTr_S myTangle;
 
         //Keep a record of all the current unapproved transactions
-        std::map<int,pTr_S> myTips;
+        std::map<std::string,pTr_S> myTips;
 
         //The first transaction
         pTr_S genesisBlock;
@@ -88,29 +88,29 @@ class Node
         void printTipsLeft(int numberTips, int NodeID);
 
         //Returns a copy of the current tips from the Tangle
-        std::map<int,pTr_S> giveTips();
+        std::map<std::string,pTr_S> giveTips();
 
         //Random Walk
-        pTr_S RandomWalk(pTr_S start, double alphaVal, std::map<int,pTr_S>& tips, omnetpp::simtime_t timeStamp, int &walk_time);
+        pTr_S RandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, omnetpp::simtime_t timeStamp, int &walk_time);
 
         //TSA
-        VpTr_S IOTA(double alphaVal, std::map<int,pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N);
-        VpTr_S GIOTA(double alphaVal, std::map<int,pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N);
-        VpTr_S EIOTA(double p1, double p2, std::map<int,pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N);
+        VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N);
+        VpTr_S GIOTA(double alphaVal, std::map<std::string,pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N);
+        VpTr_S EIOTA(double p1, double p2, std::map<std::string,pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N);
 
         //Compute Weight
         int _computeWeight(VpTr_S& visited, pTr_S& current, omnetpp::simtime_t timeStamp );
         int ComputeWeight(pTr_S tr, omnetpp::simtime_t timeStamp);
 
         //Back track for selecting start sites for the random walk
-        pTr_S getWalkStart(std::map<int,pTr_S>& tips, int backTrackDist);
+        pTr_S getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist);
 
         //filter view due to network asynchronicity
-        bool isRelativeTip(pTr_S& toCheck, std::map<int,pTr_S>& tips);
+        bool isRelativeTip(pTr_S& toCheck, std::map<std::string,pTr_S>& tips);
         void filterView(VpTr_S& view, omnetpp::simtime_t timeStamp);
 
         //remove newly confirmed tips from myTips;
-        void ReconcileTips(const VpTr_S& removeTips, std::map<int,pTr_S>& myTips);
+        void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);
 
         //creates a new transaction, selects tips for it to approve, then adds the new transaction to the tip map
         pTr_S attach(std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen);
@@ -123,12 +123,12 @@ class NodeModule : public omnetpp::cSimpleModule
 {
     public:
         std::string ShortId;
-        int TrCount;
-        int stopCount;
         int trLimit;
         double prob;
         int NeighborsNumber;
         Node self;
+        int TrCount;
+        int stopCount;
         omnetpp::simtime_t powTime;
 
     protected:
