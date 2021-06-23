@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <stdio.h>
+#include <time.h>
 #include <regex>
 #include <string>
 #include <utility>
@@ -14,41 +15,29 @@
 #include <cmath>
 #include <functional>
 
-std::mt19937& RNG::getRandGen()
+int Node::rangeRandom(int min, int max)
 {
-    return tipSelectGen;
-}
+    int n = max - min + 1;
+    int remainder = RAND_MAX % n;
+    int x;
 
-RNG* Node::getRNGPtr() const
-{
-    return RNGPtr;
-}
+    do
+    {
+        x = rand();
+    }while (x >= RAND_MAX - remainder);
 
-void Node::setRNGPtr(RNG* rng)
-{
-    RNGPtr = rng;
+    return min + x % n;
 }
 
 bool Node::ifIssue(double prob)
 {
-    //std::random_device rd;
-    //std::mt19937 tm(rd());
-    std::uniform_real_distribution<double> ud(0.0,1.0);
-
-    /*std::fstream file;
-    std::string path = "./data/Tracking/TrackerTangle.txt";
-    file.open(path,std::ios::app);*/
-
-    double test = 0.1; //ud(getRNGPtr()->getRandGen());
-
-    //file << test << std::endl;
+    double test = (double) rand()/RAND_MAX;
 
     if(test <= prob)
     {
         return true;
     }
 
-    //file.close();
     return false;
 }
 
@@ -84,31 +73,13 @@ void Node::DeleteTangle(Node &myNode, VpTr_S &myTangle)
     }
 }
 
-void Node::printTangle(VpTr_S myTangle, pTr_S Gen)
+void Node::printTangle(VpTr_S myTangle, int NodeID)
 {
     std::fstream file;
-    std::string path = "./data/Tracking/TrackerTangle.txt";
+    std::string path = "./data/Tracking/TrackerTangle[" + std::to_string(NodeID) + "].txt";
     file.open(path,std::ios::app);
 
     omnetpp::simtime_t sec = omnetpp::simTime();
-
-    file << sec << ";";
-    file <<"Genesis"<< ";";
-
-    for(long unsigned int i = 0; i < Gen->approvedBy.size(); i++)
-    {
-        if(i == Gen->approvedBy.size() - 1)
-        {
-            file << Gen->approvedBy[i]->ID;
-        }
-
-        else
-        {
-            file << Gen->approvedBy[i]->ID << ",";
-        }
-    }
-
-    file << std::endl;
 
     for(long unsigned int i = 0; i < myTangle.size(); i++)
     {
@@ -138,10 +109,10 @@ void Node::printTangle(VpTr_S myTangle, pTr_S Gen)
     file.close();
 }
 
-void Node::printTipsLeft(int numberTips)
+void Node::printTipsLeft(int numberTips, int NodeID)
 {
     std::fstream file;
-    std::string path = "./data/log/NumberTips.txt";
+    std::string path = "./data/Tracking/NumberTips[" + std::to_string(NodeID) + "].txt";
     file.open(path,std::ios::app);
 
     file << numberTips << std::endl;
@@ -207,11 +178,11 @@ int Node::ComputeWeight(pTr_S tr, omnetpp::simtime_t timeStamp)
 
 pTr_S Node::getWalkStart(std::map<int,pTr_S>& tips, int backTrackDist)
 {
-    std::random_device rd;
-    std::mt19937 tm(rd());
-    std::uniform_int_distribution<int> tipDist(0,tips.size() - 1);
+    //std::random_device rd;
+    //std::mt19937 tm(rd());
+    //std::uniform_int_distribution<int> tipDist(0,tips.size() - 1);
 
-    int iterAdvances = tipDist(tm);
+    int iterAdvances = rangeRandom(0,tips.size() - 1);
 
     assert(iterAdvances < tips.size());
 
@@ -229,8 +200,8 @@ pTr_S Node::getWalkStart(std::map<int,pTr_S>& tips, int backTrackDist)
 
     while(!current->isGenesisBlock && count > 0)
     {
-        std::uniform_int_distribution<int> choice(0,current->S_approved.size() - 1);
-        approvesIndex = choice(tm);
+        //std::uniform_int_distribution<int> choice(0,current->S_approved.size() - 1);
+        approvesIndex = rangeRandom(0,current->S_approved.size() - 1);
         assert(approvesIndex < current->S_approved.size());
         current = current->S_approved.at(approvesIndex);
         --count;
@@ -285,26 +256,28 @@ void Node::filterView(VpTr_S& view, omnetpp::simtime_t timeStamp)
 
 void Node::ReconcileTips(const VpTr_S& removeTips, std::map<int,pTr_S>& myTips)
 {
+    /*std::fstream file;
+    std::string path = "./data/Tracking/deltips.txt";
+    file.open(path,std::ios::app);*/
+
     std::map<int,pTr_S>::iterator it;
 
     for(auto& tipSelected : removeTips)
     {
        for(it = myTips.begin(); it != myTips.end(); it++)
        {
-           if(tipSelected->ID == it->second->ID)
+           if(tipSelected->ID.compare(it->second->ID) == 0)
            {
-               break;
+               myTips.erase(it->first);
+               //file << it->second->ID << std::endl;
            }
        }
-
-        if(it != myTips.end())
-        {
-            myTips.erase(it);
-        }
     }
+
+    //file.close();
 }
 
-pTr_S Node::attach(Node& myNode, std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen)
+pTr_S Node::attach(std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen)
 {
      pTr_S new_tips = createSite(ID);
 
@@ -321,19 +294,18 @@ pTr_S Node::attach(Node& myNode, std::string ID, omnetpp::simtime_t attachTime, 
      }
 
      new_tips->S_approved = chosen;
-     ReconcileTips(chosen,myNode.myTips);
+     ReconcileTips(chosen,this->myTips);
 
-     myNode.myTangle.push_back(new_tips);
-     myNode.myTips.insert({myNode.myTips.size() + 1,new_tips});
-
+     this->myTangle.push_back(new_tips);
+     this->myTips.insert({this->myTips.size() + 1,new_tips});
      return new_tips;
 }
 
 //TODO: case alpha = 0.0 (dont compute weight)
 pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<int, pTr_S>& tips, omnetpp::simtime_t timeStamp, int &walk_time)
 {
-    std::random_device rd;
-    std::mt19937 tm(rd());
+    //std::random_device rd;
+    //std::mt19937 tm(rd());
 
     int walkCounts = 0;
     pTr_S current = start;
@@ -360,7 +332,7 @@ pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<int, pTr_S>& tips,
 
         else
         {
-            std::uniform_real_distribution<double> walkChoice(0.0,1.0);
+            //std::uniform_real_distribution<double> walkChoice(0.0,1.0);
 
             double sum_exp = 0.0;
             int weight;
@@ -384,7 +356,7 @@ pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<int, pTr_S>& tips,
             std::sort(sitesProb.begin(), sitesProb.end(),[](const std::pair<int,double> &a, const std::pair<int,double> &b){
             return a.second < b.second;});
             int nextCurrentIndex = 0;
-            double probWalkChoice =  walkChoice(tm);
+            double probWalkChoice =  (double) rand()/RAND_MAX; //walkChoice(tm);
 
             for(int j = 0; j < static_cast<int>(sitesProb.size()) - 1; j++)
             {
@@ -498,11 +470,11 @@ VpTr_S Node::GIOTA(double alphaVal, std::map<int, pTr_S>& tips, omnetpp::simtime
        return chosenTips;
    }
 
-   std::random_device rd;
-   std::mt19937 tm(rd());
-   std::uniform_int_distribution<int> ThirdTipsIdx(0,static_cast<int>(copyTips.size()) - 1);
+   //std::random_device rd;
+   //std::mt19937 tm(rd());
+   //std::uniform_int_distribution<int> ThirdTipsIdx(0,static_cast<int>(copyTips.size()) - 1);
 
-   auto idx = ThirdTipsIdx(tm);
+   auto idx = rangeRandom(0,copyTips.size() - 1);//ThirdTipsIdx(tm);
    auto LeftTips = copyTips[idx];
 
    chosenTips.push_back(LeftTips);
@@ -511,13 +483,13 @@ VpTr_S Node::GIOTA(double alphaVal, std::map<int, pTr_S>& tips, omnetpp::simtime
 
 VpTr_S Node::EIOTA(double p1, double p2, std::map<int, pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N)
 {
-    std::random_device rd;
-    std::mt19937 tm(rd());
-    std::uniform_real_distribution<> rGen(0,1);
+    //std::random_device rd;
+    //std::mt19937 tm(rd());
+    //std::uniform_real_distribution<> rGen(0,1);
 
     double lowAlpha = 0.1;
     double highAlpha = 5.0;
-    auto r = rGen(tm);
+    auto r = (double) rand()/RAND_MAX; //rGen(tm);
     VpTr_S chosenTips;
 
     if(r < p1)
@@ -538,25 +510,42 @@ VpTr_S Node::EIOTA(double p1, double p2, std::map<int, pTr_S>& tips, omnetpp::si
     return chosenTips;
 }
 
-void Node::updateTangle(pTr_S toAdd, omnetpp::simtime_t attachTime)
+//TODO : use lambda for find && same for ReconcileTips
+void Node::updateTangle(MsgUpdate* Msg, omnetpp::simtime_t attachTime)
 {
-    this->myTips.insert({this->myTips.size() + 1,toAdd});
-    ReconcileTips(toAdd->S_approved,this->myTips);
+    pTr_S newTr = new Site;
+    newTr->ID = Msg->ID;
+    newTr->ID = Msg->ID;
+    newTr->issuedBy = Msg->issuedBy;
+    newTr->issuedTime = Msg->issuedTime;
 
-    for (auto& tipSelected : toAdd->S_approved)
+    for(auto& tipSelected : Msg->S_approved)
     {
         for(auto& tr : this->myTangle)
         {
-            if(tr->ID == tipSelected->ID)
+            if(tr->ID == tipSelected)
             {
-                tr->approvedBy.push_back(toAdd);
+                newTr->S_approved.push_back(tr);
+                tr->approvedBy.push_back(newTr);
 
                 if(!(tr->isApproved))
                 {
                     tr->approvedTime = attachTime;
                     tr->isApproved = true;
                 }
+
+                std::map<int,pTr_S>::iterator it;
+
+                for(it = myTips.begin(); it != myTips.end(); it++)
+                {
+                   if(tr->ID.compare(it->second->ID) == 0)
+                   {
+                       myTips.erase(it->first);
+                   }
+                }
             }
         }
     }
+
+    this->myTips.insert({this->myTips.size() + 1,newTr});
 }

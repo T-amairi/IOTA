@@ -13,7 +13,7 @@
 
 struct Site; //a transaction
 class Node; //a node
-class RNG; //for the RNG
+struct MsgUpdate; //a message to send to others nodes to update their tangles
 
 using pTr_S = Site*;
 using VpTr_S = std::vector<pTr_S>;
@@ -52,9 +52,6 @@ struct Site
 
 class Node
 {
-    private:
-    RNG * RNGPtr = nullptr;
-
     public:
         //ID of the Node
         std::string ID;
@@ -71,12 +68,8 @@ class Node
         //allow to check if the node deleted his Tangle
         bool ifDeleted = false;
 
-        //setter and getter for RNG
-        RNG* getRNGPtr() const;
-        void setRNGPtr(RNG* rng);
-
-        //Returns ref to the RNG, used in all Nodes methods
-        std::mt19937& getRandGen();
+        //RNG between min and max
+        int rangeRandom(int min, int max);
 
         //check if the node can issue a transaction using prob para in NodeModule
         bool ifIssue(double prob);
@@ -91,8 +84,8 @@ class Node
         void DeleteTangle(Node &myNode, VpTr_S &myTangle);
 
         //tracking
-        void printTangle(VpTr_S myTangle, pTr_S Gen);
-        void printTipsLeft(int numberTips);
+        void printTangle(VpTr_S myTangle, int NodeID);
+        void printTipsLeft(int numberTips, int NodeID);
 
         //Returns a copy of the current tips from the Tangle
         std::map<int,pTr_S> giveTips();
@@ -120,19 +113,40 @@ class Node
         void ReconcileTips(const VpTr_S& removeTips, std::map<int,pTr_S>& myTips);
 
         //creates a new transaction, selects tips for it to approve, then adds the new transaction to the tip map
-        pTr_S attach(Node& myNode, std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen);
+        pTr_S attach(std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen);
 
         //update the local tangle when a new transaction is received
-        void updateTangle(pTr_S toAdd, omnetpp::simtime_t attachTime);
+        void updateTangle(MsgUpdate* Msg, omnetpp::simtime_t attachTime);
 };
 
-class RNG
+class NodeModule : public omnetpp::cSimpleModule
 {
-    private:
-    // RNG in tangle to simplify tip selection
-    std::mt19937 tipSelectGen;
-
     public:
-    //Returns ref to the RNG, used in all Nodes methods
-    std::mt19937& getRandGen();
+        std::string ShortId;
+        int TrCount;
+        int stopCount;
+        int trLimit;
+        double prob;
+        int NeighborsNumber;
+        Node self;
+        omnetpp::simtime_t powTime;
+
+    protected:
+        virtual void initialize() override;
+        virtual void handleMessage(omnetpp::cMessage * msg) override;
+};
+
+struct MsgUpdate
+{
+    //the ID of transaction
+    std::string ID;
+
+    //transactions approuved by this transaction
+    std::vector<std::string> S_approved;
+
+    //The node that issued this transaction
+    Node* issuedBy;
+
+    //Simulation time when the transaction was issued - set by the Node
+    omnetpp::simtime_t issuedTime;
 };

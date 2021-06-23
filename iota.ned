@@ -25,7 +25,7 @@ simple NodeModule
         string TSA = "IOTA";
         
         //IOTA && GIOTA && EIOTA
-        double alpha = 5.0; //alpha in Pxy 
+        double alpha = 5.0; //alpha in Pxy prob 
         int W = 250; //interval [W,2W]
         int N = 100; //number of walkers
 
@@ -34,21 +34,22 @@ simple NodeModule
         double p2 = 0.65;
         
     gates:
-        inout NodeConnect[];
+        input NodeIn[];
+        output NodeOut[];
 }
 
 network IOTA
 {
     parameters:
-        int transactionLimit = 1000; //size of the Tangle 
-        int NodeNumber = 4; //always > 0, number of sites in the simulation
+        int transactionLimit = 100; //size of the Tangle 
+        int NodeNumber = 2; //always > 0, number of sites in the simulation
         
     submodules:
-        NodesModule[NodeNumber]: NodeModule;
+        Nodes[NodeNumber]: NodeModule;
         
     connections: //each module is connecting to his neighbors
-        for i = 0 .. NodeNumber - 1, for j = 0 .. NodeNumber - 1, if i != j 
+        for i = 0 .. NodeNumber - 1, for j = 0 .. NodeNumber - 1, if i != j
         {
-            NodesModule[i].NodeConnect++ <--> {delay = 1ms;} <--> NodesModule[j].NodeConnect++;
+            Nodes[i].NodeOut++ --> {delay = 1ms;} --> Nodes[j].NodeIn++;
         }
 }

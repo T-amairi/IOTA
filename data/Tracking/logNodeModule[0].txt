@@ -1,0 +1,260 @@
+0 Initialization complete, starting first try to issue a transaction
+3 Trying to issue a new transaction
+3 ifIssue result : 0
+3 Prob not higher than test, retrying to issue again
+6 Trying to issue a new transaction
+6 ifIssue result : 0
+6 Prob not higher than test, retrying to issue again
+9 Trying to issue a new transaction
+9 ifIssue result : 0
+9 Prob not higher than test, retrying to issue again
+12 Trying to issue a new transaction
+12 ifIssue result : 0
+12 Prob not higher than test, retrying to issue again
+15 Trying to issue a new transaction
+15 ifIssue result : 1
+15 TSA procedure for [0]1
+15 Pow time = 10
+15 Sending the new transaction to all nodes
+18 Trying to issue a new transaction
+18 ifIssue result : 0
+18 Prob not higher than test, retrying to issue again
+21 Trying to issue a new transaction
+21 ifIssue result : 0
+21 Prob not higher than test, retrying to issue again
+24 Trying to issue a new transaction
+24 ifIssue result : 0
+24 Prob not higher than test, retrying to issue again
+25.001 Updating Tangle
+27 Trying to issue a new transaction
+27 ifIssue result : 0
+27 Prob not higher than test, retrying to issue again
+30 Trying to issue a new transaction
+30 ifIssue result : 0
+30 Prob not higher than test, retrying to issue again
+33 Trying to issue a new transaction
+33 ifIssue result : 0
+33 Prob not higher than test, retrying to issue again
+36 Trying to issue a new transaction
+36 ifIssue result : 0
+36 Prob not higher than test, retrying to issue again
+39 Trying to issue a new transaction
+39 ifIssue result : 0
+39 Prob not higher than test, retrying to issue again
+42 Trying to issue a new transaction
+42 ifIssue result : 0
+42 Prob not higher than test, retrying to issue again
+45 Trying to issue a new transaction
+45 ifIssue result : 1
+45 TSA procedure for [0]2
+45 Pow time = 10
+45 Sending the new transaction to all nodes
+48 Trying to issue a new transaction
+48 ifIssue result : 0
+48 Prob not higher than test, retrying to issue again
+49.001 Updating Tangle
+51 Trying to issue a new transaction
+51 ifIssue result : 0
+51 Prob not higher than test, retrying to issue again
+54 Trying to issue a new transaction
+54 ifIssue result : 0
+54 Prob not higher than test, retrying to issue again
+55.001 Updating Tangle
+57 Trying to issue a new transaction
+57 ifIssue result : 0
+57 Prob not higher than test, retrying to issue again
+58.001 Updating Tangle
+60 Trying to issue a new transaction
+60 ifIssue result : 0
+60 Prob not higher than test, retrying to issue again
+63 Trying to issue a new transaction
+63 ifIssue result : 0
+63 Prob not higher than test, retrying to issue again
+66 Trying to issue a new transaction
+66 ifIssue result : 0
+66 Prob not higher than test, retrying to issue again
+67.001 Updating Tangle
+69 Trying to issue a new transaction
+69 ifIssue result : 1
+69 TSA procedure for [0]3
+69 Pow time = 20
+69 Sending the new transaction to all nodes
+72 Trying to issue a new transaction
+72 ifIssue result : 0
+72 Prob not higher than test, retrying to issue again
+73.001 Updating Tangle
+75 Trying to issue a new transaction
+75 ifIssue result : 0
+75 Prob not higher than test, retrying to issue again
+78 Trying to issue a new transaction
+78 ifIssue result : 1
+78 TSA procedure for [0]4
+0 Initialization complete, starting first try to issue a transaction
+3 Trying to issue a new transaction
+3 ifIssue result : 1
+3 TSA procedure for [0]1
+3 Pow time = 10
+3 Sending the new transaction to all nodes
+6 Trying to issue a new transaction
+6 ifIssue result : 0
+6 Prob not higher than test, retrying to issue again
+9 Trying to issue a new transaction
+9 ifIssue result : 0
+9 Prob not higher than test, retrying to issue again
+12 Trying to issue a new transaction
+12 ifIssue result : 0
+12 Prob not higher than test, retrying to issue again
+15 Trying to issue a new transaction
+15 ifIssue result : 0
+15 Prob not higher than test, retrying to issue again
+18 Trying to issue a new transaction
+18 ifIssue result : 0
+18 Prob not higher than test, retrying to issue again
+21 Trying to issue a new transaction
+21 ifIssue result : 0
+21 Prob not higher than test, retrying to issue again
+24 Trying to issue a new transaction
+24 ifIssue result : 0
+24 Prob not higher than test, retrying to issue again
+27 Trying to issue a new transaction
+27 ifIssue result : 1
+27 TSA procedure for [0]2
+27 Pow time = 10
+27 Sending the new transaction to all nodes
+28.001 Updating Tangle
+30 Trying to issue a new transaction
+30 ifIssue result : 0
+30 Prob not higher than test, retrying to issue again
+33 Trying to issue a new transaction
+33 ifIssue result : 0
+33 Prob not higher than test, retrying to issue again
+34.001 Updating Tangle
+36 Trying to issue a new transaction
+36 ifIssue result : 1
+36 TSA procedure for [0]3
+0 Initialization complete, starting first try to issue a transaction
+3 Trying to issue a new transaction
+3 ifIssue result : 0
+3 Prob not higher than test, retrying to issue again
+6 Trying to issue a new transaction
+6 ifIssue result : 1
+6 TSA procedure for [0]1
+6 Pow time = 10
+6 Sending the new transaction to all nodes
+9 Trying to issue a new transaction
+9 ifIssue result : 0
+9 Prob not higher than test, retrying to issue again
+12 Trying to issue a new transaction
+12 ifIssue result : 1
+12 TSA procedure for [0]2
+12 Pow time = 10
+12 Sending the new transaction to all nodes
+15 Trying to issue a new transaction
+15 ifIssue result : 0
+15 Prob not higher than test, retrying to issue again
+18 Trying to issue a new transaction
+18 ifIssue result : 0
+18 Prob not higher than test, retrying to issue again
+21 Trying to issue a new transaction
+21 ifIssue result : 1
+21 TSA procedure for [0]3
+21 Pow time = 10
+21 Sending the new transaction to all nodes
+22.001 Updating Tangle
+24 Trying to issue a new transaction
+24 ifIssue result : 0
+24 Prob not higher than test, retrying to issue again
+0 Initialization complete, starting first try to issue a transaction
+3 Trying to issue a new transaction
+3 ifIssue result : 0
+3 Prob not higher than test, retrying to issue again
+6 Trying to issue a new transaction
+6 ifIssue result : 0
+6 Prob not higher than test, retrying to issue again
+9 Trying to issue a new transaction
+9 ifIssue result : 0
+9 Prob not higher than test, retrying to issue again
+12 Trying to issue a new transaction
+12 ifIssue result : 0
+12 Prob not higher than test, retrying to issue again
+15 Trying to issue a new transaction
+15 ifIssue result : 0
+15 Prob not higher than test, retrying to issue again
+18 Trying to issue a new transaction
+18 ifIssue result : 1
+18 TSA procedure for [0]1
+18 Pow time = 10
+18 Sending the new transaction to all nodes
+19.001 Updating Tangle
+21 Trying to issue a new transaction
+21 ifIssue result : 0
+21 Prob not higher than test, retrying to issue again
+24 Trying to issue a new transaction
+24 ifIssue result : 0
+24 Prob not higher than test, retrying to issue again
+27 Trying to issue a new transaction
+27 ifIssue result : 0
+27 Prob not higher than test, retrying to issue again
+30 Trying to issue a new transaction
+30 ifIssue result : 0
+30 Prob not higher than test, retrying to issue again
+31.001 Updating Tangle
+33 Trying to issue a new transaction
+33 ifIssue result : 0
+33 Prob not higher than test, retrying to issue again
+36 Trying to issue a new transaction
+36 ifIssue result : 0
+36 Prob not higher than test, retrying to issue again
+39 Trying to issue a new transaction
+39 ifIssue result : 1
+39 TSA procedure for [0]2
+0 Initialization complete, starting first try to issue a transaction
+3 Trying to issue a new transaction
+3 ifIssue result : 1
+3 TSA procedure for [0]1
+3 Pow time = 10
+3 Sending the new transaction to all nodes
+6 Trying to issue a new transaction
+6 ifIssue result : 0
+6 Prob not higher than test, retrying to issue again
+9 Trying to issue a new transaction
+9 ifIssue result : 0
+9 Prob not higher than test, retrying to issue again
+12 Trying to issue a new transaction
+12 ifIssue result : 1
+12 TSA procedure for [0]2
+12 Pow time = 10
+12 Sending the new transaction to all nodes
+13.001 Updating Tangle
+15 Trying to issue a new transaction
+15 ifIssue result : 0
+15 Prob not higher than test, retrying to issue again
+18 Trying to issue a new transaction
+18 ifIssue result : 1
+18 TSA procedure for [0]3
+18 Pow time = 20
+18 Sending the new transaction to all nodes
+21 Trying to issue a new transaction
+21 ifIssue result : 1
+21 TSA procedure for [0]4
+21 Pow time = 10
+21 Sending the new transaction to all nodes
+24 Trying to issue a new transaction
+24 ifIssue result : 0
+24 Prob not higher than test, retrying to issue again
+27 Trying to issue a new transaction
+27 ifIssue result : 0
+27 Prob not higher than test, retrying to issue again
+30 Trying to issue a new transaction
+30 ifIssue result : 0
+30 Prob not higher than test, retrying to issue again
+31.001 Updating Tangle
+33 Trying to issue a new transaction
+33 ifIssue result : 0
+33 Prob not higher than test, retrying to issue again
+36 Trying to issue a new transaction
+36 ifIssue result : 0
+36 Prob not higher than test, retrying to issue again
+39 Trying to issue a new transaction
+39 ifIssue result : 1
+39 TSA procedure for [0]5
