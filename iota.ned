@@ -18,14 +18,14 @@ simple NodeModule
 {
     parameters:
         volatile double trgenRate @unit(s) = 3.0s; //how often a node will try to issue a transaction
-        volatile double prob = 0.3; //the probability to issue a transaction (must be between 0 and 100)
-        volatile double powTime @unit(s) = 10.0s; //Proof of Work 
+        volatile double prob = 0.3; //the probability to issue a transaction (must be between 0 and 1)
+        volatile double powTime @unit(s) = 1.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA - GIOTA - EIOTA
         string TSA = "IOTA";
         
         //IOTA && GIOTA && EIOTA
-        double alpha = 5.0; //alpha in Pxy prob 
+        double alpha = 0.1; //alpha in Pxy prob 
         int W = 250; //interval [W,2W]
         int N = 100; //number of walkers
 

@@ -50,7 +50,7 @@ struct Site
 
 };
 
-class Node
+class Node : public omnetpp::cSimpleModule
 {
     public:
         //ID of the Node

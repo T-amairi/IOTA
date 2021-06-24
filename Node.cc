@@ -1,13 +1,9 @@
 //includes
 #include "iota.h"
 #include <iostream>
-#include <random>
-#include <chrono>
 #include <algorithm>
 #include <iomanip>
 #include <stdio.h>
-#include <time.h>
-#include <regex>
 #include <string>
 #include <utility>
 #include <numeric>
@@ -17,21 +13,12 @@
 
 int Node::rangeRandom(int min, int max)
 {
-    int n = max - min + 1;
-    int remainder = RAND_MAX % n;
-    int x;
-
-    do
-    {
-        x = rand();
-    }while (x >= RAND_MAX - remainder);
-
-    return min + x % n;
+    return omnetpp::intuniform(omnetpp::cModule::getRNG(0),min,max);
 }
 
 bool Node::ifIssue(double prob)
 {
-    double test = (double) rand()/RAND_MAX;
+    double test = omnetpp::uniform(omnetpp::cModule::getRNG(0),0.0,1.0);
 
     if(test <= prob)
     {
@@ -104,8 +91,6 @@ void Node::printTangle(VpTr_S myTangle, int NodeID)
         file << std::endl;
     }
 
-    file << std::endl;
-
     file.close();
 }
 
@@ -147,7 +132,7 @@ int Node::_computeWeight(VpTr_S& visited, pTr_S& current, omnetpp::simtime_t tim
     current->isVisited = true;
     int weight = 0;
 
-    for(int i = 0; i < current->approvedBy.size(); ++i)
+    for(int i = 0; i < static_cast<int>(current->approvedBy.size()); ++i)
     {
         if(!current->approvedBy.at(i)->isVisited)
         {
@@ -163,9 +148,9 @@ int Node::ComputeWeight(pTr_S tr, omnetpp::simtime_t timeStamp)
     VpTr_S visited;
     int weight = _computeWeight(visited, tr, timeStamp);
 
-    for(int i = 0; i < visited.size(); ++i)
+    for(int i = 0; i < static_cast<int>(visited.size()); ++i)
     {
-        for(int j = 0; j < visited.at(i)->approvedBy.size(); ++j)
+        for(int j = 0; j < static_cast<int>(visited.at(i)->approvedBy.size()); ++j)
         {
             visited.at(i)->approvedBy.at(j)->isVisited = false;
         }
@@ -178,14 +163,7 @@ int Node::ComputeWeight(pTr_S tr, omnetpp::simtime_t timeStamp)
 
 pTr_S Node::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist)
 {
-    //std::random_device rd;
-    //std::mt19937 tm(rd());
-    //std::uniform_int_distribution<int> tipDist(0,tips.size() - 1);
-
     int iterAdvances = rangeRandom(0,tips.size() - 1);
-
-    //assert(iterAdvances < tips.size());
-
     auto beginIter = tips.begin();
 
     if(tips.size() > 1)
@@ -200,9 +178,7 @@ pTr_S Node::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist)
 
     while(!current->isGenesisBlock && count > 0)
     {
-        //std::uniform_int_distribution<int> choice(0,current->S_approved.size() - 1);
         approvesIndex = rangeRandom(0,current->S_approved.size() - 1);
-        //assert(approvesIndex < current->S_approved.size());
         current = current->S_approved.at(approvesIndex);
         --count;
     }
@@ -237,7 +213,7 @@ void Node::filterView(VpTr_S& view, omnetpp::simtime_t timeStamp)
 {
     std::vector<int> removeIndexes;
 
-    for(int i = 0; i < view.size(); ++i)
+    for(int i = 0; i < static_cast<int>(view.size()); ++i)
     {
         if(view.at(i)->issuedTime > timeStamp)
         {
@@ -256,25 +232,24 @@ void Node::filterView(VpTr_S& view, omnetpp::simtime_t timeStamp)
 
 void Node::ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips)
 {
-    /*std::fstream file;
-    std::string path = "./data/Tracking/deltips.txt";
-    file.open(path,std::ios::app);*/
-
     std::map<std::string,pTr_S>::iterator it;
 
     for(auto& tipSelected : removeTips)
     {
-       for(it = myTips.begin(); it != myTips.end(); it++)
+       for(it = myTips.begin(); it != myTips.end();)
        {
            if(tipSelected->ID.compare(it->first) == 0)
            {
-               myTips.erase(it->first);
-               //file << it->second->ID << std::endl;
+               it = myTips.erase(it);
+
+           }
+
+           else
+           {
+               ++it;
            }
        }
     }
-
-    //file.close();
 }
 
 pTr_S Node::attach(std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen)
@@ -304,9 +279,6 @@ pTr_S Node::attach(std::string ID, omnetpp::simtime_t attachTime, VpTr_S& chosen
 //TODO: case alpha = 0.0 (dont compute weight)
 pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S>& tips, omnetpp::simtime_t timeStamp, int &walk_time)
 {
-    //std::random_device rd;
-    //std::mt19937 tm(rd());
-
     int walkCounts = 0;
     pTr_S current = start;
 
@@ -332,8 +304,6 @@ pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S
 
         else
         {
-            //std::uniform_real_distribution<double> walkChoice(0.0,1.0);
-
             double sum_exp = 0.0;
             int weight;
 
@@ -356,7 +326,7 @@ pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S
             std::sort(sitesProb.begin(), sitesProb.end(),[](const std::pair<int,double> &a, const std::pair<int,double> &b){
             return a.second < b.second;});
             int nextCurrentIndex = 0;
-            double probWalkChoice =  (double) rand()/RAND_MAX; //walkChoice(tm);
+            double probWalkChoice =  omnetpp::uniform(omnetpp::cModule::getRNG(0),0.0,1.0);
 
             for(int j = 0; j < static_cast<int>(sitesProb.size()) - 1; j++)
             {
@@ -391,18 +361,14 @@ pTr_S Node::RandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S
 
 VpTr_S Node::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N)
 {
-    std::random_device rd;
-    std::mt19937 tm(rd());
-    std::uniform_int_distribution<int> backTrackDist(W,2*W);
-
     VpTr_S start_sites;
     pTr_S temp_site;
     int backTD;
 
     for(int i = 0; i < N; i++)
     {
-        backTD = backTrackDist(tm);
-        temp_site = getWalkStart(tips,backTD);
+        backTD = rangeRandom(W,2*W);
+        temp_site = this->genesisBlock;//getWalkStart(tips,backTD);
         start_sites.push_back(temp_site);
     }
 
@@ -412,17 +378,8 @@ VpTr_S Node::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, omnetpp::
 
     for(int i = 0; i < N; i++)
     {
-        if(i != N-1)
-        {
-            selected_tips.push_back(RandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time));
-            walk_total.push_back(std::make_pair(i,walk_time));
-        }
-
-        else
-        {
-            selected_tips.push_back(RandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time));
-            walk_total.push_back(std::make_pair(i,walk_time));
-        }
+        selected_tips.push_back(RandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time));
+        walk_total.push_back(std::make_pair(i,walk_time));
     }
 
     std::sort(walk_total.begin(), walk_total.end(),[](const std::pair<int,int> &a, const std::pair<int,int> &b){
@@ -471,11 +428,7 @@ VpTr_S Node::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, omnetpp:
        return chosenTips;
    }
 
-   //std::random_device rd;
-   //std::mt19937 tm(rd());
-   //std::uniform_int_distribution<int> ThirdTipsIdx(0,static_cast<int>(filterTips.size()) - 1);
-
-   auto idx = rangeRandom(0,filterTips.size() - 1);//ThirdTipsIdx(tm);
+   auto idx = rangeRandom(0,filterTips.size() - 1);
    auto LeftTips = filterTips[idx];
 
    chosenTips.push_back(LeftTips);
@@ -484,13 +437,9 @@ VpTr_S Node::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, omnetpp:
 
 VpTr_S Node::EIOTA(double p1, double p2, std::map<std::string, pTr_S>& tips, omnetpp::simtime_t timeStamp, int W, int N)
 {
-    //std::random_device rd;
-    //std::mt19937 tm(rd());
-    //std::uniform_real_distribution<> rGen(0,1);
-
     double lowAlpha = 0.1;
     double highAlpha = 5.0;
-    auto r = (double) rand()/RAND_MAX; //rGen(tm);
+    auto r = omnetpp::uniform(omnetpp::cModule::getRNG(0),0.0,1.0);
     VpTr_S chosenTips;
 
     if(r < p1)
@@ -537,11 +486,16 @@ void Node::updateTangle(MsgUpdate* Msg, omnetpp::simtime_t attachTime)
 
                 std::map<std::string,pTr_S>::iterator it;
 
-                for(it = myTips.begin(); it != myTips.end(); it++)
+                for(it = myTips.begin(); it != myTips.end();)
                 {
                    if(tr->ID.compare(it->first) == 0)
                    {
-                       myTips.erase(it->first);
+                       it = myTips.erase(it);
+                   }
+
+                   else
+                   {
+                       it++;
                    }
                 }
             }
