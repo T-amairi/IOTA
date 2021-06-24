@@ -1,8 +1,6 @@
-.*
-out
-IOTADecent.exe
-Makefile
-results
-IOTA.exe
-IOTADecent_dbg.exe
-data
+*
+!omnetpp.ini
+!NodeModule.cc
+!iota.h
+!iota.ned 
+!.gitignore
