@@ -1,7 +1,7 @@
 //includes
 #include "iota.h"
 
-enum MessageType{UPDATE, ISSUE, STOP};
+enum MessageType{ISSUE,UPDATE};
 
 std::ofstream LOG_SIM;
 
@@ -26,13 +26,13 @@ bool NodeModule::ifIssue(double prob)
 
 pTr_S NodeModule::createSite(std::string ID)
 {
-    pTr_S newTr = new Site;
+    pTr_S newTx = new Site;
 
-    newTr->ID =  ID;
-    newTr->issuedBy = this;
-    newTr->issuedTime = simTime();
+    newTx->ID =  ID;
+    newTx->issuedBy = this;
+    newTx->issuedTime = simTime();
 
-    return newTr;
+    return newTx;
 }
 
 pTr_S NodeModule::createGenBlock()
@@ -45,8 +45,6 @@ pTr_S NodeModule::createGenBlock()
 
 void NodeModule::DeleteTangle()
 {
-    ifDeleted = true;
-
     for(auto site : myTangle)
     {
             delete site;
@@ -209,10 +207,7 @@ bool NodeModule::isRelativeTip(pTr_S& toCheck, std::map<std::string, pTr_S>& tip
         return false;
     }
 
-    else
-    {
-        return true;
-    }
+    return true;
 }
 
 void NodeModule::filterView(VpTr_S& view, simtime_t timeStamp)
@@ -469,10 +464,10 @@ VpTr_S NodeModule::EIOTA(double p1, double p2, std::map<std::string, pTr_S>& tip
 //TODO : use lambda for find && same for ReconcileTips
 void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 {
-    pTr_S newTr = new Site;
-    newTr->ID = Msg->ID;
-    newTr->issuedBy = Msg->issuedBy;
-    newTr->issuedTime = attachTime;
+    pTr_S newTx = new Site;
+    newTx->ID = Msg->ID;
+    newTx->issuedBy = Msg->issuedBy;
+    newTx->issuedTime = attachTime;
 
     for(auto& tipSelected : Msg->S_approved)
     {
@@ -480,8 +475,8 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
         {
             if(tr->ID.compare(tipSelected) == 0)
             {
-                newTr->S_approved.push_back(tr);
-                tr->approvedBy.push_back(newTr);
+                newTx->S_approved.push_back(tr);
+                tr->approvedBy.push_back(newTx);
 
                 if(!(tr->isApproved))
                 {
@@ -507,8 +502,8 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
         }
     }
 
-    myTips.insert({newTr->ID,newTr});
-    myTangle.push_back(newTr);
+    myTips.insert({newTx->ID,newTx});
+    myTangle.push_back(newTx);
 }
 
 void NodeModule::initialize()
@@ -519,7 +514,7 @@ void NodeModule::initialize()
     ID = "[" + std::to_string(getId() - 2) + "]";
     powTime = par("powTime");
     prob = par("prob");
-    trLimit = getParentModule()->par("transactionLimit");
+    txLimit = getParentModule()->par("transactionLimit");
     NeighborsNumber = getParentModule()->par("NodeNumber");
     NeighborsNumber--;
 
@@ -527,11 +522,14 @@ void NodeModule::initialize()
     myTangle.push_back(genesisBlock);
     myTips.insert({"Genesis",genesisBlock});
 
-    LOG_SIM << simTime() << " Initialization complete, starting first try to issue a transaction" << std::endl;
-    EV << "Initialization complete, starting first try to issue a transaction" << std::endl;
+    msgIssue = new cMessage("Trying to issue a new transaction",ISSUE);
+    msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
+    Msg = new MsgUpdate;
 
-    cMessage * msg = new cMessage("First try to issue a transaction",ISSUE);
-    scheduleAt(simTime() + par("trgenRate"), msg);
+    scheduleAt(simTime() + par("trgenRate"), msgIssue);
+
+    LOG_SIM << simTime() << " Initialization complete" << std::endl;
+    EV << "Initialization complete" << std::endl;
 
     LOG_SIM.close();
 }
@@ -543,7 +541,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
     if(msg->getKind() == ISSUE)
     {
-        delete msg;
         bool test = ifIssue(prob);
 
         EV << "Trying to issue a new transaction" << std::endl;
@@ -552,12 +549,12 @@ void NodeModule::handleMessage(cMessage * msg)
         LOG_SIM << simTime() << " Trying to issue a new transaction" << std::endl;
         LOG_SIM << simTime() << " ifIssue result : " << test << std::endl;
 
-        if(test && trCount < trLimit)
+        if(test && txCount < txLimit)
         {
-            trCount++;
-            pTr_S newTr;
+            txCount++;
+            pTr_S newTx;
             int tipsNb = 0;
-            std::string trId = ID + std::to_string(trCount);
+            std::string trId = ID + std::to_string(txCount);
 
             EV << "TSA procedure for " << trId<< std::endl;
             LOG_SIM << simTime() << " TSA procedure for " << trId << std::endl;
@@ -567,7 +564,7 @@ void NodeModule::handleMessage(cMessage * msg)
                std::map<std::string, pTr_S> tipsCopy = giveTips();
                VpTr_S chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
-               newTr = attach(trId,simTime(),chosenTips);
+               newTx = attach(trId,simTime(),chosenTips);
             }
 
             if(strcmp(par("TSA"),"GIOTA") == 0)
@@ -575,7 +572,7 @@ void NodeModule::handleMessage(cMessage * msg)
                std::map<std::string, pTr_S> tipsCopy = giveTips();
                VpTr_S chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
-               newTr = attach(trId,simTime(),chosenTips);
+               newTx = attach(trId,simTime(),chosenTips);
             }
 
             if(strcmp(par("TSA"),"EIOTA") == 0)
@@ -583,21 +580,19 @@ void NodeModule::handleMessage(cMessage * msg)
                 std::map<std::string, pTr_S> tipsCopy = giveTips();
                 VpTr_S chosenTips = EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
-                newTr = attach(trId,simTime(),chosenTips);
+                newTx = attach(trId,simTime(),chosenTips);
             }
 
-            cMessage * SendTangle = new cMessage("UpdatedTangle",UPDATE);
+            Msg->ID = newTx->ID;
+            Msg->issuedBy = newTx->issuedBy;
+            Msg->S_approved.clear();
 
-            MsgUpdate * Msg = new MsgUpdate;
-            Msg->ID = newTr->ID;
-            Msg->issuedBy = newTr->issuedBy;
-
-            for(auto approvedTips : newTr->S_approved)
+            for(auto approvedTips : newTx->S_approved)
             {
                 Msg->S_approved.push_back(approvedTips->ID);
             }
 
-            SendTangle->setContextPointer(Msg);
+            msgUpdate->setContextPointer(Msg);
 
             EV << "Pow time = " << tipsNb*powTime<< std::endl;
             EV << "Sending the new transaction to all nodes"<< std::endl;
@@ -607,84 +602,27 @@ void NodeModule::handleMessage(cMessage * msg)
 
             for(int i = 0; i < NeighborsNumber; i++)
             {
-                sendDelayed(SendTangle->dup(),tipsNb*powTime,"NodeOut", i);
+                sendDelayed(msgUpdate->dup(),tipsNb*powTime,"NodeOut",i);
             }
 
-            cMessage * new_issue = new cMessage("Try to issue a transaction",ISSUE);
-            scheduleAt(simTime() + par("trgenRate"), new_issue);
+            scheduleAt(simTime() + par("trgenRate"), msgIssue);
         }
 
-        else if(!test && trCount < trLimit)
+        else if(!test && txCount < txLimit)
         {
             LOG_SIM << simTime() << " Prob not higher than test, retrying to issue again" << std::endl;
             EV << "Prob not higher than test, retrying to issue again" << std::endl;
 
-            cMessage * new_issue = new cMessage("Try to issue a transaction",ISSUE);
-            scheduleAt(simTime() + par("trgenRate"), new_issue);
+            scheduleAt(simTime() + par("trgenRate"), msgIssue);
         }
 
-        else if(trCount >= trLimit)
+        else if(txCount >= txLimit)
         {
-            cMessage * Stop = new cMessage("Stop Emulation : transaction limit reach",STOP);
-
-            EV << "I have reached trLimit"<< std::endl;
-            LOG_SIM << simTime() << " I have reached trLimit" << std::endl;
-
-            if(!ifDeleted)
-           {
-                EV << "Deleting my local Tangle"<< std::endl;
-                LOG_SIM << simTime() << " Deleting my local Tangle" << std::endl;
-                printTangle();
-                printTipsLeft();
-                DeleteTangle();
-           }
-
-            EV << "Sending stop message to all nodes" << std::endl;
-            LOG_SIM << simTime() << " Sending stop message to all nodes" << std::endl;
-
-            for(int i = 0; i < NeighborsNumber; i++)
-            {
-                send(Stop->dup(),"NodeOut", i);
-            }
+            EV << "Number of transactions reached : stopping issuing"<< std::endl;
+            LOG_SIM << simTime() << " Number of transactions reached : stopping issuing" << std::endl;
         }
 
         LOG_SIM.close();
-    }
-
-    else if(msg->getKind() == STOP)
-    {
-        delete msg;
-        stopCount++;
-
-        LOG_SIM << simTime() << " Time to end simulation" << std::endl;
-        EV << "Time to end simulation"<< std::endl;
-
-        if(!ifDeleted)
-        {
-            EV << "Deleting my local Tangle"<< std::endl;
-            LOG_SIM << simTime() << " Deleting my local Tangle" << std::endl;
-            printTangle();
-            printTipsLeft();
-            DeleteTangle();
-        }
-
-        cMessage * Stop = new cMessage("Stop Emulation : transaction limit reached",STOP);
-
-        EV << "Sending stop message to all nodes"<< std::endl;
-        LOG_SIM << simTime() << " Sending stop message to all nodes" << std::endl;
-
-        for(int i = 0; i < NeighborsNumber; i++)
-        {
-            send(Stop->dup(),"NodeOut", i);
-        }
-
-        if(stopCount >= NeighborsNumber)
-        {
-            EV << "All nodes have free their respective Tangles, ending simulation now"<< std::endl;
-            LOG_SIM << simTime() << " All nodes have free their respective Tangles, ending simulation now" << std::endl;
-            LOG_SIM.close();
-            endSimulation();
-        }
     }
 
     else if(msg->getKind() == UPDATE)
@@ -693,8 +631,26 @@ void NodeModule::handleMessage(cMessage * msg)
         LOG_SIM << simTime() << " Updating Tangle" << std::endl;
         MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
         updateTangle(Msg,simTime());
-        delete Msg;
         delete msg;
         LOG_SIM.close();
     }
+}
+
+void NodeModule::finish()
+{
+    std::string file = "./data/Tracking/logNodeModule" + ID + ".txt";
+    LOG_SIM.open(file.c_str(),std::ios::app);
+
+    EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle"<< std::endl;
+    LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
+
+    printTangle();
+    printTipsLeft();
+    DeleteTangle();
+
+    delete msgIssue;
+    delete msgUpdate;
+    delete Msg;
+
+    LOG_SIM.close();
 }

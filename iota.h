@@ -64,8 +64,10 @@ class NodeModule : public cSimpleModule
         //ID of the Node
         std::string ID;
 
-        //allow to check if the node deleted his Tangle
-        bool ifDeleted = false;
+        //timers
+        cMessage * msgIssue;
+        cMessage * msgUpdate;
+        MsgUpdate * Msg;
 
         //RNG between min and max using omnet
         int rangeRandom(int min, int max);
@@ -122,7 +124,7 @@ class NodeModule : public cSimpleModule
 
     private:
         //how many transactions the node can issue (set in NED file)
-        int trLimit;
+        int txLimit;
 
         //the probability to issue a new transaction (set in NED file)
         double prob;
@@ -131,10 +133,7 @@ class NodeModule : public cSimpleModule
         int NeighborsNumber;
 
         //counts the number of transactions issued by the node
-        int trCount = 0;
-
-        //counts the number of nodes that have finished their simulation
-        int stopCount = 0;
+        int txCount = 0;
 
         //PoW
         simtime_t powTime;
@@ -154,14 +153,15 @@ class NodeModule : public cSimpleModule
     protected:
         virtual void initialize() override;
         virtual void handleMessage(cMessage * msg) override;
+        virtual void finish() override;
 };
 
 struct MsgUpdate
 {
-    //the ID of transaction
+    //the ID of the transaction
     std::string ID;
 
-    //transactions approuved by this transaction
+    //transactions approved by this transaction
     std::vector<std::string> S_approved;
 
     //The node that issued this transaction
