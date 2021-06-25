@@ -25,7 +25,7 @@ simple NodeModule
         string TSA = "IOTA";
         
         //IOTA && GIOTA && EIOTA
-        double alpha = 0.1; //alpha in Pxy prob 
+        double alpha = 0.0; //alpha in Pxy prob 
         int W = 250; //interval [W,2W]
         int N = 100; //number of walkers
 
@@ -41,8 +41,8 @@ simple NodeModule
 network IOTA
 {
     parameters:
-        int transactionLimit = 50; //size of the Tangle 
-        int NodeNumber = 3; //always > 0, number of nodes in the simulation
+        int transactionLimit = 100; //size of the Tangle 
+        int NodeNumber = 10; //always > 0, number of nodes in the simulation
         
     submodules:
         Nodes[NodeNumber]: NodeModule;

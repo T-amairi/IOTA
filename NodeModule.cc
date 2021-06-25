@@ -277,8 +277,7 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
      return new_tips;
 }
 
-//TODO: case alpha = 0.0 (dont compute weight)
-pTr_S NodeModule::RandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int &walk_time)
+pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int &walk_time)
 {
     int walkCounts = 0;
     pTr_S current = start;
@@ -287,10 +286,7 @@ pTr_S NodeModule::RandomWalk(pTr_S start, double alphaVal, std::map<std::string,
     {
         walkCounts++;
 
-        int start_weight = ComputeWeight(current,timeStamp);
         VpTr_S currentView = current->approvedBy;
-        std::vector<int> sitesWeight;
-        std::vector<std::pair<int,double>> sitesProb;
         filterView(currentView,timeStamp);
 
         if(currentView.size() == 0)
@@ -305,6 +301,10 @@ pTr_S NodeModule::RandomWalk(pTr_S start, double alphaVal, std::map<std::string,
 
         else
         {
+            std::vector<int> sitesWeight;
+            int start_weight = ComputeWeight(current,timeStamp);
+            std::vector<std::pair<int,double>> sitesProb;
+
             double sum_exp = 0.0;
             int weight;
 
@@ -327,7 +327,73 @@ pTr_S NodeModule::RandomWalk(pTr_S start, double alphaVal, std::map<std::string,
             std::sort(sitesProb.begin(), sitesProb.end(),[](const std::pair<int,double> &a, const std::pair<int,double> &b){
             return a.second < b.second;});
             int nextCurrentIndex = 0;
-            double probWalkChoice =  uniform(0.0,1.0);
+            double probWalkChoice = uniform(0.0,1.0);
+
+            for(int j = 0; j < static_cast<int>(sitesProb.size()) - 1; j++)
+            {
+                if(j == 0)
+                {
+                    if(probWalkChoice < sitesProb[j].second)
+                    {
+                        nextCurrentIndex = sitesProb[j].first;
+                        break;
+                    }
+                }
+
+                else
+                {
+                    if(probWalkChoice < sitesProb[j-1].second + sitesProb[j].second)
+                    {
+                        nextCurrentIndex = sitesProb[j].first;
+                        break;
+                    }
+                }
+            }
+
+            current = currentView[nextCurrentIndex];
+        }
+    }
+
+    walk_time = walkCounts;
+    current->walkBacktracks = walkCounts;
+
+    return current;
+}
+
+pTr_S NodeModule::RandomWalk(pTr_S start, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int &walk_time)
+{
+    int walkCounts = 0;
+    pTr_S current = start;
+
+    while(!isRelativeTip(current,tips))
+    {
+        walkCounts++;
+
+        VpTr_S currentView = current->approvedBy;
+        filterView(currentView,timeStamp);
+
+        if(currentView.size() == 0)
+        {
+            break;
+        }
+
+        if(currentView.size() == 1)
+        {
+            current = currentView.front();
+        }
+
+        else
+        {
+            std::vector<std::pair<int,double>> sitesProb;
+            double prob = double(1/currentView.size());
+
+            for(int j = 0; j < static_cast<int>(currentView.size()); j++)
+            {
+               sitesProb.push_back(std::make_pair(j,prob));
+            }
+
+            int nextCurrentIndex = 0;
+            double probWalkChoice = uniform(0.0,1.0);
 
             for(int j = 0; j < static_cast<int>(sitesProb.size()) - 1; j++)
             {
@@ -377,10 +443,22 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     std::vector<std::pair<int,int>> walk_total;
     int walk_time;
 
-    for(int i = 0; i < N; i++)
+    if(alphaVal == 0.0)
     {
-        selected_tips.push_back(RandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time));
-        walk_total.push_back(std::make_pair(i,walk_time));
+        for(int i = 0; i < N; i++)
+        {
+            selected_tips.push_back(RandomWalk(start_sites[i],tips,timeStamp,walk_time));
+            walk_total.push_back(std::make_pair(i,walk_time));
+        }
+    }
+
+    else
+    {
+        for(int i = 0; i < N; i++)
+        {
+            selected_tips.push_back(WeightedRandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time));
+            walk_total.push_back(std::make_pair(i,walk_time));
+        }
     }
 
     std::sort(walk_total.begin(), walk_total.end(),[](const std::pair<int,int> &a, const std::pair<int,int> &b){
@@ -461,7 +539,6 @@ VpTr_S NodeModule::EIOTA(double p1, double p2, std::map<std::string, pTr_S>& tip
     return chosenTips;
 }
 
-//TODO : use lambda for find && same for ReconcileTips
 void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 {
     pTr_S newTx = new Site;

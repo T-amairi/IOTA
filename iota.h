@@ -91,8 +91,9 @@ class NodeModule : public cSimpleModule
         //Returns a copy of the current tips from the Tangle
         std::map<std::string,pTr_S> giveTips();
 
-        //Random Walk
-        pTr_S RandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
+        //Random walk based on a MCMC
+        pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
+        pTr_S RandomWalk(pTr_S start, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
 
         //TSA
         VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
