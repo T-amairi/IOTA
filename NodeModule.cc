@@ -55,6 +55,7 @@ void NodeModule::printTangle()
 {
     std::fstream file;
     std::string path = "./data/Tracking/TrackerTangle" + ID + ".txt";
+    remove(path.c_str());
     file.open(path,std::ios::app);
 
     simtime_t sec = simTime();
@@ -89,10 +90,9 @@ void NodeModule::printTipsLeft()
 {
     std::fstream file;
     std::string path = "./data/Tracking/NumberTips" + ID + ".txt";
+    remove(path.c_str());
     file.open(path,std::ios::app);
-
     file << myTips.size() << std::endl;
-
     file.close();
 }
 
@@ -100,6 +100,7 @@ void NodeModule::debug()
 {
     std::fstream file;
     std::string path = "./data/Tracking/debug" + ID + ".txt";
+    remove(path.c_str());
     file.open(path,std::ios::app);
     file << simTime() << " HERE" << std::endl;
     file.close();
@@ -502,7 +503,7 @@ VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, si
        }
    }
 
-   if(!filterTips.size())
+   if(filterTips.empty())
    {
        return chosenTips;
    }
@@ -622,9 +623,8 @@ void NodeModule::updateBuffer()
             {
                 test = true;
                 updateTangle((*it),simTime());
-                auto cpy = (*it);
+                delete (*it);
                 it = myBuffer.erase(it);
-                delete cpy;
                 break;
             }
 
@@ -643,8 +643,9 @@ void NodeModule::updateBuffer()
 
 void NodeModule::initialize()
 {
-    std::string file = "./data/Tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
-    LOG_SIM.open(file.c_str(),std::ios::app);
+    std::string path = "./data/Tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
+    remove(path.c_str());
+    LOG_SIM.open(path.c_str(),std::ios::app);
 
     ID = "[" + std::to_string(getId() - 2) + "]";
     powTime = par("powTime");
@@ -671,8 +672,8 @@ void NodeModule::initialize()
 
 void NodeModule::handleMessage(cMessage * msg)
 {
-    std::string file = "./data/Tracking/logNodeModule" + ID + ".txt";
-    LOG_SIM.open(file.c_str(),std::ios::app);
+    std::string path = "./data/Tracking/logNodeModule" + ID + ".txt";
+    LOG_SIM.open(path.c_str(),std::ios::app);
 
     if(msg->getKind() == ISSUE)
     {
@@ -789,6 +790,8 @@ void NodeModule::handleMessage(cMessage * msg)
             newMsg->S_approved = Msg->S_approved;
 
             myBuffer.push_back(newMsg);
+
+            updateBuffer();
         }
 
         delete msg;
@@ -798,11 +801,22 @@ void NodeModule::handleMessage(cMessage * msg)
 
 void NodeModule::finish()
 {
-    std::string file = "./data/Tracking/logNodeModule" + ID + ".txt";
-    LOG_SIM.open(file.c_str(),std::ios::app);
+    if(!(myBuffer.empty()))
+   {
+       updateBuffer();
+   }
+
+    std::string path = "./data/Tracking/logNodeModule" + ID + ".txt";
+    LOG_SIM.open(path.c_str(),std::ios::app);
 
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle"<< std::endl;
     LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
+
+    for(auto msg : myBuffer)
+    {
+        LOG_SIM << msg->ID << std::endl;
+    }
+
 
     printTangle();
     printTipsLeft();

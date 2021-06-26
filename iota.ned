@@ -17,9 +17,9 @@
 simple NodeModule
 {
     parameters:
-        volatile double trgenRate @unit(s) = 3.0s; //how often a node will try to issue a transaction
+        volatile double trgenRate @unit(s) = 2.0s; //how often a node will try to issue a transaction
         volatile double prob = 0.3; //the probability to issue a transaction (must be between 0 and 1)
-        volatile double powTime @unit(s) = 1.0s; //Proof of Work 
+        volatile double powTime @unit(s) = 3.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA - GIOTA - EIOTA
         string TSA = "GIOTA";

@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <functional>
+#include <thread>
 
 struct Site; //a transaction
 class NodeModule; //a node
@@ -126,7 +127,7 @@ class NodeModule : public cSimpleModule
         //update the local tangle when a new transaction is received
         void updateTangle(MsgUpdate* Msg, simtime_t attachTime);
 
-        //to debug only
+        //to debug purpose only
         void debug();
 
     private:
