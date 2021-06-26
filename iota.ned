@@ -22,10 +22,12 @@ simple NodeModule
         volatile double powTime @unit(s) = 1.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA - GIOTA - EIOTA
-        string TSA = "IOTA";
+        string TSA = "GIOTA";
         
+        //IOTA && GIOTA 
+        double alpha = 5.0; //alpha in Pxy prob 
+       
         //IOTA && GIOTA && EIOTA
-        double alpha = 0.0; //alpha in Pxy prob 
         int W = 250; //interval [W,2W]
         int N = 100; //number of walkers
 

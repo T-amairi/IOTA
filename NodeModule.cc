@@ -546,26 +546,26 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
     newTx->issuedBy = Msg->issuedBy;
     newTx->issuedTime = attachTime;
 
-    for(auto& tipSelected : Msg->S_approved)
+    for(auto tipSelected : Msg->S_approved)
     {
-        for(auto& tr : myTangle)
+        for(auto& tx : myTangle)
         {
-            if(tr->ID.compare(tipSelected) == 0)
+            if(tx->ID.compare(tipSelected) == 0)
             {
-                newTx->S_approved.push_back(tr);
-                tr->approvedBy.push_back(newTx);
+                newTx->S_approved.push_back(tx);
+                tx->approvedBy.push_back(newTx);
 
-                if(!(tr->isApproved))
+                if(!(tx->isApproved))
                 {
-                    tr->approvedTime = attachTime;
-                    tr->isApproved = true;
+                    tx->approvedTime = attachTime;
+                    tx->isApproved = true;
                 }
 
                 std::map<std::string,pTr_S>::iterator it;
 
                 for(it = myTips.begin(); it != myTips.end();)
                 {
-                   if(tr->ID.compare(it->first) == 0)
+                   if(tx->ID.compare(it->first) == 0)
                    {
                        it = myTips.erase(it);
                    }
@@ -581,6 +581,64 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 
     myTips.insert({newTx->ID,newTx});
     myTangle.push_back(newTx);
+}
+
+bool NodeModule::ifAddTangle(std::vector<std::string> S_approved)
+{
+    for(auto tipSelected : S_approved)
+    {
+        bool test = false;
+
+        for(auto tx : myTangle)
+        {
+            if(tx->ID.compare(tipSelected) == 0)
+            {
+                test = true;
+                break;
+            }
+        }
+
+        if(!test)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void NodeModule::updateBuffer()
+{
+    bool test;
+
+    while(1)
+    {
+        test = false;
+        auto it = myBuffer.begin();
+
+        while(it != myBuffer.end())
+        {
+            if(ifAddTangle((*it)->S_approved))
+            {
+                test = true;
+                updateTangle((*it),simTime());
+                auto cpy = (*it);
+                it = myBuffer.erase(it);
+                delete cpy;
+                break;
+            }
+
+            else
+            {
+                it++;
+            }
+        }
+
+        if(!test)
+        {
+            break;
+        }
+    }
 }
 
 void NodeModule::initialize()
@@ -707,7 +765,32 @@ void NodeModule::handleMessage(cMessage * msg)
         EV << "Updating Tangle"<< std::endl;
         LOG_SIM << simTime() << " Updating Tangle" << std::endl;
         MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
-        updateTangle(Msg,simTime());
+
+        if(!(myBuffer.empty()))
+        {
+            updateBuffer();
+        }
+
+        if(ifAddTangle(Msg->S_approved))
+        {
+            updateTangle(Msg,simTime());
+
+            if(!(myBuffer.empty()))
+            {
+                updateBuffer();
+            }
+        }
+
+        else
+        {
+            auto newMsg = new MsgUpdate;
+            newMsg->ID = Msg->ID;
+            newMsg->issuedBy = Msg->issuedBy;
+            newMsg->S_approved = Msg->S_approved;
+
+            myBuffer.push_back(newMsg);
+        }
+
         delete msg;
         LOG_SIM.close();
     }

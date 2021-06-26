@@ -117,6 +117,12 @@ class NodeModule : public cSimpleModule
         //creates a new transaction, selects tips for it to approve, then adds the new transaction to the tip map
         pTr_S attach(std::string ID, simtime_t attachTime, VpTr_S& chosen);
 
+        //check if we can submit a new transaction in the Tangle
+        bool ifAddTangle(std::vector<std::string> S_approved);
+
+        //update the buffer by deleting transactions that we can add to the tangle
+        void updateBuffer();
+
         //update the local tangle when a new transaction is received
         void updateTangle(MsgUpdate* Msg, simtime_t attachTime);
 
@@ -146,7 +152,7 @@ class NodeModule : public cSimpleModule
         std::map<std::string,pTr_S> myTips;
 
         //buffer containing the transactions to be updated
-         //myBuffer;
+        std::vector<MsgUpdate*> myBuffer;
 
         //The first transaction
         pTr_S genesisBlock;
