@@ -6,7 +6,7 @@ import csv
 import glob
 
 #paths
-path = r".\data\Tracking"
+path = r".\data\tracking"
 os.chdir(path)
 #files
 tangles = glob.glob("Tracker*")
