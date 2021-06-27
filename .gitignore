@@ -1,7 +1,8 @@
-*
+/*
+/*/
 !omnetpp.ini
 !NodeModule.cc
 !iota.h
 !iota.ned 
 !.gitignore
-!data/*/*
+!data/*/
