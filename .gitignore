@@ -1,6 +1,4 @@
-out 
-.settings
-.git
+out
 README.md
 .*
 !.gitignore
