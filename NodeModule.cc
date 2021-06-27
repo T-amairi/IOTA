@@ -1,7 +1,7 @@
 //includes
 #include "iota.h"
 
-enum MessageType{ISSUE,UPDATE};
+enum MessageType{ISSUE,POW,UPDATE};
 
 std::ofstream LOG_SIM;
 
@@ -58,11 +58,8 @@ void NodeModule::printTangle()
     remove(path.c_str());
     file.open(path,std::ios::app);
 
-    simtime_t sec = simTime();
-
     for(long unsigned int i = 0; i < myTangle.size(); i++)
     {
-       file << sec << ";";
        file << myTangle[i]->ID << ";";
 
         for(long unsigned int j = 0; j < myTangle[i]->approvedBy.size(); j++)
@@ -258,7 +255,7 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
 {
      pTr_S new_tips = createSite(ID);
 
-     for (auto& tipSelected : chosen)
+     for(auto& tipSelected : chosen)
      {
          tipSelected->approvedBy.push_back(new_tips);
 
@@ -545,7 +542,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
     pTr_S newTx = new Site;
     newTx->ID = Msg->ID;
     newTx->issuedBy = Msg->issuedBy;
-    newTx->issuedTime = attachTime;
+    newTx->issuedTime = Msg->issuedTime;
 
     for(auto tipSelected : Msg->S_approved)
     {
@@ -569,6 +566,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
                    if(tx->ID.compare(it->first) == 0)
                    {
                        it = myTips.erase(it);
+                       break;
                    }
 
                    else
@@ -586,22 +584,13 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 
 bool NodeModule::ifAddTangle(std::vector<std::string> S_approved)
 {
-    for(auto tipSelected : S_approved)
+    for(auto selectedTip : S_approved)
     {
-        bool test = false;
+        auto it = std::find_if(myTangle.begin(), myTangle.end(), [&selectedTip](const pTr_S& tx) {return tx->ID == selectedTip;});
 
-        for(auto tx : myTangle)
+        if (it == myTangle.end())
         {
-            if(tx->ID.compare(tipSelected) == 0)
-            {
-                test = true;
-                break;
-            }
-        }
-
-        if(!test)
-        {
-            return false;
+          return false;
         }
     }
 
@@ -659,8 +648,10 @@ void NodeModule::initialize()
     myTips.insert({"Genesis",genesisBlock});
 
     msgIssue = new cMessage("Trying to issue a new transaction",ISSUE);
+    msgPoW = new cMessage("PoW time",POW);
     msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
-    Msg = new MsgUpdate;
+    MsgP = new MsgPoW;
+    MsgU = new MsgUpdate;
 
     scheduleAt(simTime() + par("trgenRate"), msgIssue);
 
@@ -688,7 +679,7 @@ void NodeModule::handleMessage(cMessage * msg)
         if(test && txCount < txLimit)
         {
             txCount++;
-            pTr_S newTx;
+            VpTr_S chosenTips;
             int tipsNb = 0;
             std::string trId = ID + std::to_string(txCount);
 
@@ -698,17 +689,15 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
                std::map<std::string, pTr_S> tipsCopy = giveTips();
-               VpTr_S chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
+               chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
-               newTx = attach(trId,simTime(),chosenTips);
             }
 
             if(strcmp(par("TSA"),"GIOTA") == 0)
             {
                std::map<std::string, pTr_S> tipsCopy = giveTips();
-               VpTr_S chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
+               chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
-               newTx = attach(trId,simTime(),chosenTips);
             }
 
             if(strcmp(par("TSA"),"EIOTA") == 0)
@@ -716,32 +705,16 @@ void NodeModule::handleMessage(cMessage * msg)
                 std::map<std::string, pTr_S> tipsCopy = giveTips();
                 VpTr_S chosenTips = EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
-                newTx = attach(trId,simTime(),chosenTips);
             }
 
-            Msg->ID = newTx->ID;
-            Msg->issuedBy = newTx->issuedBy;
-            Msg->S_approved.clear();
-
-            for(auto approvedTips : newTx->S_approved)
-            {
-                Msg->S_approved.push_back(approvedTips->ID);
-            }
-
-            msgUpdate->setContextPointer(Msg);
+            MsgP->ID = trId;
+            MsgP->chosen = chosenTips;
+            msgPoW->setContextPointer(MsgP);
 
             EV << "Pow time = " << tipsNb*powTime<< std::endl;
-            EV << "Sending the new transaction to all nodes"<< std::endl;
-
             LOG_SIM << simTime() << " Pow time = " << tipsNb*powTime << std::endl;
-            LOG_SIM << simTime() << " Sending the new transaction to all nodes" << std::endl;
 
-            for(int i = 0; i < NeighborsNumber; i++)
-            {
-                sendDelayed(msgUpdate->dup(),tipsNb*powTime,"NodeOut",i);
-            }
-
-            scheduleAt(simTime() + par("trgenRate"), msgIssue);
+            scheduleAt(simTime() + tipsNb*powTime, msgPoW);
         }
 
         else if(!test && txCount < txLimit)
@@ -761,25 +734,47 @@ void NodeModule::handleMessage(cMessage * msg)
         LOG_SIM.close();
     }
 
+    else if(msg->getKind() == POW)
+    {
+        MsgPoW* Msg = (MsgPoW*) msg->getContextPointer();
+        pTr_S newTx = attach(Msg->ID,simTime(),Msg->chosen);
+
+        MsgU->ID = newTx->ID;
+        MsgU->issuedBy = newTx->issuedBy;
+        MsgU->issuedTime = newTx->issuedTime;
+
+        MsgU->S_approved.clear();
+
+        for(auto approvedTips : newTx->S_approved)
+        {
+            MsgU->S_approved.push_back(approvedTips->ID);
+        }
+
+        msgUpdate->setContextPointer(MsgU);
+
+        EV << " Sending " << newTx->ID << " to all nodes" << std::endl;
+        LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
+
+        for(int i = 0; i < NeighborsNumber; i++)
+        {
+            send(msgUpdate->dup(),"NodeOut",i);
+        }
+
+        scheduleAt(simTime() + par("trgenRate"), msgIssue);
+    }
+
     else if(msg->getKind() == UPDATE)
     {
-        EV << "Updating Tangle"<< std::endl;
-        LOG_SIM << simTime() << " Updating Tangle" << std::endl;
+        EV << "Received a new transaction : updating the Tangle"<< std::endl;
+        LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
         MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
 
-        if(!(myBuffer.empty()))
-        {
-            updateBuffer();
-        }
+        updateBuffer();
 
         if(ifAddTangle(Msg->S_approved))
         {
             updateTangle(Msg,simTime());
-
-            if(!(myBuffer.empty()))
-            {
-                updateBuffer();
-            }
+            updateBuffer();
         }
 
         else
@@ -788,10 +783,7 @@ void NodeModule::handleMessage(cMessage * msg)
             newMsg->ID = Msg->ID;
             newMsg->issuedBy = Msg->issuedBy;
             newMsg->S_approved = Msg->S_approved;
-
             myBuffer.push_back(newMsg);
-
-            updateBuffer();
         }
 
         delete msg;
@@ -801,11 +793,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
 void NodeModule::finish()
 {
-    if(!(myBuffer.empty()))
-   {
-       updateBuffer();
-   }
-
     std::string path = "./data/Tracking/logNodeModule" + ID + ".txt";
     LOG_SIM.open(path.c_str(),std::ios::app);
 
@@ -817,14 +804,15 @@ void NodeModule::finish()
         LOG_SIM << msg->ID << std::endl;
     }
 
-
     printTangle();
     printTipsLeft();
     DeleteTangle();
 
     delete msgIssue;
+    delete msgPoW;
     delete msgUpdate;
-    delete Msg;
+    delete MsgP;
+    delete MsgU;
 
     LOG_SIM.close();
 }

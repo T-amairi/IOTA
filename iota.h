@@ -21,6 +21,7 @@
 struct Site; //a transaction
 class NodeModule; //a node
 struct MsgUpdate; //a message to send to others nodes to update their tangles
+struct MsgPoW; //pow timer
 
 using pTr_S = Site*;
 using VpTr_S = std::vector<pTr_S>;
@@ -67,8 +68,12 @@ class NodeModule : public cSimpleModule
 
         //timers
         cMessage * msgIssue;
+        cMessage * msgPoW;
         cMessage * msgUpdate;
-        MsgUpdate * Msg;
+
+        //data sent
+        MsgPoW * MsgP;
+        MsgUpdate * MsgU;
 
         //RNG between min and max using omnet
         int rangeRandom(int min, int max);
@@ -164,6 +169,15 @@ class NodeModule : public cSimpleModule
         virtual void finish() override;
 };
 
+struct MsgPoW
+{
+    //the ID of the tip
+    std::string ID;
+
+    //chosen tips from TSA
+    VpTr_S chosen;
+};
+
 struct MsgUpdate
 {
     //the ID of the transaction
@@ -174,4 +188,7 @@ struct MsgUpdate
 
     //The node that issued this transaction
     NodeModule* issuedBy;
+
+    //Simulation time when the transaction was issued - set by the Node
+    simtime_t issuedTime;
 };
