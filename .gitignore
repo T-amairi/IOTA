@@ -1,8 +1,10 @@
-/*
-!omnetpp.ini
-!NodeModule.cc
-!iota.h
-!iota.ned 
+out 
+.settings
+.git
+README.md
+.*
 !.gitignore
-!data
-!data/*
+Makefile
+*_dbg
+IOTA
+*.exe
