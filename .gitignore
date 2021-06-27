@@ -5,6 +5,6 @@
 !iota.ned 
 !.gitignore
 !data
-!Tracking
-!log
-!image
+!data/Tracking
+!data/log
+!data/image
