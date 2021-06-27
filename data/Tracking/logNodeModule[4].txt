@@ -1,0 +1,1860 @@
+0 Initialization complete
+2 Trying to issue a new transaction
+2 ifIssue result : 0
+2 Prob not higher than test, retrying to issue again
+4 Trying to issue a new transaction
+4 ifIssue result : 1
+4 TSA procedure for [4]1
+4 Pow time = 3
+7.001 Received a new transaction : updating the Tangle
+7.001 Received a new transaction : updating the Tangle
+7.001 Received a new transaction : updating the Tangle
+7.001 Received a new transaction : updating the Tangle
+9 Trying to issue a new transaction
+9 ifIssue result : 0
+9 Prob not higher than test, retrying to issue again
+11 Trying to issue a new transaction
+11 ifIssue result : 1
+11 TSA procedure for [4]2
+11 Pow time = 6
+14.001 Received a new transaction : updating the Tangle
+17 Sending [4]2 to all nodes
+17.001 Received a new transaction : updating the Tangle
+17.001 Received a new transaction : updating the Tangle
+18.001 Received a new transaction : updating the Tangle
+18.001 Received a new transaction : updating the Tangle
+18.001 Received a new transaction : updating the Tangle
+19 Trying to issue a new transaction
+19 ifIssue result : 1
+19 TSA procedure for [4]3
+19 Pow time = 6
+22.001 Received a new transaction : updating the Tangle
+23.001 Received a new transaction : updating the Tangle
+23.001 Received a new transaction : updating the Tangle
+24.001 Received a new transaction : updating the Tangle
+25 Sending [4]3 to all nodes
+26.001 Received a new transaction : updating the Tangle
+26.001 Received a new transaction : updating the Tangle
+27.001 Received a new transaction : updating the Tangle
+29 Trying to issue a new transaction
+29 ifIssue result : 1
+29 TSA procedure for [4]4
+29 Pow time = 6
+30.001 Received a new transaction : updating the Tangle
+32.001 Received a new transaction : updating the Tangle
+33.001 Received a new transaction : updating the Tangle
+34.001 Received a new transaction : updating the Tangle
+34.001 Received a new transaction : updating the Tangle
+35 Sending [4]4 to all nodes
+37.001 Received a new transaction : updating the Tangle
+38.001 Received a new transaction : updating the Tangle
+40.001 Received a new transaction : updating the Tangle
+41.001 Received a new transaction : updating the Tangle
+42.001 Received a new transaction : updating the Tangle
+43 Sending [4]5 to all nodes
+43.001 Received a new transaction : updating the Tangle
+44.001 Received a new transaction : updating the Tangle
+45 Trying to issue a new transaction
+45 ifIssue result : 0
+45 Prob not higher than test, retrying to issue again
+46.001 Received a new transaction : updating the Tangle
+46.001 Received a new transaction : updating the Tangle
+47 Trying to issue a new transaction
+47 ifIssue result : 0
+47 Prob not higher than test, retrying to issue again
+48.001 Received a new transaction : updating the Tangle
+48.001 Received a new transaction : updating the Tangle
+49.001 Received a new transaction : updating the Tangle
+51 Trying to issue a new transaction
+51 ifIssue result : 0
+51 Prob not higher than test, retrying to issue again
+51.001 Received a new transaction : updating the Tangle
+53 Trying to issue a new transaction
+53 ifIssue result : 1
+53 TSA procedure for [4]6
+53 Pow time = 6
+54.001 Received a new transaction : updating the Tangle
+57.001 Received a new transaction : updating the Tangle
+57.001 Received a new transaction : updating the Tangle
+58.001 Received a new transaction : updating the Tangle
+59 Sending [4]6 to all nodes
+61 Trying to issue a new transaction
+61 ifIssue result : 1
+61 TSA procedure for [4]7
+61 Pow time = 6
+62.001 Received a new transaction : updating the Tangle
+62.001 Received a new transaction : updating the Tangle
+62.001 Received a new transaction : updating the Tangle
+65.001 Received a new transaction : updating the Tangle
+67 Sending [4]7 to all nodes
+67.001 Received a new transaction : updating the Tangle
+68.001 Received a new transaction : updating the Tangle
+69.001 Received a new transaction : updating the Tangle
+69.001 Received a new transaction : updating the Tangle
+70.001 Received a new transaction : updating the Tangle
+71.001 Received a new transaction : updating the Tangle
+72.001 Received a new transaction : updating the Tangle
+74.001 Received a new transaction : updating the Tangle
+75 Sending [4]8 to all nodes
+75.001 Received a new transaction : updating the Tangle
+77 Trying to issue a new transaction
+77 ifIssue result : 0
+77 Prob not higher than test, retrying to issue again
+78.001 Received a new transaction : updating the Tangle
+79.001 Received a new transaction : updating the Tangle
+79.001 Received a new transaction : updating the Tangle
+79.001 Received a new transaction : updating the Tangle
+79.001 Received a new transaction : updating the Tangle
+81 Trying to issue a new transaction
+81 ifIssue result : 0
+81 Prob not higher than test, retrying to issue again
+81.001 Received a new transaction : updating the Tangle
+83 Trying to issue a new transaction
+83 ifIssue result : 1
+83 TSA procedure for [4]9
+83 Pow time = 3
+84.001 Received a new transaction : updating the Tangle
+84.001 Received a new transaction : updating the Tangle
+85.001 Received a new transaction : updating the Tangle
+86.001 Received a new transaction : updating the Tangle
+86.001 Received a new transaction : updating the Tangle
+86.001 Received a new transaction : updating the Tangle
+87.001 Received a new transaction : updating the Tangle
+88 Trying to issue a new transaction
+88 ifIssue result : 0
+88 Prob not higher than test, retrying to issue again
+88.001 Received a new transaction : updating the Tangle
+90 Trying to issue a new transaction
+90 ifIssue result : 0
+90 Prob not higher than test, retrying to issue again
+90.001 Received a new transaction : updating the Tangle
+91.001 Received a new transaction : updating the Tangle
+92 Trying to issue a new transaction
+92 ifIssue result : 1
+92 TSA procedure for [4]10
+92 Pow time = 6
+93.001 Received a new transaction : updating the Tangle
+94.001 Received a new transaction : updating the Tangle
+96.001 Received a new transaction : updating the Tangle
+96.001 Received a new transaction : updating the Tangle
+97.001 Received a new transaction : updating the Tangle
+97.001 Received a new transaction : updating the Tangle
+98.001 Received a new transaction : updating the Tangle
+99.001 Received a new transaction : updating the Tangle
+100 Trying to issue a new transaction
+100 ifIssue result : 0
+100 Prob not higher than test, retrying to issue again
+101.001 Received a new transaction : updating the Tangle
+102 Trying to issue a new transaction
+102 ifIssue result : 1
+102 TSA procedure for [4]11
+102 Pow time = 6
+104.001 Received a new transaction : updating the Tangle
+104.001 Received a new transaction : updating the Tangle
+105.001 Received a new transaction : updating the Tangle
+108.001 Received a new transaction : updating the Tangle
+108.001 Received a new transaction : updating the Tangle
+109.001 Received a new transaction : updating the Tangle
+110 Trying to issue a new transaction
+110 ifIssue result : 1
+110 TSA procedure for [4]12
+110 Pow time = 6
+110.001 Received a new transaction : updating the Tangle
+113.001 Received a new transaction : updating the Tangle
+115.001 Received a new transaction : updating the Tangle
+116.001 Received a new transaction : updating the Tangle
+116.001 Received a new transaction : updating the Tangle
+116.001 Received a new transaction : updating the Tangle
+118 Trying to issue a new transaction
+118 ifIssue result : 0
+118 Prob not higher than test, retrying to issue again
+118.001 Received a new transaction : updating the Tangle
+119.001 Received a new transaction : updating the Tangle
+120 Trying to issue a new transaction
+120 ifIssue result : 1
+120 TSA procedure for [4]13
+120 Pow time = 6
+120.001 Received a new transaction : updating the Tangle
+120.001 Received a new transaction : updating the Tangle
+120.001 Received a new transaction : updating the Tangle
+124.001 Received a new transaction : updating the Tangle
+126.001 Received a new transaction : updating the Tangle
+127.001 Received a new transaction : updating the Tangle
+128 Trying to issue a new transaction
+128 ifIssue result : 0
+128 Prob not higher than test, retrying to issue again
+128.001 Received a new transaction : updating the Tangle
+129.001 Received a new transaction : updating the Tangle
+129.001 Received a new transaction : updating the Tangle
+130 Trying to issue a new transaction
+130 ifIssue result : 0
+130 Prob not higher than test, retrying to issue again
+130.001 Received a new transaction : updating the Tangle
+131.001 Received a new transaction : updating the Tangle
+131.001 Received a new transaction : updating the Tangle
+132 Trying to issue a new transaction
+132 ifIssue result : 0
+132 Prob not higher than test, retrying to issue again
+133.001 Received a new transaction : updating the Tangle
+134 Trying to issue a new transaction
+134 ifIssue result : 0
+134 Prob not higher than test, retrying to issue again
+134.001 Received a new transaction : updating the Tangle
+134.001 Received a new transaction : updating the Tangle
+136 Trying to issue a new transaction
+136 ifIssue result : 1
+136 TSA procedure for [4]14
+136 Pow time = 3
+138.001 Received a new transaction : updating the Tangle
+139.001 Received a new transaction : updating the Tangle
+139.001 Received a new transaction : updating the Tangle
+140.001 Received a new transaction : updating the Tangle
+141 Trying to issue a new transaction
+141 ifIssue result : 0
+141 Prob not higher than test, retrying to issue again
+143.001 Received a new transaction : updating the Tangle
+144.001 Received a new transaction : updating the Tangle
+145 Trying to issue a new transaction
+145 ifIssue result : 0
+145 Prob not higher than test, retrying to issue again
+147 Trying to issue a new transaction
+147 ifIssue result : 1
+147 TSA procedure for [4]15
+147 Pow time = 3
+147.001 Received a new transaction : updating the Tangle
+147.001 Received a new transaction : updating the Tangle
+148.001 Received a new transaction : updating the Tangle
+149.001 Received a new transaction : updating the Tangle
+149.001 Received a new transaction : updating the Tangle
+150 Sending [4]15 to all nodes
+151.001 Received a new transaction : updating the Tangle
+152 Trying to issue a new transaction
+152 ifIssue result : 0
+152 Prob not higher than test, retrying to issue again
+154.001 Received a new transaction : updating the Tangle
+155.001 Received a new transaction : updating the Tangle
+155.001 Received a new transaction : updating the Tangle
+156.001 Received a new transaction : updating the Tangle
+156.001 Received a new transaction : updating the Tangle
+158.001 Received a new transaction : updating the Tangle
+158.001 Received a new transaction : updating the Tangle
+160 Sending [4]16 to all nodes
+160.001 Received a new transaction : updating the Tangle
+160.001 Received a new transaction : updating the Tangle
+162 Trying to issue a new transaction
+162 ifIssue result : 0
+162 Prob not higher than test, retrying to issue again
+163.001 Received a new transaction : updating the Tangle
+163.001 Received a new transaction : updating the Tangle
+164 Trying to issue a new transaction
+164 ifIssue result : 0
+164 Prob not higher than test, retrying to issue again
+165.001 Received a new transaction : updating the Tangle
+165.001 Received a new transaction : updating the Tangle
+166 Trying to issue a new transaction
+166 ifIssue result : 0
+166 Prob not higher than test, retrying to issue again
+167.001 Received a new transaction : updating the Tangle
+168.001 Received a new transaction : updating the Tangle
+168.001 Received a new transaction : updating the Tangle
+169.001 Received a new transaction : updating the Tangle
+170 Trying to issue a new transaction
+170 ifIssue result : 0
+170 Prob not higher than test, retrying to issue again
+170.001 Received a new transaction : updating the Tangle
+170.001 Received a new transaction : updating the Tangle
+172 Trying to issue a new transaction
+172 ifIssue result : 0
+172 Prob not higher than test, retrying to issue again
+174 Trying to issue a new transaction
+174 ifIssue result : 0
+174 Prob not higher than test, retrying to issue again
+174.001 Received a new transaction : updating the Tangle
+175.001 Received a new transaction : updating the Tangle
+176 Trying to issue a new transaction
+176 ifIssue result : 0
+176 Prob not higher than test, retrying to issue again
+176.001 Received a new transaction : updating the Tangle
+176.001 Received a new transaction : updating the Tangle
+176.001 Received a new transaction : updating the Tangle
+177.001 Received a new transaction : updating the Tangle
+178 Trying to issue a new transaction
+178 ifIssue result : 0
+178 Prob not higher than test, retrying to issue again
+179.001 Received a new transaction : updating the Tangle
+180 Trying to issue a new transaction
+180 ifIssue result : 1
+180 TSA procedure for [4]17
+180 Pow time = 6
+180.001 Received a new transaction : updating the Tangle
+181.001 Received a new transaction : updating the Tangle
+183.001 Received a new transaction : updating the Tangle
+183.001 Received a new transaction : updating the Tangle
+185.001 Received a new transaction : updating the Tangle
+185.001 Received a new transaction : updating the Tangle
+185.001 Received a new transaction : updating the Tangle
+186 Sending [4]17 to all nodes
+186.001 Received a new transaction : updating the Tangle
+188.001 Received a new transaction : updating the Tangle
+188.001 Received a new transaction : updating the Tangle
+190.001 Received a new transaction : updating the Tangle
+192.001 Received a new transaction : updating the Tangle
+192.001 Received a new transaction : updating the Tangle
+193.001 Received a new transaction : updating the Tangle
+193.001 Received a new transaction : updating the Tangle
+193.001 Received a new transaction : updating the Tangle
+194 Sending [4]18 to all nodes
+196 Trying to issue a new transaction
+196 ifIssue result : 0
+196 Prob not higher than test, retrying to issue again
+197.001 Received a new transaction : updating the Tangle
+198.001 Received a new transaction : updating the Tangle
+198.001 Received a new transaction : updating the Tangle
+198.001 Received a new transaction : updating the Tangle
+198.001 Received a new transaction : updating the Tangle
+199.001 Received a new transaction : updating the Tangle
+199.001 Received a new transaction : updating the Tangle
+200 Trying to issue a new transaction
+200 ifIssue result : 0
+200 Prob not higher than test, retrying to issue again
+201.001 Received a new transaction : updating the Tangle
+202 Trying to issue a new transaction
+202 ifIssue result : 0
+202 Prob not higher than test, retrying to issue again
+202.001 Received a new transaction : updating the Tangle
+203.001 Received a new transaction : updating the Tangle
+204 Trying to issue a new transaction
+204 ifIssue result : 0
+204 Prob not higher than test, retrying to issue again
+205.001 Received a new transaction : updating the Tangle
+206 Trying to issue a new transaction
+206 ifIssue result : 0
+206 Prob not higher than test, retrying to issue again
+207.001 Received a new transaction : updating the Tangle
+207.001 Received a new transaction : updating the Tangle
+208 Trying to issue a new transaction
+208 ifIssue result : 0
+208 Prob not higher than test, retrying to issue again
+209.001 Received a new transaction : updating the Tangle
+210 Trying to issue a new transaction
+210 ifIssue result : 0
+210 Prob not higher than test, retrying to issue again
+210.001 Received a new transaction : updating the Tangle
+212 Trying to issue a new transaction
+212 ifIssue result : 0
+212 Prob not higher than test, retrying to issue again
+212.001 Received a new transaction : updating the Tangle
+214 Trying to issue a new transaction
+214 ifIssue result : 0
+214 Prob not higher than test, retrying to issue again
+215.001 Received a new transaction : updating the Tangle
+215.001 Received a new transaction : updating the Tangle
+216 Trying to issue a new transaction
+216 ifIssue result : 0
+216 Prob not higher than test, retrying to issue again
+218 Trying to issue a new transaction
+218 ifIssue result : 0
+218 Prob not higher than test, retrying to issue again
+218.001 Received a new transaction : updating the Tangle
+218.001 Received a new transaction : updating the Tangle
+220 Trying to issue a new transaction
+220 ifIssue result : 1
+220 TSA procedure for [4]19
+220 Pow time = 3
+220.001 Received a new transaction : updating the Tangle
+222.001 Received a new transaction : updating the Tangle
+223.001 Received a new transaction : updating the Tangle
+223.001 Received a new transaction : updating the Tangle
+225 Trying to issue a new transaction
+225 ifIssue result : 0
+225 Prob not higher than test, retrying to issue again
+225.001 Received a new transaction : updating the Tangle
+227 Trying to issue a new transaction
+227 ifIssue result : 1
+227 TSA procedure for [4]20
+227 Pow time = 3
+227.001 Received a new transaction : updating the Tangle
+227.001 Received a new transaction : updating the Tangle
+228.001 Received a new transaction : updating the Tangle
+230 Sending [4]20 to all nodes
+230.001 Received a new transaction : updating the Tangle
+231.001 Received a new transaction : updating the Tangle
+232 Trying to issue a new transaction
+232 ifIssue result : 0
+232 Prob not higher than test, retrying to issue again
+233.001 Received a new transaction : updating the Tangle
+234.001 Received a new transaction : updating the Tangle
+234.001 Received a new transaction : updating the Tangle
+234.001 Received a new transaction : updating the Tangle
+235.001 Received a new transaction : updating the Tangle
+236 Trying to issue a new transaction
+236 ifIssue result : 0
+236 Prob not higher than test, retrying to issue again
+236.001 Received a new transaction : updating the Tangle
+238 Trying to issue a new transaction
+238 ifIssue result : 0
+238 Prob not higher than test, retrying to issue again
+238.001 Received a new transaction : updating the Tangle
+239.001 Received a new transaction : updating the Tangle
+240 Trying to issue a new transaction
+240 ifIssue result : 1
+240 TSA procedure for [4]21
+240 Pow time = 3
+240.001 Received a new transaction : updating the Tangle
+241.001 Received a new transaction : updating the Tangle
+242.001 Received a new transaction : updating the Tangle
+243 Sending [4]21 to all nodes
+244.001 Received a new transaction : updating the Tangle
+245 Trying to issue a new transaction
+245 ifIssue result : 0
+245 Prob not higher than test, retrying to issue again
+247.001 Received a new transaction : updating the Tangle
+248.001 Received a new transaction : updating the Tangle
+249 Trying to issue a new transaction
+249 ifIssue result : 0
+249 Prob not higher than test, retrying to issue again
+250.001 Received a new transaction : updating the Tangle
+250.001 Received a new transaction : updating the Tangle
+251 Trying to issue a new transaction
+251 ifIssue result : 1
+251 TSA procedure for [4]22
+251 Pow time = 3
+252.001 Received a new transaction : updating the Tangle
+253.001 Received a new transaction : updating the Tangle
+254 Sending [4]22 to all nodes
+255.001 Received a new transaction : updating the Tangle
+255.001 Received a new transaction : updating the Tangle
+255.001 Received a new transaction : updating the Tangle
+256 Trying to issue a new transaction
+256 ifIssue result : 1
+256 TSA procedure for [4]23
+256 Pow time = 3
+257.001 Received a new transaction : updating the Tangle
+257.001 Received a new transaction : updating the Tangle
+259 Sending [4]23 to all nodes
+259.001 Received a new transaction : updating the Tangle
+259.001 Received a new transaction : updating the Tangle
+260.001 Received a new transaction : updating the Tangle
+260.001 Received a new transaction : updating the Tangle
+261.001 Received a new transaction : updating the Tangle
+262.001 Received a new transaction : updating the Tangle
+263 Trying to issue a new transaction
+263 ifIssue result : 1
+263 TSA procedure for [4]24
+263 Pow time = 3
+264.001 Received a new transaction : updating the Tangle
+266 Sending [4]24 to all nodes
+267.001 Received a new transaction : updating the Tangle
+267.001 Received a new transaction : updating the Tangle
+268.001 Received a new transaction : updating the Tangle
+269.001 Received a new transaction : updating the Tangle
+270.001 Received a new transaction : updating the Tangle
+271 Sending [4]25 to all nodes
+272.001 Received a new transaction : updating the Tangle
+272.001 Received a new transaction : updating the Tangle
+273 Trying to issue a new transaction
+273 ifIssue result : 1
+273 TSA procedure for [4]26
+273 Pow time = 3
+274.001 Received a new transaction : updating the Tangle
+274.001 Received a new transaction : updating the Tangle
+275.001 Received a new transaction : updating the Tangle
+275.001 Received a new transaction : updating the Tangle
+276 Sending [4]26 to all nodes
+277.001 Received a new transaction : updating the Tangle
+277.001 Received a new transaction : updating the Tangle
+278.001 Received a new transaction : updating the Tangle
+278.001 Received a new transaction : updating the Tangle
+278.001 Received a new transaction : updating the Tangle
+280 Trying to issue a new transaction
+280 ifIssue result : 0
+280 Prob not higher than test, retrying to issue again
+281.001 Received a new transaction : updating the Tangle
+281.001 Received a new transaction : updating the Tangle
+282 Trying to issue a new transaction
+282 ifIssue result : 0
+282 Prob not higher than test, retrying to issue again
+282.001 Received a new transaction : updating the Tangle
+284 Trying to issue a new transaction
+284 ifIssue result : 0
+284 Prob not higher than test, retrying to issue again
+285.001 Received a new transaction : updating the Tangle
+286 Trying to issue a new transaction
+286 ifIssue result : 0
+286 Prob not higher than test, retrying to issue again
+287.001 Received a new transaction : updating the Tangle
+288 Trying to issue a new transaction
+288 ifIssue result : 1
+288 TSA procedure for [4]27
+288 Pow time = 3
+288.001 Received a new transaction : updating the Tangle
+288.001 Received a new transaction : updating the Tangle
+290.001 Received a new transaction : updating the Tangle
+291.001 Received a new transaction : updating the Tangle
+291.001 Received a new transaction : updating the Tangle
+293 Trying to issue a new transaction
+293 ifIssue result : 0
+293 Prob not higher than test, retrying to issue again
+293.001 Received a new transaction : updating the Tangle
+293.001 Received a new transaction : updating the Tangle
+293.001 Received a new transaction : updating the Tangle
+295 Trying to issue a new transaction
+295 ifIssue result : 0
+295 Prob not higher than test, retrying to issue again
+296.001 Received a new transaction : updating the Tangle
+297 Trying to issue a new transaction
+297 ifIssue result : 1
+297 TSA procedure for [4]28
+297 Pow time = 6
+297.001 Received a new transaction : updating the Tangle
+298.001 Received a new transaction : updating the Tangle
+299.001 Received a new transaction : updating the Tangle
+300.001 Received a new transaction : updating the Tangle
+302.001 Received a new transaction : updating the Tangle
+303 Sending [4]28 to all nodes
+303.001 Received a new transaction : updating the Tangle
+304.001 Received a new transaction : updating the Tangle
+304.001 Received a new transaction : updating the Tangle
+305 Trying to issue a new transaction
+305 ifIssue result : 0
+305 Prob not higher than test, retrying to issue again
+306.001 Received a new transaction : updating the Tangle
+307 Trying to issue a new transaction
+307 ifIssue result : 1
+307 TSA procedure for [4]29
+307 Pow time = 3
+308.001 Received a new transaction : updating the Tangle
+309.001 Received a new transaction : updating the Tangle
+309.001 Received a new transaction : updating the Tangle
+309.001 Received a new transaction : updating the Tangle
+310 Sending [4]29 to all nodes
+310.001 Received a new transaction : updating the Tangle
+311.001 Received a new transaction : updating the Tangle
+312.001 Received a new transaction : updating the Tangle
+314 Trying to issue a new transaction
+314 ifIssue result : 0
+314 Prob not higher than test, retrying to issue again
+314.001 Received a new transaction : updating the Tangle
+315.001 Received a new transaction : updating the Tangle
+315.001 Received a new transaction : updating the Tangle
+316 Trying to issue a new transaction
+316 ifIssue result : 1
+316 TSA procedure for [4]30
+316 Pow time = 3
+316.001 Received a new transaction : updating the Tangle
+319 Sending [4]30 to all nodes
+320.001 Received a new transaction : updating the Tangle
+320.001 Received a new transaction : updating the Tangle
+321.001 Received a new transaction : updating the Tangle
+322.001 Received a new transaction : updating the Tangle
+323.001 Received a new transaction : updating the Tangle
+323.001 Received a new transaction : updating the Tangle
+324 Sending [4]31 to all nodes
+325.001 Received a new transaction : updating the Tangle
+325.001 Received a new transaction : updating the Tangle
+326.001 Received a new transaction : updating the Tangle
+327.001 Received a new transaction : updating the Tangle
+327.001 Received a new transaction : updating the Tangle
+328.001 Received a new transaction : updating the Tangle
+330.001 Received a new transaction : updating the Tangle
+330.001 Received a new transaction : updating the Tangle
+332 Sending [4]32 to all nodes
+332.001 Received a new transaction : updating the Tangle
+332.001 Received a new transaction : updating the Tangle
+334.001 Received a new transaction : updating the Tangle
+335.001 Received a new transaction : updating the Tangle
+335.001 Received a new transaction : updating the Tangle
+336 Trying to issue a new transaction
+336 ifIssue result : 0
+336 Prob not higher than test, retrying to issue again
+336.001 Received a new transaction : updating the Tangle
+337.001 Received a new transaction : updating the Tangle
+337.001 Received a new transaction : updating the Tangle
+338 Trying to issue a new transaction
+338 ifIssue result : 0
+338 Prob not higher than test, retrying to issue again
+339.001 Received a new transaction : updating the Tangle
+339.001 Received a new transaction : updating the Tangle
+340 Trying to issue a new transaction
+340 ifIssue result : 0
+340 Prob not higher than test, retrying to issue again
+340.001 Received a new transaction : updating the Tangle
+340.001 Received a new transaction : updating the Tangle
+342 Trying to issue a new transaction
+342 ifIssue result : 0
+342 Prob not higher than test, retrying to issue again
+342.001 Received a new transaction : updating the Tangle
+342.001 Received a new transaction : updating the Tangle
+343.001 Received a new transaction : updating the Tangle
+344 Trying to issue a new transaction
+344 ifIssue result : 0
+344 Prob not higher than test, retrying to issue again
+344.001 Received a new transaction : updating the Tangle
+344.001 Received a new transaction : updating the Tangle
+345.001 Received a new transaction : updating the Tangle
+346 Trying to issue a new transaction
+346 ifIssue result : 1
+346 TSA procedure for [4]33
+346 Pow time = 6
+347.001 Received a new transaction : updating the Tangle
+348.001 Received a new transaction : updating the Tangle
+351.001 Received a new transaction : updating the Tangle
+352 Sending [4]33 to all nodes
+353.001 Received a new transaction : updating the Tangle
+354.001 Received a new transaction : updating the Tangle
+354.001 Received a new transaction : updating the Tangle
+355.001 Received a new transaction : updating the Tangle
+356 Trying to issue a new transaction
+356 ifIssue result : 0
+356 Prob not higher than test, retrying to issue again
+358 Trying to issue a new transaction
+358 ifIssue result : 0
+358 Prob not higher than test, retrying to issue again
+358.001 Received a new transaction : updating the Tangle
+359.001 Received a new transaction : updating the Tangle
+359.001 Received a new transaction : updating the Tangle
+360 Trying to issue a new transaction
+360 ifIssue result : 0
+360 Prob not higher than test, retrying to issue again
+360.001 Received a new transaction : updating the Tangle
+360.001 Received a new transaction : updating the Tangle
+362 Trying to issue a new transaction
+362 ifIssue result : 1
+362 TSA procedure for [4]34
+362 Pow time = 3
+362.001 Received a new transaction : updating the Tangle
+363.001 Received a new transaction : updating the Tangle
+364.001 Received a new transaction : updating the Tangle
+364.001 Received a new transaction : updating the Tangle
+365.001 Received a new transaction : updating the Tangle
+367 Trying to issue a new transaction
+367 ifIssue result : 0
+367 Prob not higher than test, retrying to issue again
+369 Trying to issue a new transaction
+369 ifIssue result : 0
+369 Prob not higher than test, retrying to issue again
+369.001 Received a new transaction : updating the Tangle
+371 Trying to issue a new transaction
+371 ifIssue result : 0
+371 Prob not higher than test, retrying to issue again
+371.001 Received a new transaction : updating the Tangle
+371.001 Received a new transaction : updating the Tangle
+371.001 Received a new transaction : updating the Tangle
+372.001 Received a new transaction : updating the Tangle
+373 Trying to issue a new transaction
+373 ifIssue result : 1
+373 TSA procedure for [4]35
+373 Pow time = 6
+373.001 Received a new transaction : updating the Tangle
+373.001 Received a new transaction : updating the Tangle
+374.001 Received a new transaction : updating the Tangle
+376.001 Received a new transaction : updating the Tangle
+378.001 Received a new transaction : updating the Tangle
+379 Sending [4]35 to all nodes
+380.001 Received a new transaction : updating the Tangle
+380.001 Received a new transaction : updating the Tangle
+381.001 Received a new transaction : updating the Tangle
+381.001 Received a new transaction : updating the Tangle
+382.001 Received a new transaction : updating the Tangle
+383 Trying to issue a new transaction
+383 ifIssue result : 0
+383 Prob not higher than test, retrying to issue again
+384.001 Received a new transaction : updating the Tangle
+384.001 Received a new transaction : updating the Tangle
+385 Trying to issue a new transaction
+385 ifIssue result : 1
+385 TSA procedure for [4]36
+385 Pow time = 3
+385.001 Received a new transaction : updating the Tangle
+387.001 Received a new transaction : updating the Tangle
+387.001 Received a new transaction : updating the Tangle
+388 Sending [4]36 to all nodes
+389.001 Received a new transaction : updating the Tangle
+389.001 Received a new transaction : updating the Tangle
+390.001 Received a new transaction : updating the Tangle
+391.001 Received a new transaction : updating the Tangle
+391.001 Received a new transaction : updating the Tangle
+393 Sending [4]37 to all nodes
+394.001 Received a new transaction : updating the Tangle
+394.001 Received a new transaction : updating the Tangle
+395 Trying to issue a new transaction
+395 ifIssue result : 0
+395 Prob not higher than test, retrying to issue again
+396.001 Received a new transaction : updating the Tangle
+396.001 Received a new transaction : updating the Tangle
+397.001 Received a new transaction : updating the Tangle
+399 Trying to issue a new transaction
+399 ifIssue result : 1
+399 TSA procedure for [4]38
+399 Pow time = 3
+400.001 Received a new transaction : updating the Tangle
+400.001 Received a new transaction : updating the Tangle
+400.001 Received a new transaction : updating the Tangle
+401.001 Received a new transaction : updating the Tangle
+401.001 Received a new transaction : updating the Tangle
+402 Sending [4]38 to all nodes
+403.001 Received a new transaction : updating the Tangle
+404 Trying to issue a new transaction
+404 ifIssue result : 1
+404 TSA procedure for [4]39
+404 Pow time = 3
+406.001 Received a new transaction : updating the Tangle
+406.001 Received a new transaction : updating the Tangle
+407 Sending [4]39 to all nodes
+407.001 Received a new transaction : updating the Tangle
+407.001 Received a new transaction : updating the Tangle
+409.001 Received a new transaction : updating the Tangle
+411 Trying to issue a new transaction
+411 ifIssue result : 0
+411 Prob not higher than test, retrying to issue again
+411.001 Received a new transaction : updating the Tangle
+413 Trying to issue a new transaction
+413 ifIssue result : 0
+413 Prob not higher than test, retrying to issue again
+413.001 Received a new transaction : updating the Tangle
+414.001 Received a new transaction : updating the Tangle
+415 Trying to issue a new transaction
+415 ifIssue result : 0
+415 Prob not higher than test, retrying to issue again
+416.001 Received a new transaction : updating the Tangle
+416.001 Received a new transaction : updating the Tangle
+416.001 Received a new transaction : updating the Tangle
+417 Trying to issue a new transaction
+417 ifIssue result : 0
+417 Prob not higher than test, retrying to issue again
+417.001 Received a new transaction : updating the Tangle
+419 Trying to issue a new transaction
+419 ifIssue result : 1
+419 TSA procedure for [4]40
+419 Pow time = 6
+419.001 Received a new transaction : updating the Tangle
+421.001 Received a new transaction : updating the Tangle
+421.001 Received a new transaction : updating the Tangle
+423.001 Received a new transaction : updating the Tangle
+423.001 Received a new transaction : updating the Tangle
+424.001 Received a new transaction : updating the Tangle
+425 Sending [4]40 to all nodes
+425.001 Received a new transaction : updating the Tangle
+426.001 Received a new transaction : updating the Tangle
+427 Trying to issue a new transaction
+427 ifIssue result : 0
+427 Prob not higher than test, retrying to issue again
+428.001 Received a new transaction : updating the Tangle
+428.001 Received a new transaction : updating the Tangle
+429.001 Received a new transaction : updating the Tangle
+432 Sending [4]41 to all nodes
+432.001 Received a new transaction : updating the Tangle
+432.001 Received a new transaction : updating the Tangle
+433.001 Received a new transaction : updating the Tangle
+434.001 Received a new transaction : updating the Tangle
+434.001 Received a new transaction : updating the Tangle
+434.001 Received a new transaction : updating the Tangle
+435.001 Received a new transaction : updating the Tangle
+435.001 Received a new transaction : updating the Tangle
+436 Trying to issue a new transaction
+436 ifIssue result : 0
+436 Prob not higher than test, retrying to issue again
+438 Trying to issue a new transaction
+438 ifIssue result : 0
+438 Prob not higher than test, retrying to issue again
+440 Trying to issue a new transaction
+440 ifIssue result : 0
+440 Prob not higher than test, retrying to issue again
+440.001 Received a new transaction : updating the Tangle
+442 Trying to issue a new transaction
+442 ifIssue result : 0
+442 Prob not higher than test, retrying to issue again
+442.001 Received a new transaction : updating the Tangle
+444 Trying to issue a new transaction
+444 ifIssue result : 0
+444 Prob not higher than test, retrying to issue again
+444.001 Received a new transaction : updating the Tangle
+445.001 Received a new transaction : updating the Tangle
+446 Trying to issue a new transaction
+446 ifIssue result : 0
+446 Prob not higher than test, retrying to issue again
+446.001 Received a new transaction : updating the Tangle
+448 Trying to issue a new transaction
+448 ifIssue result : 0
+448 Prob not higher than test, retrying to issue again
+449.001 Received a new transaction : updating the Tangle
+449.001 Received a new transaction : updating the Tangle
+449.001 Received a new transaction : updating the Tangle
+450 Trying to issue a new transaction
+450 ifIssue result : 0
+450 Prob not higher than test, retrying to issue again
+451.001 Received a new transaction : updating the Tangle
+451.001 Received a new transaction : updating the Tangle
+452 Trying to issue a new transaction
+452 ifIssue result : 0
+452 Prob not higher than test, retrying to issue again
+453.001 Received a new transaction : updating the Tangle
+454 Trying to issue a new transaction
+454 ifIssue result : 0
+454 Prob not higher than test, retrying to issue again
+455.001 Received a new transaction : updating the Tangle
+455.001 Received a new transaction : updating the Tangle
+456.001 Received a new transaction : updating the Tangle
+456.001 Received a new transaction : updating the Tangle
+456.001 Received a new transaction : updating the Tangle
+458 Trying to issue a new transaction
+458 ifIssue result : 1
+458 TSA procedure for [4]42
+458 Pow time = 3
+458.001 Received a new transaction : updating the Tangle
+458.001 Received a new transaction : updating the Tangle
+461.001 Received a new transaction : updating the Tangle
+461.001 Received a new transaction : updating the Tangle
+462.001 Received a new transaction : updating the Tangle
+463 Trying to issue a new transaction
+463 ifIssue result : 0
+463 Prob not higher than test, retrying to issue again
+463.001 Received a new transaction : updating the Tangle
+464.001 Received a new transaction : updating the Tangle
+464.001 Received a new transaction : updating the Tangle
+465 Trying to issue a new transaction
+465 ifIssue result : 1
+465 TSA procedure for [4]43
+465 Pow time = 3
+468 Sending [4]43 to all nodes
+469.001 Received a new transaction : updating the Tangle
+469.001 Received a new transaction : updating the Tangle
+469.001 Received a new transaction : updating the Tangle
+469.001 Received a new transaction : updating the Tangle
+470.001 Received a new transaction : updating the Tangle
+472 Trying to issue a new transaction
+472 ifIssue result : 1
+472 TSA procedure for [4]44
+472 Pow time = 3
+474.001 Received a new transaction : updating the Tangle
+475.001 Received a new transaction : updating the Tangle
+476.001 Received a new transaction : updating the Tangle
+477 Trying to issue a new transaction
+477 ifIssue result : 0
+477 Prob not higher than test, retrying to issue again
+477.001 Received a new transaction : updating the Tangle
+479 Trying to issue a new transaction
+479 ifIssue result : 0
+479 Prob not higher than test, retrying to issue again
+479.001 Received a new transaction : updating the Tangle
+480.001 Received a new transaction : updating the Tangle
+481 Trying to issue a new transaction
+481 ifIssue result : 0
+481 Prob not higher than test, retrying to issue again
+481.001 Received a new transaction : updating the Tangle
+483 Trying to issue a new transaction
+483 ifIssue result : 0
+483 Prob not higher than test, retrying to issue again
+484.001 Received a new transaction : updating the Tangle
+484.001 Received a new transaction : updating the Tangle
+485 Trying to issue a new transaction
+485 ifIssue result : 1
+485 TSA procedure for [4]45
+485 Pow time = 3
+486.001 Received a new transaction : updating the Tangle
+486.001 Received a new transaction : updating the Tangle
+488 Sending [4]45 to all nodes
+489.001 Received a new transaction : updating the Tangle
+490 Trying to issue a new transaction
+490 ifIssue result : 1
+490 TSA procedure for [4]46
+490 Pow time = 6
+492.001 Received a new transaction : updating the Tangle
+493.001 Received a new transaction : updating the Tangle
+493.001 Received a new transaction : updating the Tangle
+493.001 Received a new transaction : updating the Tangle
+494.001 Received a new transaction : updating the Tangle
+496 Sending [4]46 to all nodes
+496.001 Received a new transaction : updating the Tangle
+498.001 Received a new transaction : updating the Tangle
+498.001 Received a new transaction : updating the Tangle
+499.001 Received a new transaction : updating the Tangle
+499.001 Received a new transaction : updating the Tangle
+500 Trying to issue a new transaction
+500 ifIssue result : 0
+500 Prob not higher than test, retrying to issue again
+500.001 Received a new transaction : updating the Tangle
+501.001 Received a new transaction : updating the Tangle
+501.001 Received a new transaction : updating the Tangle
+502 Trying to issue a new transaction
+502 ifIssue result : 1
+502 TSA procedure for [4]47
+502 Pow time = 6
+502.001 Received a new transaction : updating the Tangle
+503.001 Received a new transaction : updating the Tangle
+505.001 Received a new transaction : updating the Tangle
+506.001 Received a new transaction : updating the Tangle
+507.001 Received a new transaction : updating the Tangle
+508 Sending [4]47 to all nodes
+510.001 Received a new transaction : updating the Tangle
+511.001 Received a new transaction : updating the Tangle
+512 Trying to issue a new transaction
+512 ifIssue result : 1
+512 TSA procedure for [4]48
+512 Pow time = 3
+514.001 Received a new transaction : updating the Tangle
+514.001 Received a new transaction : updating the Tangle
+514.001 Received a new transaction : updating the Tangle
+515 Sending [4]48 to all nodes
+516.001 Received a new transaction : updating the Tangle
+517 Trying to issue a new transaction
+517 ifIssue result : 0
+517 Prob not higher than test, retrying to issue again
+519.001 Received a new transaction : updating the Tangle
+519.001 Received a new transaction : updating the Tangle
+520.001 Received a new transaction : updating the Tangle
+520.001 Received a new transaction : updating the Tangle
+521 Trying to issue a new transaction
+521 ifIssue result : 0
+521 Prob not higher than test, retrying to issue again
+521.001 Received a new transaction : updating the Tangle
+521.001 Received a new transaction : updating the Tangle
+521.001 Received a new transaction : updating the Tangle
+522.001 Received a new transaction : updating the Tangle
+523 Trying to issue a new transaction
+523 ifIssue result : 0
+523 Prob not higher than test, retrying to issue again
+525 Trying to issue a new transaction
+525 ifIssue result : 1
+525 TSA procedure for [4]49
+525 Pow time = 3
+525.001 Received a new transaction : updating the Tangle
+525.001 Received a new transaction : updating the Tangle
+526.001 Received a new transaction : updating the Tangle
+527.001 Received a new transaction : updating the Tangle
+528.001 Received a new transaction : updating the Tangle
+528.001 Received a new transaction : updating the Tangle
+530 Trying to issue a new transaction
+530 ifIssue result : 1
+530 TSA procedure for [4]50
+530 Pow time = 3
+530.001 Received a new transaction : updating the Tangle
+531.001 Received a new transaction : updating the Tangle
+532.001 Received a new transaction : updating the Tangle
+532.001 Received a new transaction : updating the Tangle
+533 Sending [4]50 to all nodes
+534.001 Received a new transaction : updating the Tangle
+535.001 Received a new transaction : updating the Tangle
+536.001 Received a new transaction : updating the Tangle
+537 Trying to issue a new transaction
+537 ifIssue result : 0
+537 Prob not higher than test, retrying to issue again
+538.001 Received a new transaction : updating the Tangle
+539 Trying to issue a new transaction
+539 ifIssue result : 1
+539 TSA procedure for [4]51
+539 Pow time = 3
+539.001 Received a new transaction : updating the Tangle
+539.001 Received a new transaction : updating the Tangle
+542.001 Received a new transaction : updating the Tangle
+543.001 Received a new transaction : updating the Tangle
+543.001 Received a new transaction : updating the Tangle
+543.001 Received a new transaction : updating the Tangle
+543.001 Received a new transaction : updating the Tangle
+544 Trying to issue a new transaction
+544 ifIssue result : 0
+544 Prob not higher than test, retrying to issue again
+544.001 Received a new transaction : updating the Tangle
+545.001 Received a new transaction : updating the Tangle
+546 Trying to issue a new transaction
+546 ifIssue result : 0
+546 Prob not higher than test, retrying to issue again
+547.001 Received a new transaction : updating the Tangle
+548 Trying to issue a new transaction
+548 ifIssue result : 0
+548 Prob not higher than test, retrying to issue again
+548.001 Received a new transaction : updating the Tangle
+550 Trying to issue a new transaction
+550 ifIssue result : 0
+550 Prob not higher than test, retrying to issue again
+551.001 Received a new transaction : updating the Tangle
+551.001 Received a new transaction : updating the Tangle
+552 Trying to issue a new transaction
+552 ifIssue result : 0
+552 Prob not higher than test, retrying to issue again
+552.001 Received a new transaction : updating the Tangle
+554 Trying to issue a new transaction
+554 ifIssue result : 0
+554 Prob not higher than test, retrying to issue again
+555.001 Received a new transaction : updating the Tangle
+556 Trying to issue a new transaction
+556 ifIssue result : 1
+556 TSA procedure for [4]52
+556 Pow time = 3
+556.001 Received a new transaction : updating the Tangle
+556.001 Received a new transaction : updating the Tangle
+559 Sending [4]52 to all nodes
+560.001 Received a new transaction : updating the Tangle
+561.001 Received a new transaction : updating the Tangle
+562.001 Received a new transaction : updating the Tangle
+562.001 Received a new transaction : updating the Tangle
+563 Trying to issue a new transaction
+563 ifIssue result : 0
+563 Prob not higher than test, retrying to issue again
+563.001 Received a new transaction : updating the Tangle
+564.001 Received a new transaction : updating the Tangle
+565 Trying to issue a new transaction
+565 ifIssue result : 0
+565 Prob not higher than test, retrying to issue again
+565.001 Received a new transaction : updating the Tangle
+567 Trying to issue a new transaction
+567 ifIssue result : 0
+567 Prob not higher than test, retrying to issue again
+567.001 Received a new transaction : updating the Tangle
+567.001 Received a new transaction : updating the Tangle
+568.001 Received a new transaction : updating the Tangle
+568.001 Received a new transaction : updating the Tangle
+569 Trying to issue a new transaction
+569 ifIssue result : 0
+569 Prob not higher than test, retrying to issue again
+569.001 Received a new transaction : updating the Tangle
+571 Trying to issue a new transaction
+571 ifIssue result : 1
+571 TSA procedure for [4]53
+571 Pow time = 3
+572.001 Received a new transaction : updating the Tangle
+572.001 Received a new transaction : updating the Tangle
+573.001 Received a new transaction : updating the Tangle
+573.001 Received a new transaction : updating the Tangle
+574 Sending [4]53 to all nodes
+576.001 Received a new transaction : updating the Tangle
+577.001 Received a new transaction : updating the Tangle
+577.001 Received a new transaction : updating the Tangle
+578 Trying to issue a new transaction
+578 ifIssue result : 0
+578 Prob not higher than test, retrying to issue again
+580 Trying to issue a new transaction
+580 ifIssue result : 0
+580 Prob not higher than test, retrying to issue again
+580.001 Received a new transaction : updating the Tangle
+582 Trying to issue a new transaction
+582 ifIssue result : 1
+582 TSA procedure for [4]54
+582 Pow time = 3
+582.001 Received a new transaction : updating the Tangle
+583.001 Received a new transaction : updating the Tangle
+585.001 Received a new transaction : updating the Tangle
+585.001 Received a new transaction : updating the Tangle
+586.001 Received a new transaction : updating the Tangle
+587 Trying to issue a new transaction
+587 ifIssue result : 1
+587 TSA procedure for [4]55
+587 Pow time = 3
+588.001 Received a new transaction : updating the Tangle
+588.001 Received a new transaction : updating the Tangle
+590.001 Received a new transaction : updating the Tangle
+590.001 Received a new transaction : updating the Tangle
+590.001 Received a new transaction : updating the Tangle
+591.001 Received a new transaction : updating the Tangle
+591.001 Received a new transaction : updating the Tangle
+592 Trying to issue a new transaction
+592 ifIssue result : 0
+592 Prob not higher than test, retrying to issue again
+592.001 Received a new transaction : updating the Tangle
+593.001 Received a new transaction : updating the Tangle
+594 Trying to issue a new transaction
+594 ifIssue result : 0
+594 Prob not higher than test, retrying to issue again
+595.001 Received a new transaction : updating the Tangle
+595.001 Received a new transaction : updating the Tangle
+595.001 Received a new transaction : updating the Tangle
+596 Trying to issue a new transaction
+596 ifIssue result : 0
+596 Prob not higher than test, retrying to issue again
+597.001 Received a new transaction : updating the Tangle
+598 Trying to issue a new transaction
+598 ifIssue result : 0
+598 Prob not higher than test, retrying to issue again
+598.001 Received a new transaction : updating the Tangle
+600 Trying to issue a new transaction
+600 ifIssue result : 0
+600 Prob not higher than test, retrying to issue again
+600.001 Received a new transaction : updating the Tangle
+600.001 Received a new transaction : updating the Tangle
+601.001 Received a new transaction : updating the Tangle
+602 Trying to issue a new transaction
+602 ifIssue result : 0
+602 Prob not higher than test, retrying to issue again
+602.001 Received a new transaction : updating the Tangle
+602.001 Received a new transaction : updating the Tangle
+603.001 Received a new transaction : updating the Tangle
+604 Trying to issue a new transaction
+604 ifIssue result : 0
+604 Prob not higher than test, retrying to issue again
+605.001 Received a new transaction : updating the Tangle
+606 Trying to issue a new transaction
+606 ifIssue result : 0
+606 Prob not higher than test, retrying to issue again
+606.001 Received a new transaction : updating the Tangle
+608 Trying to issue a new transaction
+608 ifIssue result : 1
+608 TSA procedure for [4]56
+608 Pow time = 3
+608.001 Received a new transaction : updating the Tangle
+610.001 Received a new transaction : updating the Tangle
+611.001 Received a new transaction : updating the Tangle
+611.001 Received a new transaction : updating the Tangle
+613 Trying to issue a new transaction
+613 ifIssue result : 0
+613 Prob not higher than test, retrying to issue again
+613.001 Received a new transaction : updating the Tangle
+613.001 Received a new transaction : updating the Tangle
+613.001 Received a new transaction : updating the Tangle
+615 Trying to issue a new transaction
+615 ifIssue result : 1
+615 TSA procedure for [4]57
+615 Pow time = 3
+616.001 Received a new transaction : updating the Tangle
+616.001 Received a new transaction : updating the Tangle
+617.001 Received a new transaction : updating the Tangle
+618 Sending [4]57 to all nodes
+620.001 Received a new transaction : updating the Tangle
+621.001 Received a new transaction : updating the Tangle
+622 Trying to issue a new transaction
+622 ifIssue result : 0
+622 Prob not higher than test, retrying to issue again
+624 Trying to issue a new transaction
+624 ifIssue result : 0
+624 Prob not higher than test, retrying to issue again
+624.001 Received a new transaction : updating the Tangle
+624.001 Received a new transaction : updating the Tangle
+626 Trying to issue a new transaction
+626 ifIssue result : 1
+626 TSA procedure for [4]58
+626 Pow time = 3
+628.001 Received a new transaction : updating the Tangle
+629.001 Received a new transaction : updating the Tangle
+630.001 Received a new transaction : updating the Tangle
+631 Trying to issue a new transaction
+631 ifIssue result : 1
+631 TSA procedure for [4]59
+631 Pow time = 3
+632.001 Received a new transaction : updating the Tangle
+633.001 Received a new transaction : updating the Tangle
+633.001 Received a new transaction : updating the Tangle
+634 Sending [4]59 to all nodes
+636 Trying to issue a new transaction
+636 ifIssue result : 0
+636 Prob not higher than test, retrying to issue again
+637.001 Received a new transaction : updating the Tangle
+638.001 Received a new transaction : updating the Tangle
+640.001 Received a new transaction : updating the Tangle
+641 Sending [4]60 to all nodes
+642.001 Received a new transaction : updating the Tangle
+643 Trying to issue a new transaction
+643 ifIssue result : 0
+643 Prob not higher than test, retrying to issue again
+645.001 Received a new transaction : updating the Tangle
+647.001 Received a new transaction : updating the Tangle
+647.001 Received a new transaction : updating the Tangle
+647.001 Received a new transaction : updating the Tangle
+648 Sending [4]61 to all nodes
+649.001 Received a new transaction : updating the Tangle
+649.001 Received a new transaction : updating the Tangle
+649.001 Received a new transaction : updating the Tangle
+650.001 Received a new transaction : updating the Tangle
+650.001 Received a new transaction : updating the Tangle
+652 Trying to issue a new transaction
+652 ifIssue result : 0
+652 Prob not higher than test, retrying to issue again
+652.001 Received a new transaction : updating the Tangle
+654 Trying to issue a new transaction
+654 ifIssue result : 1
+654 TSA procedure for [4]62
+654 Pow time = 3
+654.001 Received a new transaction : updating the Tangle
+654.001 Received a new transaction : updating the Tangle
+654.001 Received a new transaction : updating the Tangle
+657 Sending [4]62 to all nodes
+658.001 Received a new transaction : updating the Tangle
+659.001 Received a new transaction : updating the Tangle
+659.001 Received a new transaction : updating the Tangle
+660.001 Received a new transaction : updating the Tangle
+661 Trying to issue a new transaction
+661 ifIssue result : 1
+661 TSA procedure for [4]63
+661 Pow time = 3
+662.001 Received a new transaction : updating the Tangle
+663.001 Received a new transaction : updating the Tangle
+664.001 Received a new transaction : updating the Tangle
+665.001 Received a new transaction : updating the Tangle
+665.001 Received a new transaction : updating the Tangle
+666 Trying to issue a new transaction
+666 ifIssue result : 1
+666 TSA procedure for [4]64
+666 Pow time = 3
+666.001 Received a new transaction : updating the Tangle
+667.001 Received a new transaction : updating the Tangle
+667.001 Received a new transaction : updating the Tangle
+669 Sending [4]64 to all nodes
+670.001 Received a new transaction : updating the Tangle
+671 Trying to issue a new transaction
+671 ifIssue result : 0
+671 Prob not higher than test, retrying to issue again
+672.001 Received a new transaction : updating the Tangle
+673.001 Received a new transaction : updating the Tangle
+674.001 Received a new transaction : updating the Tangle
+674.001 Received a new transaction : updating the Tangle
+675 Trying to issue a new transaction
+675 ifIssue result : 1
+675 TSA procedure for [4]65
+675 Pow time = 3
+675.001 Received a new transaction : updating the Tangle
+675.001 Received a new transaction : updating the Tangle
+676.001 Received a new transaction : updating the Tangle
+678 Sending [4]65 to all nodes
+679.001 Received a new transaction : updating the Tangle
+679.001 Received a new transaction : updating the Tangle
+680.001 Received a new transaction : updating the Tangle
+681.001 Received a new transaction : updating the Tangle
+682 Trying to issue a new transaction
+682 ifIssue result : 1
+682 TSA procedure for [4]66
+682 Pow time = 3
+682.001 Received a new transaction : updating the Tangle
+683.001 Received a new transaction : updating the Tangle
+685 Sending [4]66 to all nodes
+686.001 Received a new transaction : updating the Tangle
+686.001 Received a new transaction : updating the Tangle
+687.001 Received a new transaction : updating the Tangle
+689 Trying to issue a new transaction
+689 ifIssue result : 1
+689 TSA procedure for [4]67
+689 Pow time = 3
+690.001 Received a new transaction : updating the Tangle
+691.001 Received a new transaction : updating the Tangle
+691.001 Received a new transaction : updating the Tangle
+692 Sending [4]67 to all nodes
+693.001 Received a new transaction : updating the Tangle
+693.001 Received a new transaction : updating the Tangle
+694.001 Received a new transaction : updating the Tangle
+695.001 Received a new transaction : updating the Tangle
+696 Trying to issue a new transaction
+696 ifIssue result : 0
+696 Prob not higher than test, retrying to issue again
+696.001 Received a new transaction : updating the Tangle
+696.001 Received a new transaction : updating the Tangle
+698 Trying to issue a new transaction
+698 ifIssue result : 0
+698 Prob not higher than test, retrying to issue again
+699.001 Received a new transaction : updating the Tangle
+699.001 Received a new transaction : updating the Tangle
+700 Trying to issue a new transaction
+700 ifIssue result : 0
+700 Prob not higher than test, retrying to issue again
+700.001 Received a new transaction : updating the Tangle
+700.001 Received a new transaction : updating the Tangle
+702 Trying to issue a new transaction
+702 ifIssue result : 0
+702 Prob not higher than test, retrying to issue again
+703.001 Received a new transaction : updating the Tangle
+704 Trying to issue a new transaction
+704 ifIssue result : 0
+704 Prob not higher than test, retrying to issue again
+705.001 Received a new transaction : updating the Tangle
+705.001 Received a new transaction : updating the Tangle
+706.001 Received a new transaction : updating the Tangle
+706.001 Received a new transaction : updating the Tangle
+706.001 Received a new transaction : updating the Tangle
+707.001 Received a new transaction : updating the Tangle
+709 Sending [4]68 to all nodes
+710.001 Received a new transaction : updating the Tangle
+711.001 Received a new transaction : updating the Tangle
+714 Sending [4]69 to all nodes
+714.001 Received a new transaction : updating the Tangle
+715.001 Received a new transaction : updating the Tangle
+716.001 Received a new transaction : updating the Tangle
+718.001 Received a new transaction : updating the Tangle
+719.001 Received a new transaction : updating the Tangle
+720.001 Received a new transaction : updating the Tangle
+720.001 Received a new transaction : updating the Tangle
+721.001 Received a new transaction : updating the Tangle
+722 Sending [4]70 to all nodes
+722.001 Received a new transaction : updating the Tangle
+723.001 Received a new transaction : updating the Tangle
+723.001 Received a new transaction : updating the Tangle
+724.001 Received a new transaction : updating the Tangle
+725.001 Received a new transaction : updating the Tangle
+725.001 Received a new transaction : updating the Tangle
+726 Trying to issue a new transaction
+726 ifIssue result : 0
+726 Prob not higher than test, retrying to issue again
+726.001 Received a new transaction : updating the Tangle
+728 Trying to issue a new transaction
+728 ifIssue result : 0
+728 Prob not higher than test, retrying to issue again
+728.001 Received a new transaction : updating the Tangle
+729.001 Received a new transaction : updating the Tangle
+729.001 Received a new transaction : updating the Tangle
+730 Trying to issue a new transaction
+730 ifIssue result : 0
+730 Prob not higher than test, retrying to issue again
+730.001 Received a new transaction : updating the Tangle
+731.001 Received a new transaction : updating the Tangle
+732 Trying to issue a new transaction
+732 ifIssue result : 0
+732 Prob not higher than test, retrying to issue again
+733.001 Received a new transaction : updating the Tangle
+734 Trying to issue a new transaction
+734 ifIssue result : 0
+734 Prob not higher than test, retrying to issue again
+734.001 Received a new transaction : updating the Tangle
+736 Trying to issue a new transaction
+736 ifIssue result : 1
+736 TSA procedure for [4]71
+736 Pow time = 3
+736.001 Received a new transaction : updating the Tangle
+737.001 Received a new transaction : updating the Tangle
+737.001 Received a new transaction : updating the Tangle
+739 Sending [4]71 to all nodes
+741.001 Received a new transaction : updating the Tangle
+741.001 Received a new transaction : updating the Tangle
+742.001 Received a new transaction : updating the Tangle
+742.001 Received a new transaction : updating the Tangle
+744 Sending [4]72 to all nodes
+744.001 Received a new transaction : updating the Tangle
+744.001 Received a new transaction : updating the Tangle
+746.001 Received a new transaction : updating the Tangle
+748.001 Received a new transaction : updating the Tangle
+749 Sending [4]73 to all nodes
+749.001 Received a new transaction : updating the Tangle
+750.001 Received a new transaction : updating the Tangle
+751.001 Received a new transaction : updating the Tangle
+751.001 Received a new transaction : updating the Tangle
+751.001 Received a new transaction : updating the Tangle
+754.001 Received a new transaction : updating the Tangle
+755.001 Received a new transaction : updating the Tangle
+755.001 Received a new transaction : updating the Tangle
+756.001 Received a new transaction : updating the Tangle
+757 Sending [4]74 to all nodes
+759.001 Received a new transaction : updating the Tangle
+760.001 Received a new transaction : updating the Tangle
+761 Trying to issue a new transaction
+761 ifIssue result : 0
+761 Prob not higher than test, retrying to issue again
+761.001 Received a new transaction : updating the Tangle
+763 Trying to issue a new transaction
+763 ifIssue result : 0
+763 Prob not higher than test, retrying to issue again
+764.001 Received a new transaction : updating the Tangle
+765 Trying to issue a new transaction
+765 ifIssue result : 0
+765 Prob not higher than test, retrying to issue again
+766.001 Received a new transaction : updating the Tangle
+767 Trying to issue a new transaction
+767 ifIssue result : 1
+767 TSA procedure for [4]75
+767 Pow time = 6
+767.001 Received a new transaction : updating the Tangle
+767.001 Received a new transaction : updating the Tangle
+769.001 Received a new transaction : updating the Tangle
+770.001 Received a new transaction : updating the Tangle
+770.001 Received a new transaction : updating the Tangle
+771.001 Received a new transaction : updating the Tangle
+772.001 Received a new transaction : updating the Tangle
+773 Sending [4]75 to all nodes
+773.001 Received a new transaction : updating the Tangle
+774.001 Received a new transaction : updating the Tangle
+774.001 Received a new transaction : updating the Tangle
+774.001 Received a new transaction : updating the Tangle
+775.001 Received a new transaction : updating the Tangle
+777 Trying to issue a new transaction
+777 ifIssue result : 1
+777 TSA procedure for [4]76
+777 Pow time = 3
+777.001 Received a new transaction : updating the Tangle
+777.001 Received a new transaction : updating the Tangle
+778.001 Received a new transaction : updating the Tangle
+779.001 Received a new transaction : updating the Tangle
+779.001 Received a new transaction : updating the Tangle
+780 Sending [4]76 to all nodes
+781.001 Received a new transaction : updating the Tangle
+782.001 Received a new transaction : updating the Tangle
+783.001 Received a new transaction : updating the Tangle
+784 Trying to issue a new transaction
+784 ifIssue result : 0
+784 Prob not higher than test, retrying to issue again
+784.001 Received a new transaction : updating the Tangle
+784.001 Received a new transaction : updating the Tangle
+786 Trying to issue a new transaction
+786 ifIssue result : 0
+786 Prob not higher than test, retrying to issue again
+786.001 Received a new transaction : updating the Tangle
+787.001 Received a new transaction : updating the Tangle
+788 Trying to issue a new transaction
+788 ifIssue result : 0
+788 Prob not higher than test, retrying to issue again
+788.001 Received a new transaction : updating the Tangle
+788.001 Received a new transaction : updating the Tangle
+788.001 Received a new transaction : updating the Tangle
+790 Trying to issue a new transaction
+790 ifIssue result : 0
+790 Prob not higher than test, retrying to issue again
+791.001 Received a new transaction : updating the Tangle
+791.001 Received a new transaction : updating the Tangle
+792 Trying to issue a new transaction
+792 ifIssue result : 1
+792 TSA procedure for [4]77
+792 Pow time = 3
+793.001 Received a new transaction : updating the Tangle
+793.001 Received a new transaction : updating the Tangle
+793.001 Received a new transaction : updating the Tangle
+794.001 Received a new transaction : updating the Tangle
+794.001 Received a new transaction : updating the Tangle
+795 Sending [4]77 to all nodes
+796.001 Received a new transaction : updating the Tangle
+797.001 Received a new transaction : updating the Tangle
+798.001 Received a new transaction : updating the Tangle
+798.001 Received a new transaction : updating the Tangle
+799 Trying to issue a new transaction
+799 ifIssue result : 0
+799 Prob not higher than test, retrying to issue again
+800.001 Received a new transaction : updating the Tangle
+801.001 Received a new transaction : updating the Tangle
+801.001 Received a new transaction : updating the Tangle
+802.001 Received a new transaction : updating the Tangle
+803 Trying to issue a new transaction
+803 ifIssue result : 0
+803 Prob not higher than test, retrying to issue again
+805 Trying to issue a new transaction
+805 ifIssue result : 1
+805 TSA procedure for [4]78
+805 Pow time = 3
+805.001 Received a new transaction : updating the Tangle
+805.001 Received a new transaction : updating the Tangle
+806.001 Received a new transaction : updating the Tangle
+808.001 Received a new transaction : updating the Tangle
+810 Trying to issue a new transaction
+810 ifIssue result : 0
+810 Prob not higher than test, retrying to issue again
+810.001 Received a new transaction : updating the Tangle
+810.001 Received a new transaction : updating the Tangle
+811.001 Received a new transaction : updating the Tangle
+811.001 Received a new transaction : updating the Tangle
+812 Trying to issue a new transaction
+812 ifIssue result : 0
+812 Prob not higher than test, retrying to issue again
+812.001 Received a new transaction : updating the Tangle
+813.001 Received a new transaction : updating the Tangle
+814 Trying to issue a new transaction
+814 ifIssue result : 1
+814 TSA procedure for [4]79
+814 Pow time = 6
+815.001 Received a new transaction : updating the Tangle
+817.001 Received a new transaction : updating the Tangle
+817.001 Received a new transaction : updating the Tangle
+819.001 Received a new transaction : updating the Tangle
+819.001 Received a new transaction : updating the Tangle
+819.001 Received a new transaction : updating the Tangle
+820 Sending [4]79 to all nodes
+822.001 Received a new transaction : updating the Tangle
+822.001 Received a new transaction : updating the Tangle
+822.001 Received a new transaction : updating the Tangle
+822.001 Received a new transaction : updating the Tangle
+824 Trying to issue a new transaction
+824 ifIssue result : 0
+824 Prob not higher than test, retrying to issue again
+826 Trying to issue a new transaction
+826 ifIssue result : 0
+826 Prob not higher than test, retrying to issue again
+826.001 Received a new transaction : updating the Tangle
+827.001 Received a new transaction : updating the Tangle
+828 Trying to issue a new transaction
+828 ifIssue result : 0
+828 Prob not higher than test, retrying to issue again
+828.001 Received a new transaction : updating the Tangle
+829.001 Received a new transaction : updating the Tangle
+830 Trying to issue a new transaction
+830 ifIssue result : 0
+830 Prob not higher than test, retrying to issue again
+830.001 Received a new transaction : updating the Tangle
+830.001 Received a new transaction : updating the Tangle
+831.001 Received a new transaction : updating the Tangle
+832 Trying to issue a new transaction
+832 ifIssue result : 0
+832 Prob not higher than test, retrying to issue again
+834 Trying to issue a new transaction
+834 ifIssue result : 1
+834 TSA procedure for [4]80
+834 Pow time = 6
+834.001 Received a new transaction : updating the Tangle
+835.001 Received a new transaction : updating the Tangle
+836.001 Received a new transaction : updating the Tangle
+837.001 Received a new transaction : updating the Tangle
+837.001 Received a new transaction : updating the Tangle
+838.001 Received a new transaction : updating the Tangle
+840 Sending [4]80 to all nodes
+840.001 Received a new transaction : updating the Tangle
+840.001 Received a new transaction : updating the Tangle
+841.001 Received a new transaction : updating the Tangle
+842.001 Received a new transaction : updating the Tangle
+842.001 Received a new transaction : updating the Tangle
+843.001 Received a new transaction : updating the Tangle
+843.001 Received a new transaction : updating the Tangle
+843.001 Received a new transaction : updating the Tangle
+845 Sending [4]81 to all nodes
+845.001 Received a new transaction : updating the Tangle
+846.001 Received a new transaction : updating the Tangle
+847 Trying to issue a new transaction
+847 ifIssue result : 0
+847 Prob not higher than test, retrying to issue again
+848.001 Received a new transaction : updating the Tangle
+849.001 Received a new transaction : updating the Tangle
+850.001 Received a new transaction : updating the Tangle
+850.001 Received a new transaction : updating the Tangle
+851 Trying to issue a new transaction
+851 ifIssue result : 1
+851 TSA procedure for [4]82
+851 Pow time = 6
+852.001 Received a new transaction : updating the Tangle
+853.001 Received a new transaction : updating the Tangle
+854.001 Received a new transaction : updating the Tangle
+855.001 Received a new transaction : updating the Tangle
+857 Sending [4]82 to all nodes
+857.001 Received a new transaction : updating the Tangle
+858.001 Received a new transaction : updating the Tangle
+858.001 Received a new transaction : updating the Tangle
+858.001 Received a new transaction : updating the Tangle
+859.001 Received a new transaction : updating the Tangle
+861 Trying to issue a new transaction
+861 ifIssue result : 1
+861 TSA procedure for [4]83
+861 Pow time = 3
+861.001 Received a new transaction : updating the Tangle
+861.001 Received a new transaction : updating the Tangle
+862.001 Received a new transaction : updating the Tangle
+863.001 Received a new transaction : updating the Tangle
+863.001 Received a new transaction : updating the Tangle
+864 Sending [4]83 to all nodes
+864.001 Received a new transaction : updating the Tangle
+865.001 Received a new transaction : updating the Tangle
+865.001 Received a new transaction : updating the Tangle
+866 Trying to issue a new transaction
+866 ifIssue result : 1
+866 TSA procedure for [4]84
+866 Pow time = 3
+869.001 Received a new transaction : updating the Tangle
+869.001 Received a new transaction : updating the Tangle
+870.001 Received a new transaction : updating the Tangle
+870.001 Received a new transaction : updating the Tangle
+871 Trying to issue a new transaction
+871 ifIssue result : 1
+871 TSA procedure for [4]85
+871 Pow time = 3
+873.001 Received a new transaction : updating the Tangle
+874 Sending [4]85 to all nodes
+874.001 Received a new transaction : updating the Tangle
+874.001 Received a new transaction : updating the Tangle
+876.001 Received a new transaction : updating the Tangle
+876.001 Received a new transaction : updating the Tangle
+877.001 Received a new transaction : updating the Tangle
+878 Trying to issue a new transaction
+878 ifIssue result : 1
+878 TSA procedure for [4]86
+878 Pow time = 3
+879.001 Received a new transaction : updating the Tangle
+880.001 Received a new transaction : updating the Tangle
+880.001 Received a new transaction : updating the Tangle
+880.001 Received a new transaction : updating the Tangle
+881.001 Received a new transaction : updating the Tangle
+883 Trying to issue a new transaction
+883 ifIssue result : 1
+883 TSA procedure for [4]87
+883 Pow time = 3
+886.001 Received a new transaction : updating the Tangle
+887.001 Received a new transaction : updating the Tangle
+887.001 Received a new transaction : updating the Tangle
+887.001 Received a new transaction : updating the Tangle
+887.001 Received a new transaction : updating the Tangle
+888 Trying to issue a new transaction
+888 ifIssue result : 1
+888 TSA procedure for [4]88
+888 Pow time = 3
+888.001 Received a new transaction : updating the Tangle
+888.001 Received a new transaction : updating the Tangle
+889.001 Received a new transaction : updating the Tangle
+891 Sending [4]88 to all nodes
+892.001 Received a new transaction : updating the Tangle
+893.001 Received a new transaction : updating the Tangle
+894.001 Received a new transaction : updating the Tangle
+895 Trying to issue a new transaction
+895 ifIssue result : 0
+895 Prob not higher than test, retrying to issue again
+897 Trying to issue a new transaction
+897 ifIssue result : 0
+897 Prob not higher than test, retrying to issue again
+897.001 Received a new transaction : updating the Tangle
+897.001 Received a new transaction : updating the Tangle
+899 Trying to issue a new transaction
+899 ifIssue result : 0
+899 Prob not higher than test, retrying to issue again
+899.001 Received a new transaction : updating the Tangle
+900.001 Received a new transaction : updating the Tangle
+901 Trying to issue a new transaction
+901 ifIssue result : 0
+901 Prob not higher than test, retrying to issue again
+901.001 Received a new transaction : updating the Tangle
+902.001 Received a new transaction : updating the Tangle
+902.001 Received a new transaction : updating the Tangle
+903 Trying to issue a new transaction
+903 ifIssue result : 0
+903 Prob not higher than test, retrying to issue again
+903.001 Received a new transaction : updating the Tangle
+904.001 Received a new transaction : updating the Tangle
+905 Trying to issue a new transaction
+905 ifIssue result : 0
+905 Prob not higher than test, retrying to issue again
+906.001 Received a new transaction : updating the Tangle
+906.001 Received a new transaction : updating the Tangle
+907 Trying to issue a new transaction
+907 ifIssue result : 0
+907 Prob not higher than test, retrying to issue again
+907.001 Received a new transaction : updating the Tangle
+908.001 Received a new transaction : updating the Tangle
+908.001 Received a new transaction : updating the Tangle
+909 Trying to issue a new transaction
+909 ifIssue result : 0
+909 Prob not higher than test, retrying to issue again
+909.001 Received a new transaction : updating the Tangle
+911 Trying to issue a new transaction
+911 ifIssue result : 0
+911 Prob not higher than test, retrying to issue again
+912.001 Received a new transaction : updating the Tangle
+913 Trying to issue a new transaction
+913 ifIssue result : 0
+913 Prob not higher than test, retrying to issue again
+913.001 Received a new transaction : updating the Tangle
+915 Trying to issue a new transaction
+915 ifIssue result : 1
+915 TSA procedure for [4]89
+915 Pow time = 3
+915.001 Received a new transaction : updating the Tangle
+915.001 Received a new transaction : updating the Tangle
+917.001 Received a new transaction : updating the Tangle
+917.001 Received a new transaction : updating the Tangle
+918.001 Received a new transaction : updating the Tangle
+919.001 Received a new transaction : updating the Tangle
+920 Trying to issue a new transaction
+920 ifIssue result : 0
+920 Prob not higher than test, retrying to issue again
+921.001 Received a new transaction : updating the Tangle
+922 Trying to issue a new transaction
+922 ifIssue result : 0
+922 Prob not higher than test, retrying to issue again
+922.001 Received a new transaction : updating the Tangle
+922.001 Received a new transaction : updating the Tangle
+924 Trying to issue a new transaction
+924 ifIssue result : 0
+924 Prob not higher than test, retrying to issue again
+924.001 Received a new transaction : updating the Tangle
+924.001 Received a new transaction : updating the Tangle
+925.001 Received a new transaction : updating the Tangle
+926 Trying to issue a new transaction
+926 ifIssue result : 0
+926 Prob not higher than test, retrying to issue again
+928 Trying to issue a new transaction
+928 ifIssue result : 0
+928 Prob not higher than test, retrying to issue again
+929.001 Received a new transaction : updating the Tangle
+929.001 Received a new transaction : updating the Tangle
+930 Trying to issue a new transaction
+930 ifIssue result : 0
+930 Prob not higher than test, retrying to issue again
+930.001 Received a new transaction : updating the Tangle
+932 Trying to issue a new transaction
+932 ifIssue result : 1
+932 TSA procedure for [4]90
+932 Pow time = 3
+932.001 Received a new transaction : updating the Tangle
+934.001 Received a new transaction : updating the Tangle
+935.001 Received a new transaction : updating the Tangle
+936.001 Received a new transaction : updating the Tangle
+937 Trying to issue a new transaction
+937 ifIssue result : 0
+937 Prob not higher than test, retrying to issue again
+937.001 Received a new transaction : updating the Tangle
+937.001 Received a new transaction : updating the Tangle
+939 Trying to issue a new transaction
+939 ifIssue result : 0
+939 Prob not higher than test, retrying to issue again
+939.001 Received a new transaction : updating the Tangle
+940.001 Received a new transaction : updating the Tangle
+941 Trying to issue a new transaction
+941 ifIssue result : 0
+941 Prob not higher than test, retrying to issue again
+941.001 Received a new transaction : updating the Tangle
+943 Trying to issue a new transaction
+943 ifIssue result : 1
+943 TSA procedure for [4]91
+943 Pow time = 3
+943.001 Received a new transaction : updating the Tangle
+946.001 Received a new transaction : updating the Tangle
+947.001 Received a new transaction : updating the Tangle
+948 Trying to issue a new transaction
+948 ifIssue result : 1
+948 TSA procedure for [4]92
+948 Pow time = 3
+948.001 Received a new transaction : updating the Tangle
+950.001 Received a new transaction : updating the Tangle
+950.001 Received a new transaction : updating the Tangle
+951 Sending [4]92 to all nodes
+953.001 Received a new transaction : updating the Tangle
+955.001 Received a new transaction : updating the Tangle
+955.001 Received a new transaction : updating the Tangle
+955.001 Received a new transaction : updating the Tangle
+956 Sending [4]93 to all nodes
+958.001 Received a new transaction : updating the Tangle
+959.001 Received a new transaction : updating the Tangle
+960 Trying to issue a new transaction
+960 ifIssue result : 1
+960 TSA procedure for [4]94
+960 Pow time = 3
+963.001 Received a new transaction : updating the Tangle
+964.001 Received a new transaction : updating the Tangle
+965 Trying to issue a new transaction
+965 ifIssue result : 0
+965 Prob not higher than test, retrying to issue again
+967 Trying to issue a new transaction
+967 ifIssue result : 0
+967 Prob not higher than test, retrying to issue again
+968.001 Received a new transaction : updating the Tangle
+969 Trying to issue a new transaction
+969 ifIssue result : 0
+969 Prob not higher than test, retrying to issue again
+969.001 Received a new transaction : updating the Tangle
+971 Trying to issue a new transaction
+971 ifIssue result : 0
+971 Prob not higher than test, retrying to issue again
+971.001 Received a new transaction : updating the Tangle
+973 Trying to issue a new transaction
+973 ifIssue result : 1
+973 TSA procedure for [4]95
+973 Pow time = 3
+974.001 Received a new transaction : updating the Tangle
+976 Sending [4]95 to all nodes
+978.001 Received a new transaction : updating the Tangle
+979.001 Received a new transaction : updating the Tangle
+980 Trying to issue a new transaction
+980 ifIssue result : 0
+980 Prob not higher than test, retrying to issue again
+980.001 Received a new transaction : updating the Tangle
+982 Trying to issue a new transaction
+982 ifIssue result : 0
+982 Prob not higher than test, retrying to issue again
+983.001 Received a new transaction : updating the Tangle
+984 Trying to issue a new transaction
+984 ifIssue result : 0
+984 Prob not higher than test, retrying to issue again
+984.001 Received a new transaction : updating the Tangle
+984.001 Received a new transaction : updating the Tangle
+986 Trying to issue a new transaction
+986 ifIssue result : 0
+986 Prob not higher than test, retrying to issue again
+988 Trying to issue a new transaction
+988 ifIssue result : 0
+988 Prob not higher than test, retrying to issue again
+989.001 Received a new transaction : updating the Tangle
+989.001 Received a new transaction : updating the Tangle
+990 Trying to issue a new transaction
+990 ifIssue result : 0
+990 Prob not higher than test, retrying to issue again
+991.001 Received a new transaction : updating the Tangle
+991.001 Received a new transaction : updating the Tangle
+992 Trying to issue a new transaction
+992 ifIssue result : 1
+992 TSA procedure for [4]96
+992 Pow time = 3
+994.001 Received a new transaction : updating the Tangle
+995 Sending [4]96 to all nodes
+996.001 Received a new transaction : updating the Tangle
+997 Trying to issue a new transaction
+997 ifIssue result : 0
+997 Prob not higher than test, retrying to issue again
+999 Trying to issue a new transaction
+999 ifIssue result : 0
+999 Prob not higher than test, retrying to issue again
+1001.001 Received a new transaction : updating the Tangle
+1003 Trying to issue a new transaction
+1003 ifIssue result : 0
+1003 Prob not higher than test, retrying to issue again
+1005 Trying to issue a new transaction
+1005 ifIssue result : 0
+1005 Prob not higher than test, retrying to issue again
+1006.001 Received a new transaction : updating the Tangle
+1007 Trying to issue a new transaction
+1007 ifIssue result : 0
+1007 Prob not higher than test, retrying to issue again
+1008.001 Received a new transaction : updating the Tangle
+1008.001 Received a new transaction : updating the Tangle
+1009 Trying to issue a new transaction
+1009 ifIssue result : 0
+1009 Prob not higher than test, retrying to issue again
+1010.001 Received a new transaction : updating the Tangle
+1011 Trying to issue a new transaction
+1011 ifIssue result : 0
+1011 Prob not higher than test, retrying to issue again
+1013 Trying to issue a new transaction
+1013 ifIssue result : 1
+1013 TSA procedure for [4]97
+1013 Pow time = 3
+1015.001 Received a new transaction : updating the Tangle
+1016 Sending [4]97 to all nodes
+1017.001 Received a new transaction : updating the Tangle
+1018 Trying to issue a new transaction
+1018 ifIssue result : 0
+1018 Prob not higher than test, retrying to issue again
+1019.001 Received a new transaction : updating the Tangle
+1020 Trying to issue a new transaction
+1020 ifIssue result : 0
+1020 Prob not higher than test, retrying to issue again
+1022.001 Received a new transaction : updating the Tangle
+1022.001 Received a new transaction : updating the Tangle
+1024 Trying to issue a new transaction
+1024 ifIssue result : 0
+1024 Prob not higher than test, retrying to issue again
+1026 Trying to issue a new transaction
+1026 ifIssue result : 0
+1026 Prob not higher than test, retrying to issue again
+1027.001 Received a new transaction : updating the Tangle
+1028 Trying to issue a new transaction
+1028 ifIssue result : 0
+1028 Prob not higher than test, retrying to issue again
+1030 Trying to issue a new transaction
+1030 ifIssue result : 0
+1030 Prob not higher than test, retrying to issue again
+1032 Trying to issue a new transaction
+1032 ifIssue result : 0
+1032 Prob not higher than test, retrying to issue again
+1032.001 Received a new transaction : updating the Tangle
+1034 Trying to issue a new transaction
+1034 ifIssue result : 1
+1034 TSA procedure for [4]98
+1034 Pow time = 3
+1034.001 Received a new transaction : updating the Tangle
+1037 Sending [4]98 to all nodes
+1039 Trying to issue a new transaction
+1039 ifIssue result : 1
+1039 TSA procedure for [4]99
+1039 Pow time = 3
+1041.001 Received a new transaction : updating the Tangle
+1041.001 Received a new transaction : updating the Tangle
+1042 Sending [4]99 to all nodes
+1044 Trying to issue a new transaction
+1044 ifIssue result : 1
+1044 TSA procedure for [4]100
+1044 Pow time = 3
+1047 Sending [4]100 to all nodes
+1048.001 Received a new transaction : updating the Tangle
+1049 Trying to issue a new transaction
+1049 ifIssue result : 0
+1049 Number of transactions reached : stopping issuing
+1057.001 Received a new transaction : updating the Tangle
+1058.001 Received a new transaction : updating the Tangle
+1068.001 Received a new transaction : updating the Tangle
+1075.001 Received a new transaction : updating the Tangle
+1082.001 Received a new transaction : updating the Tangle
+1089.001 Received a new transaction : updating the Tangle
+1094.001 Received a new transaction : updating the Tangle
+1101.001 Received a new transaction : updating the Tangle
+1118.001 Received a new transaction : updating the Tangle
+1120 Simulation ended - Deleting my local Tangle
