@@ -87,7 +87,7 @@ void NodeModule::printTipsLeft()
 {
     std::fstream file;
     std::string path = "./data/tracking/NumberTips" + ID + ".txt";
-    remove(path.c_str());
+    //remove(path.c_str());
     file.open(path,std::ios::app);
     file << myTips.size() << std::endl;
     file.close();

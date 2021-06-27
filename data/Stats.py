@@ -34,6 +34,6 @@ for file in TipsFile:
         NbTips += int(line)
 
     NbTips = NbTips/Nbrun
-    print("Average number of tips for NodeModule[" + str(NbModule) "]:",NbTips)
+    print("Average number of tips for NodeModule[" + str(NbModule) + "]:",NbTips)
     NbModule += 1
     f.close()

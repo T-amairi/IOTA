@@ -4,5 +4,5 @@
 !iota.h
 !iota.ned 
 !.gitignore
-!/IOTA/data/
-!IOTA/data/*
+!/data/
+!/data/*
