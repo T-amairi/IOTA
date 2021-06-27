@@ -5,5 +5,4 @@
 !iota.ned 
 !.gitignore
 !data
-!data/image
-!data/log
+!data/*
