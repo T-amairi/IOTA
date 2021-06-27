@@ -6,4 +6,3 @@
 !.gitignore
 !data
 !data/*
-!data/**/*
