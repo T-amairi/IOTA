@@ -78,9 +78,6 @@ class NodeModule : public cSimpleModule
         //RNG between min and max using omnet
         int rangeRandom(int min, int max);
 
-        //check if the node can issue a transaction using prob para in NodeModule
-        bool ifIssue(double prob);
-
         //generate a new transaction
         pTr_S createSite(std::string ID);
 
@@ -139,8 +136,8 @@ class NodeModule : public cSimpleModule
         //how many transactions the node can issue (set in NED file)
         int txLimit;
 
-        //the probability to issue a new transaction (set in NED file)
-        double prob;
+        //exponential distribution with the given mean (that is, with parameter lambda=1/mean).
+        simtime_t mean;
 
         //number of adjacent nodes
         int NeighborsNumber;

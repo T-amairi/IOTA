@@ -3,25 +3,13 @@
 
 enum MessageType{ISSUE,POW,UPDATE};
 
-std::ofstream LOG_SIM;
+//std::ofstream LOG_SIM;
 
 Define_Module(NodeModule);
 
 int NodeModule::rangeRandom(int min, int max)
 {
     return intuniform(min,max);
-}
-
-bool NodeModule::ifIssue(double prob)
-{
-    double test = uniform(0.0,1.0);
-
-    if(test <= prob)
-    {
-        return true;
-    }
-
-    return false;
 }
 
 pTr_S NodeModule::createSite(std::string ID)
@@ -629,13 +617,13 @@ void NodeModule::updateBuffer()
 
 void NodeModule::initialize()
 {
-    std::string path = "./data/tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
-    remove(path.c_str());
-    LOG_SIM.open(path.c_str(),std::ios::app);
+    //std::string path = "./data/tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
+    //remove(path.c_str());
+    //LOG_SIM.open(path.c_str(),std::ios::app);
 
     ID = "[" + std::to_string(getId() - 2) + "]";
+    mean = par("mean");
     powTime = par("powTime");
-    prob = par("prob");
     txLimit = getParentModule()->par("transactionLimit");
     NeighborsNumber = getParentModule()->par("NodeNumber");
     NeighborsNumber--;
@@ -644,36 +632,31 @@ void NodeModule::initialize()
     myTangle.push_back(genesisBlock);
     myTips.insert({"Genesis",genesisBlock});
 
-    msgIssue = new cMessage("Trying to issue a new transaction",ISSUE);
+    msgIssue = new cMessage("Issuing a new transaction",ISSUE);
     msgPoW = new cMessage("PoW time",POW);
     msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
     MsgP = new MsgPoW;
     MsgU = new MsgUpdate;
 
-    scheduleAt(simTime() + par("trgenRate"), msgIssue);
-
-    LOG_SIM << simTime() << " Initialization complete" << std::endl;
+    //LOG_SIM << simTime() << " Initialization complete" << std::endl;
     EV << "Initialization complete" << std::endl;
 
-    LOG_SIM.close();
+    //LOG_SIM.close();
+
+    scheduleAt(simTime() + exponential(mean), msgIssue);
 }
 
 void NodeModule::handleMessage(cMessage * msg)
 {
-    std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
-    LOG_SIM.open(path.c_str(),std::ios::app);
+    //std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
+    //LOG_SIM.open(path.c_str(),std::ios::app);
 
     if(msg->getKind() == ISSUE)
     {
-        bool test = ifIssue(prob);
+        EV << "Issuing a new transaction" << std::endl;
+        //LOG_SIM << simTime() << " Issuing a new transaction" << std::endl;
 
-        EV << "Trying to issue a new transaction" << std::endl;
-        EV << "ifIssue result : " << test << std::endl;
-
-        LOG_SIM << simTime() << " Trying to issue a new transaction" << std::endl;
-        LOG_SIM << simTime() << " ifIssue result : " << test << std::endl;
-
-        if(test && txCount < txLimit)
+        if(txCount < txLimit)
         {
             txCount++;
             VpTr_S chosenTips;
@@ -681,12 +664,12 @@ void NodeModule::handleMessage(cMessage * msg)
             std::string trId = ID + std::to_string(txCount);
 
             EV << "TSA procedure for " << trId<< std::endl;
-            LOG_SIM << simTime() << " TSA procedure for " << trId << std::endl;
+            //LOG_SIM << simTime() << " TSA procedure for " << trId << std::endl;
 
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
                std::map<std::string, pTr_S> tipsCopy = giveTips();
-               LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
+               //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
@@ -694,7 +677,7 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"GIOTA") == 0)
             {
                std::map<std::string, pTr_S> tipsCopy = giveTips();
-               LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
+               //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
@@ -702,48 +685,40 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"EIOTA") == 0)
             {
                 std::map<std::string, pTr_S> tipsCopy = giveTips();
-                LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
+                //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                 chosenTips = EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
             }
 
             EV << "Chosen Tips : ";
-            LOG_SIM << simTime() << " Chosen Tips : ";
+            //LOG_SIM << simTime() << " Chosen Tips : ";
 
             for(auto tips : chosenTips)
             {
                 EV << tips->ID << " ";
-                LOG_SIM << tips->ID << " ";
+                //LOG_SIM << tips->ID << " ";
             }
 
             EV << std::endl;
-            LOG_SIM << std::endl;
+            //LOG_SIM << std::endl;
 
             MsgP->ID = trId;
             MsgP->chosen = chosenTips;
             msgPoW->setContextPointer(MsgP);
 
             EV << "Pow time = " << tipsNb*powTime<< std::endl;
-            LOG_SIM << simTime() << " Pow time = " << tipsNb*powTime << std::endl;
+            //LOG_SIM << simTime() << " Pow time = " << tipsNb*powTime << std::endl;
 
             scheduleAt(simTime() + tipsNb*powTime, msgPoW);
-        }
-
-        else if(!test && txCount < txLimit)
-        {
-            LOG_SIM << simTime() << " Prob not higher than test, retrying to issue again" << std::endl;
-            EV << "Prob not higher than test, retrying to issue again" << std::endl;
-
-            scheduleAt(simTime() + par("trgenRate"), msgIssue);
         }
 
         else if(txCount >= txLimit)
         {
             EV << "Number of transactions reached : stopping issuing"<< std::endl;
-            LOG_SIM << simTime() << " Number of transactions reached : stopping issuing" << std::endl;
+            //LOG_SIM << simTime() << " Number of transactions reached : stopping issuing" << std::endl;
         }
 
-        LOG_SIM.close();
+        //LOG_SIM.close();
     }
 
     else if(msg->getKind() == POW)
@@ -752,7 +727,7 @@ void NodeModule::handleMessage(cMessage * msg)
         pTr_S newTx = attach(Msg->ID,simTime(),Msg->chosen);
 
         EV << "Pow time finished for " << Msg->ID << std::endl;
-        LOG_SIM << simTime() << " Pow time finished for " << Msg->ID << std::endl;
+        //LOG_SIM << simTime() << " Pow time finished for " << Msg->ID << std::endl;
 
         MsgU->ID = newTx->ID;
         MsgU->issuedBy = newTx->issuedBy;
@@ -768,21 +743,21 @@ void NodeModule::handleMessage(cMessage * msg)
         msgUpdate->setContextPointer(MsgU);
 
         EV << " Sending " << newTx->ID << " to all nodes" << std::endl;
-        LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
+        //LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
 
         for(int i = 0; i < NeighborsNumber; i++)
         {
             send(msgUpdate->dup(),"NodeOut",i);
         }
 
-        scheduleAt(simTime() + par("trgenRate"), msgIssue);
-        LOG_SIM.close();
+        scheduleAt(simTime() + exponential(mean), msgIssue);
+        //LOG_SIM.close();
     }
 
     else if(msg->getKind() == UPDATE)
     {
         EV << "Received a new transaction : updating the Tangle"<< std::endl;
-        LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
+        //LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
         MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
 
         updateBuffer();
@@ -805,21 +780,21 @@ void NodeModule::handleMessage(cMessage * msg)
         printTangle();
 
         delete msg;
-        LOG_SIM.close();
+        //LOG_SIM.close();
     }
 }
 
 void NodeModule::finish()
 {
-    std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
-    LOG_SIM.open(path.c_str(),std::ios::app);
+    //std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
+    //LOG_SIM.open(path.c_str(),std::ios::app);
 
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle"<< std::endl;
-    LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
+    //LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
 
     for(auto msg : myBuffer)
     {
-        LOG_SIM << msg->ID << std::endl;
+        //LOG_SIM << msg->ID << std::endl;
     }
 
     printTangle();
@@ -832,5 +807,5 @@ void NodeModule::finish()
     delete MsgP;
     delete MsgU;
 
-    LOG_SIM.close();
+    //LOG_SIM.close();
 }
