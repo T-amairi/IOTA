@@ -1,0 +1,372 @@
+
+Running configuration General, run #0...
+Assigned runID=General-0-20210628-11:39:42-1486
+Setting up network "IOTA"...
+Initializing...
+Initializing channel IOTA.Nodes[0].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[0].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[1].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[2].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[3].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[4].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[5].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[6].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[7].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[8].NodeOut[8].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[0].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[1].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[2].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[3].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[4].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[5].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[6].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[7].channel, stage 0
+Initializing channel IOTA.Nodes[9].NodeOut[8].channel, stage 0
+Initializing module IOTA, stage 0
+Initializing module IOTA.Nodes[0], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[1], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[2], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[3], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[4], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[5], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[6], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[7], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[8], stage 0
+[INFO]	Initialization complete
+Initializing module IOTA.Nodes[9], stage 0
+[INFO]	Initialization complete
+
+Running simulation...
+** Event #1  t=2   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #2  t=2   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #3  t=2   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #4  t=2   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #5  t=2   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #6  t=2   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #7  t=2   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #8  t=2   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #9  t=2   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #10  t=2   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #11  t=4   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #12  t=4   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #13  t=4   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #14  t=4   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [3]1
+[INFO]	Pow time = 3
+** Event #15  t=4   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [4]1
+[INFO]	Pow time = 3
+** Event #16  t=4   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [5]1
+[INFO]	Pow time = 3
+** Event #17  t=4   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [6]1
+[INFO]	Pow time = 3
+** Event #18  t=4   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [7]1
+[INFO]	Pow time = 3
+** Event #19  t=4   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #20  t=4   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [9]1
+[INFO]	Pow time = 3
+** Event #21  t=6   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #22  t=6   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #23  t=6   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [2]1
+[INFO]	Pow time = 3
+** Event #24  t=6   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #25  t=7   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	 Sending [3]1 to all nodes
+** Event #26  t=7   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	 Sending [4]1 to all nodes
+** Event #27  t=7   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	 Sending [5]1 to all nodes
+** Event #28  t=7   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	 Sending [6]1 to all nodes
+** Event #29  t=7   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	 Sending [7]1 to all nodes
+** Event #30  t=7   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	 Sending [9]1 to all nodes
+** Event #31  t=7.001   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #32  t=7.001   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #33  t=7.001   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #34  t=7.001   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #35  t=7.001   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #36  t=7.001   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #37  t=7.001   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #38  t=7.001   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #39  t=7.001   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #40  t=7.001   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #41  t=7.001   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #42  t=7.001   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #43  t=7.001   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #44  t=7.001   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #45  t=7.001   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #46  t=7.001   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #47  t=7.001   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #48  t=7.001   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #49  t=7.001   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #50  t=7.001   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #51  t=7.001   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #52  t=7.001   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #53  t=7.001   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #54  t=7.001   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #55  t=7.001   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #56  t=7.001   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #57  t=7.001   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #58  t=7.001   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #59  t=7.001   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #60  t=7.001   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #61  t=7.001   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #62  t=7.001   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #63  t=7.001   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #64  t=7.001   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #65  t=7.001   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #66  t=7.001   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #67  t=7.001   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #68  t=7.001   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #69  t=7.001   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #70  t=7.001   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #71  t=7.001   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #72  t=7.001   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #73  t=7.001   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #74  t=7.001   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #75  t=7.001   IOTA.Nodes[9] (NodeModule, id=11)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #76  t=7.001   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #77  t=7.001   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #78  t=7.001   IOTA.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #79  t=7.001   IOTA.Nodes[3] (NodeModule, id=5)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #80  t=7.001   IOTA.Nodes[4] (NodeModule, id=6)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #81  t=7.001   IOTA.Nodes[5] (NodeModule, id=7)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #82  t=7.001   IOTA.Nodes[6] (NodeModule, id=8)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #83  t=7.001   IOTA.Nodes[7] (NodeModule, id=9)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #84  t=7.001   IOTA.Nodes[8] (NodeModule, id=10)
+[INFO]	Received a new transaction : updating the Tangle
+** Event #85  t=8   IOTA.Nodes[0] (NodeModule, id=2)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 0
+[INFO]	Prob not higher than test, retrying to issue again
+** Event #86  t=8   IOTA.Nodes[1] (NodeModule, id=3)
+[INFO]	Trying to issue a new transaction
+[INFO]	ifIssue result : 1
+[INFO]	TSA procedure for [1]1
+
+<!> Error: std::out_of_range: vector::_M_range_check: __n (which is 410684271) >= this->size() (which is 0) -- in module (NodeModule) IOTA.Nodes[1] (id=3), at t=8s, event #86
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Trying to issue a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Trying to issue a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.Broadcasting a new transaction -- check module destructor
+undisposed object: (omnetpp::cMessage) IOTA.Nodes.PoW time -- check module destructor

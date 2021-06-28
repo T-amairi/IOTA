@@ -96,7 +96,7 @@ void NodeModule::printTipsLeft()
 void NodeModule::debug()
 {
     std::fstream file;
-    std::string path = "./data/Tracking/debug" + ID + ".txt";
+    std::string path = "./data/debug/debug" + ID + ".txt";
     remove(path.c_str());
     file.open(path,std::ios::app);
     file << simTime() << " HERE" << std::endl;
@@ -176,11 +176,6 @@ pTr_S NodeModule::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackD
     while(!current->isGenesisBlock && count > 0)
     {
         approvesIndex = rangeRandom(0,current->S_approved.size() - 1);
-
-        if(current->S_approved.size() == 0)
-        {
-            printTangle();
-        }
         current = current->S_approved.at(approvesIndex);
         --count;
     }
@@ -426,6 +421,13 @@ pTr_S NodeModule::RandomWalk(pTr_S start, std::map<std::string, pTr_S>& tips, si
 
 VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
 {
+    if(tips.size() == 1)
+    {
+        VpTr_S tipstoApprove;
+        tipstoApprove.push_back(tips.begin()->second);
+        return tipstoApprove;
+    }
+
     VpTr_S start_sites;
     pTr_S temp_site;
     int backTD;
@@ -445,7 +447,8 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     {
         for(int i = 0; i < N; i++)
         {
-            selected_tips.push_back(RandomWalk(start_sites[i],tips,timeStamp,walk_time));
+            auto tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
+            selected_tips.push_back(tip);
             walk_total.push_back(std::make_pair(i,walk_time));
         }
     }
@@ -517,24 +520,18 @@ VpTr_S NodeModule::EIOTA(double p1, double p2, std::map<std::string, pTr_S>& tip
     double lowAlpha = 0.1;
     double highAlpha = 5.0;
     auto r = uniform(0.0,1.0);
-    VpTr_S chosenTips;
 
     if(r < p1)
     {
-        chosenTips = IOTA(0.0,tips,timeStamp,W,N);
+        return IOTA(0.0,tips,timeStamp,W,N);
     }
 
     else if(p1 <= r && r < p2)
     {
-       chosenTips = IOTA(lowAlpha,tips,timeStamp,W,N);
+       return IOTA(lowAlpha,tips,timeStamp,W,N);
     }
 
-    else
-    {
-        chosenTips = IOTA(highAlpha,tips,timeStamp,W,N);
-    }
-
-    return chosenTips;
+    return IOTA(highAlpha,tips,timeStamp,W,N);
 }
 
 void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
@@ -632,7 +629,7 @@ void NodeModule::updateBuffer()
 
 void NodeModule::initialize()
 {
-    std::string path = "./data/Tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
+    std::string path = "./data/tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
     remove(path.c_str());
     LOG_SIM.open(path.c_str(),std::ios::app);
 
@@ -663,7 +660,7 @@ void NodeModule::initialize()
 
 void NodeModule::handleMessage(cMessage * msg)
 {
-    std::string path = "./data/Tracking/logNodeModule" + ID + ".txt";
+    std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
     LOG_SIM.open(path.c_str(),std::ios::app);
 
     if(msg->getKind() == ISSUE)
@@ -689,6 +686,7 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
                std::map<std::string, pTr_S> tipsCopy = giveTips();
+               LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
@@ -696,6 +694,7 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"GIOTA") == 0)
             {
                std::map<std::string, pTr_S> tipsCopy = giveTips();
+               LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
@@ -703,9 +702,22 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"EIOTA") == 0)
             {
                 std::map<std::string, pTr_S> tipsCopy = giveTips();
-                VpTr_S chosenTips = EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
+                LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
+                chosenTips = EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
             }
+
+            EV << "Chosen Tips : ";
+            LOG_SIM << simTime() << " Chosen Tips : ";
+
+            for(auto tips : chosenTips)
+            {
+                EV << tips->ID << " ";
+                LOG_SIM << tips->ID << " ";
+            }
+
+            EV << std::endl;
+            LOG_SIM << std::endl;
 
             MsgP->ID = trId;
             MsgP->chosen = chosenTips;
@@ -739,6 +751,9 @@ void NodeModule::handleMessage(cMessage * msg)
         MsgPoW* Msg = (MsgPoW*) msg->getContextPointer();
         pTr_S newTx = attach(Msg->ID,simTime(),Msg->chosen);
 
+        EV << "Pow time finished for " << Msg->ID << std::endl;
+        LOG_SIM << simTime() << " Pow time finished for " << Msg->ID << std::endl;
+
         MsgU->ID = newTx->ID;
         MsgU->issuedBy = newTx->issuedBy;
         MsgU->issuedTime = newTx->issuedTime;
@@ -761,6 +776,7 @@ void NodeModule::handleMessage(cMessage * msg)
         }
 
         scheduleAt(simTime() + par("trgenRate"), msgIssue);
+        LOG_SIM.close();
     }
 
     else if(msg->getKind() == UPDATE)
@@ -786,6 +802,8 @@ void NodeModule::handleMessage(cMessage * msg)
             myBuffer.push_back(newMsg);
         }
 
+        printTangle();
+
         delete msg;
         LOG_SIM.close();
     }
@@ -793,7 +811,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
 void NodeModule::finish()
 {
-    std::string path = "./data/Tracking/logNodeModule" + ID + ".txt";
+    std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
     LOG_SIM.open(path.c_str(),std::ios::app);
 
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle"<< std::endl;

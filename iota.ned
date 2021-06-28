@@ -22,7 +22,7 @@ simple NodeModule
         volatile double powTime @unit(s) = 3.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA - GIOTA - EIOTA
-        string TSA = "IOTA";
+        string TSA = "EIOTA";
         
         //IOTA && GIOTA 
         volatile double alpha = 5.0; //alpha in Pxy prob 
