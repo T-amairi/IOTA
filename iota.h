@@ -36,6 +36,12 @@ struct Site
     //The node that issued this transaction
     NodeModule* issuedBy;
 
+    //confidence (for G-IOTA)
+    double confidence = 0.0;
+
+    //how much a tip has been selected during a TSA (for G-IOTA)
+    int countSelected = 0;
+
     //bool
     bool isGenesisBlock = false;
     bool isApproved = false;
@@ -97,6 +103,12 @@ class NodeModule : public cSimpleModule
         //Random walk based on a MCMC
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
         pTr_S RandomWalk(pTr_S start, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
+
+        //compute confidence for all sites
+        void updateConfidence(double confidence, pTr_S& current);
+
+        //give the average confidence of transactions that are approved directly or indirectly by a tip
+        long double getavgConfidence(pTr_S current);
 
         //TSA
         VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);

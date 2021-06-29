@@ -337,6 +337,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std:
 
     walk_time = walkCounts;
     current->walkBacktracks = walkCounts;
+    current->countSelected++;
 
     return current;
 }
@@ -403,8 +404,31 @@ pTr_S NodeModule::RandomWalk(pTr_S start, std::map<std::string, pTr_S>& tips, si
 
     walk_time = walkCounts;
     current->walkBacktracks = walkCounts;
+    current->countSelected++;
 
     return current;
+}
+
+void NodeModule::updateConfidence(double confidence, pTr_S& current)
+{
+    current->confidence += confidence;
+
+    for(auto& tx : current->approvedBy)
+    {
+        updateConfidence(confidence, tx);
+    }
+}
+
+long double NodeModule::getavgConfidence(pTr_S current)
+{
+    long double avg = 0.0;
+
+    for(int i = 0; i < static_cast<int>(current->approvedBy.size()); ++i)
+    {
+        avg += getavgConfidence(current->approvedBy.at(i));
+    }
+
+    return avg;
 }
 
 VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
@@ -496,10 +520,26 @@ VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, si
        return chosenTips;
    }
 
-   auto idx = rangeRandom(0,filterTips.size() - 1);
-   auto LeftTips = filterTips[idx];
+   for(auto tip : filterTips)
+   {
+       for(auto& tx : tip->approvedBy)
+       {
+           updateConfidence(double(tip->countSelected/N),tx);
+       }
+   }
 
-   chosenTips.push_back(LeftTips);
+   std::vector<std::pair<long double,pTr_S>> avgConfTips;
+
+   for(auto tip : filterTips)
+   {
+       auto avg = getavgConfidence(tip);
+       avgConfTips.push_back(std::make_pair(avg,tip));
+   }
+
+   std::sort(avgConfTips.begin(), avgConfTips.end(),[](const std::pair<long double,pTr_S> &a, const std::pair<long double,pTr_S> &b){
+   return a.first < b.first;});
+
+   chosenTips.push_back(avgConfTips.front().second);
    return chosenTips;
 }
 
@@ -676,6 +716,12 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(strcmp(par("TSA"),"GIOTA") == 0)
             {
+                for(auto& tx : myTangle)
+                {
+                    tx->confidence = 0.0;
+                    tx->countSelected = 0;
+                }
+
                std::map<std::string, pTr_S> tipsCopy = giveTips();
                //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));

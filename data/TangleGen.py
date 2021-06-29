@@ -6,7 +6,7 @@ import csv
 import glob
 
 #paths
-path = r".\data\tracking"
+path = r".\\data\tracking"
 os.chdir(path)
 #files
 tangles = glob.glob("Tracker*")
@@ -55,7 +55,7 @@ colors = ['green','orange','red']
 #confidence 
 conf = 0.5
 
-path = r"..\image"
+path = r"..\\image"
 os.chdir(path)
 
 #generating the Tangle 
