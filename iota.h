@@ -113,7 +113,7 @@ class NodeModule : public cSimpleModule
         //TSA
         VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
         VpTr_S GIOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
-        VpTr_S EIOTA(double p1, double p2, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
+        VpTr_S EIOTA(double p1, double p2, double lowAlpha, double highAlpha, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
 
         //Compute Weight
         int _computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp );

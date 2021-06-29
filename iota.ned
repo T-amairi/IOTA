@@ -20,19 +20,21 @@ simple NodeModule
         volatile double mean @unit(s) = 2.0s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
         volatile double powTime @unit(s) = 3.0s; //Proof of Work 
         
-        //determines which TSA the node uses : IOTA - GIOTA - EIOTA
+        //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "EIOTA";
         
         //IOTA && GIOTA 
-        volatile double alpha = 5.0; //alpha in Pxy prob 
+        double alpha = 5.0; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        volatile int W = 250; //interval [W,2W]
-        volatile int N = 100; //number of walkers
+        int W = 2500; //interval [W,2W]
+       	int N = 100; //number of walkers
 
         //EIOTA
-        volatile double p1 = 0.1;
-        volatile double p2 = 0.65;
+        double p1 = 0.1;
+        double p2 = 0.65;
+        double lowAlpha = 0.1;
+    	double highAlpha = 5.0;
         
     gates:
         input NodeIn[];
@@ -43,7 +45,7 @@ network IOTA
 {
     parameters:
         int transactionLimit = 100; //size of the Tangle 
-        int NodeNumber = 10; //always > 0, number of nodes in the simulation
+        int NodeNumber = 80; //always > 0, number of nodes in the simulation
         
     submodules:
         Nodes[NodeNumber]: NodeModule;

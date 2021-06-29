@@ -543,10 +543,8 @@ VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, si
    return chosenTips;
 }
 
-VpTr_S NodeModule::EIOTA(double p1, double p2, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
+VpTr_S NodeModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N)
 {
-    double lowAlpha = 0.1;
-    double highAlpha = 5.0;
     auto r = uniform(0.0,1.0);
 
     if(r < p1)
@@ -732,7 +730,7 @@ void NodeModule::handleMessage(cMessage * msg)
             {
                 std::map<std::string, pTr_S> tipsCopy = giveTips();
                 //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
-                chosenTips = EIOTA(par("p1"),par("p2"),tipsCopy,simTime(),par("W"),par("N"));
+                chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
             }
 
@@ -843,7 +841,7 @@ void NodeModule::finish()
         //LOG_SIM << msg->ID << std::endl;
     }
 
-    printTangle();
+    //printTangle();
     printTipsLeft();
     DeleteTangle();
 
