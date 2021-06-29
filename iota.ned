@@ -45,7 +45,7 @@ network IOTA
 {
     parameters:
         int transactionLimit = 100; //size of the Tangle 
-        int NodeNumber = 80; //always > 0, number of nodes in the simulation
+        int NodeNumber = 10; //always > 0, number of nodes in the simulation
         
     submodules:
         Nodes[NodeNumber]: NodeModule;
