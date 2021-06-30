@@ -6,3 +6,8 @@ Makefile
 *_dbg
 IOTA
 *.exe
+!/data/log/.keep
+!/data/image/.keep
+!/data/debug/.keep
+!/data/tracking/.keep
+!/data/archive/.keep
