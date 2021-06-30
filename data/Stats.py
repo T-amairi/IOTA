@@ -16,11 +16,11 @@ for log in logs:
         t.append(float(m[-1]))
 
     l.close()
-    
+
 t = float(sum(t)/len(t))
 print("Average time of execution:",t,"seconds")
 
-path = r".\data\tracking"
+path = r"..\tracking"
 os.chdir(path)
 
 NbTips = 0

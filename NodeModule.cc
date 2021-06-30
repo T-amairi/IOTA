@@ -676,6 +676,17 @@ void NodeModule::initialize()
     MsgP = new MsgPoW;
     MsgU = new MsgUpdate;
 
+    double minDelay = getParentModule()->par("minDelay");
+    double maxDelay = getParentModule()->par("maxDelay");
+
+    for(int i = 0; i < NeighborsNumber; i++)
+    {
+        cGate *g = gate("NodeOut",i);
+        cDelayChannel * channel = check_and_cast<cDelayChannel*>(g->getChannel());
+        double delay = uniform(minDelay,maxDelay);
+        channel->setDelay(delay);
+    }
+
     //LOG_SIM << simTime() << " Initialization complete" << std::endl;
     EV << "Initialization complete" << std::endl;
 
@@ -821,8 +832,6 @@ void NodeModule::handleMessage(cMessage * msg)
             myBuffer.push_back(newMsg);
         }
 
-        printTangle();
-
         delete msg;
         //LOG_SIM.close();
     }
@@ -836,12 +845,12 @@ void NodeModule::finish()
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle"<< std::endl;
     //LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
 
-    for(auto msg : myBuffer)
+    /*for(auto msg : myBuffer)
     {
         //LOG_SIM << msg->ID << std::endl;
-    }
+    }*/
 
-    //printTangle();
+    printTangle();
     printTipsLeft();
     DeleteTangle();
 
