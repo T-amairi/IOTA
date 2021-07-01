@@ -79,7 +79,6 @@ class NodeModule : public cSimpleModule
 
         //data sent
         MsgPoW * MsgP;
-        MsgUpdate * MsgU;
 
         //RNG between min and max using omnet
         int rangeRandom(int min, int max);

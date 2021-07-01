@@ -18,10 +18,10 @@ simple NodeModule
 {
     parameters:
         volatile double mean @unit(s) = 2.0s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 5.0s; //Proof of Work 
+        volatile double powTime @unit(s) = 3.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "EIOTA";
+        string TSA = "IOTA";
         
         //IOTA && GIOTA 
         double alpha = 5.0; //alpha in Pxy prob 
@@ -35,6 +35,9 @@ simple NodeModule
         double p2 = 0.65;
         double lowAlpha = 0.1;
     	double highAlpha = 5.0;
+    	
+    	//random delay
+    	bool ifRandDelay = true;
         
     gates:
         input NodeIn[];
@@ -45,10 +48,11 @@ network IOTA
 {
     parameters:
         int transactionLimit = 100; //size of the Tangle 
-        int NodeNumber = 10; //always > 0, number of nodes in the simulation
+        int NodeNumber = 5; //always > 0, number of nodes in the simulation
+        
         //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
-        double minDelay = 0.5; 
-        double maxDelay = 10.0;
+        double minDelay = 50.0; 
+        double maxDelay = 100.0;
       
     submodules:
         Nodes[NodeNumber]: NodeModule;

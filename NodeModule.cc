@@ -611,7 +611,7 @@ bool NodeModule::ifAddTangle(std::vector<std::string> S_approved)
     {
         auto it = std::find_if(myTangle.begin(), myTangle.end(), [&selectedTip](const pTr_S& tx) {return tx->ID == selectedTip;});
 
-        if (it == myTangle.end())
+        if(it == myTangle.end())
         {
           return false;
         }
@@ -634,6 +634,7 @@ void NodeModule::updateBuffer()
             if(ifAddTangle((*it)->S_approved))
             {
                 test = true;
+                EV << "Updating the Buffer" << std::endl;
                 updateTangle((*it),simTime());
                 delete (*it);
                 it = myBuffer.erase(it);
@@ -674,17 +675,19 @@ void NodeModule::initialize()
     msgPoW = new cMessage("PoW time",POW);
     msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
     MsgP = new MsgPoW;
-    MsgU = new MsgUpdate;
 
-    double minDelay = getParentModule()->par("minDelay");
-    double maxDelay = getParentModule()->par("maxDelay");
-
-    for(int i = 0; i < NeighborsNumber; i++)
+    if(par("ifRandDelay"))
     {
-        cGate *g = gate("NodeOut",i);
-        cDelayChannel * channel = check_and_cast<cDelayChannel*>(g->getChannel());
-        double delay = uniform(minDelay,maxDelay);
-        channel->setDelay(delay);
+        double minDelay = getParentModule()->par("minDelay");
+        double maxDelay = getParentModule()->par("maxDelay");
+
+        for(int i = 0; i < NeighborsNumber; i++)
+        {
+            cGate *g = gate("NodeOut",i);
+            cDelayChannel * channel = check_and_cast<cDelayChannel*>(g->getChannel());
+            double delay = uniform(minDelay,maxDelay);
+            channel->setDelay(delay);
+        }
     }
 
     //LOG_SIM << simTime() << " Initialization complete" << std::endl;
@@ -769,7 +772,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
         else if(txCount >= txLimit)
         {
-            EV << "Number of transactions reached : stopping issuing"<< std::endl;
+            EV << "Number of transactions reached : stopping issuing" << std::endl;
             //LOG_SIM << simTime() << " Number of transactions reached : stopping issuing" << std::endl;
         }
 
@@ -784,24 +787,24 @@ void NodeModule::handleMessage(cMessage * msg)
         EV << "Pow time finished for " << Msg->ID << std::endl;
         //LOG_SIM << simTime() << " Pow time finished for " << Msg->ID << std::endl;
 
-        MsgU->ID = newTx->ID;
-        MsgU->issuedBy = newTx->issuedBy;
-        MsgU->issuedTime = newTx->issuedTime;
-
-        MsgU->S_approved.clear();
-
-        for(auto approvedTips : newTx->S_approved)
-        {
-            MsgU->S_approved.push_back(approvedTips->ID);
-        }
-
-        msgUpdate->setContextPointer(MsgU);
-
         EV << " Sending " << newTx->ID << " to all nodes" << std::endl;
         //LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
 
         for(int i = 0; i < NeighborsNumber; i++)
         {
+            MsgUpdate * MsgU = new MsgUpdate;
+
+            MsgU->ID = newTx->ID;
+            MsgU->issuedBy = newTx->issuedBy;
+            MsgU->issuedTime = newTx->issuedTime;
+
+            for(auto approvedTips : newTx->S_approved)
+            {
+                MsgU->S_approved.push_back(approvedTips->ID);
+            }
+
+            msgUpdate->setContextPointer(MsgU);
+
             send(msgUpdate->dup(),"NodeOut",i);
         }
 
@@ -811,29 +814,29 @@ void NodeModule::handleMessage(cMessage * msg)
 
     else if(msg->getKind() == UPDATE)
     {
-        EV << "Received a new transaction : updating the Tangle"<< std::endl;
-        //LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
-        MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
+       MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
 
-        updateBuffer();
+       EV << "Received a new transaction " << Msg->ID << std::endl;
+       //LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
 
-        if(ifAddTangle(Msg->S_approved))
-        {
-            updateTangle(Msg,simTime());
-            updateBuffer();
-        }
+       updateBuffer();
 
-        else
-        {
-            auto newMsg = new MsgUpdate;
-            newMsg->ID = Msg->ID;
-            newMsg->issuedBy = Msg->issuedBy;
-            newMsg->S_approved = Msg->S_approved;
-            myBuffer.push_back(newMsg);
-        }
+       if(ifAddTangle(Msg->S_approved))
+       {
+           EV << "Updating the Tangle" << std::endl;
+           updateTangle(Msg,simTime());
+           updateBuffer();
+           delete Msg;
+       }
 
-        delete msg;
-        //LOG_SIM.close();
+       else
+       {
+           EV << "Adding to the Buffer" << std::endl;
+           myBuffer.push_back(Msg);
+       }
+
+       delete msg;
+       //LOG_SIM.close();
     }
 }
 
@@ -842,13 +845,8 @@ void NodeModule::finish()
     //std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
     //LOG_SIM.open(path.c_str(),std::ios::app);
 
-    EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle"<< std::endl;
+    EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
     //LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
-
-    /*for(auto msg : myBuffer)
-    {
-        //LOG_SIM << msg->ID << std::endl;
-    }*/
 
     printTangle();
     printTipsLeft();
@@ -858,7 +856,6 @@ void NodeModule::finish()
     delete msgPoW;
     delete msgUpdate;
     delete MsgP;
-    delete MsgU;
 
     //LOG_SIM.close();
 }
