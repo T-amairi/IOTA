@@ -1,3 +1,5 @@
 Torus;301;3;0
 Torus;104;3;197
 Grid;103;1;198
+Expander;116;1;185
+WattsStrogatz;104;1;197
