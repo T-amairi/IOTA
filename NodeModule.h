@@ -95,6 +95,7 @@ class NodeModule : public cSimpleModule
         //tracking
         void printTangle();
         void printTipsLeft();
+        void stats();
 
         //Returns a copy of the current tips from the Tangle
         std::map<std::string,pTr_S> giveTips();

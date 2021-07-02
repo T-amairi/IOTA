@@ -1,5 +1,5 @@
 //includes
-#include "iota.h"
+#include "NodeModule.h"
 
 enum MessageType{ISSUE,POW,UPDATE};
 
@@ -78,6 +78,16 @@ void NodeModule::printTipsLeft()
     //remove(path.c_str());
     file.open(path,std::ios::app);
     file << myTips.size() << std::endl;
+    file.close();
+}
+
+void NodeModule::stats()
+{
+    std::fstream file;
+    std::string path = "./data/tracking/Stats" + ID + ".txt";
+    //remove(path.c_str());
+    file.open(path,std::ios::app);
+    file << getParentModule()->getName() << ";" << myTangle.size() << ";" << myTips.size() << ";" << myBuffer.size() << std::endl;
     file.close();
 }
 
@@ -664,8 +674,9 @@ void NodeModule::initialize()
     mean = par("mean");
     powTime = par("powTime");
     txLimit = getParentModule()->par("transactionLimit");
-    NeighborsNumber = getParentModule()->par("NodeNumber");
-    NeighborsNumber--;
+    NeighborsNumber = gateSize("NodeOut");
+
+    EV << NeighborsNumber;
 
     genesisBlock = createGenBlock();
     myTangle.push_back(genesisBlock);
@@ -848,8 +859,9 @@ void NodeModule::finish()
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
     //LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
 
-    printTangle();
-    printTipsLeft();
+    //printTangle();
+    //printTipsLeft();
+    stats();
     DeleteTangle();
 
     delete msgIssue;

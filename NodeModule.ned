@@ -21,7 +21,7 @@ simple NodeModule
         volatile double powTime @unit(s) = 3.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "IOTA";
+        string TSA = "EIOTA";
         
         //IOTA && GIOTA 
         double alpha = 5.0; //alpha in Pxy prob 
@@ -37,29 +37,9 @@ simple NodeModule
     	double highAlpha = 5.0;
     	
     	//random delay
-    	bool ifRandDelay = true;
+    	bool ifRandDelay = false;
         
     gates:
         input NodeIn[];
         output NodeOut[];
-}
-
-network IOTA
-{
-    parameters:
-        int transactionLimit = 100; //size of the Tangle 
-        int NodeNumber = 5; //always > 0, number of nodes in the simulation
-        
-        //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
-        double minDelay = 50.0; 
-        double maxDelay = 100.0;
-      
-    submodules:
-        Nodes[NodeNumber]: NodeModule;
-        
-    connections: //each module is connecting to his neighbors
-        for i = 0 .. NodeNumber - 1, for j = 0 .. NodeNumber - 1, if i != j
-        {
-            Nodes[i].NodeOut++ --> {delay = 1 ms;} --> Nodes[j].NodeIn++;
-        }
 }
