@@ -11,3 +11,5 @@ IOTA
 !/data/debug/.keep
 !/data/tracking/.keep
 !/data/archive/.keep
+!/Expander_Watts_Strogatz/exp_CSV/.keep
+!/Expander_Watts_Strogatz/ws_CSV/.keep
