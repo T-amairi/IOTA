@@ -18,7 +18,7 @@ simple NodeModule
 {
     parameters:
         volatile double mean @unit(s) = 2.0s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 3.0s; //Proof of Work 
+        volatile double powTime @unit(s) = 1.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "EIOTA";
@@ -73,8 +73,8 @@ network Grid
 {
     parameters:
         //dimensions of the Grid
-        int columns = default(5);
-        int rows = default(5);
+        int columns = default(3);
+        int rows = default(3);
         
         //how much transactions each node will issue
         int transactionLimit = 100; 

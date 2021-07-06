@@ -630,6 +630,25 @@ bool NodeModule::ifAddTangle(std::vector<std::string> S_approved)
     return true;
 }
 
+bool NodeModule::IfPresent(std::string txID)
+{
+    auto it = std::find_if(myTangle.begin(), myTangle.end(), [&txID](const pTr_S& tx) {return tx->ID == txID;});
+
+    if(it != myTangle.end())
+    {
+      return true;
+    }
+
+    auto it2 = std::find_if(myBuffer.begin(), myBuffer.end(), [&txID](const MsgUpdate* msg) {return msg->ID == txID;});
+
+    if(it2 != myBuffer.end())
+    {
+      return true;
+    }
+
+    return false;
+}
+
 void NodeModule::updateBuffer()
 {
     bool test;
@@ -676,7 +695,10 @@ void NodeModule::initialize()
     txLimit = getParentModule()->par("transactionLimit");
     NeighborsNumber = gateSize("NodeOut");
 
-    EV << NeighborsNumber;
+    for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
+    {
+        NodeModuleNb++;
+    }
 
     genesisBlock = createGenBlock();
     myTangle.push_back(genesisBlock);
@@ -827,26 +849,67 @@ void NodeModule::handleMessage(cMessage * msg)
     {
        MsgUpdate* Msg = (MsgUpdate*) msg->getContextPointer();
 
-       EV << "Received a new transaction " << Msg->ID << std::endl;
-       //LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
-
-       updateBuffer();
-
-       if(ifAddTangle(Msg->S_approved))
+       if(IfPresent(Msg->ID))
        {
-           EV << "Updating the Tangle" << std::endl;
-           updateTangle(Msg,simTime());
-           updateBuffer();
            delete Msg;
+           delete msg;
        }
 
        else
        {
-           EV << "Adding to the Buffer" << std::endl;
-           myBuffer.push_back(Msg);
+           auto Sender = msg->getSenderModule();
+
+           EV << "Received a new transaction " << Msg->ID << std::endl;
+           //LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
+
+           if(NodeModuleNb - 1 != NeighborsNumber)
+           {
+               EV << " Sending " << Msg->ID << " to all nodes" << std::endl;
+               //LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
+
+               for(int i = 0; i < NeighborsNumber; i++)
+               {
+                   cGate *g = gate("NodeOut",i);
+
+                   if(!g->pathContains(Sender))
+                   {
+                       MsgUpdate * MsgU = new MsgUpdate;
+
+                       MsgU->ID = Msg->ID;
+                       MsgU->issuedBy = Msg->issuedBy;
+                       MsgU->issuedTime = Msg->issuedTime;
+
+                       for(auto approvedTipsID : Msg->S_approved)
+                       {
+                           MsgU->S_approved.push_back(approvedTipsID);
+                       }
+
+                       msgUpdate->setContextPointer(MsgU);
+
+                       send(msgUpdate->dup(),"NodeOut",i);
+                   }
+               }
+           }
+
+           updateBuffer();
+
+           if(ifAddTangle(Msg->S_approved))
+           {
+               EV << "Updating the Tangle" << std::endl;
+               updateTangle(Msg,simTime());
+               updateBuffer();
+               delete Msg;
+           }
+
+           else
+           {
+               EV << "Adding to the Buffer" << std::endl;
+               myBuffer.push_back(Msg);
+           }
+
+           delete msg;
        }
 
-       delete msg;
        //LOG_SIM.close();
     }
 }
@@ -859,8 +922,8 @@ void NodeModule::finish()
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
     //LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
 
-    //printTangle();
-    //printTipsLeft();
+    printTangle();
+    printTipsLeft();
     stats();
     DeleteTangle();
 

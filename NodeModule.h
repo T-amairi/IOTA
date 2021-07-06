@@ -132,6 +132,9 @@ class NodeModule : public cSimpleModule
         //creates a new transaction, selects tips for it to approve, then adds the new transaction to the tip map
         pTr_S attach(std::string ID, simtime_t attachTime, VpTr_S& chosen);
 
+        //check if we have conflict in the buffer & myTangle vectors
+        bool IfPresent(std::string txID);
+
         //check if we can submit a new transaction in the Tangle
         bool ifAddTangle(std::vector<std::string> S_approved);
 
@@ -153,6 +156,9 @@ class NodeModule : public cSimpleModule
 
         //number of adjacent nodes
         int NeighborsNumber;
+
+        //number of nodes present in the simulation
+        int NodeModuleNb = 0;
 
         //counts the number of transactions issued by the node
         int txCount = 0;
