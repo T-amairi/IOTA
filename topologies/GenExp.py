@@ -2,7 +2,7 @@
 import networkx as nx
 import os
 
-path = r".\Expander_Watts_Strogatz\exp_CSV"
+path = r".\topologies\exp_CSV"
 os.chdir(path)
 
 n = 10 #Number of nodes

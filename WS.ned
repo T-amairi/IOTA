@@ -20,7 +20,7 @@ import Link;
 //
 // Network generated from /IOTA/topologies/ws_CSV/watts_strogatz0.csv 
 //
-network WattsStrogatz {
+network WS {
 	parameters:
 		//how much transactions each node will issue
         int transactionLimit = 100; 
@@ -41,24 +41,24 @@ network WattsStrogatz {
         Node8: NodeModule;
         Node9: NodeModule;
     connections:
-        Node0.NodeOut++ --> {delay = 1 ms;} --> Node1.NodeIn++;
-        Node1.NodeOut++ --> {delay = 1 ms;} --> Node0.NodeIn++;
-        Node0.NodeOut++ --> {delay = 1 ms;} --> Node9.NodeIn++;
-        Node9.NodeOut++ --> {delay = 1 ms;} --> Node0.NodeIn++;
+        Node0.NodeOut++ --> {delay = 1 ms;} --> Node4.NodeIn++;
+        Node4.NodeOut++ --> {delay = 1 ms;} --> Node0.NodeIn++;
+        Node1.NodeOut++ --> {delay = 1 ms;} --> Node9.NodeIn++;
+        Node9.NodeOut++ --> {delay = 1 ms;} --> Node1.NodeIn++;
         Node1.NodeOut++ --> {delay = 1 ms;} --> Node2.NodeIn++;
         Node2.NodeOut++ --> {delay = 1 ms;} --> Node1.NodeIn++;
-        Node2.NodeOut++ --> {delay = 1 ms;} --> Node3.NodeIn++;
-        Node3.NodeOut++ --> {delay = 1 ms;} --> Node2.NodeIn++;
-        Node3.NodeOut++ --> {delay = 1 ms;} --> Node4.NodeIn++;
-        Node4.NodeOut++ --> {delay = 1 ms;} --> Node3.NodeIn++;
-        Node4.NodeOut++ --> {delay = 1 ms;} --> Node5.NodeIn++;
-        Node5.NodeOut++ --> {delay = 1 ms;} --> Node4.NodeIn++;
-        Node5.NodeOut++ --> {delay = 1 ms;} --> Node6.NodeIn++;
-        Node6.NodeOut++ --> {delay = 1 ms;} --> Node5.NodeIn++;
-        Node6.NodeOut++ --> {delay = 1 ms;} --> Node7.NodeIn++;
-        Node7.NodeOut++ --> {delay = 1 ms;} --> Node6.NodeIn++;
-        Node7.NodeOut++ --> {delay = 1 ms;} --> Node8.NodeIn++;
-        Node8.NodeOut++ --> {delay = 1 ms;} --> Node7.NodeIn++;
-        Node8.NodeOut++ --> {delay = 1 ms;} --> Node9.NodeIn++;
-        Node9.NodeOut++ --> {delay = 1 ms;} --> Node8.NodeIn++;
+        Node2.NodeOut++ --> {delay = 1 ms;} --> Node4.NodeIn++;
+        Node4.NodeOut++ --> {delay = 1 ms;} --> Node2.NodeIn++;
+        Node3.NodeOut++ --> {delay = 1 ms;} --> Node8.NodeIn++;
+        Node8.NodeOut++ --> {delay = 1 ms;} --> Node3.NodeIn++;
+        Node3.NodeOut++ --> {delay = 1 ms;} --> Node5.NodeIn++;
+        Node5.NodeOut++ --> {delay = 1 ms;} --> Node3.NodeIn++;
+        Node4.NodeOut++ --> {delay = 1 ms;} --> Node8.NodeIn++;
+        Node8.NodeOut++ --> {delay = 1 ms;} --> Node4.NodeIn++;
+        Node4.NodeOut++ --> {delay = 1 ms;} --> Node9.NodeIn++;
+        Node9.NodeOut++ --> {delay = 1 ms;} --> Node4.NodeIn++;
+        Node6.NodeOut++ --> {delay = 1 ms;} --> Node9.NodeIn++;
+        Node9.NodeOut++ --> {delay = 1 ms;} --> Node6.NodeIn++;
+        Node7.NodeOut++ --> {delay = 1 ms;} --> Node9.NodeIn++;
+        Node9.NodeOut++ --> {delay = 1 ms;} --> Node7.NodeIn++;
 }

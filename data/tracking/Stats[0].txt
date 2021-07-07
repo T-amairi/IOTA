@@ -4,3 +4,4 @@ FullGraph;1001;171;0
 FullGraph;1001;171;0
 FullGraph;1001;1;0
 FullGraph;1001;171;0
+WattsStrogatz;9;8;0
