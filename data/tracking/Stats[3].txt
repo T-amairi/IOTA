@@ -1,0 +1,6 @@
+FullGraph;501;11;0
+FullGraph;1001;36;0
+FullGraph;1001;171;0
+FullGraph;1001;171;0
+FullGraph;1001;1;0
+FullGraph;1001;171;0

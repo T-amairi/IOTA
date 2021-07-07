@@ -7,11 +7,6 @@ enum MessageType{ISSUE,POW,UPDATE};
 
 Define_Module(NodeModule);
 
-int NodeModule::rangeRandom(int min, int max)
-{
-    return intuniform(min,max);
-}
-
 pTr_S NodeModule::createSite(std::string ID)
 {
     pTr_S newTx = new Site;
@@ -101,11 +96,6 @@ void NodeModule::debug()
     file.close();
 }
 
-std::map<std::string,pTr_S> NodeModule::giveTips()
-{
-     return myTips;
-}
-
 int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp)
 {
     if(timeStamp < current->issuedTime)
@@ -158,7 +148,7 @@ int NodeModule::ComputeWeight(pTr_S tr, simtime_t timeStamp)
 
 pTr_S NodeModule::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist)
 {
-    int iterAdvances = rangeRandom(0,tips.size() - 1);
+    int iterAdvances = intuniform(0,tips.size() - 1);
     auto beginIter = tips.begin();
 
     if(tips.size() > 1)
@@ -173,53 +163,12 @@ pTr_S NodeModule::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackD
 
     while(!current->isGenesisBlock && count > 0)
     {
-        approvesIndex = rangeRandom(0,current->S_approved.size() - 1);
+        approvesIndex = intuniform(0,current->S_approved.size() - 1);
         current = current->S_approved.at(approvesIndex);
         --count;
     }
 
     return current;
-}
-
-bool NodeModule::isRelativeTip(pTr_S& toCheck, std::map<std::string, pTr_S>& tips)
-{
-    std::map<std::string,pTr_S>::iterator it;
-
-    for(it = tips.begin(); it != tips.end(); it++)
-    {
-        if(it->first.compare(toCheck->ID) == 0)
-        {
-            break;
-        }
-    }
-
-    if(it == tips.end())
-    {
-        return false;
-    }
-
-    return true;
-}
-
-void NodeModule::filterView(VpTr_S& view, simtime_t timeStamp)
-{
-    std::vector<int> removeIndexes;
-
-    for(int i = 0; i < static_cast<int>(view.size()); ++i)
-    {
-        if(view.at(i)->issuedTime > timeStamp)
-        {
-            removeIndexes.push_back(i);
-        }
-    }
-
-    if(removeIndexes.size() > 0)
-    {
-        for(int i = removeIndexes.size() - 1; i > -1; --i)
-        {
-            view.erase(view.begin() + removeIndexes.at(i));
-        }
-    }
 }
 
 void NodeModule::ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips)
@@ -273,12 +222,10 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std:
     int walkCounts = 0;
     pTr_S current = start;
 
-    while(!isRelativeTip(current,tips))
+    while(current->isApproved)
     {
         walkCounts++;
-
         VpTr_S currentView = current->approvedBy;
-        filterView(currentView,timeStamp);
 
         if(currentView.size() == 0)
         {
@@ -357,12 +304,10 @@ pTr_S NodeModule::RandomWalk(pTr_S start, std::map<std::string, pTr_S>& tips, si
     int walkCounts = 0;
     pTr_S current = start;
 
-    while(!isRelativeTip(current,tips))
+    while(current->isApproved)
     {
         walkCounts++;
-
         VpTr_S currentView = current->approvedBy;
-        filterView(currentView,timeStamp);
 
         if(currentView.size() == 0)
         {
@@ -456,7 +401,7 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
 
     for(int i = 0; i < N; i++)
     {
-        backTD = rangeRandom(W,2*W);
+        backTD = intuniform(W,2*W);
         temp_site = getWalkStart(tips,backTD);
         start_sites.push_back(temp_site);
     }
@@ -753,7 +698,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
-               std::map<std::string, pTr_S> tipsCopy = giveTips();
+               auto tipsCopy = myTips;
                //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
@@ -767,7 +712,7 @@ void NodeModule::handleMessage(cMessage * msg)
                     tx->countSelected = 0;
                 }
 
-               std::map<std::string, pTr_S> tipsCopy = giveTips();
+               auto tipsCopy = myTips;
                //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
@@ -775,7 +720,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(strcmp(par("TSA"),"EIOTA") == 0)
             {
-                std::map<std::string, pTr_S> tipsCopy = giveTips();
+                auto tipsCopy = myTips;
                 //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                 chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());

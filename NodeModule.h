@@ -80,9 +80,6 @@ class NodeModule : public cSimpleModule
         //data sent
         MsgPoW * MsgP;
 
-        //RNG between min and max using omnet
-        int rangeRandom(int min, int max);
-
         //generate a new transaction
         pTr_S createSite(std::string ID);
 
@@ -96,9 +93,6 @@ class NodeModule : public cSimpleModule
         void printTangle();
         void printTipsLeft();
         void stats();
-
-        //Returns a copy of the current tips from the Tangle
-        std::map<std::string,pTr_S> giveTips();
 
         //Random walk based on a MCMC
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
@@ -121,10 +115,6 @@ class NodeModule : public cSimpleModule
 
         //Back track for selecting start sites for the random walk
         pTr_S getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist);
-
-        //filter view due to network asynchronicity
-        bool isRelativeTip(pTr_S& toCheck, std::map<std::string,pTr_S>& tips);
-        void filterView(VpTr_S& view, simtime_t timeStamp);
 
         //remove newly confirmed tips from myTips;
         void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);
