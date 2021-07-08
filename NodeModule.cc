@@ -88,7 +88,6 @@ std::vector<int> NodeModule::readCSV(bool IfExp)
 
     std::fstream file;
     std::string path = "./data/debug/csv" + ID + ".txt";
-    remove(path.c_str());
     file.open(path,std::ios::app);
 
     for(auto tx : neib)
@@ -179,13 +178,13 @@ void NodeModule::stats()
     file.close();
 }
 
-void NodeModule::debug()
+void NodeModule::debug(int idx)
 {
     std::fstream file;
     std::string path = "./data/debug/debug" + ID + ".txt";
     remove(path.c_str());
     file.open(path,std::ios::app);
-    file << simTime() << " HERE" << std::endl;
+    file << idx << " HERE" << std::endl;
     file.close();
 }
 
@@ -723,49 +722,10 @@ void NodeModule::updateBuffer()
 
 void NodeModule::initialize()
 {
-   ID = "[" + std::to_string(getId() - 2) + "]";
-   mean = par("mean");
-   powTime = par("powTime");
-   txLimit = getParentModule()->par("transactionLimit");
-
-    if(strcmp(getParentModule()->getName(),"Exp") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
-    {
-        std::vector<int> neibId;
-
-        if(strcmp(getParentModule()->getName(),"Exp") == 0)
-        {
-            neibId = readCSV(true);
-        }
-
-        else
-        {
-            neibId = readCSV(false);
-        }
-
-        for(int id : neibId)
-        {
-            auto nodeNeib = getParentModule()->getSubmodule("NodeModule",id);
-
-            debug();
-
-            setGateSize("NodeOut",gateSize("NodeOut") + 1);
-            setGateSize("NodeIn",gateSize("NodeIn") + 1);
-
-            nodeNeib->setGateSize("NodeIn", nodeNeib->gateSize("NodeIn") + 1);
-            nodeNeib->setGateSize("NodeOut", nodeNeib->gateSize("NodeOut") + 1);
-
-            auto gOut = gate("NodeOut",gateSize("NodeOut") - 1);
-            auto gIn = nodeNeib->gate("NodeIn", nodeNeib->gateSize("NodeIn") - 1);
-
-            gOut->connectTo(gIn);
-
-            gOut = nodeNeib->gate("NodeOut", nodeNeib->gateSize("NodeOut") - 1);
-            gIn = gate("NodeIn",gateSize("NodeIn") - 1);
-
-            gOut->connectTo(gIn);
-    }
-
-    NeighborsNumber = gateSize("NodeOut");
+    ID = "[" + std::to_string(getId() - 2) + "]";
+    mean = par("mean");
+    powTime = par("powTime");
+    txLimit = getParentModule()->par("transactionLimit");
 
     for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
     {
@@ -801,6 +761,50 @@ void NodeModule::initialize()
 
 void NodeModule::handleMessage(cMessage * msg)
 {
+    if(txCount == 0)
+    {
+        if(strcmp(getParentModule()->getName(),"Exp") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
+        {
+            std::vector<int> neibIdx;
+
+            if(strcmp(getParentModule()->getName(),"Exp") == 0)
+            {
+                neibIdx = readCSV(true);
+            }
+
+            else
+            {
+                neibIdx = readCSV(false);
+            }
+
+            if(!neibIdx.empty())
+            {
+                for(int idx : neibIdx)
+                {
+                    auto nodeNeib = getParentModule()->getSubmodule("NodeModule",idx);
+
+                    setGateSize("NodeOut",gateSize("NodeOut") + 1);
+                    setGateSize("NodeIn",gateSize("NodeIn") + 1);
+
+                    nodeNeib->setGateSize("NodeIn",nodeNeib->gateSize("NodeIn") + 1);
+                    nodeNeib->setGateSize("NodeOut",nodeNeib->gateSize("NodeOut") + 1);
+
+                    auto gOut = gate("NodeOut",gateSize("NodeOut") - 1);
+                    auto gIn = nodeNeib->gate("NodeIn", nodeNeib->gateSize("NodeIn") - 1);
+
+                    gOut->connectTo(gIn);
+
+                    gOut = nodeNeib->gate("NodeOut", nodeNeib->gateSize("NodeOut") - 1);
+                    gIn = gate("NodeIn",gateSize("NodeIn") - 1);
+
+                    gOut->connectTo(gIn);
+                }
+            }
+        }
+
+        NeighborsNumber = gateSize("NodeOut");
+    }
+
     if(msg->getKind() == ISSUE)
     {
         EV << "Issuing a new transaction" << std::endl;
