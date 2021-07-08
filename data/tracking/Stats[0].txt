@@ -1,9 +1,0 @@
-FullGraph;501;11;0
-FullGraph;1001;36;0
-FullGraph;1001;171;0
-FullGraph;1001;171;0
-FullGraph;1001;1;0
-FullGraph;1001;171;0
-WattsStrogatz;9;8;0
-WS;1001;171;0
-FullGraph;501;18;0

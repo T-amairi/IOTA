@@ -135,7 +135,7 @@ class NodeModule : public cSimpleModule
         void updateTangle(MsgUpdate* Msg, simtime_t attachTime);
 
         //to debug purpose only
-        void debug(int idx);
+        void debug();
 
         //read csv file to connect modules (for ws & exp topo)
         std::vector<int> readCSV(bool IfExp);

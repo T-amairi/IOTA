@@ -2,7 +2,7 @@
 
 const double attackStage = 0.5;
 
-enum MessageType{ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
+enum MessageType{CONNECTION,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
 
 Define_Module(NodeModule);
 
@@ -23,7 +23,7 @@ std::vector<int> NodeModule::readCSV(bool IfExp)
         std::string line;
         int count = 0;
 
-        while (getline(file, line,'\n'))
+        while(getline(file, line,'\n'))
         {
             if(count == getId() - 2)
             {
@@ -52,7 +52,7 @@ std::vector<int> NodeModule::readCSV(bool IfExp)
     else
     {
         std::fstream file;
-        std::string path = "./topologies/exp_CSV/watts_strogatz" + std::to_string(currentRun) + ".csv";
+        std::string path = "./topologies/ws_CSV/watts_strogatz" + std::to_string(currentRun) + ".csv";
         file.open(path,std::ios::in);
 
         if(!file.is_open()) throw std::runtime_error("Could not open watts strogatz CSV file");
@@ -60,7 +60,7 @@ std::vector<int> NodeModule::readCSV(bool IfExp)
         std::string line;
         int count = 0;
 
-        while (getline(file, line,'\n'))
+        while(getline(file, line,'\n'))
         {
             if(count == getId() - 2)
             {
@@ -86,16 +86,6 @@ std::vector<int> NodeModule::readCSV(bool IfExp)
         file.close();
      }
 
-    std::fstream file;
-    std::string path = "./data/debug/csv" + ID + ".txt";
-    file.open(path,std::ios::app);
-
-    for(auto tx : neib)
-    {
-        file << tx << " ";
-    }
-
-    file.close();
     return neib;
 }
 
@@ -178,13 +168,13 @@ void NodeModule::stats()
     file.close();
 }
 
-void NodeModule::debug(int idx)
+void NodeModule::debug()
 {
     std::fstream file;
     std::string path = "./data/debug/debug" + ID + ".txt";
     remove(path.c_str());
     file.open(path,std::ios::app);
-    file << idx << " HERE" << std::endl;
+    file << simTime() << " HERE" << std::endl;
     file.close();
 }
 
@@ -755,57 +745,88 @@ void NodeModule::initialize()
         }
     }
 
-    EV << "Initialization complete" << std::endl;
-    scheduleAt(simTime() + exponential(mean), msgIssue);
+    if(strcmp(getParentModule()->getName(),"Exp") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
+    {
+        EV << "Setting up connections for Watts Strogatz & Expander topologies :" << std::endl;
+        std::vector<int> neibIdx;
+
+        if(strcmp(getParentModule()->getName(),"Expander") == 0)
+        {
+            neibIdx = readCSV(true);
+        }
+
+        else
+        {
+            neibIdx = readCSV(false);
+        }
+
+        if(neibIdx.at(0) != -1)
+        {
+            for(int idx : neibIdx)
+            {
+                cModule *nodeNeib = nullptr;
+
+                for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
+                {
+                    cModule *submodule = *iter;
+
+                    if(submodule->getId() - 2 == idx)
+                    {
+                        nodeNeib = submodule;
+                        break;
+                    }
+                }
+
+                if(nodeNeib == nullptr)
+                {
+                    throw std::runtime_error("Node not found while setting connections for exp & Ws topo");
+                }
+
+                setGateSize("NodeOut",gateSize("NodeOut") + 1);
+                setGateSize("NodeIn",gateSize("NodeIn") + 1);
+
+                nodeNeib->setGateSize("NodeIn",nodeNeib->gateSize("NodeIn") + 1);
+                nodeNeib->setGateSize("NodeOut",nodeNeib->gateSize("NodeOut") + 1);
+
+                auto gOut = gate("NodeOut",gateSize("NodeOut") - 1);
+                auto gIn = nodeNeib->gate("NodeIn", nodeNeib->gateSize("NodeIn") - 1);
+
+                EV << getId() - 2 << " <---> " << nodeNeib->getId() - 2 << std::endl;
+
+                gOut->connectTo(gIn);
+
+                gOut = nodeNeib->gate("NodeOut", nodeNeib->gateSize("NodeOut") - 1);
+                gIn = gate("NodeIn",gateSize("NodeIn") - 1);
+
+                gOut->connectTo(gIn);
+            }
+        }
+
+        auto msgCon = new cMessage("Connections are set !",CONNECTION);
+        EV << "Connections are set !" << std::endl;
+        scheduleAt(simTime(), msgCon);
+    }
+
+    else
+    {
+        NeighborsNumber = gateSize("NodeOut");
+        EV << "Initialization complete" << std::endl;
+        scheduleAt(simTime() + exponential(mean), msgIssue);
+    }
 }
 
 void NodeModule::handleMessage(cMessage * msg)
 {
-    if(txCount == 0)
+    if(msg->getKind() == CONNECTION)
     {
-        if(strcmp(getParentModule()->getName(),"Exp") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
-        {
-            std::vector<int> neibIdx;
-
-            if(strcmp(getParentModule()->getName(),"Exp") == 0)
-            {
-                neibIdx = readCSV(true);
-            }
-
-            else
-            {
-                neibIdx = readCSV(false);
-            }
-
-            if(!neibIdx.empty())
-            {
-                for(int idx : neibIdx)
-                {
-                    auto nodeNeib = getParentModule()->getSubmodule("NodeModule",idx);
-
-                    setGateSize("NodeOut",gateSize("NodeOut") + 1);
-                    setGateSize("NodeIn",gateSize("NodeIn") + 1);
-
-                    nodeNeib->setGateSize("NodeIn",nodeNeib->gateSize("NodeIn") + 1);
-                    nodeNeib->setGateSize("NodeOut",nodeNeib->gateSize("NodeOut") + 1);
-
-                    auto gOut = gate("NodeOut",gateSize("NodeOut") - 1);
-                    auto gIn = nodeNeib->gate("NodeIn", nodeNeib->gateSize("NodeIn") - 1);
-
-                    gOut->connectTo(gIn);
-
-                    gOut = nodeNeib->gate("NodeOut", nodeNeib->gateSize("NodeOut") - 1);
-                    gIn = gate("NodeIn",gateSize("NodeIn") - 1);
-
-                    gOut->connectTo(gIn);
-                }
-            }
-        }
-
+        delete msg;
         NeighborsNumber = gateSize("NodeOut");
+        EV << "Initialization complete" << std::endl;
+        EV << NeighborsNumber << std::endl;
+        scheduleAt(simTime() + exponential(mean), msgIssue);
     }
 
-    if(msg->getKind() == ISSUE)
+    else if(msg->getKind() == ISSUE)
     {
         EV << "Issuing a new transaction" << std::endl;
 
@@ -966,9 +987,9 @@ void NodeModule::finish()
 {
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
 
-    printTangle();
-    printTipsLeft();
-    stats();
+    //printTangle();
+    //printTipsLeft();
+    //stats();
     DeleteTangle();
 
     delete msgIssue;
