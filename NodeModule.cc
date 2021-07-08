@@ -1,11 +1,104 @@
-//includes
 #include "NodeModule.h"
 
-enum MessageType{ISSUE,POW,UPDATE};
+const double attackStage = 0.5;
 
-//std::ofstream LOG_SIM;
+enum MessageType{ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
 
 Define_Module(NodeModule);
+
+std::vector<int> NodeModule::readCSV(bool IfExp)
+{
+    auto env =  cSimulation::getActiveEnvir();
+    auto currentRun = env->getConfigEx()->getActiveRunNumber();
+    std::vector<int> neib;
+
+    if(IfExp)
+    {
+        std::fstream file;
+        std::string path = "./topologies/exp_CSV/expander" + std::to_string(currentRun) + ".csv";
+        file.open(path);
+
+        if(!file.is_open()) throw std::runtime_error("Could not open expander CSV file");
+
+        std::string line;
+        int count = 0;
+
+        while (getline(file, line,'\n'))
+        {
+            if(count == getId() - 2)
+            {
+                std::istringstream templine(line);
+                std::string data;
+
+                bool test = false;
+
+                while(std::getline(templine, data,','))
+                {
+                  if(test)
+                  {
+                      neib.push_back(atoi(data.c_str()));
+                  }
+
+                  test = true;
+                }
+            }
+
+            count++;
+         }
+
+        file.close();
+    }
+
+    else
+    {
+        std::fstream file;
+        std::string path = "./topologies/exp_CSV/watts_strogatz" + std::to_string(currentRun) + ".csv";
+        file.open(path,std::ios::in);
+
+        if(!file.is_open()) throw std::runtime_error("Could not open watts strogatz CSV file");
+
+        std::string line;
+        int count = 0;
+
+        while (getline(file, line,'\n'))
+        {
+            if(count == getId() - 2)
+            {
+                std::istringstream templine(line);
+                std::string data;
+
+                bool test = false;
+
+                while(std::getline(templine, data,','))
+                {
+                  if(test)
+                  {
+                      neib.push_back(atoi(data.c_str()));
+                  }
+
+                  test = true;
+                }
+            }
+
+            count++;
+         }
+
+        file.close();
+     }
+
+    std::fstream file;
+    std::string path = "./data/debug/csv" + ID + ".txt";
+    remove(path.c_str());
+    file.open(path,std::ios::app);
+
+    for(auto tx : neib)
+    {
+        file << tx << " ";
+    }
+
+    file.close();
+    return neib;
+}
 
 pTr_S NodeModule::createSite(std::string ID)
 {
@@ -630,14 +723,48 @@ void NodeModule::updateBuffer()
 
 void NodeModule::initialize()
 {
-    //std::string path = "./data/tracking/logNodeModule[" + std::to_string(getId() - 2) + "].txt";
-    //remove(path.c_str());
-    //LOG_SIM.open(path.c_str(),std::ios::app);
+   ID = "[" + std::to_string(getId() - 2) + "]";
+   mean = par("mean");
+   powTime = par("powTime");
+   txLimit = getParentModule()->par("transactionLimit");
 
-    ID = "[" + std::to_string(getId() - 2) + "]";
-    mean = par("mean");
-    powTime = par("powTime");
-    txLimit = getParentModule()->par("transactionLimit");
+    if(strcmp(getParentModule()->getName(),"Exp") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
+    {
+        std::vector<int> neibId;
+
+        if(strcmp(getParentModule()->getName(),"Exp") == 0)
+        {
+            neibId = readCSV(true);
+        }
+
+        else
+        {
+            neibId = readCSV(false);
+        }
+
+        for(int id : neibId)
+        {
+            auto nodeNeib = getParentModule()->getSubmodule("NodeModule",id);
+
+            debug();
+
+            setGateSize("NodeOut",gateSize("NodeOut") + 1);
+            setGateSize("NodeIn",gateSize("NodeIn") + 1);
+
+            nodeNeib->setGateSize("NodeIn", nodeNeib->gateSize("NodeIn") + 1);
+            nodeNeib->setGateSize("NodeOut", nodeNeib->gateSize("NodeOut") + 1);
+
+            auto gOut = gate("NodeOut",gateSize("NodeOut") - 1);
+            auto gIn = nodeNeib->gate("NodeIn", nodeNeib->gateSize("NodeIn") - 1);
+
+            gOut->connectTo(gIn);
+
+            gOut = nodeNeib->gate("NodeOut", nodeNeib->gateSize("NodeOut") - 1);
+            gIn = gate("NodeIn",gateSize("NodeIn") - 1);
+
+            gOut->connectTo(gIn);
+    }
+
     NeighborsNumber = gateSize("NodeOut");
 
     for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
@@ -668,23 +795,15 @@ void NodeModule::initialize()
         }
     }
 
-    //LOG_SIM << simTime() << " Initialization complete" << std::endl;
     EV << "Initialization complete" << std::endl;
-
-    //LOG_SIM.close();
-
     scheduleAt(simTime() + exponential(mean), msgIssue);
 }
 
 void NodeModule::handleMessage(cMessage * msg)
 {
-    //std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
-    //LOG_SIM.open(path.c_str(),std::ios::app);
-
     if(msg->getKind() == ISSUE)
     {
         EV << "Issuing a new transaction" << std::endl;
-        //LOG_SIM << simTime() << " Issuing a new transaction" << std::endl;
 
         if(txCount < txLimit)
         {
@@ -694,12 +813,10 @@ void NodeModule::handleMessage(cMessage * msg)
             std::string trId = ID + std::to_string(txCount);
 
             EV << "TSA procedure for " << trId<< std::endl;
-            //LOG_SIM << simTime() << " TSA procedure for " << trId << std::endl;
 
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
                auto tipsCopy = myTips;
-               //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
@@ -713,7 +830,6 @@ void NodeModule::handleMessage(cMessage * msg)
                 }
 
                auto tipsCopy = myTips;
-               //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
@@ -721,40 +837,31 @@ void NodeModule::handleMessage(cMessage * msg)
             if(strcmp(par("TSA"),"EIOTA") == 0)
             {
                 auto tipsCopy = myTips;
-                //LOG_SIM << "Number of tips : " << tipsCopy.size() << std::endl;
                 chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),tipsCopy,simTime(),par("W"),par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
             }
 
             EV << "Chosen Tips : ";
-            //LOG_SIM << simTime() << " Chosen Tips : ";
 
             for(auto tips : chosenTips)
             {
                 EV << tips->ID << " ";
-                //LOG_SIM << tips->ID << " ";
             }
 
             EV << std::endl;
-            //LOG_SIM << std::endl;
 
             MsgP->ID = trId;
             MsgP->chosen = chosenTips;
             msgPoW->setContextPointer(MsgP);
 
             EV << "Pow time = " << tipsNb*powTime<< std::endl;
-            //LOG_SIM << simTime() << " Pow time = " << tipsNb*powTime << std::endl;
-
             scheduleAt(simTime() + tipsNb*powTime, msgPoW);
         }
 
         else if(txCount >= txLimit)
         {
             EV << "Number of transactions reached : stopping issuing" << std::endl;
-            //LOG_SIM << simTime() << " Number of transactions reached : stopping issuing" << std::endl;
         }
-
-        //LOG_SIM.close();
     }
 
     else if(msg->getKind() == POW)
@@ -763,10 +870,7 @@ void NodeModule::handleMessage(cMessage * msg)
         pTr_S newTx = attach(Msg->ID,simTime(),Msg->chosen);
 
         EV << "Pow time finished for " << Msg->ID << std::endl;
-        //LOG_SIM << simTime() << " Pow time finished for " << Msg->ID << std::endl;
-
         EV << " Sending " << newTx->ID << " to all nodes" << std::endl;
-        //LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
 
         for(int i = 0; i < NeighborsNumber; i++)
         {
@@ -787,7 +891,6 @@ void NodeModule::handleMessage(cMessage * msg)
         }
 
         scheduleAt(simTime() + exponential(mean), msgIssue);
-        //LOG_SIM.close();
     }
 
     else if(msg->getKind() == UPDATE)
@@ -805,12 +908,10 @@ void NodeModule::handleMessage(cMessage * msg)
            auto Sender = msg->getSenderModule();
 
            EV << "Received a new transaction " << Msg->ID << std::endl;
-           //LOG_SIM << simTime() << " Received a new transaction : updating the Tangle" << std::endl;
 
            if(NodeModuleNb - 1 != NeighborsNumber)
            {
                EV << " Sending " << Msg->ID << " to all nodes" << std::endl;
-               //LOG_SIM << simTime() << " Sending " << newTx->ID << " to all nodes" << std::endl;
 
                for(int i = 0; i < NeighborsNumber; i++)
                {
@@ -854,18 +955,12 @@ void NodeModule::handleMessage(cMessage * msg)
 
            delete msg;
        }
-
-       //LOG_SIM.close();
     }
 }
 
 void NodeModule::finish()
 {
-    //std::string path = "./data/tracking/logNodeModule" + ID + ".txt";
-    //LOG_SIM.open(path.c_str(),std::ios::app);
-
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
-    //LOG_SIM << simTime() << " Simulation ended - Deleting my local Tangle" << std::endl;
 
     printTangle();
     printTipsLeft();
@@ -876,6 +971,4 @@ void NodeModule::finish()
     delete msgPoW;
     delete msgUpdate;
     delete MsgP;
-
-    //LOG_SIM.close();
 }

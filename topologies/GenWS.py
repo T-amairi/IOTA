@@ -7,7 +7,7 @@ os.chdir(path)
 
 n = 10 #Number of nodes
 p = 1 #The probability of rewiring each edge
-graph_num = 0 #number of the csv file 
+graph_num = 1 #number of the csv file 
 k = 2 #number of adj nodes
 
 network = nx.watts_strogatz_graph(n, k, p)

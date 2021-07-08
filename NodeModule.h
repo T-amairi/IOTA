@@ -137,6 +137,9 @@ class NodeModule : public cSimpleModule
         //to debug purpose only
         void debug();
 
+        //read csv file to connect modules (for ws & exp topo)
+        std::vector<int> readCSV(bool IfExp);
+
     private:
         //how many transactions the node can issue (set in NED file)
         int txLimit;
