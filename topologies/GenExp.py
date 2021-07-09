@@ -6,7 +6,7 @@ import os
 path = r".\topologies\exp_CSV"
 os.chdir(path)
 
-n = 5 #Number of nodes
+n = 10 #Number of nodes
 rep = 1 #number of files (always > 0)
 
 for graph_num in range(0,rep):

@@ -73,8 +73,8 @@ network Grid
 {
     parameters:
         //dimensions of the Grid
-        int columns = default(3);
-        int rows = default(3);
+        int columns = default(5);
+        int rows = default(5);
         
         //how much transactions each node will issue
         int transactionLimit = 100; 

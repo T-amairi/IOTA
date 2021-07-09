@@ -745,7 +745,7 @@ void NodeModule::initialize()
         }
     }
 
-    if(strcmp(getParentModule()->getName(),"Exp") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
+    if(strcmp(getParentModule()->getName(),"Expander") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
     {
         EV << "Setting up connections for Watts Strogatz & Expander topologies :" << std::endl;
         std::vector<int> neibIdx;
