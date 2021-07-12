@@ -16,7 +16,6 @@
 #include <fstream>
 #include <sstream>
 #include <functional>
-#include <thread>
 
 struct Site; //a transaction
 class NodeModule; //a node

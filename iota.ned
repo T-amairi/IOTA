@@ -17,8 +17,8 @@
 simple NodeModule
 {
     parameters:
-        volatile double mean @unit(s) = 2.0s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 3.0s; //Proof of Work 
+        volatile double mean @unit(s) = 0.005s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
+        volatile double powTime @unit(s) = 0.001s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "EIOTA";
@@ -36,9 +36,6 @@ simple NodeModule
         double lowAlpha = 0.1;
     	double highAlpha = 5.0;
     	
-    	//random delay
-    	bool ifRandDelay = false;
-        
     gates:
         input NodeIn[];
         output NodeOut[];
@@ -53,10 +50,19 @@ network FullGraph
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
-       
-        //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
+        
+        //random delay
+    	bool ifRandDelay = false;
+    	
+    	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+    
+	types:
+        channel Channel extends ned.DelayChannel
+	    {
+	        delay = 1ms;
+	    }
       
     submodules:
         Nodes[NodeNumber]: NodeModule;
@@ -64,7 +70,7 @@ network FullGraph
     connections: //each module is connecting to his neighbors
         for i = 0 .. NodeNumber - 1, for j = 0 .. NodeNumber - 1, if i != j
         {
-            Nodes[i].NodeOut++ --> {delay = 1 ms;} --> Nodes[j].NodeIn++;
+            Nodes[i].NodeOut++ --> Channel --> Nodes[j].NodeIn++;
         }
 }
 
@@ -73,15 +79,24 @@ network Grid
 {
     parameters:
         //dimensions of the Grid
-        int columns = default(5);
-        int rows = default(5);
+        int columns = default(32);
+        int rows = default(32);
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
         
-        //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
+        //random delay
+    	bool ifRandDelay = false;
+    	
+    	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+        
+	types:
+        channel Channel extends ned.DelayChannel
+	    {
+	        delay = 1ms;
+	    }
       
     submodules:
         Nodes[columns*rows]: NodeModule;
@@ -89,11 +104,11 @@ network Grid
     connections allowunconnected:
         for i = 0 .. rows - 1, for j = 0 .. columns - 1 
         {
-            Nodes[i*columns+j].NodeOut++ --> {delay = 1 ms;} --> Nodes[(i+1)*columns+j].NodeIn++ if i != rows - 1;
-            Nodes[i*columns+j].NodeOut++ --> {delay = 1 ms;} --> Nodes[i*columns+j+1].NodeIn++ if j != columns - 1;
+            Nodes[i*columns+j].NodeOut++ --> Channel --> Nodes[(i+1)*columns+j].NodeIn++ if i != rows - 1;
+            Nodes[i*columns+j].NodeOut++ --> Channel --> Nodes[i*columns+j+1].NodeIn++ if j != columns - 1;
             
-            Nodes[(i+1)*columns+j].NodeOut++ --> {delay = 1 ms;} --> Nodes[i*columns+j].NodeIn++ if i != rows - 1;
-            Nodes[i*columns+j+1].NodeOut++ --> {delay = 1 ms;} --> Nodes[i*columns+j].NodeIn++ if j != columns - 1;
+            Nodes[(i+1)*columns+j].NodeOut++ --> Channel --> Nodes[i*columns+j].NodeIn++ if i != rows - 1;
+            Nodes[i*columns+j+1].NodeOut++ --> Channel --> Nodes[i*columns+j].NodeIn++ if j != columns - 1;
         }
 }
 
@@ -101,16 +116,25 @@ network Grid
 network Torus
 {
     parameters:
-        //dimensions of the Grid
+        //dimensions of the Torus
         int columns = default(5);
         int rows = default(5);
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
         
-        //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
+        //random delay
+    	bool ifRandDelay = false;
+    	
+    	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+        
+    types:
+        channel Channel extends ned.DelayChannel
+	    {
+	        delay = 1ms;
+	    }
       
     submodules:
         Nodes[columns*rows]: NodeModule;
@@ -118,11 +142,11 @@ network Torus
     connections:
         for i=0..rows-1, for j=0..columns-1
         {
-            Nodes[i*columns+j].NodeOut++ --> {delay = 1 ms;} --> Nodes[((i+1)%rows)*columns+j].NodeIn++ if i != rows - 1;
-            Nodes[i*columns+j].NodeOut++ --> {delay = 1 ms;} --> Nodes[(i*columns+(j+1))%columns].NodeIn++ if j != columns - 1;
+            Nodes[i*columns+j].NodeOut++ --> Channel --> Nodes[((i+1)%rows)*columns+j].NodeIn++ if i != rows - 1;
+            Nodes[i*columns+j].NodeOut++ --> Channel --> Nodes[(i*columns+(j+1))%columns].NodeIn++ if j != columns - 1;
             
-            Nodes[((i+1)%rows)*columns+j].NodeOut++ --> {delay = 1 ms;} --> Nodes[i*columns+j].NodeIn++ if i != rows - 1;
-            Nodes[(i*columns+(j+1))%columns].NodeOut++ --> {delay = 1 ms;} --> Nodes[i*columns+j].NodeIn++ if j != columns - 1;
+            Nodes[((i+1)%rows)*columns+j].NodeOut++ --> Channel --> Nodes[i*columns+j].NodeIn++ if i != rows - 1;
+            Nodes[(i*columns+(j+1))%columns].NodeOut++ --> Channel --> Nodes[i*columns+j].NodeIn++ if j != columns - 1;
         }
 }
 
@@ -134,12 +158,18 @@ network Expander
         int NodeNumber = default(10); 
         
         //how much transactions each node will issue
-        int transactionLimit = 100; 
+        int transactionLimit = 100;
         
-        //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
+        //Initial delay
+        double delay = 0.001; 
+        
+        //random delay
+    	bool ifRandDelay = true;
+    	
+    	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
-      
+        
     submodules:
         Nodes[NodeNumber]: NodeModule;
 }
@@ -152,12 +182,18 @@ network WattsStrogatz
         int NodeNumber = default(10); 
         
         //how much transactions each node will issue
-        int transactionLimit = 100; 
+        int transactionLimit = 100;
         
-        //parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
+        //Initial delay
+        double delay = 0.001;
+        
+        //random delay
+    	bool ifRandDelay = false;
+    	
+    	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
-      
+        
     submodules:
         Nodes[NodeNumber]: NodeModule;
 }

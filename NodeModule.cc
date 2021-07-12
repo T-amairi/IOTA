@@ -2,7 +2,7 @@
 
 const double attackStage = 0.5;
 
-enum MessageType{CONNECTION,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
+enum MessageType{SETTING,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
 
 Define_Module(NodeModule);
 
@@ -261,7 +261,7 @@ void NodeModule::ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pT
     {
        for(it = myTips.begin(); it != myTips.end();)
        {
-           if(tipSelected->ID.compare(it->first) == 0)
+           if(tipSelected->ID == it->first)
            {
                it = myTips.erase(it);
 
@@ -544,7 +544,7 @@ VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, si
 
        for(int j = 0; j < static_cast<int>(chosenTips.size()); j++)
        {
-           if(chosenTips[j]->ID.compare(tip->ID) != 0)
+           if(!(chosenTips[j]->ID == tip->ID))
            {
                filterTips.push_back(tip);
                break;
@@ -608,7 +608,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
     {
         for(auto& tx : myTangle)
         {
-            if(tx->ID.compare(tipSelected) == 0)
+            if(tx->ID == tipSelected)
             {
                 newTx->S_approved.push_back(tx);
                 tx->approvedBy.push_back(newTx);
@@ -623,7 +623,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 
                 for(it = myTips.begin(); it != myTips.end();)
                 {
-                   if(tx->ID.compare(it->first) == 0)
+                   if(tx->ID == it->first)
                    {
                        it = myTips.erase(it);
                        break;
@@ -731,20 +731,6 @@ void NodeModule::initialize()
     msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
     MsgP = new MsgPoW;
 
-    if(par("ifRandDelay"))
-    {
-        double minDelay = getParentModule()->par("minDelay");
-        double maxDelay = getParentModule()->par("maxDelay");
-
-        for(int i = 0; i < NeighborsNumber; i++)
-        {
-            cGate *g = gate("NodeOut",i);
-            cDelayChannel * channel = check_and_cast<cDelayChannel*>(g->getChannel());
-            double delay = uniform(minDelay,maxDelay);
-            channel->setDelay(delay);
-        }
-    }
-
     if(strcmp(getParentModule()->getName(),"Expander") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
     {
         EV << "Setting up connections for Watts Strogatz & Expander topologies :" << std::endl;
@@ -764,22 +750,36 @@ void NodeModule::initialize()
         {
             for(int idx : neibIdx)
             {
-                cModule *nodeNeib = nullptr;
-
-                for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
-                {
-                    cModule *submodule = *iter;
-
-                    if(submodule->getId() - 2 == idx)
-                    {
-                        nodeNeib = submodule;
-                        break;
-                    }
-                }
+                cModule * nodeNeib = getParentModule()->getSubmodule("Nodes",idx);
 
                 if(nodeNeib == nullptr)
                 {
                     throw std::runtime_error("Node not found while setting connections for exp & Ws topo");
+                }
+
+                cDelayChannel *channel1 = nullptr;
+                cDelayChannel *channel2 = nullptr;
+
+                if(getParentModule()->par("ifRandDelay"))
+                {
+                    double minDelay = getParentModule()->par("minDelay");
+                    double maxDelay = getParentModule()->par("maxDelay");
+                    double delay = uniform(minDelay,maxDelay);
+
+                    channel1 = cDelayChannel::create("Channel");
+                    channel2 = cDelayChannel::create("Channel");
+
+                    channel1->setDelay(delay);
+                    channel2->setDelay(delay);
+                }
+
+                else
+                {
+                    channel1 = cDelayChannel::create("Channel");
+                    channel2 = cDelayChannel::create("Channel");
+
+                    channel1->setDelay(getParentModule()->par("delay"));
+                    channel2->setDelay(getParentModule()->par("delay"));
                 }
 
                 setGateSize("NodeOut",gateSize("NodeOut") + 1);
@@ -791,38 +791,124 @@ void NodeModule::initialize()
                 auto gOut = gate("NodeOut",gateSize("NodeOut") - 1);
                 auto gIn = nodeNeib->gate("NodeIn", nodeNeib->gateSize("NodeIn") - 1);
 
-                EV << getId() - 2 << " <---> " << nodeNeib->getId() - 2 << std::endl;
-
-                gOut->connectTo(gIn);
+                gOut->connectTo(gIn,channel1);
 
                 gOut = nodeNeib->gate("NodeOut", nodeNeib->gateSize("NodeOut") - 1);
                 gIn = gate("NodeIn",gateSize("NodeIn") - 1);
 
-                gOut->connectTo(gIn);
+                gOut->connectTo(gIn,channel2);
+
+                EV << getId() - 2 << " <---> " << nodeNeib->getId() - 2 << std::endl;
             }
         }
 
-        auto msgCon = new cMessage("Connections are set !",CONNECTION);
+        auto msgSetting = new cMessage("Connections are set !",SETTING);
         EV << "Connections are set !" << std::endl;
-        scheduleAt(simTime(), msgCon);
+        scheduleAt(simTime(), msgSetting);
     }
 
     else
     {
         NeighborsNumber = gateSize("NodeOut");
-        EV << "Initialization complete" << std::endl;
-        scheduleAt(simTime() + exponential(mean), msgIssue);
+
+        if(getParentModule()->par("ifRandDelay"))
+        {
+            for(int i = 0; i < NeighborsNumber; i++)
+            {
+                cGate *g = gate("NodeOut",i);
+                cDelayChannel *channel = check_and_cast<cDelayChannel*>(g->getChannel());
+                channel->setDelay(9223372.0);
+            }
+
+            auto msgSetting = new cMessage("Setting random delays",SETTING);
+            EV << "Setting random delays !" << std::endl;
+            scheduleAt(simTime(), msgSetting);
+        }
+
+        else
+        {
+            EV << "Initialization complete" << std::endl;
+            scheduleAt(simTime() + exponential(mean), msgIssue);
+        }
     }
 }
 
 void NodeModule::handleMessage(cMessage * msg)
 {
-    if(msg->getKind() == CONNECTION)
+    if(msg->getKind() == SETTING)
     {
         delete msg;
-        NeighborsNumber = gateSize("NodeOut");
+
+        if(strcmp(getParentModule()->getName(),"Expander") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
+        {
+            NeighborsNumber = gateSize("NodeOut");
+        }
+
+        else
+        {
+            cModule *mymodule = getParentModule()->getSubmodule("Nodes",getId() - 2);
+
+            if(mymodule == nullptr)
+            {
+                throw std::runtime_error("Node not found while setting random delays");
+            }
+
+            double minDelay = getParentModule()->par("minDelay");
+            double maxDelay = getParentModule()->par("maxDelay");
+
+            for(int i = 0; i < NeighborsNumber; i++)
+            {
+                cGate *g1 = gate("NodeOut",i);
+                cModule *Adjmodule;
+                double delay;
+                double maxdbl = 9223372.0;
+
+                for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
+                {
+                    Adjmodule = *iter;
+
+                    if(g1->pathContains(Adjmodule) && Adjmodule->getId() != getId())
+                    {
+                        break;
+                    }
+                }
+
+                cDelayChannel *channel1 = check_and_cast<cDelayChannel*>(g1->getChannel());
+                delay = channel1->getDelay().dbl();
+
+                for(int j = 0; j < Adjmodule->gateSize("NodeOut"); j++)
+                {
+                    cGate *g2 = Adjmodule->gate("NodeOut",j);
+
+                    if(g2->pathContains(mymodule))
+                    {
+                        cDelayChannel *channel2 = check_and_cast<cDelayChannel*>(g2->getChannel());
+
+                        if(channel2->getDelay() != maxdbl && delay == maxdbl)
+                        {
+                            delay = channel2->getDelay().dbl();
+                            channel1->setDelay(delay);
+                        }
+
+                        else if(channel2->getDelay() == maxdbl && delay != maxdbl)
+                        {
+                            channel2->setDelay(delay);
+                        }
+
+                        else
+                        {
+                            delay = uniform(minDelay,maxDelay);
+                            channel1->setDelay(delay);
+                            channel2->setDelay(delay);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+
         EV << "Initialization complete" << std::endl;
-        EV << NeighborsNumber << std::endl;
         scheduleAt(simTime() + exponential(mean), msgIssue);
     }
 
@@ -924,6 +1010,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
        if(IfPresent(Msg->ID))
        {
+           EV << Msg->ID << " is already present"<< std::endl;
            delete Msg;
            delete msg;
        }
