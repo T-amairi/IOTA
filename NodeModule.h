@@ -35,11 +35,14 @@ struct Site
     //The node that issued this transaction
     NodeModule* issuedBy;
 
-    //confidence (for G-IOTA)
+    //confidence
     double confidence = 0.0;
 
     //how much a tip has been selected during a TSA (for G-IOTA)
     int countSelected = 0;
+
+    //for conflict check
+    bool isDup = false;
 
     //bool
     bool isGenesisBlock = false;
@@ -97,11 +100,20 @@ class NodeModule : public cSimpleModule
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
         pTr_S RandomWalk(pTr_S start, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
 
-        //compute confidence for all sites
+        //compute confidence for all sites (G-IOTA version)
         void updateConfidence(double confidence, pTr_S& current);
 
-        //give the average confidence of transactions that are approved directly or indirectly by a tip
+        //give the average confidence of transactions that are approved directly or indirectly by a tip (for G-IOTA)
         long double getavgConfidence(pTr_S current);
+
+        //find a conflict (i.e a transaction with an ID starting with '-')
+        void findConflict(pTr_S tip, pTr_S& buffer);
+
+        //check if there is a conflict and return the conflicted transaction in the buffer
+        void IfConflict(pTr_S tip, pTr_S& buffer, std::string id);
+
+        //get confidence for one site (to resolve conflict)
+        void getConfidence(pTr_S tip, std::string id);
 
         //TSA
         VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);

@@ -1,0 +1,111 @@
+
+Running configuration General, run #2...
+Assigned runID=General-2-20210714-21:35:08-6740
+Setting up network "FullGraph"...
+Initializing...
+
+Running simulation...
+** Event #0   t=0   Elapsed: 2e-006s (0m 00s)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 30   present: 30   in FES: 10
+** Event #2816   t=181.523237045378   Elapsed: 2.38116s (0m 02s)
+     Speed:     ev/sec=1183.04   simsec/sec=76.2333   ev/simsec=15.5187
+     Messages:  created: 2334   present: 36   in FES: 15
+** Event #3584   t=230.105824596272   Elapsed: 5.02433s (0m 05s)
+     Speed:     ev/sec=290.56   simsec/sec=18.3804   ev/simsec=15.8081
+     Messages:  created: 2964   present: 39   in FES: 18
+** Event #4096   t=262.543781427256   Elapsed: 7.15743s (0m 07s)
+     Speed:     ev/sec=240.026   simsec/sec=15.2069   ev/simsec=15.784
+     Messages:  created: 3378   present: 31   in FES: 10
+** Event #4608   t=292.076413283428   Elapsed: 10.5399s (0m 10s)
+     Speed:     ev/sec=151.368   simsec/sec=8.73105   ev/simsec=17.3368
+     Messages:  created: 3801   present: 37   in FES: 16
+** Event #5120   t=324.972121698978   Elapsed: 14.6619s (0m 14s)
+     Speed:     ev/sec=124.211   simsec/sec=7.98051   ev/simsec=15.5643
+     Messages:  created: 4215   present: 32   in FES: 11
+** Event #5376   t=340.415603231852   Elapsed: 17.051s (0m 17s)
+     Speed:     ev/sec=107.155   simsec/sec=6.46425   ev/simsec=16.5766
+     Messages:  created: 4431   present: 39   in FES: 18
+** Event #5632   t=358.564350871467   Elapsed: 19.9527s (0m 19s)
+     Speed:     ev/sec=88.2249   simsec/sec=6.25458   ev/simsec=14.1057
+     Messages:  created: 4638   present: 36   in FES: 15
+** Event #5888   t=376.03750405866   Elapsed: 23.2612s (0m 23s)
+     Speed:     ev/sec=77.3747   simsec/sec=5.28117   ev/simsec=14.651
+     Messages:  created: 4845   present: 35   in FES: 14
+** Event #6144   t=389.413048488041   Elapsed: 25.6978s (0m 25s)
+     Speed:     ev/sec=105.067   simsec/sec=5.48956   ev/simsec=19.1394
+     Messages:  created: 5052   present: 33   in FES: 12
+** Event #6400   t=405.129702210668   Elapsed: 28.9872s (0m 28s)
+     Speed:     ev/sec=77.8263   simsec/sec=4.778   ev/simsec=16.2885
+     Messages:  created: 5268   present: 37   in FES: 16
+** Event #6656   t=423.185705383188   Elapsed: 33.4545s (0m 33s)
+     Speed:     ev/sec=57.3043   simsec/sec=4.04174   ev/simsec=14.1781
+     Messages:  created: 5475   present: 37   in FES: 16
+** Event #6912   t=440.536617065243   Elapsed: 37.469s (0m 37s)
+     Speed:     ev/sec=63.7699   simsec/sec=4.32214   ev/simsec=14.7543
+     Messages:  created: 5682   present: 33   in FES: 12
+** Event #7168   t=456.025549648435   Elapsed: 41.3572s (0m 41s)
+     Speed:     ev/sec=65.8392   simsec/sec=3.98351   ev/simsec=16.5279
+     Messages:  created: 5898   present: 38   in FES: 17
+** Event #7424   t=472.44059124416   Elapsed: 46.9318s (0m 46s)
+     Speed:     ev/sec=45.923   simsec/sec=2.94464   ev/simsec=15.5955
+     Messages:  created: 6096   present: 30   in FES: 9
+** Event #7680   t=487.275978419149   Elapsed: 52.0158s (0m 52s)
+     Speed:     ev/sec=50.3535   simsec/sec=2.91802   ev/simsec=17.256
+     Messages:  created: 6312   present: 37   in FES: 16
+** Event #7936   t=504.19579648228   Elapsed: 57.3633s (0m 57s)
+     Speed:     ev/sec=47.8732   simsec/sec=3.16409   ev/simsec=15.1302
+     Messages:  created: 6519   present: 34   in FES: 13
+** Event #8192   t=518.159682664162   Elapsed: 63.2538s (1m 03s)
+     Speed:     ev/sec=43.46   simsec/sec=2.37059   ev/simsec=18.333
+     Messages:  created: 6735   present: 39   in FES: 18
+** Event #8448   t=534.876743934097   Elapsed: 70.3014s (1m 10s)
+     Speed:     ev/sec=36.3242   simsec/sec=2.372   ev/simsec=15.3137
+     Messages:  created: 6942   present: 36   in FES: 15
+** Event #8704   t=553.015407787347   Elapsed: 77.348s (1m 17s)
+     Speed:     ev/sec=36.3295   simsec/sec=2.5741   ev/simsec=14.1135
+     Messages:  created: 7149   present: 32   in FES: 11
+** Event #8960   t=569.118251696091   Elapsed: 84.6676s (1m 24s)
+     Speed:     ev/sec=34.9747   simsec/sec=2.19997   ev/simsec=15.8978
+     Messages:  created: 7365   present: 39   in FES: 18
+** Event #9216   t=585.858967579117   Elapsed: 93.7824s (1m 33s)
+     Speed:     ev/sec=28.0861   simsec/sec=1.83665   ev/simsec=15.2921
+     Messages:  created: 7563   present: 30   in FES: 9
+** Event #9472   t=603.308992908497   Elapsed: 101.367s (1m 41s)
+     Speed:     ev/sec=33.7505   simsec/sec=2.30057   ev/simsec=14.6705
+     Messages:  created: 7779   present: 36   in FES: 15
+** Event #9728   t=618.789851677282   Elapsed: 110.014s (1m 50s)
+     Speed:     ev/sec=29.6065   simsec/sec=1.79037   ev/simsec=16.5366
+     Messages:  created: 7986   present: 33   in FES: 12
+** Event #9984   t=633.569663063658   Elapsed: 118.931s (1m 58s)
+     Speed:     ev/sec=28.7086   simsec/sec=1.65745   ev/simsec=17.3209
+     Messages:  created: 8193   present: 30   in FES: 9
+** Event #10240   t=652.676380029695   Elapsed: 130.414s (2m 10s)
+     Speed:     ev/sec=22.2943   simsec/sec=1.66395   ev/simsec=13.3984
+     Messages:  created: 8409   present: 38   in FES: 17
+** Event #10496   t=667.910248856152   Elapsed: 138.719s (2m 18s)
+     Speed:     ev/sec=30.8262   simsec/sec=1.83438   ev/simsec=16.8047
+     Messages:  created: 8616   present: 33   in FES: 11
+** Event #10752   t=690.523546955899   Elapsed: 148.801s (2m 28s)
+     Speed:     ev/sec=25.3908   simsec/sec=2.24285   ev/simsec=11.3208
+     Messages:  created: 8823   present: 31   in FES: 6
+** Event #11008   t=741.881402423366   Elapsed: 159.801s (2m 39s)
+     Speed:     ev/sec=23.2727   simsec/sec=4.66889   ev/simsec=4.98463
+     Messages:  created: 9030   present: 31   in FES: 1
+** Event #11010   t=742.949541933101   Elapsed: 159.801s (2m 39s)
+     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
+     Messages:  created: 9030   present: 30   in FES: 0
+
+<!> No more events, simulation completed -- at t=742.949541933101s, event #11010
+
+Calling finish() at end of Run #2...
+[INFO]	By NodeModule[0] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[1] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[2] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[3] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[4] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[5] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[6] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[7] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[8] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[9] : Simulation ended - Deleting my local Tangle

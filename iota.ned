@@ -17,8 +17,8 @@
 simple NodeModule
 {
     parameters:
-        volatile double mean @unit(s) = 0.005s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 0.001s; //Proof of Work 
+        volatile double mean @unit(s) = 2.0s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
+        volatile double powTime @unit(s) = 3.0s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "EIOTA";
@@ -46,7 +46,7 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(5); 
+        int NodeNumber = default(10); 
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
@@ -79,8 +79,8 @@ network Grid
 {
     parameters:
         //dimensions of the Grid
-        int columns = default(32);
-        int rows = default(32);
+        int columns = default(5);
+        int rows = default(5);
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
