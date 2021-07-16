@@ -17,8 +17,9 @@
 simple NodeModule
 {
     parameters:
-        volatile double mean @unit(s) = 2.0s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 3.0s; //Proof of Work 
+        //here we take the transaction rate of VISA which is 1700 tx per sec, hence, each tx is spaced by 0.000588s
+        volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
+        volatile double powTime @unit(s) = 0.0002s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "EIOTA";
@@ -46,7 +47,7 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(5); 
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
@@ -57,11 +58,14 @@ network FullGraph
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+        
+        //confidence lvl (must be between 0.0 - 1.0)
+        double Confidencelvl = 0.8;
     
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 1ms;
+	        delay = 0.01ms;
 	    }
       
     submodules:
@@ -91,6 +95,9 @@ network Grid
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+        
+        //confidence lvl (must be between 0.0 - 1.0)
+        double Confidencelvl = 0.8;
         
 	types:
         channel Channel extends ned.DelayChannel
@@ -129,6 +136,9 @@ network Torus
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+        
+        //confidence lvl (must be between 0.0 - 1.0)
+        double Confidencelvl = 0.8;
         
     types:
         channel Channel extends ned.DelayChannel
@@ -170,6 +180,9 @@ network Expander
         double minDelay = 50.0; 
         double maxDelay = 100.0;
         
+        //confidence lvl (must be between 0.0 - 1.0)
+        double Confidencelvl = 0.8;
+        
     submodules:
         Nodes[NodeNumber]: NodeModule;
 }
@@ -193,6 +206,9 @@ network WattsStrogatz
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
+        
+        //confidence lvl (must be between 0.0 - 1.0)
+        double Confidencelvl = 0.8;
         
     submodules:
         Nodes[NodeNumber]: NodeModule;

@@ -1,8 +1,8 @@
 #include "NodeModule.h"
 
-const double attackStage = 0.5;
-
 enum MessageType{SETTING,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
+
+const int ThresholdIdx = 10;
 
 Define_Module(NodeModule);
 
@@ -454,66 +454,76 @@ void NodeModule::updateConfidence(double confidence, pTr_S& current)
     }
 }
 
-long double NodeModule::getavgConfidence(pTr_S current)
+double NodeModule::getavgConfidence(pTr_S current)
 {
-    long double avg = 0.0;
+    double avg = 0.0;
 
-    for(int i = 0; i < static_cast<int>(current->approvedBy.size()); ++i)
+    for(auto tx : current->approvedBy)
     {
-        avg += getavgConfidence(current->approvedBy.at(i));
+        avg += tx->confidence;
+        avg += getavgConfidence(tx);
     }
 
     return avg;
 }
 
-void NodeModule::findConflict(pTr_S tip, pTr_S& buffer)
+pTr_S NodeModule::findConflict(pTr_S tip)
 {
+    if(tip->ID[0] == '-')
+    {
+        return tip;
+    }
+
     for(auto adjTx : tip->approvedBy)
     {
-        if(adjTx->ID[0] == '-')
+        if(!adjTx->isGenesisBlock)
         {
-            buffer  = adjTx;
-            return;
-        }
+            auto result = findConflict(adjTx);
 
-        else if(!adjTx->isGenesisBlock)
-        {
-            findConflict(adjTx,buffer);
+            if(result != nullptr)
+            {
+                return result;
+            }
         }
     }
+
+    return nullptr;
 }
 
-void NodeModule::IfConflict(pTr_S tip, pTr_S& buffer, std::string id)
+pTr_S NodeModule::IfConflict(pTr_S tip, std::string id)
 {
+    if(tip->ID == id)
+    {
+        return tip;
+    }
+
     for(auto adjTx : tip->approvedBy)
     {
-        if(adjTx->ID == id)
+        if(!adjTx->isGenesisBlock)
         {
-            buffer = adjTx;
-            return;
-        }
+            auto result = IfConflict(adjTx,id);
 
-        else if(!adjTx->isGenesisBlock)
-        {
-            IfConflict(adjTx,buffer,id);
+            if(result != nullptr)
+            {
+                return result;
+            }
         }
     }
+
+    return nullptr;
 }
 
-void NodeModule::getConfidence(pTr_S tip, std::string id)
+void NodeModule::getConfidence(pTr_S tx, pTr_S& RefTx)
 {
-    for(auto adjTx : tip->approvedBy)
-    {
-       if(adjTx->ID == id)
-       {
-           adjTx->confidence++;
-           return;
-       }
+    if(!tx->isApproved)
+   {
+       RefTx->confidence++;
+       return;
+   }
 
-       else
-       {
-           getConfidence(adjTx,id);
-       }
+    for(auto adjTx : tx->S_approved)
+    {
+       getConfidence(adjTx,RefTx);
     }
 }
 
@@ -565,252 +575,192 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     std::sort(walk_total.begin(), walk_total.end(),[](const std::pair<int,int> &a, const std::pair<int,int> &b){return a.second < b.second;});
 
     VpTr_S tipstoApprove;
-    std::string DoNotCheck;
-    bool Ifbreak = false;
-    long unsigned int j = 0;
+    tipstoApprove.push_back(selected_tips[walk_total[0].first]);
 
-    while(j < walk_total.size())
+    for(auto idx : walk_total)
     {
-        if(tipstoApprove.empty())
+        auto tip = selected_tips[idx.first];
+
+        if(tip->ID != tipstoApprove[0]->ID)
         {
-            int idx = walk_total[j].first;
-            pTr_S tipToCheck = selected_tips[idx];
+            tipstoApprove.push_back(tip);
+            break;
+        }
+    }
 
-            pTr_S buffer = nullptr;
-            findConflict(tipToCheck,buffer);
+    if(tipstoApprove.size() == 1)
+    {
+        tipstoApprove.push_back(tipstoApprove[0]);
+        return tipstoApprove;
+    }
 
-            if(buffer == nullptr)
+    pTr_S buffer = findConflict(tipstoApprove[0]);
+
+    if(buffer == nullptr)
+    {
+        buffer = findConflict(tipstoApprove[1]);
+
+        if(buffer == nullptr)
+        {
+            return tipstoApprove;
+        }
+
+        else
+        {
+            std::string id = buffer->ID;
+            id.pop_back();
+            pTr_S doubleSpendTx = IfConflict(tipstoApprove[0],id);
+
+            if(doubleSpendTx == nullptr)
             {
-                tipstoApprove.push_back(tipToCheck);
+                return tipstoApprove;
+            }
 
-                for(auto i = j + 1; i < walk_total.size(); i++)
+            else
+            {
+                tipstoApprove[0]->confidence = 0.0;
+                tipstoApprove[1]->confidence = 0.0;
+
+                getConfidence(tipstoApprove[0],tipstoApprove[0]);
+                getConfidence(tipstoApprove[1],tipstoApprove[1]);
+
+                std::string DoNotCheck;
+
+                if(tipstoApprove[1]->confidence <= tipstoApprove[0]->confidence)
                 {
-                    idx = walk_total[i].first;
-                    tipToCheck = selected_tips[idx];
+                    DoNotCheck = tipstoApprove[1]->ID;
+                    tipstoApprove.erase(tipstoApprove.begin() + 1);
+                }
 
-                    if(tipToCheck->ID != tipstoApprove[0]->ID)
+                else
+                {
+                    DoNotCheck = tipstoApprove[0]->ID;
+                    tipstoApprove.erase(tipstoApprove.begin());
+                }
+
+                for(auto idx : walk_total)
+                {
+                    auto tip = selected_tips[idx.first];
+
+                    if(tip->ID != DoNotCheck && tipstoApprove[0]->ID != tip->ID)
                     {
-                        buffer = nullptr;
-                        findConflict(tipToCheck,buffer);
+                        buffer = findConflict(tip);
 
                         if(buffer == nullptr)
                         {
-                            tipstoApprove.push_back(tipToCheck);
+                            tipstoApprove.push_back(tip);
                             return tipstoApprove;
                         }
 
                         else
                         {
-                            std::string id = buffer->ID;
+                            id = buffer->ID;
                             id.pop_back();
-                            pTr_S doubleSpendTx1 = nullptr;
-                            IfConflict(tipToCheck,doubleSpendTx1,id);
+                            doubleSpendTx = IfConflict(tipstoApprove[0],id);
 
-                            if(doubleSpendTx1 == nullptr)
+                            if(doubleSpendTx == nullptr)
                             {
-                                pTr_S doubleSpendTx2 = nullptr;
-                                IfConflict(tipstoApprove[0],doubleSpendTx2,id);
-
-                                if(doubleSpendTx2 == nullptr)
-                                {
-                                    tipstoApprove.push_back(tipToCheck);
-                                    return tipstoApprove;
-                                }
-
-                                else
-                                {
-                                    tipstoApprove[0]->confidence = 0.0;
-                                    tipToCheck->confidence = 0.0;
-                                    std::map<std::string,pTr_S>::iterator it;
-
-                                    for(it = myTips.begin(); it != myTips.end();)
-                                    {
-                                        getConfidence(it->second,tipstoApprove[0]->ID);
-                                        getConfidence(it->second,tipToCheck->ID);
-                                    }
-
-                                    if(tipToCheck->confidence > tipstoApprove[0]->confidence)
-                                    {
-                                        DoNotCheck = tipstoApprove[0]->ID;
-                                        tipToCheck->isDup = true;
-                                        tipstoApprove[0] = tipToCheck;
-                                        j = 0;
-                                        Ifbreak = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            else
-            {
-                std::string id = buffer->ID;
-                id.pop_back();
-                pTr_S doubleSpendTx1 = nullptr;
-                IfConflict(tipToCheck,doubleSpendTx1,id);
-
-                if(doubleSpendTx1 == nullptr)
-                {
-                    tipstoApprove.push_back(tipToCheck);
-
-                    for(auto i = j + 1; i < walk_total.size(); i++)
-                    {
-                        idx = walk_total[i].first;
-                        tipToCheck = selected_tips[idx];
-
-                        if(tipToCheck->ID != tipstoApprove[0]->ID)
-                        {
-                            buffer = nullptr;
-                            findConflict(tipToCheck,buffer);
-
-                            if(buffer == nullptr)
-                            {
-                                doubleSpendTx1 = nullptr;
-                                IfConflict(tipToCheck,doubleSpendTx1,id);
-
-                                if(doubleSpendTx1 == nullptr)
-                                {
-                                    tipstoApprove.push_back(tipToCheck);
-                                    return tipstoApprove;
-                                }
-
-                                else
-                                {
-                                    tipstoApprove[0]->confidence = 0.0;
-                                    tipToCheck->confidence = 0.0;
-                                    std::map<std::string,pTr_S>::iterator it;
-
-                                    for(it = myTips.begin(); it != myTips.end();)
-                                    {
-                                        getConfidence(it->second,tipstoApprove[0]->ID);
-                                        getConfidence(it->second,tipToCheck->ID);
-                                    }
-
-                                    if(tipToCheck->confidence > tipstoApprove[0]->confidence)
-                                    {
-                                        DoNotCheck = tipstoApprove[0]->ID;
-                                        tipstoApprove[0] = tipToCheck;
-                                        j = 0;
-                                        Ifbreak = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            else
-                            {
-                                id = buffer->ID;
-                                id.pop_back();
-                                doubleSpendTx1 = nullptr;
-                                IfConflict(tipToCheck,doubleSpendTx1,id);
-
-                                if(doubleSpendTx1 == nullptr)
-                                {
-                                    tipstoApprove.push_back(tipToCheck);
-                                    return tipstoApprove;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        else if(!Ifbreak)
-        {
-            break;
-        }
-
-        else
-        {
-            int idx = walk_total[j].first;
-            pTr_S tipToCheck = selected_tips[idx];
-
-            if(tipToCheck->ID != DoNotCheck && tipToCheck->ID != tipstoApprove[0]->ID)
-            {
-                pTr_S buffer = nullptr;
-                findConflict(tipToCheck,buffer);
-
-                if(tipstoApprove[0]->isDup)
-                {
-                    pTr_S doubleSpendTx1 = nullptr;
-
-                    if(buffer != nullptr)
-                    {
-                        std::string id = buffer->ID;
-                        id.pop_back();
-                        IfConflict(tipToCheck,doubleSpendTx1,id);
-
-                        if(doubleSpendTx1 == nullptr)
-                        {
-                            tipstoApprove.push_back(tipToCheck);
-                            return tipstoApprove;
-                        }
-                    }
-
-                    else
-                    {
-                        std::string id = tipstoApprove[0]->ID;
-                        id.pop_back();
-                        IfConflict(tipToCheck,doubleSpendTx1,id);
-
-                        if(doubleSpendTx1 == nullptr)
-                        {
-                            tipstoApprove.push_back(tipToCheck);
-                            return tipstoApprove;
-                        }
-                    }
-                }
-
-                else
-                {
-                    pTr_S doubleSpendTx1 = nullptr;
-
-                    if(buffer != nullptr)
-                    {
-                        std::string id = buffer->ID;
-                        id.pop_back();
-                        IfConflict(tipToCheck,doubleSpendTx1,id);
-
-                        if(doubleSpendTx1 == nullptr)
-                        {
-                            pTr_S doubleSpendTx2 = nullptr;
-                            IfConflict(tipstoApprove[0],doubleSpendTx2,id);
-
-                            if(doubleSpendTx2 == nullptr)
-                            {
-                                tipstoApprove.push_back(tipToCheck);
+                                tipstoApprove.push_back(tip);
                                 return tipstoApprove;
                             }
                         }
                     }
+                }
+            }
+        }
+    }
 
-                    else
+    else
+    {
+        std::string id = buffer->ID;
+        id.pop_back();
+
+        buffer = findConflict(tipstoApprove[1]);
+
+        if(buffer != nullptr)
+        {
+            return tipstoApprove;
+        }
+
+        else
+        {
+            pTr_S doubleSpendTx = IfConflict(tipstoApprove[1],id);
+
+            if(doubleSpendTx == nullptr)
+            {
+                return tipstoApprove;
+            }
+
+            else
+            {
+                tipstoApprove[0]->confidence = 0.0;
+                tipstoApprove[1]->confidence = 0.0;
+
+                getConfidence(tipstoApprove[0],tipstoApprove[0]);
+                getConfidence(tipstoApprove[1],tipstoApprove[1]);
+
+                std::string DoNotCheck;
+
+                if(tipstoApprove[1]->confidence <= tipstoApprove[0]->confidence)
+                {
+                    DoNotCheck = tipstoApprove[1]->ID;
+                    tipstoApprove.erase(tipstoApprove.begin() + 1);
+                }
+
+                else
+                {
+                    DoNotCheck = tipstoApprove[0]->ID;
+                    tipstoApprove.erase(tipstoApprove.begin());
+                }
+
+                for(auto idx : walk_total)
+                {
+                    auto tip = selected_tips[idx.first];
+
+                    if(tip->ID != DoNotCheck && tipstoApprove[0]->ID != tip->ID)
                     {
-                        tipstoApprove.push_back(tipToCheck);
-                        return tipstoApprove;
+                        buffer = findConflict(tip);
+
+                        if(buffer == nullptr)
+                        {
+                            tipstoApprove.push_back(tip);
+                            return tipstoApprove;
+                        }
+
+                        else
+                        {
+                            id = buffer->ID;
+                            id.pop_back();
+                            doubleSpendTx = IfConflict(tipstoApprove[0],id);
+
+                            if(doubleSpendTx == nullptr)
+                            {
+                                tipstoApprove.push_back(tip);
+                                return tipstoApprove;
+                            }
+                        }
                     }
                 }
             }
         }
-
-        j++;
     }
 
-   if(tipstoApprove.size() == 1)
-   {
-       tipstoApprove.push_back(tipstoApprove[0]);
-       return tipstoApprove;
-   }
+    if(tipstoApprove.size() == 1)
+    {
+        tipstoApprove.push_back(tipstoApprove[0]);
+    }
 
    return tipstoApprove;
 }
 
 VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
 {
+   for(auto& tx : myTangle)
+   {
+       tx->confidence = 0.0;
+       tx->countSelected = 0;
+   }
+
    auto copyTips = tips;
    VpTr_S chosenTips = IOTA(alphaVal,tips,timeStamp,W,N);
    VpTr_S filterTips;
@@ -834,12 +784,6 @@ VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, si
        return chosenTips;
    }
 
-   for(auto& tx : myTangle)
-   {
-       tx->confidence = 0.0;
-       tx->countSelected = 0;
-   }
-
    for(auto tip : filterTips)
    {
        for(auto& tx : tip->approvedBy)
@@ -848,7 +792,7 @@ VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, si
        }
    }
 
-   std::vector<std::pair<long double,pTr_S>> avgConfTips;
+   std::vector<std::pair<double,pTr_S>> avgConfTips;
 
    for(auto tip : filterTips)
    {
@@ -1204,9 +1148,54 @@ void NodeModule::handleMessage(cMessage * msg)
             txCount++;
             VpTr_S chosenTips;
             int tipsNb = 0;
-            std::string trId = ID + std::to_string(txCount);
+            std::string trId = "null";
 
-            EV << "TSA procedure for " << trId<< std::endl;
+            if(ID == "[0]")
+            {
+                if(!IfDoubleSpend && ThresholdIdx < myTangle.size())
+                {
+                    bool ifAttack = false;
+
+                    for(long unsigned int i = 1; i < ThresholdIdx; i++)
+                    {
+                        auto tx = myTangle[i];
+
+                        if(tx->ID != "Genesis" && tx->isApproved)
+                        {
+                            tx->confidence = 0.0;
+                            getConfidence(tx,tx);
+
+                            double Conflvl = getParentModule()->par("Confidencelvl");
+
+                            if(tx->confidence/myTips.size() >= Conflvl)
+                            {
+                                trId = "-" + tx->ID;
+                                IfDoubleSpend = true;
+                                ifAttack = true;
+                                EV << "Launching a double spending attack !" << std::endl;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!ifAttack)
+                    {
+                        trId = ID + std::to_string(txCount);
+                    }
+                }
+
+                else
+                {
+                    trId = ID + std::to_string(txCount);
+                }
+            }
+
+            else
+            {
+                trId = ID + std::to_string(txCount);
+            }
+
+            EV << "TSA procedure for " << trId << std::endl;
 
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
@@ -1356,9 +1345,9 @@ void NodeModule::finish()
 {
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
 
-    //printTangle();
-    printTipsLeft();
-    //stats();
+    printTangle();
+    //printTipsLeft();
+    stats();
     DeleteTangle();
 
     delete msgIssue;

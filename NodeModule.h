@@ -104,16 +104,16 @@ class NodeModule : public cSimpleModule
         void updateConfidence(double confidence, pTr_S& current);
 
         //give the average confidence of transactions that are approved directly or indirectly by a tip (for G-IOTA)
-        long double getavgConfidence(pTr_S current);
+        double getavgConfidence(pTr_S current);
 
         //find a conflict (i.e a transaction with an ID starting with '-')
-        void findConflict(pTr_S tip, pTr_S& buffer);
+        pTr_S findConflict(pTr_S tip);
 
         //check if there is a conflict and return the conflicted transaction in the buffer
-        void IfConflict(pTr_S tip, pTr_S& buffer, std::string id);
+        pTr_S IfConflict(pTr_S tip, std::string id);
 
         //get confidence for one site (to resolve conflict)
-        void getConfidence(pTr_S tip, std::string id);
+        void getConfidence(pTr_S tx, pTr_S& RefTx);
 
         //TSA
         VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
@@ -166,6 +166,9 @@ class NodeModule : public cSimpleModule
 
         //counts the number of transactions issued by the node
         int txCount = 0;
+
+        //for double spending transaction
+        bool IfDoubleSpend = false;
 
         //PoW
         simtime_t powTime;
