@@ -19,7 +19,7 @@ simple NodeModule
     parameters:
         //here we take the transaction rate of VISA which is 1700 tx per sec, hence, each tx is spaced by 0.000588s
         volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 0.0002s; //Proof of Work 
+        volatile double powTime @unit(s) = 0.001s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "EIOTA";
@@ -36,6 +36,12 @@ simple NodeModule
         double p2 = 0.65;
         double lowAlpha = 0.1;
     	double highAlpha = 5.0;
+    	
+    	//when generate a conflict transaction based on the Tangle size of the node 
+    	double AttackStage = 0.5; //have to be in [0,1]
+    	
+    	//index of the transaction to be double spend in the vector myTangle
+    	int idxConflictTx = 1; //have to be in [1, myTangle.size() - 1]
     	
     gates:
         input NodeIn[];
@@ -59,13 +65,10 @@ network FullGraph
         double minDelay = 50.0; 
         double maxDelay = 100.0;
         
-        //confidence lvl (must be between 0.0 - 1.0)
-        double Confidencelvl = 0.8;
-    
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 0.01ms;
+	        delay = 0.0001ms;
 	    }
       
     submodules:

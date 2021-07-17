@@ -51,7 +51,7 @@ def TipsApp(listSite,listTips):
     return dictApp
 
 #colors of the node for graphviz 
-colors = ['green','orange','red']
+colors = ['green','orange','red','blue']
 #confidence 
 conf = 0.5
 
@@ -67,7 +67,9 @@ for nodeID, sites in NodeModules.items():
     g.attr(label=r'Tangle NodeModule[' + str(nodeID) + ']',labelloc='t')
 
     for node in sites:
-        if node[1][0] == '':
+        if node[0][0] == '-':
+            g.node(node[0],color=colors[3])
+        elif node[1][0] == '':
             g.node(node[0],color=colors[2])
         else:
             if len(dictApp[node[0]]) >= int(numberTips*conf):

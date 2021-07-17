@@ -1,8 +1,6 @@
 #include "NodeModule.h"
 
-enum MessageType{SETTING,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
-
-const int ThresholdIdx = 10;
+enum MessageType{SETTING,ISSUE,POW,UPDATE};
 
 Define_Module(NodeModule);
 
@@ -448,7 +446,7 @@ void NodeModule::updateConfidence(double confidence, pTr_S& current)
 {
     current->confidence += confidence;
 
-    for(auto& tx : current->approvedBy)
+    for(auto& tx : current->S_approved)
     {
         updateConfidence(confidence, tx);
     }
@@ -458,7 +456,7 @@ double NodeModule::getavgConfidence(pTr_S current)
 {
     double avg = 0.0;
 
-    for(auto tx : current->approvedBy)
+    for(auto tx : current->S_approved)
     {
         avg += tx->confidence;
         avg += getavgConfidence(tx);
@@ -474,7 +472,7 @@ pTr_S NodeModule::findConflict(pTr_S tip)
         return tip;
     }
 
-    for(auto adjTx : tip->approvedBy)
+    for(auto adjTx : tip->S_approved)
     {
         if(!adjTx->isGenesisBlock)
         {
@@ -497,7 +495,7 @@ pTr_S NodeModule::IfConflict(pTr_S tip, std::string id)
         return tip;
     }
 
-    for(auto adjTx : tip->approvedBy)
+    for(auto adjTx : tip->S_approved)
     {
         if(!adjTx->isGenesisBlock)
         {
@@ -521,7 +519,7 @@ void NodeModule::getConfidence(pTr_S tx, pTr_S& RefTx)
        return;
    }
 
-    for(auto adjTx : tx->S_approved)
+    for(auto adjTx : tx->approvedBy)
     {
        getConfidence(adjTx,RefTx);
     }
@@ -532,7 +530,6 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     if(tips.size() == 1)
     {
         VpTr_S tipstoApprove;
-        tipstoApprove.push_back(tips.begin()->second);
         tipstoApprove.push_back(tips.begin()->second);
         return tipstoApprove;
     }
@@ -590,7 +587,6 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
 
     if(tipstoApprove.size() == 1)
     {
-        tipstoApprove.push_back(tipstoApprove[0]);
         return tipstoApprove;
     }
 
@@ -743,11 +739,6 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
                 }
             }
         }
-    }
-
-    if(tipstoApprove.size() == 1)
-    {
-        tipstoApprove.push_back(tipstoApprove[0]);
     }
 
    return tipstoApprove;
@@ -981,7 +972,7 @@ void NodeModule::initialize()
 
                 if(nodeNeib == nullptr)
                 {
-                    throw std::runtime_error("Node not found while setting connections for exp & Ws topo");
+                    throw std::runtime_error("Node not found while setting connections for exp & Ws topo : check the number of nodes set in the python script and in the .ned file, they have to be identical !");
                 }
 
                 cDelayChannel *channel1 = nullptr;
@@ -1148,40 +1139,26 @@ void NodeModule::handleMessage(cMessage * msg)
             txCount++;
             VpTr_S chosenTips;
             int tipsNb = 0;
-            std::string trId = "null";
+            std::string trId;
 
             if(ID == "[0]")
             {
-                if(!IfDoubleSpend && ThresholdIdx < myTangle.size())
+                double AttackStage = par("AttackStage");
+
+                if(!IfDoubleSpend &&  myTangle.size() >= AttackStage*txLimit*NodeModuleNb)
                 {
-                    bool ifAttack = false;
+                    int idxConflictTx = par("idxConflictTx");
 
-                    for(long unsigned int i = 1; i < ThresholdIdx; i++)
+                    if(idxConflictTx <= 0 || idxConflictTx >= myTangle.size())
                     {
-                        auto tx = myTangle[i];
-
-                        if(tx->ID != "Genesis" && tx->isApproved)
-                        {
-                            tx->confidence = 0.0;
-                            getConfidence(tx,tx);
-
-                            double Conflvl = getParentModule()->par("Confidencelvl");
-
-                            if(tx->confidence/myTips.size() >= Conflvl)
-                            {
-                                trId = "-" + tx->ID;
-                                IfDoubleSpend = true;
-                                ifAttack = true;
-                                EV << "Launching a double spending attack !" << std::endl;
-                                break;
-                            }
-                        }
+                        throw std::runtime_error("idxConflictTx does not have a correct value, check .ned file !");
                     }
 
-                    if(!ifAttack)
-                    {
-                        trId = ID + std::to_string(txCount);
-                    }
+                    auto tx = myTangle[idxConflictTx];
+                    trId = "-" + tx->ID;
+                    IfDoubleSpend = true;
+
+                    EV << "Launching a double spending attack !" << std::endl;
                 }
 
                 else
@@ -1194,6 +1171,7 @@ void NodeModule::handleMessage(cMessage * msg)
             {
                 trId = ID + std::to_string(txCount);
             }
+
 
             EV << "TSA procedure for " << trId << std::endl;
 
@@ -1231,12 +1209,7 @@ void NodeModule::handleMessage(cMessage * msg)
             MsgP->chosen = chosenTips;
             msgPoW->setContextPointer(MsgP);
 
-            if(chosenTips[0]->ID == chosenTips[1]->ID)
-            {
-                tipsNb = 1;
-            }
-
-            EV << "Pow time = " << tipsNb*powTime<< std::endl;
+            EV << "Pow time = " << tipsNb*powTime << std::endl;
             scheduleAt(simTime() + tipsNb*powTime, msgPoW);
         }
 
