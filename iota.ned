@@ -56,7 +56,7 @@ network FullGraph
         int NodeNumber = default(5); 
         
         //how much transactions each node will issue
-        int transactionLimit = 100; 
+        int transactionLimit = 60; 
         
         //random delay
     	bool ifRandDelay = false;
@@ -68,7 +68,7 @@ network FullGraph
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 0.0001ms;
+	        delay = 0.000ms;
 	    }
       
     submodules:

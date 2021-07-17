@@ -112,6 +112,9 @@ class NodeModule : public cSimpleModule
         //check if there is a conflict and return the conflicted transaction in the buffer
         pTr_S IfConflict(pTr_S tip, std::string id);
 
+        //find if a tip is legit (i.e if it approves at the same time two conflicted transactions)
+        std::pair<pTr_S,pTr_S> IfLegitTip(pTr_S tip);
+
         //get confidence for one site (to resolve conflict)
         void getConfidence(pTr_S tx, pTr_S& RefTx);
 

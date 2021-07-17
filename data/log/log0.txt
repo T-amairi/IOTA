@@ -1,6 +1,6 @@
 
 Running configuration General, run #0...
-Assigned runID=General-0-20210717-15:30:12-13408
+Assigned runID=General-0-20210717-23:47:33-5880
 Setting up network "FullGraph"...
 Initializing...
 
@@ -8,15 +8,21 @@ Running simulation...
 ** Event #0   t=0   Elapsed: 2e-006s (0m 00s)
      Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
      Messages:  created: 15   present: 15   in FES: 5
-** Event #1536   t=0.117958532302   Elapsed: 2.08373s (0m 02s)
-     Speed:     ev/sec=737.622   simsec/sec=0.0566095   ev/simsec=13030
-     Messages:  created: 1039   present: 19   in FES: 8
-** Event #1792   t=0.13556575262   Elapsed: 4.57755s (0m 04s)
-     Speed:     ev/sec=102.653   simsec/sec=0.00706032   ev/simsec=14539.5
-     Messages:  created: 1211   present: 19   in FES: 8
-** Event #2048   t=0.154919786257   Elapsed: 37.6637s (0m 37s)
-     Speed:     ev/sec=7.73739   simsec/sec=0.000584959   ev/simsec=13227.2
-     Messages:  created: 1379   present: 16   in FES: 5
-** Event #2304   t=0.173020074444   Elapsed: 590.245s (9m 50s)
-     Speed:     ev/sec=0.46328   simsec/sec=3.27559e-005   ev/simsec=14143.4
-     Messages:  created: 1551   present: 19   in FES: 8
+** Event #1536   t=0.124185261548   Elapsed: 2.78727s (0m 02s)
+     Speed:     ev/sec=551.436   simsec/sec=0.0445545   ev/simsec=12376.7
+     Messages:  created: 995   present: 15   in FES: 4
+** Event #1792   t=0.148423867163   Elapsed: 7.47298s (0m 07s)
+     Speed:     ev/sec=54.6342   simsec/sec=0.00517288   ev/simsec=10561.7
+     Messages:  created: 1143   present: 15   in FES: 3
+** Event #1913   t=0.171083754684   Elapsed: 16.9701s (0m 16s)
+     Speed:     ev/sec=12.6354   simsec/sec=0.0023648   ev/simsec=5343.12
+     Messages:  created: 1215   present: 15   in FES: 0
+
+<!> No more events, simulation completed -- at t=0.171083754684s, event #1913
+
+Calling finish() at end of Run #0...
+[INFO]	By NodeModule[0] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[1] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[2] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[3] : Simulation ended - Deleting my local Tangle
+[INFO]	By NodeModule[4] : Simulation ended - Deleting my local Tangle
