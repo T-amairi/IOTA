@@ -22,10 +22,10 @@ simple NodeModule
         volatile double powTime @unit(s) = 0.001s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "EIOTA";
+        string TSA = "IOTA";
         
         //IOTA && GIOTA 
-        double alpha = 5.0; //alpha in Pxy prob 
+        double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
         int W = 250; //interval [W,2W]
@@ -36,6 +36,9 @@ simple NodeModule
         double p2 = 0.65;
         double lowAlpha = 0.1;
     	double highAlpha = 5.0;
+    	
+    	//to initiate a Parasite Chain Attack
+    	bool ParasiteChainAttack = false;
     	
     	//when generate a conflict transaction based on the Tangle size of the node 
     	double AttackStage = 0.5; //have to be in [0,1]
@@ -53,10 +56,10 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(5); 
+        int NodeNumber = default(10); 
         
         //how much transactions each node will issue
-        int transactionLimit = 60; 
+        int transactionLimit = 100; 
         
         //random delay
     	bool ifRandDelay = false;
@@ -68,7 +71,7 @@ network FullGraph
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 0.000ms;
+	        delay = 0.0001ms;
 	    }
       
     submodules:

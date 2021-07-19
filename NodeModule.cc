@@ -582,6 +582,7 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
         for(int i = 0; i < N; i++)
         {
             auto tip = WeightedRandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time);
+            EV << "Start site : " << start_sites[i]->ID << ", Tip candidat : " << tip->ID << std::endl;
             selected_tips.push_back(tip);
             walk_total.push_back(std::make_pair(i,walk_time));
         }
@@ -590,176 +591,81 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     std::sort(walk_total.begin(), walk_total.end(),[](const std::pair<int,int> &a, const std::pair<int,int> &b){return a.second < b.second;});
 
     VpTr_S tipstoApprove;
-    std::string idCache = "null";
-    std::vector<std::string> VCache;
 
-    for(int i = 0; i < static_cast<int>(walk_total.size()); i++)
+    tipstoApprove.push_back(selected_tips[walk_total[0].first]);
+
+    for(auto idx : walk_total)
     {
-        int idx = walk_total[i].first;
-        auto tip = selected_tips[idx];
-        std::pair<pTr_S,pTr_S> p1;
-        bool ifok;
+        auto tip = selected_tips[idx.first];
 
-        if(idCache == "null")
+        if(tip->ID != tipstoApprove[0]->ID)
         {
-            ifok = true;
-        }
-
-        else
-        {
-            if(idCache != tip->ID)
-            {
-                ifok = true;
-            }
-
-            else
-            {
-                ifok = false;
-            }
-        }
-
-        if(ifok)
-        {
-            idCache = tip->ID;
-            p1 = IfLegitTip(tip);
-
-            if(p1.first == nullptr)
-            {
-                tipstoApprove.push_back(tip);
-            }
-
-            else
-            {
-                if(p1.second != nullptr)
-                {
-                    VCache.push_back(tip->ID);
-                    ifok = false;
-                }
-            }
-        }
-
-        if(ifok)
-        {
-            for(int j = i + 1; j < static_cast<int>(walk_total.size()); j++)
-            {
-                idx = walk_total[j].first;
-                tip = selected_tips[idx];
-
-                if(idCache != tip->ID)
-                {
-                    idCache = tip->ID;
-                    auto p2 = IfLegitTip(tip);
-
-                    if(p2.second == nullptr)
-                    {
-                        if((p1.first != nullptr && p2.first != nullptr) || (p1.first == nullptr && p2.first == nullptr))
-                        {
-                            tipstoApprove.push_back(tip);
-                            return tipstoApprove;
-                        }
-
-                        else if(p1.first != nullptr && p2.first == nullptr)
-                        {
-                            auto id = p1.first->ID;
-                            id.pop_back();
-                            auto doubleSpendTx = IfConflict(tip,id);
-
-                            if(doubleSpendTx == nullptr)
-                            {
-                                tipstoApprove.push_back(tip);
-                                return tipstoApprove;
-                            }
-                        }
-
-                        else if(p1.first == nullptr && p2.first != nullptr)
-                        {
-                            auto id = p2.first->ID;
-                            id.pop_back();
-                            auto doubleSpendTx = IfConflict(tipstoApprove[0],id);
-
-                            if(doubleSpendTx == nullptr)
-                            {
-                                tipstoApprove.push_back(tip);
-                                return tipstoApprove;
-                            }
-                        }
-
-                        tipstoApprove[0]->confidence = 0.0;
-                        tip->confidence = 0.0;
-
-                        getConfidence(tipstoApprove[0],tipstoApprove[0]);
-                        getConfidence(tip,tip);
-
-                        if(tip->confidence <= tipstoApprove[0]->confidence)
-                        {
-                            VCache.push_back(tip->ID);
-                        }
-
-                        else
-                        {
-                            VCache.push_back(tipstoApprove[0]->ID);
-                            tipstoApprove[0] = tip;
-                            p1 = p2;
-                        }
-
-                        for(int k = 0; k < static_cast<int>(walk_total.size()); k++)
-                        {
-                            idx = walk_total[k].first;
-                            tip = selected_tips[idx];
-
-                            if((std::find(VCache.begin(), VCache.end(), tip->ID) == VCache.end()) && tip->ID != idCache)
-                            {
-                                idCache = tip->ID;
-                                p2 = IfLegitTip(tip);
-
-                                if(p2.second == nullptr)
-                                {
-                                    if((p1.first != nullptr && p2.first != nullptr) || (p1.first == nullptr && p2.first == nullptr))
-                                    {
-                                        tipstoApprove.push_back(tip);
-                                        return tipstoApprove;
-                                    }
-
-                                    else if(p1.first != nullptr && p2.first == nullptr)
-                                    {
-                                        auto id = p1.first->ID;
-                                        id.pop_back();
-                                        auto doubleSpendTx = IfConflict(tip,id);
-
-                                        if(doubleSpendTx == nullptr)
-                                        {
-                                            tipstoApprove.push_back(tip);
-                                            return tipstoApprove;
-                                        }
-                                    }
-
-                                    else if(p1.first == nullptr && p2.first != nullptr)
-                                    {
-                                        auto id = p2.first->ID;
-                                        id.pop_back();
-                                        auto doubleSpendTx = IfConflict(tipstoApprove[0],id);
-
-                                        if(doubleSpendTx == nullptr)
-                                        {
-                                            tipstoApprove.push_back(tip);
-                                            return tipstoApprove;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        VCache.push_back(tip->ID);
-                    }
-                }
-            }
+            tipstoApprove.push_back(tip);
+            break;
         }
     }
 
     return tipstoApprove;
+
+    /*std::vector<std::tuple<pTr_S,int,int>> selected_tips;
+    int walk_time;
+
+    if(alphaVal == 0.0)
+    {
+        for(int i = 0; i < N; i++)
+        {
+            auto tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
+            auto it = std::find_if(selected_tips.begin(), selected_tips.end(), [tip](const std::tuple<pTr_S,int,int>& Tip) {return std::get<0>(Tip)->ID == tip->ID;});
+
+            if(it == selected_tips.end())
+            {
+                selected_tips.push_back(std::make_tuple(tip,1,walk_time));
+            }
+
+            else
+            {
+                std::get<1>(*it)++;
+            }
+        }
+    }
+
+    else
+    {
+        for(int i = 0; i < N; i++)
+        {
+            auto tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
+            EV << "Start site : " << start_sites[i]->ID << ", Tip candidat : " << tip->ID << std::endl;
+            auto it = std::find_if(selected_tips.begin(), selected_tips.end(), [&tip](const std::tuple<pTr_S,int,int>& Tip) {return std::get<0>(Tip)->ID == tip->ID;});
+
+            if(it == selected_tips.end())
+            {
+                selected_tips.push_back(std::make_tuple(tip,1,walk_time));
+            }
+
+            else
+            {
+                std::get<1>(*it)++;
+            }
+        }
+    }
+
+    std::sort(selected_tips.begin(), selected_tips.end(), [](const std::tuple<pTr_S,int,int>& tip1, const std::tuple<pTr_S,int,int>& tip2){return std::get<1>(tip1) > std::get<1>(tip2);});
+
+    for(auto tip : selected_tips)
+    {
+        EV << "ID : " << std::get<0>(tip)->ID << ", count : " << std::get<1>(tip) << ", walk time : " << std::get<2>(tip) << std::endl;
+    }
+
+    VpTr_S tipstoApprove;
+    tipstoApprove.push_back(std::get<0>(selected_tips[0]));
+
+    if(selected_tips.size() > 1)
+    {
+        tipstoApprove.push_back(std::get<0>(selected_tips[1]));
+    }
+
+
+    return tipstoApprove;*/
 }
 
 VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
@@ -1159,7 +1065,7 @@ void NodeModule::handleMessage(cMessage * msg)
             int tipsNb = 0;
             std::string trId;
 
-            if(ID == "[0]")
+            if(ID == "[0]" && par("ParasiteChainAttack"))
             {
                 double AttackStage = par("AttackStage");
 

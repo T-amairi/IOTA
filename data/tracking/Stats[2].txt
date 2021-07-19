@@ -1,7 +1,0 @@
-FullGraph;51;1;0
-FullGraph;126;16;0
-FullGraph;251;12;0
-FullGraph;251;24;0
-FullGraph;376;34;0
-FullGraph;251;26;0
-FullGraph;301;8;0
