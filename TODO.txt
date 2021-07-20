@@ -1,5 +1,0 @@
-TODO:
-
-1.classer selon le nombre de fois un tip a été choisi puis par le nombre de marche
-2.effectuer N marches aléatoires depuis un site choisi aléatoirement 
-3.optimisier le code de conflit lors des sélections des tips 
