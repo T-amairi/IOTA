@@ -9,80 +9,50 @@ std::vector<int> NodeModule::readCSV(bool IfExp)
     auto env =  cSimulation::getActiveEnvir();
     auto currentRun = env->getConfigEx()->getActiveRunNumber();
     std::vector<int> neib;
+    std::fstream file;
+    std::string path;
 
     if(IfExp)
     {
-        std::fstream file;
-        std::string path = "./topologies/exp_CSV/expander" + std::to_string(currentRun) + ".csv";
-        file.open(path);
-
-        if(!file.is_open()) throw std::runtime_error("Could not open expander CSV file");
-
-        std::string line;
-        int count = 0;
-
-        while(getline(file, line,'\n'))
-        {
-            if(count == getId() - 2)
-            {
-                std::istringstream templine(line);
-                std::string data;
-
-                bool test = false;
-
-                while(std::getline(templine, data,','))
-                {
-                  if(test)
-                  {
-                    neib.push_back(atoi(data.c_str()));
-                  }
-
-                  test = true;
-                }
-            }
-
-            count++;
-        }
-
-        file.close();
+        path = "./topologies/exp_CSV/expander" + std::to_string(currentRun) + ".csv";
     }
 
     else
     {
-        std::fstream file;
-        std::string path = "./topologies/ws_CSV/watts_strogatz" + std::to_string(currentRun) + ".csv";
-        file.open(path,std::ios::in);
+        path = "./topologies/ws_CSV/watts_strogatz" + std::to_string(currentRun) + ".csv";
+    }
 
-        if(!file.is_open()) throw std::runtime_error("Could not open watts strogatz CSV file");
+    file.open(path,std::ios::in);
 
-        std::string line;
-        int count = 0;
+    if(!file.is_open()) throw std::runtime_error("Could not open expander CSV file");
 
-        while(getline(file, line,'\n'))
+    std::string line;
+    int count = 0;
+
+    while(getline(file, line,'\n'))
+    {
+        if(count == getId() - 2)
         {
-            if(count == getId() - 2)
+            std::istringstream templine(line);
+            std::string data;
+
+            bool test = false;
+
+            while(std::getline(templine, data,','))
             {
-                std::istringstream templine(line);
-                std::string data;
+              if(test)
+              {
+                neib.push_back(atoi(data.c_str()));
+              }
 
-                bool test = false;
-
-                while(std::getline(templine, data,','))
-                {
-                  if(test)
-                  {
-                    neib.push_back(atoi(data.c_str()));
-                  }
-
-                  test = true;
-                }
+              test = true;
             }
-
-            count++;
         }
 
-        file.close();
+        count++;
     }
+
+    file.close();
 
     return neib;
 }
@@ -226,29 +196,22 @@ int NodeModule::ComputeWeight(pTr_S tr, simtime_t timeStamp)
     return weight + 1;
 }
 
-pTr_S NodeModule::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist)
+pTr_S NodeModule::getStartSite(int W)
 {
-    int iterAdvances = intuniform(0,tips.size() - 1);
-    auto beginIter = tips.begin();
+    auto cpyTangle = myTangle;
+    cpyTangle.erase(std::remove_if(cpyTangle.begin(), cpyTangle.end(), [](const pTr_S& tx){return tx->isApproved == false;}), cpyTangle.end());
 
-    if(tips.size() > 1)
+    int w = intuniform(W,2*W);
+
+    if(w > cpyTangle.size() || w == 0)
     {
-        std::advance(beginIter,iterAdvances);
+        return genesisBlock;
     }
 
-    pTr_S current = beginIter->second;
-
-    int count = backTrackDist;
-    int approvesIndex;
-
-    while(!current->isGenesisBlock && count > 0)
+    else
     {
-        approvesIndex = intuniform(0,current->S_approved.size() - 1);
-        current = current->S_approved.at(approvesIndex);
-        --count;
+        return cpyTangle.at(w - 1);
     }
-
-    return current;
 }
 
 void NodeModule::ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips)
@@ -288,6 +251,7 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
     }
 
     new_tips->S_approved = chosen;
+    new_tips->pathID = getpathID(chosen);
     ReconcileTips(chosen,myTips);
 
     myTangle.push_back(new_tips);
@@ -465,6 +429,35 @@ double NodeModule::getavgConfidence(pTr_S current)
     return avg;
 }
 
+std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
+{
+    std::unordered_set<std::string> pathID;
+
+    if(chosenTips.size() == 1)
+    {
+        pathID = chosenTips[0]->pathID;
+        pathID.insert(chosenTips[0]->ID);
+        return pathID;
+    }
+
+    if(chosenTips[0]->pathID.size() > chosenTips[1]->pathID.size())
+    {
+        pathID = chosenTips[0]->pathID;
+        pathID.insert(chosenTips[1]->pathID.begin(),chosenTips[1]->pathID.end());
+    }
+
+    else
+    {
+        pathID = chosenTips[1]->pathID;
+        pathID.insert(chosenTips[0]->pathID.begin(),chosenTips[0]->pathID.end());
+    }
+
+    pathID.insert(chosenTips[0]->ID);
+    pathID.insert(chosenTips[1]->ID);
+
+    return pathID;
+}
+
 pTr_S NodeModule::findConflict(pTr_S tip)
 {
     if(tip->ID[0] == '-')
@@ -511,36 +504,58 @@ pTr_S NodeModule::IfConflict(pTr_S tip, std::string id)
     return nullptr;
 }
 
-std::pair<pTr_S,pTr_S> NodeModule::IfLegitTip(pTr_S tip)
+std::tuple<bool,std::string> NodeModule::IfLegitTip(std::unordered_set<std::string> path)
 {
-    std::pair<pTr_S,pTr_S> res;
+    std::string id;
 
-    res.first = findConflict(tip);
-
-    if(res.first == nullptr)
+    for(auto it = path.begin(); it != path.end(); it++)
     {
-        res.second = nullptr;
+        auto txID = (*it);
+
+        if(txID[0] == '-')
+        {
+            id = (*it);
+            break;
+        }
+    }
+
+    if(id.empty())
+    {
+        auto res = std::make_tuple(true,id);
         return res;
     }
 
-    std::string id = res.first->ID;
     id.pop_back();
-    res.second = IfConflict(tip,id);
+
+    for(auto it = path.begin(); it != path.end(); it++)
+    {
+        if((*it) == id)
+        {
+            auto res = std::make_tuple(false,id);
+            return res;
+        }
+    }
+
+    auto res = std::make_tuple(true,id);
     return res;
 }
 
-void NodeModule::getConfidence(pTr_S tx, pTr_S& RefTx)
+int NodeModule::getConfidence(std::string id)
 {
-    if(!tx->isApproved)
-   {
-       RefTx->confidence++;
-       return;
-   }
+    int count = 0;
 
-    for(auto adjTx : tx->approvedBy)
+    for(auto key : myTips)
     {
-       getConfidence(adjTx,RefTx);
+        auto tip = key.second;
+        auto it = tip->pathID.find(id);
+
+        if(it != tip->pathID.end())
+        {
+            count++;
+        }
     }
+
+    return count;
 }
 
 VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
@@ -553,119 +568,217 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     }
 
     VpTr_S start_sites;
-    pTr_S temp_site;
-    int backTD;
 
     for(int i = 0; i < N; i++)
     {
-        backTD = intuniform(W,2*W);
-        temp_site = getWalkStart(tips,backTD);
+        auto temp_site = getStartSite(W);
         start_sites.push_back(temp_site);
     }
 
-    VpTr_S selected_tips;
-    std::vector<std::pair<int,int>> walk_total;
+    std::vector<std::tuple<pTr_S,int,int>> selected_tips;
     int walk_time;
 
-    if(alphaVal == 0.0)
+
+    for(int i = 0; i < N; i++)
     {
-        for(int i = 0; i < N; i++)
+        pTr_S tip;
+
+        if(alphaVal == 0.0)
         {
-            auto tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
-            selected_tips.push_back(tip);
-            walk_total.push_back(std::make_pair(i,walk_time));
+            tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
         }
+
+        else
+        {
+            tip = WeightedRandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time);
+        }
+
+       bool ifFind = false;
+
+        for(auto& Tip : selected_tips)
+        {
+            if(std::get<0>(Tip)->ID == tip->ID)
+            {
+                std::get<1>(Tip)++;
+                ifFind = true;
+                break;
+            }
+        }
+
+        if(!ifFind)
+        {
+            selected_tips.push_back(std::make_tuple(tip,1,walk_time));
+        }
+    }
+
+    std::sort(selected_tips.begin(), selected_tips.end(), [](const std::tuple<pTr_S,int,int>& tip1, const std::tuple<pTr_S,int,int>& tip2){return std::get<2>(tip1) < std::get<2>(tip2);});
+
+    VpTr_S tipstoApprove;
+
+    if(selected_tips.size() == 1)
+    {
+        auto tup = IfLegitTip(std::get<0>(selected_tips[0])->pathID);
+
+        if(std::get<0>(tup))
+        {
+            tipstoApprove.push_back(std::get<0>(selected_tips[0]));
+        }
+
+        return tipstoApprove;
+    }
+
+    std::vector<std::tuple<pTr_S,int,int>> legitTips;
+    std::set<std::string> DoNotCheck;
+    std::tuple<bool,std::string> tup1;
+    std::tuple<bool,std::string> tup2;
+
+    for(auto tipTup : selected_tips)
+    {
+        auto tip = std::get<0>(tipTup);
+
+        if(legitTips.empty())
+        {
+            tup1 = IfLegitTip(tip->pathID);
+
+            if(std::get<0>(tup1))
+            {
+                legitTips.push_back(tipTup);
+            }
+
+            else
+            {
+                DoNotCheck.insert(tip->ID);
+            }
+        }
+
+        else
+        {
+            tup2 = IfLegitTip(tip->pathID);
+
+            if(std::get<0>(tup2))
+            {
+                legitTips.push_back(tipTup);
+                break;
+            }
+
+            else
+            {
+                DoNotCheck.insert(tip->ID);
+            }
+        }
+    }
+
+    if(legitTips.size() == 1)
+    {
+        tipstoApprove.push_back(std::get<0>(legitTips[0]));
+        return tipstoApprove;
+    }
+
+    if(std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
+    {
+        tipstoApprove.push_back(std::get<0>(legitTips[0]));
+        tipstoApprove.push_back(std::get<0>(legitTips[1]));
+        return tipstoApprove;
+    }
+
+    else if(!std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
+    {
+        tipstoApprove.push_back(std::get<0>(legitTips[0]));
+        tipstoApprove.push_back(std::get<0>(legitTips[1]));
+        return tipstoApprove;
+    }
+
+    else if(std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
+    {
+        auto it = std::get<0>(legitTips[0])->pathID.find(std::get<1>(tup2));
+
+        if(it == std::get<0>(legitTips[0])->pathID.end())
+        {
+            tipstoApprove.push_back(std::get<0>(legitTips[0]));
+            tipstoApprove.push_back(std::get<0>(legitTips[1]));
+            return tipstoApprove;
+        }
+    }
+
+    else if(!std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
+    {
+        auto it = std::get<0>(legitTips[1])->pathID.find(std::get<1>(tup1));
+
+        if(it == std::get<0>(legitTips[1])->pathID.end())
+        {
+            tipstoApprove.push_back(std::get<0>(legitTips[0]));
+            tipstoApprove.push_back(std::get<0>(legitTips[1]));
+            return tipstoApprove;
+        }
+    }
+
+    int conf1 = getConfidence(std::get<0>(legitTips[0])->ID);
+    int conf2 = getConfidence(std::get<0>(legitTips[1])->ID);
+
+    if(conf1 >= conf2)
+    {
+        tipstoApprove.push_back(std::get<0>(legitTips[0]));
+        DoNotCheck.insert(std::get<0>(legitTips[1])->ID);
     }
 
     else
     {
-        for(int i = 0; i < N; i++)
-        {
-            auto tip = WeightedRandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time);
-            EV << "Start site : " << start_sites[i]->ID << ", Tip candidat : " << tip->ID << std::endl;
-            selected_tips.push_back(tip);
-            walk_total.push_back(std::make_pair(i,walk_time));
-        }
+        tipstoApprove.push_back(std::get<0>(legitTips[1]));
+        DoNotCheck.insert(std::get<0>(legitTips[0])->ID);
+        tup1 = tup2;
     }
 
-    std::sort(walk_total.begin(), walk_total.end(),[](const std::pair<int,int> &a, const std::pair<int,int> &b){return a.second < b.second;});
+    legitTips.clear();
 
-    VpTr_S tipstoApprove;
-
-    tipstoApprove.push_back(selected_tips[walk_total[0].first]);
-
-    for(auto idx : walk_total)
+    for(auto tipTup : selected_tips)
     {
-        auto tip = selected_tips[idx.first];
+        auto tip = std::get<0>(tipTup);
+        auto it = DoNotCheck.find(tip->ID);
 
-        if(tip->ID != tipstoApprove[0]->ID)
+        if(it == DoNotCheck.end())
         {
-            tipstoApprove.push_back(tip);
-            break;
+            auto tup = IfLegitTip(tip->pathID);
+
+            if(std::get<0>(tup))
+            {
+                if(std::get<1>(tup).empty())
+                {
+                    tipstoApprove.push_back(tip);
+                    break;
+                }
+
+                else if(!std::get<1>(tup).empty() && !std::get<1>(tup1).empty())
+                {
+                    tipstoApprove.push_back(tip);
+                    break;
+                }
+
+                else if(!std::get<1>(tup).empty() && std::get<1>(tup1).empty())
+                {
+                    auto IT = tipstoApprove[0]->pathID.find(std::get<1>(tup));
+
+                    if(IT == tipstoApprove[0]->pathID.end())
+                    {
+                        tipstoApprove.push_back(tip);
+                        break;
+                    }
+                }
+
+                else if(std::get<1>(tup).empty() && !std::get<1>(tup1).empty())
+                {
+                    auto IT = tip->pathID.find(std::get<1>(tup1));
+
+                    if(IT == tip->pathID.end())
+                    {
+                        tipstoApprove.push_back(tip);
+                        break;
+                    }
+                }
+            }
         }
     }
 
     return tipstoApprove;
-
-    /*std::vector<std::tuple<pTr_S,int,int>> selected_tips;
-    int walk_time;
-
-    if(alphaVal == 0.0)
-    {
-        for(int i = 0; i < N; i++)
-        {
-            auto tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
-            auto it = std::find_if(selected_tips.begin(), selected_tips.end(), [tip](const std::tuple<pTr_S,int,int>& Tip) {return std::get<0>(Tip)->ID == tip->ID;});
-
-            if(it == selected_tips.end())
-            {
-                selected_tips.push_back(std::make_tuple(tip,1,walk_time));
-            }
-
-            else
-            {
-                std::get<1>(*it)++;
-            }
-        }
-    }
-
-    else
-    {
-        for(int i = 0; i < N; i++)
-        {
-            auto tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
-            EV << "Start site : " << start_sites[i]->ID << ", Tip candidat : " << tip->ID << std::endl;
-            auto it = std::find_if(selected_tips.begin(), selected_tips.end(), [&tip](const std::tuple<pTr_S,int,int>& Tip) {return std::get<0>(Tip)->ID == tip->ID;});
-
-            if(it == selected_tips.end())
-            {
-                selected_tips.push_back(std::make_tuple(tip,1,walk_time));
-            }
-
-            else
-            {
-                std::get<1>(*it)++;
-            }
-        }
-    }
-
-    std::sort(selected_tips.begin(), selected_tips.end(), [](const std::tuple<pTr_S,int,int>& tip1, const std::tuple<pTr_S,int,int>& tip2){return std::get<1>(tip1) > std::get<1>(tip2);});
-
-    for(auto tip : selected_tips)
-    {
-        EV << "ID : " << std::get<0>(tip)->ID << ", count : " << std::get<1>(tip) << ", walk time : " << std::get<2>(tip) << std::endl;
-    }
-
-    VpTr_S tipstoApprove;
-    tipstoApprove.push_back(std::get<0>(selected_tips[0]));
-
-    if(selected_tips.size() > 1)
-    {
-        tipstoApprove.push_back(std::get<0>(selected_tips[1]));
-    }
-
-
-    return tipstoApprove;*/
 }
 
 VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
@@ -779,6 +892,8 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
             }
         }
     }
+
+    newTx->pathID = getpathID(newTx->S_approved);
 
     myTips.insert({newTx->ID,newTx});
     myTangle.push_back(newTx);
@@ -984,6 +1099,13 @@ void NodeModule::handleMessage(cMessage * msg)
         if(strcmp(getParentModule()->getName(),"Expander") == 0 || strcmp(getParentModule()->getName(),"WattsStrogatz") == 0)
         {
             NeighborsNumber = gateSize("NodeOut");
+
+            for(int i = 0; i < NeighborsNumber; i++)
+            {
+               cGate *g = gate("NodeOut",i);
+               auto channel = g->getChannel();
+               channel->callInitialize();
+            }
         }
 
         else

@@ -28,7 +28,7 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        int W = 250; //interval [W,2W]
+        int W = 150; //interval [W,2W]
        	int N = 100; //number of walkers
 
         //EIOTA
@@ -38,7 +38,7 @@ simple NodeModule
     	double highAlpha = 5.0;
     	
     	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = false;
+    	bool ParasiteChainAttack = true;
     	
     	//when generate a conflict transaction based on the Tangle size of the node 
     	double AttackStage = 0.5; //have to be in [0,1]
@@ -102,9 +102,6 @@ network Grid
         double minDelay = 50.0; 
         double maxDelay = 100.0;
         
-        //confidence lvl (must be between 0.0 - 1.0)
-        double Confidencelvl = 0.8;
-        
 	types:
         channel Channel extends ned.DelayChannel
 	    {
@@ -142,10 +139,7 @@ network Torus
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
-        
-        //confidence lvl (must be between 0.0 - 1.0)
-        double Confidencelvl = 0.8;
-        
+
     types:
         channel Channel extends ned.DelayChannel
 	    {
@@ -171,7 +165,7 @@ network Expander
 {
     parameters: 
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(20); 
         
         //how much transactions each node will issue
         int transactionLimit = 100;
@@ -180,14 +174,11 @@ network Expander
         double delay = 0.001; 
         
         //random delay
-    	bool ifRandDelay = true;
+    	bool ifRandDelay = false;
     	
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
-        
-        //confidence lvl (must be between 0.0 - 1.0)
-        double Confidencelvl = 0.8;
         
     submodules:
         Nodes[NodeNumber]: NodeModule;
@@ -212,10 +203,7 @@ network WattsStrogatz
     	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
         double minDelay = 50.0; 
         double maxDelay = 100.0;
-        
-        //confidence lvl (must be between 0.0 - 1.0)
-        double Confidencelvl = 0.8;
-        
+ 
     submodules:
         Nodes[NodeNumber]: NodeModule;
 }

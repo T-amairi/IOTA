@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <functional>
+#include <unordered_set>
 
 struct Site; //a transaction
 class NodeModule; //a node
@@ -35,7 +36,7 @@ struct Site
     //The node that issued this transaction
     NodeModule* issuedBy;
 
-    //confidence
+    //confidence (for G-IOTA)
     double confidence = 0.0;
 
     //how much a tip has been selected during a TSA (for G-IOTA)
@@ -65,6 +66,9 @@ struct Site
 
     //Simulation time when this transaction ceased to be a tip (i.e has been approved)
     simtime_t approvedTime;
+
+    //contain all transactions ID approved directly or indirectly by this transaction
+    std::unordered_set<std::string> pathID;
 
 };
 
@@ -106,6 +110,9 @@ class NodeModule : public cSimpleModule
         //give the average confidence of transactions that are approved directly or indirectly by a tip (for G-IOTA)
         double getavgConfidence(pTr_S current);
 
+        //give the right pathID without any duplicates
+        std::unordered_set<std::string> getpathID(VpTr_S chosenTips);
+
         //find a conflict (i.e a transaction with an ID starting with '-')
         pTr_S findConflict(pTr_S tip);
 
@@ -113,10 +120,10 @@ class NodeModule : public cSimpleModule
         pTr_S IfConflict(pTr_S tip, std::string id);
 
         //find if a tip is legit (i.e if it approves at the same time two conflicted transactions)
-        std::pair<pTr_S,pTr_S> IfLegitTip(pTr_S tip);
+        std::tuple<bool,std::string> IfLegitTip(std::unordered_set<std::string> path);
 
         //get confidence for one site (to resolve conflict)
-        void getConfidence(pTr_S tx, pTr_S& RefTx);
+        int getConfidence(std::string id);
 
         //TSA
         VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
@@ -127,8 +134,8 @@ class NodeModule : public cSimpleModule
         int _computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp );
         int ComputeWeight(pTr_S tr, simtime_t timeStamp);
 
-        //Back track for selecting start sites for the random walk
-        pTr_S getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist);
+        //select start site for the random walk
+        pTr_S getStartSite(int W);
 
         //remove newly confirmed tips from myTips;
         void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);
