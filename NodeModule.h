@@ -99,25 +99,20 @@ class NodeModule : public cSimpleModule
         void printTangle();
         void printTipsLeft();
         void stats();
+        void printChain();
 
         //Random walk based on a MCMC
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
         pTr_S RandomWalk(pTr_S start, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
 
-        //compute confidence for all sites (G-IOTA version)
+        //compute confidence for all sites (G-IOTA)
         void updateConfidence(double confidence, pTr_S& current);
 
-        //give the average confidence of transactions that are approved directly or indirectly by a tip (for G-IOTA)
+        //give the average confidence of transactions that are approved directly or indirectly by a tip (G-IOTA)
         double getavgConfidence(pTr_S current);
 
         //give the right pathID without any duplicates
         std::unordered_set<std::string> getpathID(VpTr_S chosenTips);
-
-        //find a conflict (i.e a transaction with an ID starting with '-')
-        pTr_S findConflict(pTr_S tip);
-
-        //check if there is a conflict and return the conflicted transaction in the buffer
-        pTr_S IfConflict(pTr_S tip, std::string id);
 
         //find if a tip is legit (i.e if it approves at the same time two conflicted transactions)
         std::tuple<bool,std::string> IfLegitTip(std::unordered_set<std::string> path);
@@ -185,6 +180,9 @@ class NodeModule : public cSimpleModule
 
         //Local Tangle
         VpTr_S myTangle;
+
+        //keep a record of all double spend transaction
+        VpTr_S myDoubleSpendTx;
 
         //Keep a record of all the current unapproved transactions
         std::map<std::string,pTr_S> myTips;

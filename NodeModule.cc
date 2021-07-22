@@ -146,6 +146,54 @@ void NodeModule::debug()
     file.close();
 }
 
+void NodeModule::printChain()
+{
+    std::fstream file;
+    std::string path = "./data/tracking/Chain" + ID + ".txt";
+    remove(path.c_str());
+    file.open(path,std::ios::app);
+
+    file << getId() - 2 << std::endl;
+
+    for(auto DoubleSpendTx : myDoubleSpendTx)
+    {
+       for(auto tx : myTangle)
+       {
+           auto it = tx->pathID.find(DoubleSpendTx->ID);
+
+           if(it != tx->pathID.end())
+           {
+               file << tx->ID << std::endl;
+           }
+       }
+    }
+
+    file.close();
+
+    path = "./data/tracking/LegitChain" + ID + ".txt";
+    remove(path.c_str());
+    file.open(path,std::ios::app);
+
+    file << getId() - 2 << std::endl;
+
+    for(auto DoubleSpendTx : myDoubleSpendTx)
+    {
+       for(auto tx : myTangle)
+       {
+           auto id = DoubleSpendTx->ID;
+           id.erase(id.begin());
+           auto it = tx->pathID.find(id);
+
+           if(it != tx->pathID.end())
+           {
+               file << tx->ID << std::endl;
+           }
+       }
+    }
+
+    file.close();
+}
+
 int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp)
 {
     if(timeStamp < current->issuedTime)
@@ -256,6 +304,12 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
 
     myTangle.push_back(new_tips);
     myTips.insert({new_tips->ID,new_tips});
+
+    if(ID[0] == '-')
+    {
+        myDoubleSpendTx.push_back(new_tips);
+    }
+
     return new_tips;
 }
 
@@ -458,52 +512,6 @@ std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
     return pathID;
 }
 
-pTr_S NodeModule::findConflict(pTr_S tip)
-{
-    if(tip->ID[0] == '-')
-    {
-        return tip;
-    }
-
-    for(auto adjTx : tip->S_approved)
-    {
-        if(!adjTx->isGenesisBlock)
-        {
-            auto result = findConflict(adjTx);
-
-            if(result != nullptr)
-            {
-                return result;
-            }
-        }
-    }
-
-    return nullptr;
-}
-
-pTr_S NodeModule::IfConflict(pTr_S tip, std::string id)
-{
-    if(tip->ID == id)
-    {
-        return tip;
-    }
-
-    for(auto adjTx : tip->S_approved)
-    {
-        if(!adjTx->isGenesisBlock)
-        {
-            auto result = IfConflict(adjTx,id);
-
-            if(result != nullptr)
-            {
-                return result;
-            }
-        }
-    }
-
-    return nullptr;
-}
-
 std::tuple<bool,std::string> NodeModule::IfLegitTip(std::unordered_set<std::string> path)
 {
     std::string id;
@@ -525,7 +533,7 @@ std::tuple<bool,std::string> NodeModule::IfLegitTip(std::unordered_set<std::stri
         return res;
     }
 
-    id.pop_back();
+    id.erase(id.begin());
 
     for(auto it = path.begin(); it != path.end(); it++)
     {
@@ -894,6 +902,11 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
     }
 
     newTx->pathID = getpathID(newTx->S_approved);
+
+    if(newTx->ID[0] == '-')
+    {
+        myDoubleSpendTx.push_back(newTx);
+    }
 
     myTips.insert({newTx->ID,newTx});
     myTangle.push_back(newTx);
@@ -1374,11 +1387,16 @@ void NodeModule::finish()
 {
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
 
+    if(par("ParasiteChainAttack"))
+    {
+        printChain();
+    }
+
     printTangle();
     //printTipsLeft();
     stats();
-    DeleteTangle();
 
+    DeleteTangle();
     delete msgIssue;
     delete msgPoW;
     delete msgUpdate;

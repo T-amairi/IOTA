@@ -56,7 +56,7 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(20); 
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
