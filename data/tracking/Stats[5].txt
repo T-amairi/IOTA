@@ -1,1 +1,16 @@
 FullGraph;2001;462;0
+FullGraph;2001;462;0
+FullGraph;2001;210;0
+FullGraph;2001;260;0
+FullGraph;2001;114;0
+FullGraph;2001;210;0
+FullGraph;2001;197;0
+FullGraph;2001;210;0
+FullGraph;2001;1581;0
+FullGraph;1001;654;0
+FullGraph;1001;695;0
+FullGraph;2001;907;0
+FullGraph;2001;1580;0
+FullGraph;2001;1567;0
+FullGraph;2001;1563;0
+FullGraph;2001;858;0

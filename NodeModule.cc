@@ -244,22 +244,29 @@ int NodeModule::ComputeWeight(pTr_S tr, simtime_t timeStamp)
     return weight + 1;
 }
 
-pTr_S NodeModule::getStartSite(int W)
+pTr_S NodeModule::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist)
 {
-    auto cpyTangle = myTangle;
-    cpyTangle.erase(std::remove_if(cpyTangle.begin(), cpyTangle.end(), [](const pTr_S& tx){return tx->isApproved == false;}), cpyTangle.end());
+    int iterAdvances = intuniform(0,tips.size() - 1);
+    auto beginIter = tips.begin();
 
-    int w = intuniform(W,2*W);
-
-    if(w > cpyTangle.size() || w == 0)
+    if(tips.size() > 1)
     {
-        return genesisBlock;
+        std::advance(beginIter,iterAdvances);
     }
 
-    else
+    pTr_S current = beginIter->second;
+
+    int count = backTrackDist;
+    int approvesIndex;
+
+    while(!current->isGenesisBlock && count > 0)
     {
-        return cpyTangle.at(w - 1);
+        approvesIndex = intuniform(0,current->S_approved.size() - 1);
+        current = current->S_approved.at(approvesIndex);
+        --count;
     }
+
+    return current;
 }
 
 void NodeModule::ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips)
@@ -300,6 +307,7 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
 
     new_tips->S_approved = chosen;
     new_tips->pathID = getpathID(chosen);
+    new_tips->pathID.insert(new_tips->ID);
     ReconcileTips(chosen,myTips);
 
     myTangle.push_back(new_tips);
@@ -490,7 +498,6 @@ std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
     if(chosenTips.size() == 1)
     {
         pathID = chosenTips[0]->pathID;
-        pathID.insert(chosenTips[0]->ID);
         return pathID;
     }
 
@@ -505,9 +512,6 @@ std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
         pathID = chosenTips[1]->pathID;
         pathID.insert(chosenTips[0]->pathID.begin(),chosenTips[0]->pathID.end());
     }
-
-    pathID.insert(chosenTips[0]->ID);
-    pathID.insert(chosenTips[1]->ID);
 
     return pathID;
 }
@@ -575,17 +579,10 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
         return tipstoApprove;
     }
 
-    VpTr_S start_sites;
-
-    for(int i = 0; i < N; i++)
-    {
-        auto temp_site = getStartSite(W);
-        start_sites.push_back(temp_site);
-    }
-
+    int w = intuniform(W,2*W);
+    pTr_S startTx = getWalkStart(tips,w);
     std::vector<std::tuple<pTr_S,int,int>> selected_tips;
     int walk_time;
-
 
     for(int i = 0; i < N; i++)
     {
@@ -593,12 +590,12 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
 
         if(alphaVal == 0.0)
         {
-            tip = RandomWalk(start_sites[i],tips,timeStamp,walk_time);
+            tip = RandomWalk(startTx,tips,timeStamp,walk_time);
         }
 
         else
         {
-            tip = WeightedRandomWalk(start_sites[i],alphaVal,tips,timeStamp,walk_time);
+            tip = WeightedRandomWalk(startTx,alphaVal,tips,timeStamp,walk_time);
         }
 
        bool ifFind = false;
@@ -902,6 +899,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
     }
 
     newTx->pathID = getpathID(newTx->S_approved);
+    newTx->pathID.insert(newTx->ID);
 
     if(newTx->ID[0] == '-')
     {
@@ -1233,25 +1231,27 @@ void NodeModule::handleMessage(cMessage * msg)
 
 
             EV << "TSA procedure for " << trId << std::endl;
+            double WProp = par("WProp");
+            int W = static_cast<int>(WProp*myTangle.size());
 
             if(strcmp(par("TSA"),"IOTA") == 0)
             {
                auto tipsCopy = myTips;
-               chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
+               chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),W,par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
 
             if(strcmp(par("TSA"),"GIOTA") == 0)
             {
                auto tipsCopy = myTips;
-               chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),par("W"),par("N"));
+               chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),W,par("N"));
                tipsNb = static_cast<int>(chosenTips.size());
             }
 
             if(strcmp(par("TSA"),"EIOTA") == 0)
             {
                 auto tipsCopy = myTips;
-                chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),tipsCopy,simTime(),par("W"),par("N"));
+                chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),tipsCopy,simTime(),W,par("N"));
                 tipsNb = static_cast<int>(chosenTips.size());
             }
 

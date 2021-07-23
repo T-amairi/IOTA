@@ -67,7 +67,7 @@ struct Site
     //Simulation time when this transaction ceased to be a tip (i.e has been approved)
     simtime_t approvedTime;
 
-    //contain all transactions ID approved directly or indirectly by this transaction
+    //contain the site ID and all transactions ID approved directly or indirectly by it
     std::unordered_set<std::string> pathID;
 
 };
@@ -130,7 +130,7 @@ class NodeModule : public cSimpleModule
         int ComputeWeight(pTr_S tr, simtime_t timeStamp);
 
         //select start site for the random walk
-        pTr_S getStartSite(int W);
+        pTr_S getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist);
 
         //remove newly confirmed tips from myTips;
         void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);

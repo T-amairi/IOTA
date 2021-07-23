@@ -32,7 +32,7 @@ for chain in chains:
     with open(chain, 'r',) as file:
         idx = 0
         for line in file:
-            if(line[0] != '['):
+            if(line[0] != '[' and line[0] != '-'):
                 idx = int(line)
                 dictChain[idx] = set()
             else:
@@ -62,21 +62,6 @@ def TipsApp(listSite,listTips):
                 else:    
                     dictApp[node[0]] = list(set(dictApp[node[0]] + dictApp[neib]))
     return dictApp
-
-#get a dict of all transaction approving directly or indirectly double spend transaction
-def GetSetAppDSTx():
-    chains = glob.glob("Chain*")
-    Chain = dict()
-    for chain in chains:
-        with open(chain, 'r',) as file:
-            idx = 0
-            for line in file:
-                if(line[0] != '['):
-                    idx = int(line)
-                    Chain[idx] = set()
-                else:
-                    Chain[idx].add(line.strip())
-    return Chain
 
 #colors of the node for graphviz 
 colors = ['green','orange','red','blue']

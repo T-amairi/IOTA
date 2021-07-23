@@ -28,7 +28,7 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        int W = 150; //interval [W,2W]
+        double WProp = 0.125; //for the interval [W,2W] and have to be in [0,1] :  if WProp = 0.5 => W = 0.5 * myTangle.size()
        	int N = 100; //number of walkers
 
         //EIOTA
