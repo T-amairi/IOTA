@@ -170,7 +170,7 @@ void NodeModule::printChain()
 
     file.close();
 
-    path = "./data/tracking/LegitChain" + ID + ".txt";
+    /*path = "./data/tracking/LegitChain" + ID + ".txt";
     remove(path.c_str());
     file.open(path,std::ios::app);
 
@@ -191,7 +191,7 @@ void NodeModule::printChain()
        }
     }
 
-    file.close();
+    file.close();*/
 }
 
 int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp)
