@@ -14,3 +14,8 @@ FullGraph;2001;1580;0
 FullGraph;2001;1567;0
 FullGraph;2001;1563;0
 FullGraph;2001;858;0
+FullGraph;2001;1563;0
+FullGraph;1001;502;0
+FullGraph;1001;687;0
+FullGraph;1001;504;0
+FullGraph;2001;1319;0

@@ -37,14 +37,26 @@ simple NodeModule
         double lowAlpha = 0.1;
     	double highAlpha = 5.0;
     	
-    	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = true;
+    	//ID of the node that will initiate an attack (i.e [ + idx of the node + ])
+    	string AttackID = "[0]";
     	
     	//when generate a conflict transaction based on the Tangle size of the node 
     	double AttackStage = 0.5; //have to be in [0,1]
     	
-    	//index of the transaction to be double spend in the vector myTangle
+    	//to initiate a Splitting Attack
+    	bool SplittingAttack = false;
+    	
+    	//to initiate a Parasite Chain Attack
+    	bool ParasiteChainAttack = true;
+    	
+    	//index of the transaction to be double spend in the vector myTangle (for the Parasite Chain Attack)
     	int idxConflictTx = 1; //have to be in [1, myTangle.size() - 1]
+    	
+    	//chain length of the Parasite Chain
+    	int ChainLength = 50;
+    	
+    	//number of tips attached to the end of the parasite chain 
+    	int NbTipsChain = 20;
     	
     gates:
         input NodeIn[];

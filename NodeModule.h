@@ -42,9 +42,6 @@ struct Site
     //how much a tip has been selected during a TSA (for G-IOTA)
     int countSelected = 0;
 
-    //for conflict check
-    bool isDup = false;
-
     //bool
     bool isGenesisBlock = false;
     bool isApproved = false;
@@ -102,14 +99,8 @@ class NodeModule : public cSimpleModule
         void printChain();
 
         //Random walk based on a MCMC
-        pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
-        pTr_S RandomWalk(pTr_S start, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int &walk_time);
-
-        //compute confidence for all sites (G-IOTA)
-        void updateConfidence(double confidence, pTr_S& current);
-
-        //give the average confidence of transactions that are approved directly or indirectly by a tip (G-IOTA)
-        double getavgConfidence(pTr_S current);
+        pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_time);
+        pTr_S RandomWalk(pTr_S start, int &walk_time);
 
         //give the right pathID without any duplicates
         std::unordered_set<std::string> getpathID(VpTr_S chosenTips);
@@ -117,20 +108,24 @@ class NodeModule : public cSimpleModule
         //find if a tip is legit (i.e if it approves at the same time two conflicted transactions)
         std::tuple<bool,std::string> IfLegitTip(std::unordered_set<std::string> path);
 
+        //check if two transactions are in conflict
+        bool IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, std::unordered_set<std::string> path1, std::unordered_set<std::string> path2);
+
+
         //get confidence for one site (to resolve conflict)
         int getConfidence(std::string id);
 
         //TSA
-        VpTr_S IOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
-        VpTr_S GIOTA(double alphaVal, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
-        VpTr_S EIOTA(double p1, double p2, double lowAlpha, double highAlpha, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N);
+        VpTr_S IOTA(double alphaVal, int W, int N);
+        VpTr_S GIOTA(double alphaVal, int W, int N);
+        VpTr_S EIOTA(double p1, double p2, double lowAlpha, double highAlpha, int W, int N);
 
         //Compute Weight
-        int _computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp );
-        int ComputeWeight(pTr_S tr, simtime_t timeStamp);
+        int _computeWeight(VpTr_S& visited, pTr_S& current);
+        int ComputeWeight(pTr_S tr);
 
         //select start site for the random walk
-        pTr_S getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist);
+        pTr_S getWalkStart(int backTrackDist);
 
         //remove newly confirmed tips from myTips;
         void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);

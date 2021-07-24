@@ -1,6 +1,6 @@
 #include "NodeModule.h"
 
-enum MessageType{SETTING,ISSUE,POW,UPDATE};
+enum MessageType{SETTING,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack};
 
 Define_Module(NodeModule);
 
@@ -194,15 +194,8 @@ void NodeModule::printChain()
     file.close();*/
 }
 
-int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeStamp)
+int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current)
 {
-    if(timeStamp < current->issuedTime)
-    {
-        visited.push_back(current);
-        current->isVisited = true;
-        return 0;
-    }
-
     if(current->approvedBy.size() == 0)
     {
         visited.push_back(current);
@@ -219,17 +212,17 @@ int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current, simtime_t timeSt
     {
         if(!current->approvedBy.at(i)->isVisited)
         {
-            weight += 1 + _computeWeight(visited, current->approvedBy.at(i), timeStamp);
+            weight += 1 + _computeWeight(visited, current->approvedBy.at(i));
         }
     }
 
     return weight;
 }
 
-int NodeModule::ComputeWeight(pTr_S tr, simtime_t timeStamp)
+int NodeModule::ComputeWeight(pTr_S tr)
 {
     VpTr_S visited;
-    int weight = _computeWeight(visited, tr, timeStamp);
+    int weight = _computeWeight(visited, tr);
 
     for(int i = 0; i < static_cast<int>(visited.size()); ++i)
     {
@@ -244,12 +237,12 @@ int NodeModule::ComputeWeight(pTr_S tr, simtime_t timeStamp)
     return weight + 1;
 }
 
-pTr_S NodeModule::getWalkStart(std::map<std::string,pTr_S>& tips, int backTrackDist)
+pTr_S NodeModule::getWalkStart(int backTrackDist)
 {
-    int iterAdvances = intuniform(0,tips.size() - 1);
-    auto beginIter = tips.begin();
+    int iterAdvances = intuniform(0,myTips.size() - 1);
+    auto beginIter = myTips.begin();
 
-    if(tips.size() > 1)
+    if(myTips.size() > 1)
     {
         std::advance(beginIter,iterAdvances);
     }
@@ -321,7 +314,7 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
     return new_tips;
 }
 
-pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int &walk_time)
+pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_time)
 {
     int walkCounts = 0;
     pTr_S current = start;
@@ -344,7 +337,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std:
         else
         {
             std::vector<int> sitesWeight;
-            int start_weight = ComputeWeight(current,timeStamp);
+            int start_weight = ComputeWeight(current);
             std::vector<std::pair<int,double>> sitesProb;
 
             double sum_exp = 0.0;
@@ -352,7 +345,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std:
 
             for(int j = 0; j < static_cast<int>(currentView.size()); j++)
             {
-                weight = ComputeWeight(currentView[j],timeStamp);
+                weight = ComputeWeight(currentView[j]);
                 sum_exp = sum_exp + double(exp(double(-alphaVal*(start_weight - weight))));
                 sitesWeight.push_back(weight);
             }
@@ -403,7 +396,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, std::map<std:
     return current;
 }
 
-pTr_S NodeModule::RandomWalk(pTr_S start, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int &walk_time)
+pTr_S NodeModule::RandomWalk(pTr_S start, int &walk_time)
 {
     int walkCounts = 0;
     pTr_S current = start;
@@ -468,29 +461,6 @@ pTr_S NodeModule::RandomWalk(pTr_S start, std::map<std::string, pTr_S>& tips, si
     return current;
 }
 
-void NodeModule::updateConfidence(double confidence, pTr_S& current)
-{
-    current->confidence += confidence;
-
-    for(auto& tx : current->S_approved)
-    {
-        updateConfidence(confidence, tx);
-    }
-}
-
-double NodeModule::getavgConfidence(pTr_S current)
-{
-    double avg = 0.0;
-
-    for(auto tx : current->S_approved)
-    {
-        avg += tx->confidence;
-        avg += getavgConfidence(tx);
-    }
-
-    return avg;
-}
-
 std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
 {
     std::unordered_set<std::string> pathID;
@@ -552,6 +522,46 @@ std::tuple<bool,std::string> NodeModule::IfLegitTip(std::unordered_set<std::stri
     return res;
 }
 
+bool NodeModule::IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, std::unordered_set<std::string> path1, std::unordered_set<std::string> path2)
+{
+    if(!std::get<0>(tup1) || !std::get<0>(tup2))
+    {
+        return true;
+    }
+
+    else if(std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
+    {
+        return false;
+    }
+
+    else if(!std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
+    {
+        return false;
+    }
+
+    else if(std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
+    {
+        auto it = path1.find(std::get<1>(tup2));
+
+        if(it == path1.end())
+        {
+            return false;
+        }
+    }
+
+    else if(!std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
+    {
+        auto it = path2.find(std::get<1>(tup1));
+
+        if(it == path2.end())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int NodeModule::getConfidence(std::string id)
 {
     int count = 0;
@@ -570,17 +580,17 @@ int NodeModule::getConfidence(std::string id)
     return count;
 }
 
-VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
+VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
 {
-    if(tips.size() == 1)
+    if(myTips.size() == 1)
     {
         VpTr_S tipstoApprove;
-        tipstoApprove.push_back(tips.begin()->second);
+        tipstoApprove.push_back(myTips.begin()->second);
         return tipstoApprove;
     }
 
     int w = intuniform(W,2*W);
-    pTr_S startTx = getWalkStart(tips,w);
+    pTr_S startTx = getWalkStart(w);
     std::vector<std::tuple<pTr_S,int,int>> selected_tips;
     int walk_time;
 
@@ -590,12 +600,12 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
 
         if(alphaVal == 0.0)
         {
-            tip = RandomWalk(startTx,tips,timeStamp,walk_time);
+            tip = RandomWalk(startTx,walk_time);
         }
 
         else
         {
-            tip = WeightedRandomWalk(startTx,alphaVal,tips,timeStamp,walk_time);
+            tip = WeightedRandomWalk(startTx,alphaVal,walk_time);
         }
 
        bool ifFind = false;
@@ -616,7 +626,7 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
         }
     }
 
-    std::sort(selected_tips.begin(), selected_tips.end(), [](const std::tuple<pTr_S,int,int>& tip1, const std::tuple<pTr_S,int,int>& tip2){return std::get<2>(tip1) < std::get<2>(tip2);});
+    std::sort(selected_tips.begin(), selected_tips.end(), [](const std::tuple<pTr_S,int,int>& tip1, const std::tuple<pTr_S,int,int>& tip2){return std::get<1>(tip1) > std::get<1>(tip2);});
 
     VpTr_S tipstoApprove;
 
@@ -679,42 +689,11 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
         return tipstoApprove;
     }
 
-    if(std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
+    if(!IfConflict(tup1,tup2,std::get<0>(legitTips[0])->pathID,std::get<0>(legitTips[1])->pathID))
     {
         tipstoApprove.push_back(std::get<0>(legitTips[0]));
         tipstoApprove.push_back(std::get<0>(legitTips[1]));
         return tipstoApprove;
-    }
-
-    else if(!std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
-    {
-        tipstoApprove.push_back(std::get<0>(legitTips[0]));
-        tipstoApprove.push_back(std::get<0>(legitTips[1]));
-        return tipstoApprove;
-    }
-
-    else if(std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
-    {
-        auto it = std::get<0>(legitTips[0])->pathID.find(std::get<1>(tup2));
-
-        if(it == std::get<0>(legitTips[0])->pathID.end())
-        {
-            tipstoApprove.push_back(std::get<0>(legitTips[0]));
-            tipstoApprove.push_back(std::get<0>(legitTips[1]));
-            return tipstoApprove;
-        }
-    }
-
-    else if(!std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
-    {
-        auto it = std::get<0>(legitTips[1])->pathID.find(std::get<1>(tup1));
-
-        if(it == std::get<0>(legitTips[1])->pathID.end())
-        {
-            tipstoApprove.push_back(std::get<0>(legitTips[0]));
-            tipstoApprove.push_back(std::get<0>(legitTips[1]));
-            return tipstoApprove;
-        }
     }
 
     int conf1 = getConfidence(std::get<0>(legitTips[0])->ID);
@@ -742,43 +721,12 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
 
         if(it == DoNotCheck.end())
         {
-            auto tup = IfLegitTip(tip->pathID);
+            tup2 = IfLegitTip(tip->pathID);
 
-            if(std::get<0>(tup))
+            if(!IfConflict(tup1,tup2,tipstoApprove[0]->pathID,tip->pathID))
             {
-                if(std::get<1>(tup).empty())
-                {
-                    tipstoApprove.push_back(tip);
-                    break;
-                }
-
-                else if(!std::get<1>(tup).empty() && !std::get<1>(tup1).empty())
-                {
-                    tipstoApprove.push_back(tip);
-                    break;
-                }
-
-                else if(!std::get<1>(tup).empty() && std::get<1>(tup1).empty())
-                {
-                    auto IT = tipstoApprove[0]->pathID.find(std::get<1>(tup));
-
-                    if(IT == tipstoApprove[0]->pathID.end())
-                    {
-                        tipstoApprove.push_back(tip);
-                        break;
-                    }
-                }
-
-                else if(std::get<1>(tup).empty() && !std::get<1>(tup1).empty())
-                {
-                    auto IT = tip->pathID.find(std::get<1>(tup1));
-
-                    if(IT == tip->pathID.end())
-                    {
-                        tipstoApprove.push_back(tip);
-                        break;
-                    }
-                }
+                tipstoApprove.push_back(tip);
+                break;
             }
         }
     }
@@ -786,75 +734,110 @@ VpTr_S NodeModule::IOTA(double alphaVal, std::map<std::string, pTr_S>& tips, sim
     return tipstoApprove;
 }
 
-VpTr_S NodeModule::GIOTA(double alphaVal, std::map<std::string, pTr_S>& tips, simtime_t timeStamp, int W, int N)
+VpTr_S NodeModule::GIOTA(double alphaVal, int W, int N)
 {
-   for(auto& tx : myTangle)
-   {
-       tx->confidence = 0.0;
-       tx->countSelected = 0;
-   }
+    for(auto& tx : myTangle)
+    {
+        tx->confidence = 0.0;
+        tx->countSelected = 0;
+    }
 
-   auto copyTips = tips;
-   VpTr_S chosenTips = IOTA(alphaVal,tips,timeStamp,W,N);
-   VpTr_S filterTips;
+    VpTr_S chosenTips = IOTA(alphaVal,W,N);
 
-   for(auto it = copyTips.begin(); it != copyTips.end(); ++it)
-   {
-       auto tip = it->second;
+    if(chosenTips.size() == 1)
+    {
+        return chosenTips;
+    }
 
-       for(int j = 0; j < static_cast<int>(chosenTips.size()); j++)
-       {
-           if(!(chosenTips[j]->ID == tip->ID))
-           {
-               filterTips.push_back(tip);
-               break;
-           }
-       }
-   }
+    VpTr_S filterTips;
 
-   if(filterTips.empty())
-   {
-       return chosenTips;
-   }
+    for(auto it = myTips.begin(); it != myTips.end(); ++it)
+    {
+        auto tip = it->second;
 
-   for(auto tip : filterTips)
-   {
-       for(auto& tx : tip->approvedBy)
-       {
-           updateConfidence(double(tip->countSelected/N),tx);
-       }
-   }
+        for(int j = 0; j < static_cast<int>(chosenTips.size()); j++)
+        {
+            if(!(chosenTips[j]->ID == tip->ID))
+            {
+                filterTips.push_back(tip);
+                break;
+            }
+        }
+    }
 
-   std::vector<std::pair<double,pTr_S>> avgConfTips;
+    if(filterTips.empty())
+    {
+        return chosenTips;
+    }
 
-   for(auto tip : filterTips)
-   {
-       auto avg = getavgConfidence(tip);
-       avgConfTips.push_back(std::make_pair(avg,tip));
-   }
+    for(auto tip : filterTips)
+    {
+        if(tip->countSelected != 0)
+        {
+           for(auto id : tip->pathID)
+            {
+                if(id != tip->ID)
+                {
+                    auto it = std::find_if(myTangle.begin(), myTangle.end(), [&id](const pTr_S& tx){return tx->ID == id;});
+                    (*it)->confidence += double(tip->countSelected/N);
+                }
+            }
+        }
+    }
 
-   std::sort(avgConfTips.begin(), avgConfTips.end(),[](const std::pair<long double,pTr_S> &a, const std::pair<long double,pTr_S> &b){
-   return a.first < b.first;});
+    std::vector<std::pair<double,pTr_S>> avgConfTips;
 
-   chosenTips.push_back(avgConfTips.front().second);
-   return chosenTips;
+    for(auto tip : filterTips)
+    {
+        double avg = 0.0;
+
+        for(auto id : tip->pathID)
+        {
+            if(id != tip->ID)
+            {
+                auto it = std::find_if(myTangle.begin(), myTangle.end(), [&id](const pTr_S& tx){return tx->ID == id;});
+                avg += (*it)->confidence;
+            }
+        }
+
+        avgConfTips.push_back(std::make_pair(avg,tip));
+    }
+
+    std::sort(avgConfTips.begin(), avgConfTips.end(),[](const std::pair<long double,pTr_S> &a, const std::pair<long double,pTr_S> &b){return a.first < b.first;});
+
+    auto tup1 = IfLegitTip(chosenTips[0]->pathID);
+    auto tup2 = IfLegitTip(chosenTips[1]->pathID);
+
+    for(auto pair : avgConfTips)
+    {
+        auto tip = pair.second;
+        auto tup3 = IfLegitTip(tip->pathID);
+
+        if(!IfConflict(tup1,tup3,chosenTips[0]->pathID,tip->pathID) && !IfConflict(tup2,tup3,chosenTips[1]->pathID,tip->pathID))
+        {
+            chosenTips.push_back(tip);
+            break;
+        }
+    }
+
+    return chosenTips;
 }
 
-VpTr_S NodeModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha, std::map<std::string,pTr_S>& tips, simtime_t timeStamp, int W, int N)
+VpTr_S NodeModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha, int W, int N)
 {
     auto r = uniform(0.0,1.0);
 
     if(r < p1)
     {
-        return IOTA(0.0,tips,timeStamp,W,N);
+        return IOTA(0.0,W,N);
     }
 
     else if(p1 <= r && r < p2)
     {
-       return IOTA(lowAlpha,tips,timeStamp,W,N);
+       return IOTA(lowAlpha,W,N);
     }
 
-    return IOTA(highAlpha,tips,timeStamp,W,N);
+    return IOTA(highAlpha,W,N);
 }
 
 void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
@@ -1187,40 +1170,181 @@ void NodeModule::handleMessage(cMessage * msg)
         scheduleAt(simTime() + exponential(mean), msgIssue);
     }
 
+    else if(msg->getKind() == ParasiteChainAttack)
+    {
+        int idxConflictTx = par("idxConflictTx");
+
+        if(idxConflictTx <= 0 || idxConflictTx >= myTangle.size())
+        {
+            throw std::runtime_error("idxConflictTx does not have a correct value, check .ned file !");
+        }
+
+        EV << "Building the parasite chain" << std::endl;
+
+        auto RootChain = createSite("-" + myTangle[idxConflictTx]->ID);
+
+        VpTr_S cpyTips;
+
+        for(auto tip : myTips)
+        {
+            cpyTips.push_back(tip.second);
+        }
+
+        std::sort(cpyTips.begin(), cpyTips.end(), [](const pTr_S& tip1, const pTr_S& tip2){return tip1->issuedTime > tip1->issuedTime;});
+        pTr_S RootTip = nullptr;
+
+        for(auto tip : cpyTips)
+        {
+            auto it = tip->pathID.find(myTangle[idxConflictTx]->ID);
+
+            if(it == tip->pathID.end())
+            {
+                RootTip = tip;
+                break;
+            }
+        }
+
+        if(RootTip == nullptr)
+        {
+            cpyTips.clear();
+            EV << "Can not find a legit tip for the chain, retrying later" << std::endl;
+            scheduleAt(simTime() + exponential(mean), msgIssue);
+        }
+
+        else
+        {
+            cpyTips.clear();
+            RootChain->pathID = RootTip->pathID;
+            RootChain->pathID.insert(RootChain->ID);
+
+            VpTr_S TheChain;
+            TheChain.push_back(RootChain);
+
+            int ChainLength = par("ChainLength");
+            int NbTipsChain = par("NbTipsChain");
+
+            for(int i = 0; i < ChainLength; i++)
+            {
+                if(i == 0)
+                {
+                    auto NodeChain = createSite(ID + std::to_string(txCount));
+                    NodeChain->S_approved.push_back(RootChain);
+                    NodeChain->pathID = RootChain->pathID;
+                    NodeChain->pathID.insert(NodeChain->ID);
+
+                    RootChain->approvedBy.push_back(NodeChain);
+                    RootChain->approvedTime = simTime();
+                    RootChain->isApproved = true;
+
+                    TheChain.push_back(NodeChain);
+                }
+
+                else
+                {
+                    txCount++;
+
+                    auto NodeChain = createSite(ID + std::to_string(txCount));
+                    NodeChain->S_approved.push_back(TheChain.back());
+                    NodeChain->pathID = TheChain.back()->pathID;
+                    NodeChain->pathID.insert(NodeChain->ID);
+
+                    TheChain.back()->approvedBy.push_back(NodeChain);
+                    TheChain.back()->approvedTime = simTime();
+                    TheChain.back()->isApproved = true;
+
+                    TheChain.push_back(NodeChain);
+                }
+            }
+
+            auto BackChain = TheChain.back();
+
+            for(int i = 0; i < NbTipsChain; i++)
+            {
+                txCount++;
+
+                auto TipChain = createSite(ID + std::to_string(txCount));
+
+                if(i == 0)
+                {
+                    TipChain->S_approved.push_back(BackChain);
+                    TipChain->pathID = BackChain->pathID;
+                    TipChain->pathID.insert(TipChain->ID);
+
+                    BackChain->approvedBy.push_back(TipChain);
+                    BackChain->approvedTime = simTime();
+                    BackChain->isApproved = true;
+
+                    TheChain.push_back(TipChain);
+                }
+
+                else
+                {
+                    TipChain->S_approved.push_back(BackChain);
+                    TipChain->pathID = BackChain->pathID;
+                    TipChain->pathID.insert(TipChain->ID);
+
+                    BackChain->approvedBy.push_back(TipChain);
+
+                    TheChain.push_back(TipChain);
+                }
+            }
+
+
+            EV << "Launching a double spending attack !" << std::endl;
+
+            for(auto tx : TheChain)
+            {
+                for(int i = 0; i < NeighborsNumber; i++)
+                {
+                    MsgUpdate * MsgU = new MsgUpdate;
+
+                    MsgU->ID = tx->ID;
+                    MsgU->issuedBy = tx->issuedBy;
+                    MsgU->issuedTime = tx->issuedTime;
+
+                    for(auto approvedTips : tx->S_approved)
+                    {
+                        MsgU->S_approved.push_back(approvedTips->ID);
+                    }
+
+                    msgUpdate->setContextPointer(MsgU);
+
+                    send(msgUpdate->dup(),"NodeOut",i);
+                }
+            }
+
+            TheChain.clear();
+            scheduleAt(simTime() + exponential(mean), msgIssue);
+        }
+    }
+
     else if(msg->getKind() == ISSUE)
     {
-        EV << "Issuing a new transaction" << std::endl;
-
         if(txCount < txLimit)
         {
             txCount++;
             VpTr_S chosenTips;
             int tipsNb = 0;
             std::string trId;
+            bool ifAttack = false;
 
-            if(ID == "[0]" && par("ParasiteChainAttack"))
+            if(strcmp(par("AttackID"),ID.c_str()) == 0)
             {
-                double AttackStage = par("AttackStage");
-
-                if(!IfDoubleSpend &&  myTangle.size() >= AttackStage*txLimit*NodeModuleNb)
+                if(par("ParasiteChainAttack"))
                 {
-                    int idxConflictTx = par("idxConflictTx");
+                    double AttackStage = par("AttackStage");
 
-                    if(idxConflictTx <= 0 || idxConflictTx >= myTangle.size())
+                    if(!IfDoubleSpend &&  myTangle.size() >= AttackStage*txLimit*NodeModuleNb)
                     {
-                        throw std::runtime_error("idxConflictTx does not have a correct value, check .ned file !");
+                        auto msgAttack = new cMessage("Building the parasite chain",ParasiteChainAttack);
+                        ifAttack = true;
+                        scheduleAt(simTime(), msgAttack);
                     }
 
-                    auto tx = myTangle[idxConflictTx];
-                    trId = "-" + tx->ID;
-                    IfDoubleSpend = true;
-
-                    EV << "Launching a double spending attack !" << std::endl;
-                }
-
-                else
-                {
-                    trId = ID + std::to_string(txCount);
+                    else
+                    {
+                        trId = ID + std::to_string(txCount);
+                    }
                 }
             }
 
@@ -1229,56 +1353,57 @@ void NodeModule::handleMessage(cMessage * msg)
                 trId = ID + std::to_string(txCount);
             }
 
-
-            EV << "TSA procedure for " << trId << std::endl;
-            double WProp = par("WProp");
-            int W = static_cast<int>(WProp*myTangle.size());
-
-            if(strcmp(par("TSA"),"IOTA") == 0)
+            if(!ifAttack)
             {
-               auto tipsCopy = myTips;
-               chosenTips = IOTA(par("alpha"),tipsCopy,simTime(),W,par("N"));
-               tipsNb = static_cast<int>(chosenTips.size());
-            }
+                EV << "Issuing a new transaction" << std::endl;
+                EV << "TSA procedure for " << trId << std::endl;
 
-            if(strcmp(par("TSA"),"GIOTA") == 0)
-            {
-               auto tipsCopy = myTips;
-               chosenTips = GIOTA(par("alpha"),tipsCopy,simTime(),W,par("N"));
-               tipsNb = static_cast<int>(chosenTips.size());
-            }
+                double WProp = par("WProp");
+                int W = static_cast<int>(WProp*myTangle.size());
 
-            if(strcmp(par("TSA"),"EIOTA") == 0)
-            {
-                auto tipsCopy = myTips;
-                chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),tipsCopy,simTime(),W,par("N"));
-                tipsNb = static_cast<int>(chosenTips.size());
-            }
-
-            if(chosenTips.empty())
-            {
-                EV << "The TSA did not give legit tips to approve : attempting again." << std::endl;
-                txCount--;
-                scheduleAt(simTime() + exponential(mean), msgIssue);
-            }
-
-            else
-            {
-                EV << "Chosen Tips : ";
-
-                for(auto tips : chosenTips)
+                if(strcmp(par("TSA"),"IOTA") == 0)
                 {
-                    EV << tips->ID << " ";
+                   chosenTips = IOTA(par("alpha"),W,par("N"));
+                   tipsNb = static_cast<int>(chosenTips.size());
                 }
 
-                EV << std::endl;
+                if(strcmp(par("TSA"),"GIOTA") == 0)
+                {
+                   chosenTips = GIOTA(par("alpha"),W,par("N"));
+                   tipsNb = static_cast<int>(chosenTips.size());
+                }
 
-                MsgP->ID = trId;
-                MsgP->chosen = chosenTips;
-                msgPoW->setContextPointer(MsgP);
+                if(strcmp(par("TSA"),"EIOTA") == 0)
+                {
+                    chosenTips = EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),W,par("N"));
+                    tipsNb = static_cast<int>(chosenTips.size());
+                }
 
-                EV << "Pow time = " << tipsNb*powTime << std::endl;
-                scheduleAt(simTime() + tipsNb*powTime, msgPoW);
+                if(chosenTips.empty())
+                {
+                    EV << "The TSA did not give legit tips to approve : attempting again." << std::endl;
+                    txCount--;
+                    scheduleAt(simTime() + exponential(mean), msgIssue);
+                }
+
+                else
+                {
+                    EV << "Chosen Tips : ";
+
+                    for(auto tip : chosenTips)
+                    {
+                        EV << tip->ID << " ";
+                    }
+
+                    EV << std::endl;
+
+                    MsgP->ID = trId;
+                    MsgP->chosen = chosenTips;
+                    msgPoW->setContextPointer(MsgP);
+
+                    EV << "Pow time = " << tipsNb*powTime << std::endl;
+                    scheduleAt(simTime() + tipsNb*powTime, msgPoW);
+                }
             }
         }
 
