@@ -145,9 +145,6 @@ class NodeModule : public cSimpleModule
         //update the local tangle when a new transaction is received
         void updateTangle(MsgUpdate* Msg, simtime_t attachTime);
 
-        //to debug purpose only
-        void debug();
-
         //read csv file to connect modules (for ws & exp topo)
         std::vector<int> readCSV(bool IfExp);
 

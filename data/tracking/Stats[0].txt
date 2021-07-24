@@ -22,3 +22,13 @@ FullGraph;391;198;0
 FullGraph;1001;687;0
 FullGraph;1001;504;0
 FullGraph;2001;1319;0
+FullGraph;408;329;0
+FullGraph;944;755;0
+FullGraph;141;100;0
+FullGraph;126;28;0
+FullGraph;85;30;28
+FullGraph;1436;1153;0
+FullGraph;1954;1571;0
+FullGraph;1022;651;0
+FullGraph;1022;651;0
+FullGraph;1022;635;0

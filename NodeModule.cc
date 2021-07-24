@@ -136,16 +136,6 @@ void NodeModule::stats()
     file.close();
 }
 
-void NodeModule::debug()
-{
-    std::fstream file;
-    std::string path = "./data/debug/debug" + ID + ".txt";
-    remove(path.c_str());
-    file.open(path,std::ios::app);
-    file << simTime() << " HERE" << std::endl;
-    file.close();
-}
-
 void NodeModule::printChain()
 {
     std::fstream file;
@@ -471,7 +461,7 @@ std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
         return pathID;
     }
 
-    if(chosenTips[0]->pathID.size() > chosenTips[1]->pathID.size())
+    else if(chosenTips[0]->pathID.size() > chosenTips[1]->pathID.size())
     {
         pathID = chosenTips[0]->pathID;
         pathID.insert(chosenTips[1]->pathID.begin(),chosenTips[1]->pathID.end());
@@ -1174,14 +1164,12 @@ void NodeModule::handleMessage(cMessage * msg)
     {
         int idxConflictTx = par("idxConflictTx");
 
-        if(idxConflictTx <= 0 || idxConflictTx >= myTangle.size())
+        if(idxConflictTx <= 0 || idxConflictTx >= static_cast<int>(myTangle.size()))
         {
             throw std::runtime_error("idxConflictTx does not have a correct value, check .ned file !");
         }
 
         EV << "Building the parasite chain" << std::endl;
-
-        auto RootChain = createSite("-" + myTangle[idxConflictTx]->ID);
 
         VpTr_S cpyTips;
 
@@ -1190,7 +1178,7 @@ void NodeModule::handleMessage(cMessage * msg)
             cpyTips.push_back(tip.second);
         }
 
-        std::sort(cpyTips.begin(), cpyTips.end(), [](const pTr_S& tip1, const pTr_S& tip2){return tip1->issuedTime > tip1->issuedTime;});
+        std::sort(cpyTips.begin(), cpyTips.end(), [](const pTr_S& tip1, const pTr_S& tip2){return tip1->issuedTime < tip2->issuedTime;});
         pTr_S RootTip = nullptr;
 
         for(auto tip : cpyTips)
@@ -1214,11 +1202,18 @@ void NodeModule::handleMessage(cMessage * msg)
         else
         {
             cpyTips.clear();
+            auto RootChain = createSite("-" + myTangle[idxConflictTx]->ID);
             RootChain->pathID = RootTip->pathID;
             RootChain->pathID.insert(RootChain->ID);
+            RootChain->S_approved.push_back(RootTip);
+
+            RootTip->approvedBy.push_back(RootChain);
+            RootTip->isApproved = true;
+            RootTip->approvedTime = simTime();
 
             VpTr_S TheChain;
             TheChain.push_back(RootChain);
+            myDoubleSpendTx.push_back(RootChain);
 
             int ChainLength = par("ChainLength");
             int NbTipsChain = par("NbTipsChain");
@@ -1294,6 +1289,13 @@ void NodeModule::handleMessage(cMessage * msg)
 
             for(auto tx : TheChain)
             {
+                myTangle.push_back(tx);
+
+                if(!tx->isApproved)
+                {
+                    myTips.insert({tx->ID,tx});
+                }
+
                 for(int i = 0; i < NeighborsNumber; i++)
                 {
                     MsgUpdate * MsgU = new MsgUpdate;
