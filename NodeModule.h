@@ -111,7 +111,6 @@ class NodeModule : public cSimpleModule
         //check if two transactions are in conflict
         bool IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, std::unordered_set<std::string> path1, std::unordered_set<std::string> path2);
 
-
         //get confidence for one site (to resolve conflict)
         int getConfidence(std::string id);
 
@@ -148,6 +147,15 @@ class NodeModule : public cSimpleModule
         //read csv file to connect modules (for ws & exp topo)
         std::vector<int> readCSV(bool IfExp);
 
+        //build the parasite chain
+        VpTr_S getParasiteChain(pTr_S RootTip, int idxConflictTx, int ChainLength, int NbTipsChain);
+
+        //approves the two conflicting transactions (splitting attack scenario)
+        std::vector<VpTr_S> iniSplittingAttack();
+
+        //Maintain the balance between the two branches
+        pTr_S MaintainingBalance();
+
     private:
         //how many transactions the node can issue (set in NED file)
         int txLimit;
@@ -164,8 +172,8 @@ class NodeModule : public cSimpleModule
         //counts the number of transactions issued by the node
         int txCount = 0;
 
-        //for double spending transaction
-        bool IfDoubleSpend = false;
+        //for attack scenarios (to avoid performing two)
+        bool IfAttack = false;
 
         //PoW
         simtime_t powTime;
@@ -173,8 +181,12 @@ class NodeModule : public cSimpleModule
         //Local Tangle
         VpTr_S myTangle;
 
-        //keep a record of all double spend transaction
+        //keep a record of all double spend transaction (starting with a "-")
         VpTr_S myDoubleSpendTx;
+
+        //keep a record of the transactions present in the branches (SplittingAttack)
+        VpTr_S branche1;
+        VpTr_S branche2;
 
         //Keep a record of all the current unapproved transactions
         std::map<std::string,pTr_S> myTips;
