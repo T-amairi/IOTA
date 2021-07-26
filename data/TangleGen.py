@@ -38,6 +38,19 @@ for chain in chains:
             else:
                 dictChain[idx].add(line.strip())
 
+#get a dict of all transaction approving directly or indirectly not double spend transaction
+Legitchains = glob.glob("LegitChain*")
+dictLegitChain = dict()
+for Legitchain in Legitchains:
+    with open(Legitchain, 'r',) as file:
+        idx = 0
+        for line in file:
+            if(line[0] != '[' and line[0] != '-'):
+                idx = int(line)
+                dictLegitChain[idx] = set()
+            else:
+                dictLegitChain[idx].add(line.strip())
+
 #compute the number of tips and return the list of Tips 
 def Tips(listSite):
     numberTips = 0
@@ -64,7 +77,7 @@ def TipsApp(listSite,listTips):
     return dictApp
 
 #colors of the node for graphviz 
-colors = ['green','orange','red','blue']
+colors = ['green','orange','red','blue','purple']
 #confidence 
 conf = 0.5
 #number of Tangle to generate 
@@ -82,33 +95,40 @@ for nodeID, sites in NodeModules.items():
     numberTips,listTips = Tips(sites)
     dictApp = TipsApp(sites,listTips)
     setChain = set()
+    setLegitChain = set()
 
     if nodeID in dictChain.keys():
         setChain = dictChain[nodeID]
+    if nodeID in dictLegitChain.keys():
+        setLegitChain = dictLegitChain[nodeID]
     
     g = Digraph(comment='Tangle NodeModule[' + str(nodeID) + ']',format='png',node_attr={'shape': 'box','style': 'filled'})
     g.attr(rankdir='LR')
     g.attr(label=r'Tangle NodeModule[' + str(nodeID) + ']',labelloc='t')
 
     for node in sites:
-        if node[0][0] == '-':
-            g.node(node[0],color=colors[3])
-        elif node[1][0] == '':
-            if not node[0] in setChain:
-                g.node(node[0],color=colors[2])
-            else:
+        if node[1][0] == '':
+            if node[0] in setChain:
                 g.node(node[0],color=colors[3]+":"+colors[2])
+            elif node[0] in setLegitChain:
+                g.node(node[0],color=colors[4]+":"+colors[2])
+            else:
+                g.node(node[0],color=colors[2])
         else:
             if len(dictApp[node[0]]) >= int(numberTips*conf):
-                if not node[0] in setChain:
-                    g.node(node[0],color=colors[0])
+                if node[0] in setChain:
+                    g.node(node[0],color=colors[3]+":"+colors[0])
+                elif node[0] in setLegitChain:
+                    g.node(node[0],color=colors[4]+":"+colors[0])
                 else:
-                    g.node(node[0],color=colors[3]+":"+colors[0])       
+                    g.node(node[0],color=colors[0])        
             else:
-                if not node[0] in setChain:
-                    g.node(node[0],color=colors[1])
-                else:
+                if node[0] in setChain:
                     g.node(node[0],color=colors[3]+":"+colors[1])
+                elif node[0] in setLegitChain:
+                    g.node(node[0],color=colors[4]+":"+colors[1])
+                else:
+                    g.node(node[0],color=colors[1])        
                 
     for node in sites:
             for neib in node[1]:

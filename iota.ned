@@ -28,7 +28,7 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        double WProp = 0.125; //for the interval [W,2W] and have to be in [0,1] :  if WProp = 0.5 => W = 0.5 * myTangle.size()
+        double WProp = 0.125; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
        	int N = 100; //number of walkers
 
         //EIOTA
@@ -40,26 +40,29 @@ simple NodeModule
     	//ID of the node that will initiate an attack (i.e [ + idx of the node + ])
     	string AttackID = "[0]";
     	
+    	//when initiate an attack 
+    	double AttackStage = 0.1; //have to be in [0,1], based on the size of the final Tangle
+    	
     	//to initiate a Splitting Attack
     	bool SplittingAttack = true;
     	
     	//the rate at which the balance between the branches is maintained
     	volatile double rateMB @unit(s) = 0.0001s;
     	
-    	//when generate a conflict transaction based on the Tangle size of the node 
-    	double AttackStage = 0.1; //have to be in [0,1]
+    	//sizes of the branches at ini
+    	int SizeBranches = 20;
     	
     	//to initiate a Parasite Chain Attack
     	bool ParasiteChainAttack = false;
     	
-    	//index of the transaction to be double spend in the vector myTangle (for the Parasite Chain Attack)
-    	int idxConflictTx = 1; //have to be in [1, myTangle.size() - 1]
+    	//allows to set the distance between the double spend transaction and the chain (i.e. the more we tend towards 0 and the more the chain will be close to the double spend transaction and vice versa) 
+    	double DistanceTxChain = 0.1; //have to be in [0,1]
     	
     	//chain length of the Parasite Chain
-    	int ChainLength = 5;
+    	int ChainLength = 20;
     	
     	//number of tips attached to the end of the parasite chain 
-    	int NbTipsChain = 5;
+    	int NbTipsChain = 15;
     	
     gates:
         input NodeIn[];

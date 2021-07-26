@@ -6,6 +6,7 @@
 #include <map>
 #include <utility>
 #include <cmath>
+#include <cstdlib>
 #include <omnetpp.h>
 #include <iostream>
 #include <algorithm>
@@ -148,13 +149,13 @@ class NodeModule : public cSimpleModule
         std::vector<int> readCSV(bool IfExp);
 
         //build the parasite chain
-        VpTr_S getParasiteChain(pTr_S RootTip, int idxConflictTx, int ChainLength, int NbTipsChain);
+        VpTr_S getParasiteChain(pTr_S RootTip, std::string TargetID, int ChainLength, int NbTipsChain);
 
-        //approves the two conflicting transactions (splitting attack scenario)
-        std::vector<VpTr_S> iniSplittingAttack();
+        //build the two branches in conflict (splitting attack scenario)
+        std::vector<VpTr_S> iniSplittingAttack(int SizeBranches);
 
         //Maintain the balance between the two branches
-        pTr_S MaintainingBalance();
+        VpTr_S MaintainingBalance();
 
     private:
         //how many transactions the node can issue (set in NED file)
