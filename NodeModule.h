@@ -50,9 +50,6 @@ struct Site
     //used during the recursion weight compute process
     bool isVisited = false;
 
-    //number of walks taken to select this transaction during the random walk
-    int walkBacktracks;
-
     //Transactions that have approved this transaction directly
     VpTr_S approvedBy;
 
@@ -80,6 +77,7 @@ class NodeModule : public cSimpleModule
         cMessage * msgIssue;
         cMessage * msgPoW;
         cMessage * msgUpdate;
+        cMessage * msgMB;
 
         //data sent
         MsgPoW * MsgP;
@@ -173,7 +171,7 @@ class NodeModule : public cSimpleModule
         //counts the number of transactions issued by the node
         int txCount = 0;
 
-        //for attack scenarios (to avoid performing two)
+        //for attack scenarios (to avoid performing twice)
         bool IfAttack = false;
 
         //PoW

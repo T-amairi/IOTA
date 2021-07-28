@@ -1,105 +1,2939 @@
 
 Running configuration General, run #0...
-Assigned runID=General-0-20210726-21:07:41-13068
+Assigned runID=General-0-20210729-00:27:08-920
 Setting up network "FullGraph"...
 Initializing...
+Initializing channel FullGraph.Nodes[0].NodeOut[0].channel, stage 0
+Initializing channel FullGraph.Nodes[0].NodeOut[1].channel, stage 0
+Initializing channel FullGraph.Nodes[1].NodeOut[0].channel, stage 0
+Initializing channel FullGraph.Nodes[1].NodeOut[1].channel, stage 0
+Initializing channel FullGraph.Nodes[2].NodeOut[0].channel, stage 0
+Initializing channel FullGraph.Nodes[2].NodeOut[1].channel, stage 0
+Initializing module FullGraph, stage 0
+Initializing module FullGraph.Nodes[0], stage 0
+[INFO]	Initialization complete
+Initializing module FullGraph.Nodes[1], stage 0
+[INFO]	Initialization complete
+Initializing module FullGraph.Nodes[2], stage 0
+[INFO]	Initialization complete
 
 Running simulation...
-** Event #0   t=0   Elapsed: 3e-006s (0m 00s)
-     Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
-     Messages:  created: 30   present: 30   in FES: 10
-** Event #3328   t=0.056667049532   Elapsed: 2.38897s (0m 02s)
-     Speed:     ev/sec=1393.49   simsec/sec=0.0237204   ev/simsec=58746.7
-     Messages:  created: 2868   present: 38   in FES: 16
-** Event #4096   t=0.076601607573   Elapsed: 4.86848s (0m 04s)
-     Speed:     ev/sec=309.738   simsec/sec=0.00803969   ev/simsec=38526.1
-     Messages:  created: 3489   present: 30   in FES: 8
-** Event #4608   t=0.090247733692   Elapsed: 7.18092s (0m 07s)
-     Speed:     ev/sec=221.411   simsec/sec=0.00590118   ev/simsec=37519.8
-     Messages:  created: 3912   present: 36   in FES: 14
-** Event #5120   t=0.102950800665   Elapsed: 10.0804s (0m 10s)
-     Speed:     ev/sec=176.581   simsec/sec=0.0043811   ev/simsec=40305.2
-     Messages:  created: 4326   present: 31   in FES: 9
-** Event #5632   t=0.115600437618   Elapsed: 13.4245s (0m 13s)
-     Speed:     ev/sec=153.109   simsec/sec=0.00378277   ev/simsec=40475.5
-     Messages:  created: 4749   present: 34   in FES: 12
-** Event #5888   t=0.122718112923   Elapsed: 15.4338s (0m 15s)
-     Speed:     ev/sec=127.406   simsec/sec=0.00354233   ev/simsec=35966.8
-     Messages:  created: 4956   present: 31   in FES: 9
-** Event #6144   t=0.129818896486   Elapsed: 17.8245s (0m 17s)
-     Speed:     ev/sec=107.082   simsec/sec=0.00297017   ev/simsec=36052.4
-     Messages:  created: 5163   present: 30   in FES: 8
-** Event #6400   t=0.135935650524   Elapsed: 20.0149s (0m 20s)
-     Speed:     ev/sec=116.871   simsec/sec=0.00279246   ev/simsec=41852.3
-     Messages:  created: 5379   present: 35   in FES: 13
-** Event #6656   t=0.142752421798   Elapsed: 22.8459s (0m 22s)
-     Speed:     ev/sec=90.427   simsec/sec=0.00240789   ev/simsec=37554.4
-     Messages:  created: 5586   present: 34   in FES: 12
-** Event #6912   t=0.148857568589   Elapsed: 25.5492s (0m 25s)
-     Speed:     ev/sec=94.7022   simsec/sec=0.00225848   ev/simsec=41931.8
-     Messages:  created: 5793   present: 30   in FES: 8
-** Event #7168   t=0.156311245557   Elapsed: 28.8931s (0m 28s)
-     Speed:     ev/sec=76.5573   simsec/sec=0.00222904   ev/simsec=34345.5
-     Messages:  created: 6009   present: 39   in FES: 17
-** Event #7424   t=0.162696506386   Elapsed: 32.2224s (0m 32s)
-     Speed:     ev/sec=76.8913   simsec/sec=0.00191786   ev/simsec=40092.3
-     Messages:  created: 6216   present: 36   in FES: 14
-** Event #7680   t=0.168824818335   Elapsed: 35.4143s (0m 35s)
-     Speed:     ev/sec=80.2032   simsec/sec=0.00191996   ev/simsec=41773.3
-     Messages:  created: 6423   present: 31   in FES: 9
-** Event #7936   t=0.175615150938   Elapsed: 39.6217s (0m 39s)
-     Speed:     ev/sec=60.846   simsec/sec=0.00161392   ev/simsec=37700.7
-     Messages:  created: 6630   present: 30   in FES: 8
-** Event #8192   t=0.182848545719   Elapsed: 43.9271s (0m 43s)
-     Speed:     ev/sec=59.4591   simsec/sec=0.00168004   ev/simsec=35391.4
-     Messages:  created: 6846   present: 38   in FES: 16
-** Event #8448   t=0.18908921609   Elapsed: 48.341s (0m 48s)
-     Speed:     ev/sec=57.9986   simsec/sec=0.00141387   ev/simsec=41021.2
-     Messages:  created: 7053   present: 35   in FES: 13
-** Event #8704   t=0.19508562316   Elapsed: 52.954s (0m 52s)
-     Speed:     ev/sec=55.4957   simsec/sec=0.0012999   ev/simsec=42692.2
-     Messages:  created: 7260   present: 32   in FES: 10
-** Event #8960   t=0.201196317828   Elapsed: 57.0398s (0m 57s)
-     Speed:     ev/sec=62.6557   simsec/sec=0.00149559   ev/simsec=41893.8
-     Messages:  created: 7476   present: 35   in FES: 13
-** Event #9216   t=0.208298761182   Elapsed: 63.1302s (1m 03s)
-     Speed:     ev/sec=42.0337   simsec/sec=0.00116618   ev/simsec=36043.9
-     Messages:  created: 7683   present: 36   in FES: 14
-** Event #9472   t=0.215148093257   Elapsed: 68.8588s (1m 08s)
-     Speed:     ev/sec=44.6882   simsec/sec=0.00119564   ev/simsec=37375.9
-     Messages:  created: 7890   present: 34   in FES: 12
-** Event #9728   t=0.220752812397   Elapsed: 74.1881s (1m 14s)
-     Speed:     ev/sec=48.0361   simsec/sec=0.00105168   ev/simsec=45675.8
-     Messages:  created: 8106   present: 39   in FES: 17
-** Event #9984   t=0.227645681365   Elapsed: 80.3141s (1m 20s)
-     Speed:     ev/sec=41.7892   simsec/sec=0.00112519   ev/simsec=37139.8
-     Messages:  created: 8313   present: 36   in FES: 14
-** Event #10240   t=0.234916284399   Elapsed: 87.1141s (1m 27s)
-     Speed:     ev/sec=37.647   simsec/sec=0.00106921   ev/simsec=35210.3
-     Messages:  created: 8520   present: 34   in FES: 12
-** Event #10496   t=0.241304443894   Elapsed: 94.5795s (1m 34s)
-     Speed:     ev/sec=34.2916   simsec/sec=0.000855703   ev/simsec=40074.1
-     Messages:  created: 8727   present: 33   in FES: 11
-** Event #10752   t=0.248018959505   Elapsed: 102.227s (1m 42s)
-     Speed:     ev/sec=33.4731   simsec/sec=0.000877952   ev/simsec=38126.4
-     Messages:  created: 8934   present: 31   in FES: 9
-** Event #11008   t=0.256657388512   Elapsed: 107.7s (1m 47s)
-     Speed:     ev/sec=46.7756   simsec/sec=0.00157839   ev/simsec=29635
-     Messages:  created: 9150   present: 37   in FES: 10
-** Event #11117   t=0.26386085186   Elapsed: 110.373s (1m 50s)
-     Speed:     ev/sec=40.4143   simsec/sec=0.00259889   ev/simsec=15550.6
-     Messages:  created: 9231   present: 30   in FES: 0
+** Event #1  t=0.000467974209   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]1
+[INFO]	Chosen Tips : Genesis 
+[INFO]	Pow time = 0.001
+** Event #2  t=0.000528353508   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]1
+[INFO]	Chosen Tips : Genesis 
+[INFO]	Pow time = 0.001
+** Event #3  t=0.000738487286   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]1
+[INFO]	Chosen Tips : Genesis 
+[INFO]	Pow time = 0.001
+** Event #4  t=0.001467974209   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]1
+[INFO]	 Sending [0]1 to all nodes
+** Event #5  t=0.001468074209   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]1
+[INFO]	Updating the Tangle
+** Event #6  t=0.001468074209   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]1
+[INFO]	Updating the Tangle
+** Event #7  t=0.001528353508   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]1
+[INFO]	 Sending [1]1 to all nodes
+** Event #8  t=0.001528453508   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]1
+[INFO]	Updating the Tangle
+** Event #9  t=0.001528453508   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]1
+[INFO]	Updating the Tangle
+** Event #10  t=0.001738487286   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]1
+[INFO]	 Sending [2]1 to all nodes
+** Event #11  t=0.001738587286   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]1
+[INFO]	Updating the Tangle
+** Event #12  t=0.001738587286   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]1
+[INFO]	Updating the Tangle
+** Event #13  t=0.002071208709   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]2
+[INFO]	Selected tips :
+[INFO]	[1]1 chosen time : 38 walk time : 1
+[INFO]	[0]1 chosen time : 35 walk time : 1
+[INFO]	[2]1 chosen time : 27 walk time : 1
+[INFO]	Chosen Tips : [1]1 [0]1 [0]1 
+[INFO]	Pow time = 0.003
+** Event #14  t=0.002561421486   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]2
+[INFO]	Selected tips :
+[INFO]	[0]1 chosen time : 41 walk time : 1
+[INFO]	[1]1 chosen time : 30 walk time : 1
+[INFO]	[2]1 chosen time : 29 walk time : 1
+[INFO]	Chosen Tips : [0]1 [1]1 [0]1 
+[INFO]	Pow time = 0.003
+** Event #15  t=0.002885995944   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]2
+[INFO]	Selected tips :
+[INFO]	[1]1 chosen time : 35 walk time : 1
+[INFO]	[0]1 chosen time : 35 walk time : 1
+[INFO]	[2]1 chosen time : 30 walk time : 1
+[INFO]	Chosen Tips : [1]1 [0]1 [0]1 
+[INFO]	Pow time = 0.003
+** Event #16  t=0.005071208709   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]2
+[INFO]	 Sending [1]2 to all nodes
+** Event #17  t=0.005071308709   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]2
+[INFO]	Updating the Tangle
+** Event #18  t=0.005071308709   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]2
+[INFO]	Updating the Tangle
+** Event #19  t=0.005219311082   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]3
+[INFO]	Selected tips :
+[INFO]	[1]2 chosen time : 99 walk time : 2
+[INFO]	[2]1 chosen time : 1 walk time : 1
+[INFO]	Chosen Tips : [1]2 [2]1 [1]2 
+[INFO]	Pow time = 0.003
+** Event #20  t=0.005561421486   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]2
+[INFO]	 Sending [0]2 to all nodes
+** Event #21  t=0.005561521486   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]2
+[INFO]	Updating the Tangle
+** Event #22  t=0.005561521486   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]2
+[INFO]	Updating the Tangle
+** Event #23  t=0.005885995944   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]2
+[INFO]	 Sending [2]2 to all nodes
+** Event #24  t=0.005886095944   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]2
+[INFO]	Updating the Tangle
+** Event #25  t=0.005886095944   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]2
+[INFO]	Updating the Tangle
+** Event #26  t=0.006099237092   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]3
+[INFO]	Selected tips :
+[INFO]	[2]2 chosen time : 44 walk time : 2
+[INFO]	[0]2 chosen time : 30 walk time : 2
+[INFO]	[1]2 chosen time : 26 walk time : 2
+[INFO]	Chosen Tips : [2]2 [0]2 [0]2 
+[INFO]	Pow time = 0.003
+** Event #27  t=0.006599336612   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]3
+[INFO]	Selected tips :
+[INFO]	[2]2 chosen time : 37 walk time : 2
+[INFO]	[1]2 chosen time : 36 walk time : 2
+[INFO]	[0]2 chosen time : 27 walk time : 2
+[INFO]	Chosen Tips : [2]2 [1]2 [0]2 
+[INFO]	Pow time = 0.003
+** Event #28  t=0.008219311082   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]3
+[INFO]	 Sending [1]3 to all nodes
+** Event #29  t=0.008219411082   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]3
+[INFO]	Updating the Tangle
+** Event #30  t=0.008219411082   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]3
+[INFO]	Updating the Tangle
+** Event #31  t=0.009020034559   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]4
+[INFO]	Selected tips :
+[INFO]	[1]3 chosen time : 100 walk time : 3
+[INFO]	Chosen Tips : [1]3 
+[INFO]	Pow time = 0.001
+** Event #32  t=0.009099237092   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]3
+[INFO]	 Sending [2]3 to all nodes
+** Event #33  t=0.009099337092   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]3
+[INFO]	Updating the Tangle
+** Event #34  t=0.009099337092   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]3
+[INFO]	Updating the Tangle
+** Event #35  t=0.00934223821   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]4
+[INFO]	Selected tips :
+[INFO]	[2]3 chosen time : 66 walk time : 3
+[INFO]	[1]3 chosen time : 34 walk time : 3
+[INFO]	Chosen Tips : [2]3 [1]3 [1]3 
+[INFO]	Pow time = 0.003
+** Event #36  t=0.009599336612   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]3
+[INFO]	 Sending [0]3 to all nodes
+** Event #37  t=0.009599436612   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]3
+[INFO]	Updating the Tangle
+** Event #38  t=0.009599436612   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]3
+[INFO]	Updating the Tangle
+** Event #39  t=0.010020034559   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]4
+[INFO]	 Sending [1]4 to all nodes
+** Event #40  t=0.010020134559   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]4
+[INFO]	Updating the Tangle
+** Event #41  t=0.010020134559   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]4
+[INFO]	Updating the Tangle
+** Event #42  t=0.010024706059   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]5
+[INFO]	Selected tips :
+[INFO]	[1]4 chosen time : 98 walk time : 4
+[INFO]	[0]3 chosen time : 1 walk time : 3
+[INFO]	[2]3 chosen time : 1 walk time : 3
+[INFO]	Chosen Tips : [1]4 [0]3 [0]3 
+[INFO]	Pow time = 0.003
+** Event #43  t=0.01138617704   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]4
+[INFO]	Selected tips :
+[INFO]	[1]4 chosen time : 99 walk time : 4
+[INFO]	[0]3 chosen time : 1 walk time : 3
+[INFO]	Chosen Tips : [1]4 [0]3 [0]3 
+[INFO]	Pow time = 0.003
+** Event #44  t=0.01234223821   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]4
+[INFO]	 Sending [2]4 to all nodes
+** Event #45  t=0.01234233821   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]4
+[INFO]	Updating the Tangle
+** Event #46  t=0.01234233821   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]4
+[INFO]	Updating the Tangle
+** Event #47  t=0.013024706059   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]5
+[INFO]	 Sending [1]5 to all nodes
+** Event #48  t=0.013024806059   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]5
+[INFO]	Updating the Tangle
+** Event #49  t=0.013024806059   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]5
+[INFO]	Updating the Tangle
+** Event #50  t=0.013254423675   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]5
+[INFO]	Selected tips :
+[INFO]	[1]5 chosen time : 98 walk time : 5
+[INFO]	[2]4 chosen time : 2 walk time : 4
+[INFO]	Chosen Tips : [1]5 [2]4 [1]5 
+[INFO]	Pow time = 0.003
+** Event #51  t=0.01389040268   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]6
+[INFO]	Selected tips :
+[INFO]	[1]5 chosen time : 100 walk time : 5
+[INFO]	Chosen Tips : [1]5 
+[INFO]	Pow time = 0.001
+** Event #52  t=0.01438617704   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]4
+[INFO]	 Sending [0]4 to all nodes
+** Event #53  t=0.01438627704   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]4
+[INFO]	Updating the Tangle
+** Event #54  t=0.01438627704   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]4
+[INFO]	Updating the Tangle
+** Event #55  t=0.01489040268   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]6
+[INFO]	 Sending [1]6 to all nodes
+** Event #56  t=0.01489050268   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]6
+[INFO]	Updating the Tangle
+** Event #57  t=0.01489050268   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]6
+[INFO]	Updating the Tangle
+** Event #58  t=0.015088370952   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]5
+[INFO]	Selected tips :
+[INFO]	[1]6 chosen time : 98 walk time : 6
+[INFO]	[0]4 chosen time : 2 walk time : 5
+[INFO]	Chosen Tips : [1]6 [0]4 [0]4 
+[INFO]	Pow time = 0.003
+** Event #59  t=0.015231402456   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]7
+[INFO]	Selected tips :
+[INFO]	[1]6 chosen time : 99 walk time : 6
+[INFO]	[0]4 chosen time : 1 walk time : 5
+[INFO]	Chosen Tips : [1]6 [0]4 [0]4 
+[INFO]	Pow time = 0.003
+** Event #60  t=0.016254423675   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]5
+[INFO]	 Sending [2]5 to all nodes
+** Event #61  t=0.016254523675   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]5
+[INFO]	Updating the Tangle
+** Event #62  t=0.016254523675   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]5
+[INFO]	Updating the Tangle
+** Event #63  t=0.01686684777   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]6
+[INFO]	Selected tips :
+[INFO]	[2]5 chosen time : 65 walk time : 6
+[INFO]	[1]6 chosen time : 35 walk time : 6
+[INFO]	Chosen Tips : [2]5 [1]6 [0]4 
+[INFO]	Pow time = 0.003
+** Event #64  t=0.018088370952   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]5
+[INFO]	 Sending [0]5 to all nodes
+** Event #65  t=0.018088470952   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]5
+[INFO]	Updating the Tangle
+** Event #66  t=0.018088470952   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]5
+[INFO]	Updating the Tangle
+** Event #67  t=0.018231402456   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]7
+[INFO]	 Sending [1]7 to all nodes
+** Event #68  t=0.018231502456   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]7
+[INFO]	Updating the Tangle
+** Event #69  t=0.018231502456   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]7
+[INFO]	Updating the Tangle
+** Event #70  t=0.018537194403   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]6
+[INFO]	Selected tips :
+[INFO]	[1]7 chosen time : 57 walk time : 7
+[INFO]	[0]5 chosen time : 43 walk time : 7
+[INFO]	Chosen Tips : [1]7 [0]5 [0]5 
+[INFO]	Pow time = 0.003
+** Event #71  t=0.018854717502   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]8
+[INFO]	Selected tips :
+[INFO]	[1]7 chosen time : 58 walk time : 7
+[INFO]	[0]5 chosen time : 42 walk time : 7
+[INFO]	Chosen Tips : [1]7 [0]5 [0]5 
+[INFO]	Pow time = 0.003
+** Event #72  t=0.01986684777   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]6
+[INFO]	 Sending [2]6 to all nodes
+** Event #73  t=0.01986694777   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]6
+[INFO]	Updating the Tangle
+** Event #74  t=0.01986694777   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]6
+[INFO]	Updating the Tangle
+** Event #75  t=0.019873753501   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]7
+[INFO]	Selected tips :
+[INFO]	[2]6 chosen time : 36 walk time : 7
+[INFO]	[0]5 chosen time : 32 walk time : 7
+[INFO]	[1]7 chosen time : 32 walk time : 7
+[INFO]	Chosen Tips : [2]6 [0]5 [0]5 
+[INFO]	Pow time = 0.003
+** Event #76  t=0.021537194403   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]6
+[INFO]	 Sending [0]6 to all nodes
+** Event #77  t=0.021537294403   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]6
+[INFO]	Updating the Tangle
+** Event #78  t=0.021537294403   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]6
+[INFO]	Updating the Tangle
+** Event #79  t=0.021854717502   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]8
+[INFO]	 Sending [1]8 to all nodes
+** Event #80  t=0.021854817502   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]8
+[INFO]	Updating the Tangle
+** Event #81  t=0.021854817502   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]8
+[INFO]	Updating the Tangle
+** Event #82  t=0.021964019069   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]9
+[INFO]	Selected tips :
+[INFO]	[1]8 chosen time : 55 walk time : 8
+[INFO]	[0]6 chosen time : 45 walk time : 8
+[INFO]	Chosen Tips : [1]8 [0]6 [0]6 
+[INFO]	Pow time = 0.003
+** Event #83  t=0.022162263889   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]7
+[INFO]	Selected tips :
+[INFO]	[0]6 chosen time : 53 walk time : 8
+[INFO]	[1]8 chosen time : 47 walk time : 8
+[INFO]	Chosen Tips : [0]6 [1]8 [0]6 
+[INFO]	Pow time = 0.003
+** Event #84  t=0.022873753501   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]7
+[INFO]	 Sending [2]7 to all nodes
+** Event #85  t=0.022873853501   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]7
+[INFO]	Updating the Tangle
+** Event #86  t=0.022873853501   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]7
+[INFO]	Updating the Tangle
+** Event #87  t=0.023005568325   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]8
+[INFO]	Selected tips :
+[INFO]	[0]6 chosen time : 38 walk time : 8
+[INFO]	[2]7 chosen time : 37 walk time : 8
+[INFO]	[1]8 chosen time : 25 walk time : 8
+[INFO]	Chosen Tips : [0]6 [2]7 [0]6 
+[INFO]	Pow time = 0.003
+** Event #88  t=0.024964019069   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]9
+[INFO]	 Sending [1]9 to all nodes
+** Event #89  t=0.024964119069   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]9
+[INFO]	Updating the Tangle
+** Event #90  t=0.024964119069   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]9
+[INFO]	Updating the Tangle
+** Event #91  t=0.025066602555   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]10
+[INFO]	Selected tips :
+[INFO]	[1]9 chosen time : 100 walk time : 9
+[INFO]	Chosen Tips : [1]9 
+[INFO]	Pow time = 0.001
+** Event #92  t=0.025162263889   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]7
+[INFO]	 Sending [0]7 to all nodes
+** Event #93  t=0.025162363889   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]7
+[INFO]	Updating the Tangle
+** Event #94  t=0.025162363889   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]7
+[INFO]	Updating the Tangle
+** Event #95  t=0.025482149368   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [0]8
+[INFO]	Selected tips :
+[INFO]	[1]9 chosen time : 57 walk time : 9
+[INFO]	[0]7 chosen time : 43 walk time : 9
+[INFO]	Chosen Tips : [1]9 [0]7 [0]7 
+[INFO]	Pow time = 0.003
+** Event #96  t=0.026005568325   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]8
+[INFO]	 Sending [2]8 to all nodes
+** Event #97  t=0.026005668325   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]8
+[INFO]	Updating the Tangle
+** Event #98  t=0.026005668325   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]8
+[INFO]	Updating the Tangle
+** Event #99  t=0.026066602555   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]10
+[INFO]	 Sending [1]10 to all nodes
+** Event #100  t=0.026066702555   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]10
+[INFO]	Updating the Tangle
+** Event #101  t=0.026066702555   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]10
+[INFO]	Updating the Tangle
+** Event #102  t=0.026281266187   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]11
+[INFO]	Selected tips :
+[INFO]	[1]10 chosen time : 100 walk time : 10
+[INFO]	Chosen Tips : [1]10 
+[INFO]	Pow time = 0.001
+** Event #103  t=0.027281266187   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]11
+[INFO]	 Sending [1]11 to all nodes
+** Event #104  t=0.027281366187   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]11
+[INFO]	Updating the Tangle
+** Event #105  t=0.027281366187   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]11
+[INFO]	Updating the Tangle
+** Event #106  t=0.027395166902   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]12
+[INFO]	Selected tips :
+[INFO]	[1]11 chosen time : 100 walk time : 11
+[INFO]	Chosen Tips : [1]11 
+[INFO]	Pow time = 0.001
+** Event #107  t=0.027618904923   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]9
+[INFO]	Selected tips :
+[INFO]	[1]11 chosen time : 100 walk time : 11
+[INFO]	Chosen Tips : [1]11 
+[INFO]	Pow time = 0.001
+** Event #108  t=0.028395166902   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]12
+[INFO]	 Sending [1]12 to all nodes
+** Event #109  t=0.028395266902   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]12
+[INFO]	Updating the Tangle
+** Event #110  t=0.028395266902   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]12
+[INFO]	Updating the Tangle
+** Event #111  t=0.028482149368   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Pow time finished for [0]8
+[INFO]	 Sending [0]8 to all nodes
+** Event #112  t=0.028482249368   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]8
+[INFO]	Updating the Tangle
+** Event #113  t=0.028482249368   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]8
+[INFO]	Updating the Tangle
+** Event #114  t=0.028618904923   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]9
+[INFO]	 Sending [2]9 to all nodes
+** Event #115  t=0.028619004923   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]9
+[INFO]	Updating the Tangle
+** Event #116  t=0.028619004923   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]9
+[INFO]	Updating the Tangle
+** Event #117  t=0.028748944662   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]13
+[INFO]	Selected tips :
+[INFO]	[2]9 chosen time : 51 walk time : 12
+[INFO]	[1]12 chosen time : 49 walk time : 12
+[INFO]	Chosen Tips : [2]9 [1]12 [0]8 
+[INFO]	Pow time = 0.003
+** Event #118  t=0.028758036252   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]10
+[INFO]	Selected tips :
+[INFO]	[2]9 chosen time : 57 walk time : 12
+[INFO]	[1]12 chosen time : 43 walk time : 12
+[INFO]	Chosen Tips : [2]9 [1]12 [0]8 
+[INFO]	Pow time = 0.003
+** Event #119  t=0.028889000333   FullGraph.Nodes[0] (NodeModule, id=2)
+** Event #120  t=0.028889000333   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Starting a splitting attack
+[INFO]	Creating the first tips for both branches
+** Event #121  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]9
+[INFO]	Updating the Tangle
+** Event #122  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]9
+[INFO]	Updating the Tangle
+** Event #123  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]10
+[INFO]	Updating the Tangle
+** Event #124  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]10
+[INFO]	Updating the Tangle
+** Event #125  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]12
+[INFO]	Updating the Tangle
+** Event #126  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]12
+[INFO]	Updating the Tangle
+** Event #127  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]14
+[INFO]	Updating the Tangle
+** Event #128  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]14
+[INFO]	Updating the Tangle
+** Event #129  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]16
+[INFO]	Updating the Tangle
+** Event #130  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]16
+[INFO]	Updating the Tangle
+** Event #131  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]18
+[INFO]	Updating the Tangle
+** Event #132  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]18
+[INFO]	Updating the Tangle
+** Event #133  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]20
+[INFO]	Updating the Tangle
+** Event #134  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]20
+[INFO]	Updating the Tangle
+** Event #135  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]22
+[INFO]	Updating the Tangle
+** Event #136  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]22
+[INFO]	Updating the Tangle
+** Event #137  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]24
+[INFO]	Updating the Tangle
+** Event #138  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]24
+[INFO]	Updating the Tangle
+** Event #139  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]26
+[INFO]	Updating the Tangle
+** Event #140  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]26
+[INFO]	Updating the Tangle
+** Event #141  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]28
+[INFO]	Updating the Tangle
+** Event #142  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]28
+[INFO]	Updating the Tangle
+** Event #143  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]30
+[INFO]	Updating the Tangle
+** Event #144  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]30
+[INFO]	Updating the Tangle
+** Event #145  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]32
+[INFO]	Updating the Tangle
+** Event #146  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]32
+[INFO]	Updating the Tangle
+** Event #147  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]34
+[INFO]	Updating the Tangle
+** Event #148  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]34
+[INFO]	Updating the Tangle
+** Event #149  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]36
+[INFO]	Updating the Tangle
+** Event #150  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]36
+[INFO]	Updating the Tangle
+** Event #151  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]38
+[INFO]	Updating the Tangle
+** Event #152  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]38
+[INFO]	Updating the Tangle
+** Event #153  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]40
+[INFO]	Updating the Tangle
+** Event #154  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]40
+[INFO]	Updating the Tangle
+** Event #155  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]42
+[INFO]	Updating the Tangle
+** Event #156  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]42
+[INFO]	Updating the Tangle
+** Event #157  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]44
+[INFO]	Updating the Tangle
+** Event #158  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]44
+[INFO]	Updating the Tangle
+** Event #159  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]46
+[INFO]	Updating the Tangle
+** Event #160  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]46
+[INFO]	Updating the Tangle
+** Event #161  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]48
+[INFO]	Updating the Tangle
+** Event #162  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]48
+[INFO]	Updating the Tangle
+** Event #163  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction -[0]9
+[INFO]	Updating the Tangle
+** Event #164  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction -[0]9
+[INFO]	Updating the Tangle
+** Event #165  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]11
+[INFO]	Updating the Tangle
+** Event #166  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]11
+[INFO]	Updating the Tangle
+** Event #167  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]13
+[INFO]	Updating the Tangle
+** Event #168  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]13
+[INFO]	Updating the Tangle
+** Event #169  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]15
+[INFO]	Updating the Tangle
+** Event #170  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]15
+[INFO]	Updating the Tangle
+** Event #171  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]17
+[INFO]	Updating the Tangle
+** Event #172  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]17
+[INFO]	Updating the Tangle
+** Event #173  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]19
+[INFO]	Updating the Tangle
+** Event #174  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]19
+[INFO]	Updating the Tangle
+** Event #175  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]21
+[INFO]	Updating the Tangle
+** Event #176  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]21
+[INFO]	Updating the Tangle
+** Event #177  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]23
+[INFO]	Updating the Tangle
+** Event #178  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]23
+[INFO]	Updating the Tangle
+** Event #179  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]25
+[INFO]	Updating the Tangle
+** Event #180  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]25
+[INFO]	Updating the Tangle
+** Event #181  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]27
+[INFO]	Updating the Tangle
+** Event #182  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]27
+[INFO]	Updating the Tangle
+** Event #183  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]29
+[INFO]	Updating the Tangle
+** Event #184  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]29
+[INFO]	Updating the Tangle
+** Event #185  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]31
+[INFO]	Updating the Tangle
+** Event #186  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]31
+[INFO]	Updating the Tangle
+** Event #187  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]33
+[INFO]	Updating the Tangle
+** Event #188  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]33
+[INFO]	Updating the Tangle
+** Event #189  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]35
+[INFO]	Updating the Tangle
+** Event #190  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]35
+[INFO]	Updating the Tangle
+** Event #191  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]37
+[INFO]	Updating the Tangle
+** Event #192  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]37
+[INFO]	Updating the Tangle
+** Event #193  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]39
+[INFO]	Updating the Tangle
+** Event #194  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]39
+[INFO]	Updating the Tangle
+** Event #195  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]41
+[INFO]	Updating the Tangle
+** Event #196  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]41
+[INFO]	Updating the Tangle
+** Event #197  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]43
+[INFO]	Updating the Tangle
+** Event #198  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]43
+[INFO]	Updating the Tangle
+** Event #199  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]45
+[INFO]	Updating the Tangle
+** Event #200  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]45
+[INFO]	Updating the Tangle
+** Event #201  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]47
+[INFO]	Updating the Tangle
+** Event #202  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]47
+[INFO]	Updating the Tangle
+** Event #203  t=0.028889100333   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]49
+[INFO]	Updating the Tangle
+** Event #204  t=0.028889100333   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]49
+[INFO]	Updating the Tangle
+** Event #205  t=0.031748944662   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]13
+[INFO]	 Sending [1]13 to all nodes
+** Event #206  t=0.031749044662   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]13
+[INFO]	Updating the Tangle
+** Event #207  t=0.031749044662   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]13
+[INFO]	Updating the Tangle
+** Event #208  t=0.031749044662   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated the balance of the branches
+** Event #209  t=0.031758036252   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]10
+[INFO]	 Sending [2]10 to all nodes
+** Event #210  t=0.031758136252   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]10
+[INFO]	Updating the Tangle
+** Event #211  t=0.031758136252   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]10
+[INFO]	Updating the Tangle
+** Event #212  t=0.031758136252   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated the balance of the branches
+** Event #213  t=0.032079054275   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]11
+[INFO]	Selected tips :
+[INFO]	[0]30 chosen time : 31 walk time : 13
+[INFO]	[0]49 chosen time : 26 walk time : 13
+[INFO]	[0]28 chosen time : 26 walk time : 13
+[INFO]	[0]41 chosen time : 17 walk time : 13
+[INFO]	Chosen Tips : [0]30 [0]28 [0]38 
+[INFO]	Pow time = 0.003
+** Event #214  t=0.032218916727   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]14
+[INFO]	Selected tips :
+[INFO]	[0]28 chosen time : 28 walk time : 13
+[INFO]	[0]49 chosen time : 26 walk time : 13
+[INFO]	[0]30 chosen time : 24 walk time : 13
+[INFO]	[0]41 chosen time : 22 walk time : 13
+[INFO]	Chosen Tips : [0]28 [0]30 [0]38 
+[INFO]	Pow time = 0.003
+** Event #215  t=0.035079054275   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]11
+[INFO]	 Sending [2]11 to all nodes
+** Event #216  t=0.035079154275   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]11
+[INFO]	Updating the Tangle
+** Event #217  t=0.035079154275   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]11
+[INFO]	Updating the Tangle
+** Event #218  t=0.035079154275   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #219  t=0.035079254275   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]50
+[INFO]	Updating the Tangle
+** Event #220  t=0.035079254275   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]50
+[INFO]	Updating the Tangle
+** Event #221  t=0.035128704701   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]12
+[INFO]	Selected tips :
+[INFO]	[2]11 chosen time : 51 walk time : 14
+[INFO]	[0]41 chosen time : 27 walk time : 13
+[INFO]	[0]49 chosen time : 22 walk time : 13
+[INFO]	Chosen Tips : [2]11 
+[INFO]	Pow time = 0.001
+** Event #222  t=0.035218916727   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]14
+[INFO]	 Sending [1]14 to all nodes
+** Event #223  t=0.035219016727   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]14
+[INFO]	Updating the Tangle
+** Event #224  t=0.035219016727   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]14
+[INFO]	Updating the Tangle
+** Event #225  t=0.035219016727   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #226  t=0.035219116727   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]51
+[INFO]	Updating the Tangle
+** Event #227  t=0.035219116727   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]51
+[INFO]	Updating the Tangle
+** Event #228  t=0.035324528922   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]15
+[INFO]	Selected tips :
+[INFO]	[0]41 chosen time : 32 walk time : 13
+[INFO]	[2]11 chosen time : 23 walk time : 14
+[INFO]	[0]49 chosen time : 23 walk time : 13
+[INFO]	[1]14 chosen time : 22 walk time : 14
+[INFO]	Chosen Tips : [0]41 [0]49 [2]8 
+[INFO]	Pow time = 0.003
+** Event #229  t=0.036128704701   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]12
+[INFO]	 Sending [2]12 to all nodes
+** Event #230  t=0.036128804701   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]12
+[INFO]	Updating the Tangle
+** Event #231  t=0.036128804701   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]12
+[INFO]	Updating the Tangle
+** Event #232  t=0.036128804701   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #233  t=0.036128904701   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]52
+[INFO]	Updating the Tangle
+** Event #234  t=0.036128904701   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]52
+[INFO]	Updating the Tangle
+** Event #235  t=0.036367179028   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]13
+[INFO]	Selected tips :
+[INFO]	[2]12 chosen time : 50 walk time : 15
+[INFO]	[0]41 chosen time : 27 walk time : 13
+[INFO]	[0]49 chosen time : 22 walk time : 13
+[INFO]	[1]14 chosen time : 1 walk time : 14
+[INFO]	Chosen Tips : [2]12 [1]14 [0]44 
+[INFO]	Pow time = 0.003
+** Event #236  t=0.038324528922   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]15
+[INFO]	 Sending [1]15 to all nodes
+** Event #237  t=0.038324628922   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]15
+[INFO]	Updating the Tangle
+** Event #238  t=0.038324628922   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]15
+[INFO]	Updating the Tangle
+** Event #239  t=0.038324628922   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #240  t=0.038324728922   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]53
+[INFO]	Updating the Tangle
+** Event #241  t=0.038324728922   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]53
+[INFO]	Updating the Tangle
+** Event #242  t=0.039164023255   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]16
+[INFO]	Selected tips :
+[INFO]	[1]15 chosen time : 53 walk time : 14
+[INFO]	[2]12 chosen time : 46 walk time : 14
+[INFO]	[1]14 chosen time : 1 walk time : 14
+[INFO]	Chosen Tips : [1]15 
+[INFO]	Pow time = 0.001
+** Event #243  t=0.039367179028   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]13
+[INFO]	 Sending [2]13 to all nodes
+** Event #244  t=0.039367279028   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]13
+[INFO]	Updating the Tangle
+** Event #245  t=0.039367279028   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]13
+[INFO]	Updating the Tangle
+** Event #246  t=0.039367279028   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #247  t=0.039367379028   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]54
+[INFO]	Updating the Tangle
+** Event #248  t=0.039367379028   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]54
+[INFO]	Updating the Tangle
+** Event #249  t=0.039387437993   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]14
+[INFO]	Selected tips :
+[INFO]	[1]15 chosen time : 58 walk time : 14
+[INFO]	[2]13 chosen time : 42 walk time : 15
+[INFO]	Chosen Tips : [1]15 
+[INFO]	Pow time = 0.001
+** Event #250  t=0.040164023255   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]16
+[INFO]	 Sending [1]16 to all nodes
+** Event #251  t=0.040164123255   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]16
+[INFO]	Updating the Tangle
+** Event #252  t=0.040164123255   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]16
+[INFO]	Updating the Tangle
+** Event #253  t=0.040164123255   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #254  t=0.040164223255   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]55
+[INFO]	Updating the Tangle
+** Event #255  t=0.040164223255   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]55
+[INFO]	Updating the Tangle
+** Event #256  t=0.040187854202   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]17
+[INFO]	Selected tips :
+[INFO]	[1]16 chosen time : 51 walk time : 15
+[INFO]	[0]55 chosen time : 49 walk time : 17
+[INFO]	Chosen Tips : [1]16 
+[INFO]	Pow time = 0.001
+** Event #257  t=0.040387437993   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]14
+[INFO]	 Sending [2]14 to all nodes
+** Event #258  t=0.040387537993   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]14
+[INFO]	Updating the Tangle
+** Event #259  t=0.040387537993   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]14
+[INFO]	Updating the Tangle
+** Event #260  t=0.040387537993   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #261  t=0.040387637993   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]56
+[INFO]	Updating the Tangle
+** Event #262  t=0.040387637993   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]56
+[INFO]	Updating the Tangle
+** Event #263  t=0.040434121862   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]15
+[INFO]	Selected tips :
+[INFO]	[0]55 chosen time : 51 walk time : 17
+[INFO]	[2]14 chosen time : 31 walk time : 15
+[INFO]	[1]16 chosen time : 18 walk time : 15
+[INFO]	Chosen Tips : [0]55 
+[INFO]	Pow time = 0.001
+** Event #264  t=0.041187854202   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]17
+[INFO]	 Sending [1]17 to all nodes
+** Event #265  t=0.041187954202   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]17
+[INFO]	Updating the Tangle
+** Event #266  t=0.041187954202   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]17
+[INFO]	Updating the Tangle
+** Event #267  t=0.041187954202   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #268  t=0.041188054202   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]57
+[INFO]	Updating the Tangle
+** Event #269  t=0.041188054202   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]57
+[INFO]	Updating the Tangle
+** Event #270  t=0.041434121862   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]15
+[INFO]	 Sending [2]15 to all nodes
+** Event #271  t=0.041434221862   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]15
+[INFO]	Updating the Tangle
+** Event #272  t=0.041434221862   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]15
+[INFO]	Updating the Tangle
+** Event #273  t=0.041434221862   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #274  t=0.041434321862   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]58
+[INFO]	Updating the Tangle
+** Event #275  t=0.041434321862   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]58
+[INFO]	Updating the Tangle
+** Event #276  t=0.041647772035   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]18
+[INFO]	Selected tips :
+[INFO]	[2]15 chosen time : 54 walk time : 18
+[INFO]	[1]17 chosen time : 45 walk time : 16
+[INFO]	[2]14 chosen time : 1 walk time : 15
+[INFO]	Chosen Tips : [2]15 
+[INFO]	Pow time = 0.001
+** Event #277  t=0.042647772035   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]18
+[INFO]	 Sending [1]18 to all nodes
+** Event #278  t=0.042647872035   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]18
+[INFO]	Updating the Tangle
+** Event #279  t=0.042647872035   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]18
+[INFO]	Updating the Tangle
+** Event #280  t=0.042647872035   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #281  t=0.042647972035   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]59
+[INFO]	Updating the Tangle
+** Event #282  t=0.042647972035   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]59
+[INFO]	Updating the Tangle
+** Event #283  t=0.043325184776   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]16
+[INFO]	Selected tips :
+[INFO]	[0]59 chosen time : 55 walk time : 17
+[INFO]	[1]18 chosen time : 45 walk time : 19
+[INFO]	Chosen Tips : [0]59 
+[INFO]	Pow time = 0.001
+** Event #284  t=0.043608200985   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]19
+[INFO]	Selected tips :
+[INFO]	[0]59 chosen time : 55 walk time : 17
+[INFO]	[1]18 chosen time : 45 walk time : 18
+[INFO]	Chosen Tips : [0]59 
+[INFO]	Pow time = 0.001
+** Event #285  t=0.044325184776   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]16
+[INFO]	 Sending [2]16 to all nodes
+** Event #286  t=0.044325284776   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]16
+[INFO]	Updating the Tangle
+** Event #287  t=0.044325284776   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]16
+[INFO]	Updating the Tangle
+** Event #288  t=0.044325284776   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #289  t=0.044325384776   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]60
+[INFO]	Updating the Tangle
+** Event #290  t=0.044325384776   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]60
+[INFO]	Updating the Tangle
+** Event #291  t=0.044567452706   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]17
+[INFO]	Selected tips :
+[INFO]	[2]16 chosen time : 54 walk time : 18
+[INFO]	[0]60 chosen time : 46 walk time : 19
+[INFO]	Chosen Tips : [2]16 
+[INFO]	Pow time = 0.001
+** Event #292  t=0.044608200985   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]19
+[INFO]	 Sending [1]19 to all nodes
+** Event #293  t=0.044608300985   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]19
+[INFO]	Updating the Tangle
+** Event #294  t=0.044608300985   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]19
+[INFO]	Updating the Tangle
+** Event #295  t=0.044608300985   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #296  t=0.044608400985   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]61
+[INFO]	Updating the Tangle
+** Event #297  t=0.044608400985   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]61
+[INFO]	Updating the Tangle
+** Event #298  t=0.045567452706   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]17
+[INFO]	 Sending [2]17 to all nodes
+** Event #299  t=0.045567552706   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]17
+[INFO]	Updating the Tangle
+** Event #300  t=0.045567552706   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]17
+[INFO]	Updating the Tangle
+** Event #301  t=0.045567552706   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #302  t=0.045567652706   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]62
+[INFO]	Updating the Tangle
+** Event #303  t=0.045567652706   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]62
+[INFO]	Updating the Tangle
+** Event #304  t=0.045979241091   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]20
+[INFO]	Selected tips :
+[INFO]	[2]17 chosen time : 57 walk time : 19
+[INFO]	[0]62 chosen time : 43 walk time : 22
+[INFO]	Chosen Tips : [2]17 
+[INFO]	Pow time = 0.001
+** Event #305  t=0.046979241091   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]20
+[INFO]	 Sending [1]20 to all nodes
+** Event #306  t=0.046979341091   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]20
+[INFO]	Updating the Tangle
+** Event #307  t=0.046979341091   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]20
+[INFO]	Updating the Tangle
+** Event #308  t=0.046979341091   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #309  t=0.046979441091   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]63
+[INFO]	Updating the Tangle
+** Event #310  t=0.046979441091   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]63
+[INFO]	Updating the Tangle
+** Event #311  t=0.047098348003   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]18
+[INFO]	Selected tips :
+[INFO]	[1]20 chosen time : 53 walk time : 20
+[INFO]	[0]63 chosen time : 47 walk time : 22
+[INFO]	Chosen Tips : [1]20 
+[INFO]	Pow time = 0.001
+** Event #312  t=0.047141103769   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]21
+[INFO]	Selected tips :
+[INFO]	[0]63 chosen time : 54 walk time : 23
+[INFO]	[1]20 chosen time : 46 walk time : 20
+[INFO]	Chosen Tips : [0]63 
+[INFO]	Pow time = 0.001
+** Event #313  t=0.048098348003   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]18
+[INFO]	 Sending [2]18 to all nodes
+** Event #314  t=0.048098448003   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]18
+[INFO]	Updating the Tangle
+** Event #315  t=0.048098448003   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]18
+[INFO]	Updating the Tangle
+** Event #316  t=0.048098448003   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #317  t=0.048098548003   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]64
+[INFO]	Updating the Tangle
+** Event #318  t=0.048098548003   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]64
+[INFO]	Updating the Tangle
+** Event #319  t=0.048104513695   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]19
+[INFO]	Selected tips :
+[INFO]	[2]18 chosen time : 51 walk time : 21
+[INFO]	[0]64 chosen time : 49 walk time : 24
+[INFO]	Chosen Tips : [2]18 
+[INFO]	Pow time = 0.001
+** Event #320  t=0.048141103769   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]21
+[INFO]	 Sending [1]21 to all nodes
+** Event #321  t=0.048141203769   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]21
+[INFO]	Updating the Tangle
+** Event #322  t=0.048141203769   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]21
+[INFO]	Updating the Tangle
+** Event #323  t=0.048141203769   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #324  t=0.048141303769   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]65
+[INFO]	Updating the Tangle
+** Event #325  t=0.048141303769   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]65
+[INFO]	Updating the Tangle
+** Event #326  t=0.048415533133   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]22
+[INFO]	Selected tips :
+[INFO]	[2]18 chosen time : 49 walk time : 21
+[INFO]	[1]21 chosen time : 26 walk time : 23
+[INFO]	[0]64 chosen time : 25 walk time : 23
+[INFO]	Chosen Tips : [2]18 
+[INFO]	Pow time = 0.001
+** Event #327  t=0.049104513695   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]19
+[INFO]	 Sending [2]19 to all nodes
+** Event #328  t=0.049104613695   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]19
+[INFO]	Updating the Tangle
+** Event #329  t=0.049104613695   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]19
+[INFO]	Updating the Tangle
+** Event #330  t=0.049104613695   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #331  t=0.049104713695   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]66
+[INFO]	Updating the Tangle
+** Event #332  t=0.049104713695   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]66
+[INFO]	Updating the Tangle
+** Event #333  t=0.049401407523   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]20
+[INFO]	Selected tips :
+[INFO]	[0]66 chosen time : 50 walk time : 24
+[INFO]	[2]19 chosen time : 50 walk time : 22
+[INFO]	Chosen Tips : [0]66 
+[INFO]	Pow time = 0.001
+** Event #334  t=0.049415533133   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]22
+[INFO]	 Sending [1]22 to all nodes
+** Event #335  t=0.049415633133   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]22
+[INFO]	Updating the Tangle
+** Event #336  t=0.049415633133   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]22
+[INFO]	Updating the Tangle
+** Event #337  t=0.049415633133   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #338  t=0.049415733133   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]67
+[INFO]	Updating the Tangle
+** Event #339  t=0.049415733133   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]67
+[INFO]	Updating the Tangle
+** Event #340  t=0.050091863797   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]23
+[INFO]	Selected tips :
+[INFO]	[0]67 chosen time : 45 walk time : 25
+[INFO]	[1]22 chosen time : 31 walk time : 22
+[INFO]	[2]19 chosen time : 24 walk time : 22
+[INFO]	Chosen Tips : [0]67 
+[INFO]	Pow time = 0.001
+** Event #341  t=0.050401407523   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]20
+[INFO]	 Sending [2]20 to all nodes
+** Event #342  t=0.050401507523   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]20
+[INFO]	Updating the Tangle
+** Event #343  t=0.050401507523   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]20
+[INFO]	Updating the Tangle
+** Event #344  t=0.050401507523   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #345  t=0.050401607523   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]68
+[INFO]	Updating the Tangle
+** Event #346  t=0.050401607523   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]68
+[INFO]	Updating the Tangle
+** Event #347  t=0.05104893868   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]21
+[INFO]	Selected tips :
+[INFO]	[0]68 chosen time : 48 walk time : 23
+[INFO]	[2]20 chosen time : 28 walk time : 26
+[INFO]	[0]67 chosen time : 23 walk time : 25
+[INFO]	[2]19 chosen time : 1 walk time : 22
+[INFO]	Chosen Tips : [0]68 [2]19 [0]54 
+[INFO]	Pow time = 0.003
+** Event #348  t=0.051091863797   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]23
+[INFO]	 Sending [1]23 to all nodes
+** Event #349  t=0.051091963797   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]23
+[INFO]	Updating the Tangle
+** Event #350  t=0.051091963797   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]23
+[INFO]	Updating the Tangle
+** Event #351  t=0.051091963797   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #352  t=0.051092063797   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]69
+[INFO]	Updating the Tangle
+** Event #353  t=0.051092063797   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]69
+[INFO]	Updating the Tangle
+** Event #354  t=0.051106664559   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]24
+[INFO]	Selected tips :
+[INFO]	[0]69 chosen time : 50 walk time : 24
+[INFO]	[1]23 chosen time : 50 walk time : 26
+[INFO]	Chosen Tips : [0]69 
+[INFO]	Pow time = 0.001
+** Event #355  t=0.052106664559   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]24
+[INFO]	 Sending [1]24 to all nodes
+** Event #356  t=0.052106764559   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]24
+[INFO]	Updating the Tangle
+** Event #357  t=0.052106764559   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]24
+[INFO]	Updating the Tangle
+** Event #358  t=0.052106764559   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #359  t=0.052106864559   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]70
+[INFO]	Updating the Tangle
+** Event #360  t=0.052106864559   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]70
+[INFO]	Updating the Tangle
+** Event #361  t=0.05404893868   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]21
+[INFO]	 Sending [2]21 to all nodes
+** Event #362  t=0.05404903868   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]21
+[INFO]	Updating the Tangle
+** Event #363  t=0.05404903868   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]21
+[INFO]	Updating the Tangle
+** Event #364  t=0.05404903868   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #365  t=0.05404913868   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]71
+[INFO]	Updating the Tangle
+** Event #366  t=0.05404913868   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]71
+[INFO]	Updating the Tangle
+** Event #367  t=0.054352438682   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]22
+[INFO]	Selected tips :
+[INFO]	[1]24 chosen time : 55 walk time : 25
+[INFO]	[0]71 chosen time : 44 walk time : 28
+[INFO]	[2]21 chosen time : 1 walk time : 24
+[INFO]	Chosen Tips : [1]24 [2]21 [0]58 
+[INFO]	Pow time = 0.003
+** Event #368  t=0.054751037181   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]25
+[INFO]	Selected tips :
+[INFO]	[0]71 chosen time : 53 walk time : 28
+[INFO]	[1]24 chosen time : 47 walk time : 25
+[INFO]	Chosen Tips : [0]71 
+[INFO]	Pow time = 0.001
+** Event #369  t=0.055751037181   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]25
+[INFO]	 Sending [1]25 to all nodes
+** Event #370  t=0.055751137181   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]25
+[INFO]	Updating the Tangle
+** Event #371  t=0.055751137181   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]25
+[INFO]	Updating the Tangle
+** Event #372  t=0.055751137181   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #373  t=0.055751237181   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]72
+[INFO]	Updating the Tangle
+** Event #374  t=0.055751237181   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]72
+[INFO]	Updating the Tangle
+** Event #375  t=0.056801983343   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]26
+[INFO]	Selected tips :
+[INFO]	[0]72 chosen time : 55 walk time : 26
+[INFO]	[1]25 chosen time : 45 walk time : 30
+[INFO]	Chosen Tips : [0]72 
+[INFO]	Pow time = 0.001
+** Event #376  t=0.057352438682   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]22
+[INFO]	 Sending [2]22 to all nodes
+** Event #377  t=0.057352538682   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]22
+[INFO]	Updating the Tangle
+** Event #378  t=0.057352538682   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]22
+[INFO]	Updating the Tangle
+** Event #379  t=0.057352538682   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #380  t=0.057352638682   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]73
+[INFO]	Updating the Tangle
+** Event #381  t=0.057352638682   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]73
+[INFO]	Updating the Tangle
+** Event #382  t=0.057432139139   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]23
+[INFO]	Selected tips :
+[INFO]	[0]73 chosen time : 49 walk time : 31
+[INFO]	[0]72 chosen time : 26 walk time : 26
+[INFO]	[2]22 chosen time : 25 walk time : 26
+[INFO]	Chosen Tips : [0]73 
+[INFO]	Pow time = 0.001
+** Event #383  t=0.057801983343   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]26
+[INFO]	 Sending [1]26 to all nodes
+** Event #384  t=0.057802083343   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]26
+[INFO]	Updating the Tangle
+** Event #385  t=0.057802083343   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]26
+[INFO]	Updating the Tangle
+** Event #386  t=0.057802083343   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #387  t=0.057802183343   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]74
+[INFO]	Updating the Tangle
+** Event #388  t=0.057802183343   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]74
+[INFO]	Updating the Tangle
+** Event #389  t=0.058198663352   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]27
+[INFO]	Selected tips :
+[INFO]	[0]74 chosen time : 56 walk time : 31
+[INFO]	[1]26 chosen time : 44 walk time : 27
+[INFO]	Chosen Tips : [0]74 
+[INFO]	Pow time = 0.001
+** Event #390  t=0.058432139139   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]23
+[INFO]	 Sending [2]23 to all nodes
+** Event #391  t=0.058432239139   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]23
+[INFO]	Updating the Tangle
+** Event #392  t=0.058432239139   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]23
+[INFO]	Updating the Tangle
+** Event #393  t=0.058432239139   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #394  t=0.058432339139   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]75
+[INFO]	Updating the Tangle
+** Event #395  t=0.058432339139   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]75
+[INFO]	Updating the Tangle
+** Event #396  t=0.059198663352   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]27
+[INFO]	 Sending [1]27 to all nodes
+** Event #397  t=0.059198763352   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]27
+[INFO]	Updating the Tangle
+** Event #398  t=0.059198763352   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]27
+[INFO]	Updating the Tangle
+** Event #399  t=0.059198763352   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #400  t=0.059198863352   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]76
+[INFO]	Updating the Tangle
+** Event #401  t=0.059198863352   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]76
+[INFO]	Updating the Tangle
+** Event #402  t=0.060050216061   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]24
+[INFO]	Selected tips :
+[INFO]	[1]27 chosen time : 56 walk time : 33
+[INFO]	[0]76 chosen time : 44 walk time : 29
+[INFO]	Chosen Tips : [1]27 
+[INFO]	Pow time = 0.001
+** Event #403  t=0.060107257762   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]28
+[INFO]	Selected tips :
+[INFO]	[0]76 chosen time : 54 walk time : 29
+[INFO]	[1]27 chosen time : 45 walk time : 32
+[INFO]	[2]23 chosen time : 1 walk time : 31
+[INFO]	Chosen Tips : [0]76 
+[INFO]	Pow time = 0.001
+** Event #404  t=0.061050216061   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]24
+[INFO]	 Sending [2]24 to all nodes
+** Event #405  t=0.061050316061   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]24
+[INFO]	Updating the Tangle
+** Event #406  t=0.061050316061   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]24
+[INFO]	Updating the Tangle
+** Event #407  t=0.061050316061   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #408  t=0.061050416061   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]77
+[INFO]	Updating the Tangle
+** Event #409  t=0.061050416061   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]77
+[INFO]	Updating the Tangle
+** Event #410  t=0.061107257762   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]28
+[INFO]	 Sending [1]28 to all nodes
+** Event #411  t=0.061107357762   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]28
+[INFO]	Updating the Tangle
+** Event #412  t=0.061107357762   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]28
+[INFO]	Updating the Tangle
+** Event #413  t=0.061107357762   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #414  t=0.061107457762   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]78
+[INFO]	Updating the Tangle
+** Event #415  t=0.061107457762   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]78
+[INFO]	Updating the Tangle
+** Event #416  t=0.061319510731   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]25
+[INFO]	Selected tips :
+[INFO]	[0]78 chosen time : 43 walk time : 35
+[INFO]	[1]28 chosen time : 35 walk time : 30
+[INFO]	[0]77 chosen time : 22 walk time : 30
+[INFO]	Chosen Tips : [0]78 
+[INFO]	Pow time = 0.001
+** Event #417  t=0.061807675338   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]29
+[INFO]	Selected tips :
+[INFO]	[0]78 chosen time : 60 walk time : 34
+[INFO]	[0]77 chosen time : 22 walk time : 30
+[INFO]	[1]28 chosen time : 18 walk time : 30
+[INFO]	Chosen Tips : [0]78 
+[INFO]	Pow time = 0.001
+** Event #418  t=0.062319510731   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]25
+[INFO]	 Sending [2]25 to all nodes
+** Event #419  t=0.062319610731   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]25
+[INFO]	Updating the Tangle
+** Event #420  t=0.062319610731   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]25
+[INFO]	Updating the Tangle
+** Event #421  t=0.062319610731   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #422  t=0.062319710731   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]79
+[INFO]	Updating the Tangle
+** Event #423  t=0.062319710731   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]79
+[INFO]	Updating the Tangle
+** Event #424  t=0.062807675338   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]29
+[INFO]	 Sending [1]29 to all nodes
+** Event #425  t=0.062807775338   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]29
+[INFO]	Updating the Tangle
+** Event #426  t=0.062807775338   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]29
+[INFO]	Updating the Tangle
+** Event #427  t=0.062807775338   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #428  t=0.062807875338   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]80
+[INFO]	Updating the Tangle
+** Event #429  t=0.062807875338   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]80
+[INFO]	Updating the Tangle
+** Event #430  t=0.063422659139   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]30
+[INFO]	Selected tips :
+[INFO]	[0]80 chosen time : 52 walk time : 32
+[INFO]	[1]29 chosen time : 25 walk time : 36
+[INFO]	[2]25 chosen time : 23 walk time : 36
+[INFO]	Chosen Tips : [0]80 
+[INFO]	Pow time = 0.001
+** Event #431  t=0.063430137348   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]26
+[INFO]	Selected tips :
+[INFO]	[0]80 chosen time : 40 walk time : 32
+[INFO]	[2]25 chosen time : 31 walk time : 35
+[INFO]	[1]29 chosen time : 29 walk time : 35
+[INFO]	Chosen Tips : [0]80 
+[INFO]	Pow time = 0.001
+** Event #432  t=0.064422659139   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]30
+[INFO]	 Sending [1]30 to all nodes
+** Event #433  t=0.064422759139   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]30
+[INFO]	Updating the Tangle
+** Event #434  t=0.064422759139   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]30
+[INFO]	Updating the Tangle
+** Event #435  t=0.064422759139   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #436  t=0.064422859139   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]81
+[INFO]	Updating the Tangle
+** Event #437  t=0.064422859139   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]81
+[INFO]	Updating the Tangle
+** Event #438  t=0.064430137348   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]26
+[INFO]	 Sending [2]26 to all nodes
+** Event #439  t=0.064430237348   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]26
+[INFO]	Updating the Tangle
+** Event #440  t=0.064430237348   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]26
+[INFO]	Updating the Tangle
+** Event #441  t=0.064430237348   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #442  t=0.064430337348   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]82
+[INFO]	Updating the Tangle
+** Event #443  t=0.064430337348   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]82
+[INFO]	Updating the Tangle
+** Event #444  t=0.065284400394   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]27
+[INFO]	Selected tips :
+[INFO]	[0]82 chosen time : 41 walk time : 38
+[INFO]	[1]30 chosen time : 30 walk time : 33
+[INFO]	[2]26 chosen time : 29 walk time : 33
+[INFO]	Chosen Tips : [0]82 
+[INFO]	Pow time = 0.001
+** Event #445  t=0.065482159701   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]31
+[INFO]	Selected tips :
+[INFO]	[0]82 chosen time : 47 walk time : 38
+[INFO]	[1]30 chosen time : 30 walk time : 33
+[INFO]	[2]26 chosen time : 23 walk time : 33
+[INFO]	Chosen Tips : [0]82 
+[INFO]	Pow time = 0.001
+** Event #446  t=0.066284400394   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]27
+[INFO]	 Sending [2]27 to all nodes
+** Event #447  t=0.066284500394   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]27
+[INFO]	Updating the Tangle
+** Event #448  t=0.066284500394   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]27
+[INFO]	Updating the Tangle
+** Event #449  t=0.066284500394   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #450  t=0.066284600394   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]83
+[INFO]	Updating the Tangle
+** Event #451  t=0.066284600394   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]83
+[INFO]	Updating the Tangle
+** Event #452  t=0.066482159701   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]31
+[INFO]	 Sending [1]31 to all nodes
+** Event #453  t=0.066482259701   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]31
+[INFO]	Updating the Tangle
+** Event #454  t=0.066482259701   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]31
+[INFO]	Updating the Tangle
+** Event #455  t=0.066482259701   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #456  t=0.066482359701   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]84
+[INFO]	Updating the Tangle
+** Event #457  t=0.066482359701   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]84
+[INFO]	Updating the Tangle
+** Event #458  t=0.066883391036   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]28
+[INFO]	Selected tips :
+[INFO]	[0]84 chosen time : 49 walk time : 35
+[INFO]	[2]27 chosen time : 31 walk time : 38
+[INFO]	[1]31 chosen time : 20 walk time : 39
+[INFO]	Chosen Tips : [0]84 
+[INFO]	Pow time = 0.001
+** Event #459  t=0.067532249843   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]32
+[INFO]	Selected tips :
+[INFO]	[0]84 chosen time : 44 walk time : 35
+[INFO]	[2]27 chosen time : 29 walk time : 38
+[INFO]	[1]31 chosen time : 27 walk time : 38
+[INFO]	Chosen Tips : [0]84 
+[INFO]	Pow time = 0.001
+** Event #460  t=0.067883391036   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]28
+[INFO]	 Sending [2]28 to all nodes
+** Event #461  t=0.067883491036   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]28
+[INFO]	Updating the Tangle
+** Event #462  t=0.067883491036   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]28
+[INFO]	Updating the Tangle
+** Event #463  t=0.067883491036   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #464  t=0.067883591036   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]85
+[INFO]	Updating the Tangle
+** Event #465  t=0.067883591036   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]85
+[INFO]	Updating the Tangle
+** Event #466  t=0.067896979796   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]29
+[INFO]	Selected tips :
+[INFO]	[2]28 chosen time : 60 walk time : 36
+[INFO]	[0]85 chosen time : 40 walk time : 40
+[INFO]	Chosen Tips : [2]28 
+[INFO]	Pow time = 0.001
+** Event #467  t=0.068532249843   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]32
+[INFO]	 Sending [1]32 to all nodes
+** Event #468  t=0.068532349843   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]32
+[INFO]	Updating the Tangle
+** Event #469  t=0.068532349843   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]32
+[INFO]	Updating the Tangle
+** Event #470  t=0.068532349843   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #471  t=0.068532449843   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]86
+[INFO]	Updating the Tangle
+** Event #472  t=0.068532449843   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]86
+[INFO]	Updating the Tangle
+** Event #473  t=0.068896979796   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]29
+[INFO]	 Sending [2]29 to all nodes
+** Event #474  t=0.068897079796   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]29
+[INFO]	Updating the Tangle
+** Event #475  t=0.068897079796   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]29
+[INFO]	Updating the Tangle
+** Event #476  t=0.068897079796   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #477  t=0.068897179796   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]87
+[INFO]	Updating the Tangle
+** Event #478  t=0.068897179796   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]87
+[INFO]	Updating the Tangle
+** Event #479  t=0.068907321991   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]30
+[INFO]	Selected tips :
+[INFO]	[2]29 chosen time : 53 walk time : 37
+[INFO]	[0]87 chosen time : 47 walk time : 41
+[INFO]	Chosen Tips : [2]29 
+[INFO]	Pow time = 0.001
+** Event #480  t=0.069907321991   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]30
+[INFO]	 Sending [2]30 to all nodes
+** Event #481  t=0.069907421991   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]30
+[INFO]	Updating the Tangle
+** Event #482  t=0.069907421991   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]30
+[INFO]	Updating the Tangle
+** Event #483  t=0.069907421991   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #484  t=0.069907521991   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]88
+[INFO]	Updating the Tangle
+** Event #485  t=0.069907521991   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]88
+[INFO]	Updating the Tangle
+** Event #486  t=0.070060267122   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]31
+[INFO]	Selected tips :
+[INFO]	[0]88 chosen time : 52 walk time : 42
+[INFO]	[2]30 chosen time : 48 walk time : 38
+[INFO]	Chosen Tips : [0]88 
+[INFO]	Pow time = 0.001
+** Event #487  t=0.071049346138   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]33
+[INFO]	Selected tips :
+[INFO]	[2]30 chosen time : 56 walk time : 38
+[INFO]	[0]88 chosen time : 44 walk time : 43
+[INFO]	Chosen Tips : [2]30 
+[INFO]	Pow time = 0.001
+** Event #488  t=0.071060267122   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]31
+[INFO]	 Sending [2]31 to all nodes
+** Event #489  t=0.071060367122   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]31
+[INFO]	Updating the Tangle
+** Event #490  t=0.071060367122   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]31
+[INFO]	Updating the Tangle
+** Event #491  t=0.071060367122   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #492  t=0.071060467122   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]89
+[INFO]	Updating the Tangle
+** Event #493  t=0.071060467122   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]89
+[INFO]	Updating the Tangle
+** Event #494  t=0.071279068357   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]32
+[INFO]	Selected tips :
+[INFO]	[2]31 chosen time : 50 walk time : 43
+[INFO]	[0]89 chosen time : 50 walk time : 39
+[INFO]	Chosen Tips : [2]31 
+[INFO]	Pow time = 0.001
+** Event #495  t=0.072049346138   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]33
+[INFO]	 Sending [1]33 to all nodes
+** Event #496  t=0.072049446138   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]33
+[INFO]	Updating the Tangle
+** Event #497  t=0.072049446138   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]33
+[INFO]	Updating the Tangle
+** Event #498  t=0.072049446138   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #499  t=0.072049546138   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]90
+[INFO]	Updating the Tangle
+** Event #500  t=0.072049546138   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]90
+[INFO]	Updating the Tangle
+** Event #501  t=0.072279068357   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]32
+[INFO]	 Sending [2]32 to all nodes
+** Event #502  t=0.072279168357   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]32
+[INFO]	Updating the Tangle
+** Event #503  t=0.072279168357   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]32
+[INFO]	Updating the Tangle
+** Event #504  t=0.072279168357   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #505  t=0.072279268357   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]91
+[INFO]	Updating the Tangle
+** Event #506  t=0.072279268357   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]91
+[INFO]	Updating the Tangle
+** Event #507  t=0.072296417762   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]34
+[INFO]	Selected tips :
+[INFO]	[0]91 chosen time : 49 walk time : 40
+[INFO]	[0]90 chosen time : 28 walk time : 45
+[INFO]	[2]32 chosen time : 23 walk time : 44
+[INFO]	Chosen Tips : [0]91 
+[INFO]	Pow time = 0.001
+** Event #508  t=0.072809257125   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]33
+[INFO]	Selected tips :
+[INFO]	[0]91 chosen time : 45 walk time : 40
+[INFO]	[2]32 chosen time : 31 walk time : 45
+[INFO]	[0]90 chosen time : 24 walk time : 44
+[INFO]	Chosen Tips : [0]91 
+[INFO]	Pow time = 0.001
+** Event #509  t=0.073296417762   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]34
+[INFO]	 Sending [1]34 to all nodes
+** Event #510  t=0.073296517762   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]34
+[INFO]	Updating the Tangle
+** Event #511  t=0.073296517762   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]34
+[INFO]	Updating the Tangle
+** Event #512  t=0.073296517762   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #513  t=0.073296617762   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]92
+[INFO]	Updating the Tangle
+** Event #514  t=0.073296617762   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]92
+[INFO]	Updating the Tangle
+** Event #515  t=0.073809257125   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]33
+[INFO]	 Sending [2]33 to all nodes
+** Event #516  t=0.073809357125   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]33
+[INFO]	Updating the Tangle
+** Event #517  t=0.073809357125   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]33
+[INFO]	Updating the Tangle
+** Event #518  t=0.073809357125   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #519  t=0.073809457125   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]93
+[INFO]	Updating the Tangle
+** Event #520  t=0.073809457125   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]93
+[INFO]	Updating the Tangle
+** Event #521  t=0.074032581824   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]35
+[INFO]	Selected tips :
+[INFO]	[0]93 chosen time : 52 walk time : 47
+[INFO]	[1]34 chosen time : 30 walk time : 41
+[INFO]	[2]33 chosen time : 18 walk time : 41
+[INFO]	Chosen Tips : [0]93 
+[INFO]	Pow time = 0.001
+** Event #522  t=0.075032581824   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]35
+[INFO]	 Sending [1]35 to all nodes
+** Event #523  t=0.075032681824   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]35
+[INFO]	Updating the Tangle
+** Event #524  t=0.075032681824   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]35
+[INFO]	Updating the Tangle
+** Event #525  t=0.075032681824   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #526  t=0.075032781824   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]94
+[INFO]	Updating the Tangle
+** Event #527  t=0.075032781824   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]94
+[INFO]	Updating the Tangle
+** Event #528  t=0.075232582598   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]34
+[INFO]	Selected tips :
+[INFO]	[0]94 chosen time : 52 walk time : 42
+[INFO]	[1]35 chosen time : 48 walk time : 47
+[INFO]	Chosen Tips : [0]94 
+[INFO]	Pow time = 0.001
+** Event #529  t=0.075339311748   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]36
+[INFO]	Selected tips :
+[INFO]	[1]35 chosen time : 56 walk time : 48
+[INFO]	[0]94 chosen time : 44 walk time : 42
+[INFO]	Chosen Tips : [1]35 
+[INFO]	Pow time = 0.001
+** Event #530  t=0.076232582598   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]34
+[INFO]	 Sending [2]34 to all nodes
+** Event #531  t=0.076232682598   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]34
+[INFO]	Updating the Tangle
+** Event #532  t=0.076232682598   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]34
+[INFO]	Updating the Tangle
+** Event #533  t=0.076232682598   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #534  t=0.076232782598   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]95
+[INFO]	Updating the Tangle
+** Event #535  t=0.076232782598   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]95
+[INFO]	Updating the Tangle
+** Event #536  t=0.076339311748   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]36
+[INFO]	 Sending [1]36 to all nodes
+** Event #537  t=0.076339411748   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]36
+[INFO]	Updating the Tangle
+** Event #538  t=0.076339411748   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]36
+[INFO]	Updating the Tangle
+** Event #539  t=0.076339411748   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #540  t=0.076339511748   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]96
+[INFO]	Updating the Tangle
+** Event #541  t=0.076339511748   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]96
+[INFO]	Updating the Tangle
+** Event #542  t=0.076524758405   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]37
+[INFO]	Selected tips :
+[INFO]	[0]96 chosen time : 42 walk time : 44
+[INFO]	[1]36 chosen time : 30 walk time : 48
+[INFO]	[0]95 chosen time : 28 walk time : 48
+[INFO]	Chosen Tips : [0]96 
+[INFO]	Pow time = 0.001
+** Event #543  t=0.077524758405   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]37
+[INFO]	 Sending [1]37 to all nodes
+** Event #544  t=0.077524858405   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]37
+[INFO]	Updating the Tangle
+** Event #545  t=0.077524858405   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]37
+[INFO]	Updating the Tangle
+** Event #546  t=0.077524858405   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #547  t=0.077524958405   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]97
+[INFO]	Updating the Tangle
+** Event #548  t=0.077524958405   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]97
+[INFO]	Updating the Tangle
+** Event #549  t=0.078235817172   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]35
+[INFO]	Selected tips :
+[INFO]	[1]37 chosen time : 54 walk time : 45
+[INFO]	[0]97 chosen time : 46 walk time : 49
+[INFO]	Chosen Tips : [1]37 
+[INFO]	Pow time = 0.001
+** Event #550  t=0.07894467167   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]38
+[INFO]	Selected tips :
+[INFO]	[0]97 chosen time : 53 walk time : 50
+[INFO]	[1]37 chosen time : 47 walk time : 45
+[INFO]	Chosen Tips : [0]97 
+[INFO]	Pow time = 0.001
+** Event #551  t=0.079235817172   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]35
+[INFO]	 Sending [2]35 to all nodes
+** Event #552  t=0.079235917172   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]35
+[INFO]	Updating the Tangle
+** Event #553  t=0.079235917172   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]35
+[INFO]	Updating the Tangle
+** Event #554  t=0.079235917172   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #555  t=0.079236017172   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]98
+[INFO]	Updating the Tangle
+** Event #556  t=0.079236017172   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]98
+[INFO]	Updating the Tangle
+** Event #557  t=0.079299736627   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]36
+[INFO]	Selected tips :
+[INFO]	[2]35 chosen time : 56 walk time : 46
+[INFO]	[0]98 chosen time : 44 walk time : 50
+[INFO]	Chosen Tips : [2]35 
+[INFO]	Pow time = 0.001
+** Event #558  t=0.07994467167   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]38
+[INFO]	 Sending [1]38 to all nodes
+** Event #559  t=0.07994477167   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]38
+[INFO]	Updating the Tangle
+** Event #560  t=0.07994477167   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]38
+[INFO]	Updating the Tangle
+** Event #561  t=0.07994477167   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #562  t=0.07994487167   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]99
+[INFO]	Updating the Tangle
+** Event #563  t=0.07994487167   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]99
+[INFO]	Updating the Tangle
+** Event #564  t=0.080299736627   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]36
+[INFO]	 Sending [2]36 to all nodes
+** Event #565  t=0.080299836627   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]36
+[INFO]	Updating the Tangle
+** Event #566  t=0.080299836627   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]36
+[INFO]	Updating the Tangle
+** Event #567  t=0.080299836627   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #568  t=0.080299936627   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]100
+[INFO]	Updating the Tangle
+** Event #569  t=0.080299936627   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]100
+[INFO]	Updating the Tangle
+** Event #570  t=0.080370060094   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]39
+[INFO]	Selected tips :
+[INFO]	[0]100 chosen time : 55 walk time : 52
+[INFO]	[2]36 chosen time : 24 walk time : 47
+[INFO]	[0]99 chosen time : 21 walk time : 47
+[INFO]	Chosen Tips : [0]100 
+[INFO]	Pow time = 0.001
+** Event #571  t=0.080436562741   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]37
+[INFO]	Selected tips :
+[INFO]	[0]100 chosen time : 50 walk time : 51
+[INFO]	[2]36 chosen time : 27 walk time : 47
+[INFO]	[0]99 chosen time : 23 walk time : 47
+[INFO]	Chosen Tips : [0]100 
+[INFO]	Pow time = 0.001
+** Event #572  t=0.081370060094   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]39
+[INFO]	 Sending [1]39 to all nodes
+** Event #573  t=0.081370160094   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]39
+[INFO]	Updating the Tangle
+** Event #574  t=0.081370160094   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]39
+[INFO]	Updating the Tangle
+** Event #575  t=0.081370160094   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #576  t=0.081370260094   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]101
+[INFO]	Updating the Tangle
+** Event #577  t=0.081370260094   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]101
+[INFO]	Updating the Tangle
+** Event #578  t=0.081436562741   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]37
+[INFO]	 Sending [2]37 to all nodes
+** Event #579  t=0.081436662741   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]37
+[INFO]	Updating the Tangle
+** Event #580  t=0.081436662741   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]37
+[INFO]	Updating the Tangle
+** Event #581  t=0.081436662741   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #582  t=0.081436762741   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]102
+[INFO]	Updating the Tangle
+** Event #583  t=0.081436762741   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]102
+[INFO]	Updating the Tangle
+** Event #584  t=0.081459090391   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]38
+[INFO]	Selected tips :
+[INFO]	[0]102 chosen time : 44 walk time : 49
+[INFO]	[1]39 chosen time : 30 walk time : 53
+[INFO]	[2]37 chosen time : 26 walk time : 52
+[INFO]	Chosen Tips : [0]102 
+[INFO]	Pow time = 0.001
+** Event #585  t=0.081570729042   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]40
+[INFO]	Selected tips :
+[INFO]	[0]102 chosen time : 58 walk time : 49
+[INFO]	[1]39 chosen time : 25 walk time : 52
+[INFO]	[2]37 chosen time : 17 walk time : 52
+[INFO]	Chosen Tips : [0]102 
+[INFO]	Pow time = 0.001
+** Event #586  t=0.082459090391   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]38
+[INFO]	 Sending [2]38 to all nodes
+** Event #587  t=0.082459190391   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]38
+[INFO]	Updating the Tangle
+** Event #588  t=0.082459190391   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]38
+[INFO]	Updating the Tangle
+** Event #589  t=0.082459190391   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #590  t=0.082459290391   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]103
+[INFO]	Updating the Tangle
+** Event #591  t=0.082459290391   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]103
+[INFO]	Updating the Tangle
+** Event #592  t=0.082570729042   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]40
+[INFO]	 Sending [1]40 to all nodes
+** Event #593  t=0.082570829042   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]40
+[INFO]	Updating the Tangle
+** Event #594  t=0.082570829042   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]40
+[INFO]	Updating the Tangle
+** Event #595  t=0.082570829042   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #596  t=0.082570929042   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]104
+[INFO]	Updating the Tangle
+** Event #597  t=0.082570929042   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]104
+[INFO]	Updating the Tangle
+** Event #598  t=0.082674434596   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]39
+[INFO]	Selected tips :
+[INFO]	[0]104 chosen time : 44 walk time : 55
+[INFO]	[2]38 chosen time : 34 walk time : 50
+[INFO]	[1]40 chosen time : 22 walk time : 50
+[INFO]	Chosen Tips : [0]104 
+[INFO]	Pow time = 0.001
+** Event #599  t=0.083024479052   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]41
+[INFO]	Selected tips :
+[INFO]	[0]104 chosen time : 43 walk time : 55
+[INFO]	[1]40 chosen time : 35 walk time : 50
+[INFO]	[2]38 chosen time : 22 walk time : 50
+[INFO]	Chosen Tips : [0]104 
+[INFO]	Pow time = 0.001
+** Event #600  t=0.083674434596   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]39
+[INFO]	 Sending [2]39 to all nodes
+** Event #601  t=0.083674534596   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]39
+[INFO]	Updating the Tangle
+** Event #602  t=0.083674534596   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]39
+[INFO]	Updating the Tangle
+** Event #603  t=0.083674534596   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #604  t=0.083674634596   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]105
+[INFO]	Updating the Tangle
+** Event #605  t=0.083674634596   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]105
+[INFO]	Updating the Tangle
+** Event #606  t=0.083964703837   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]40
+[INFO]	Selected tips :
+[INFO]	[0]105 chosen time : 55 walk time : 51
+[INFO]	[2]39 chosen time : 45 walk time : 56
+[INFO]	Chosen Tips : [0]105 
+[INFO]	Pow time = 0.001
+** Event #607  t=0.084024479052   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]41
+[INFO]	 Sending [1]41 to all nodes
+** Event #608  t=0.084024579052   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]41
+[INFO]	Updating the Tangle
+** Event #609  t=0.084024579052   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]41
+[INFO]	Updating the Tangle
+** Event #610  t=0.084024579052   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #611  t=0.084024679052   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]106
+[INFO]	Updating the Tangle
+** Event #612  t=0.084024679052   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]106
+[INFO]	Updating the Tangle
+** Event #613  t=0.084964703837   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]40
+[INFO]	 Sending [2]40 to all nodes
+** Event #614  t=0.084964803837   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]40
+[INFO]	Updating the Tangle
+** Event #615  t=0.084964803837   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]40
+[INFO]	Updating the Tangle
+** Event #616  t=0.084964803837   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #617  t=0.084964903837   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]107
+[INFO]	Updating the Tangle
+** Event #618  t=0.084964903837   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]107
+[INFO]	Updating the Tangle
+** Event #619  t=0.084967399392   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]42
+[INFO]	Selected tips :
+[INFO]	[0]107 chosen time : 44 walk time : 57
+[INFO]	[2]40 chosen time : 28 walk time : 52
+[INFO]	[0]106 chosen time : 28 walk time : 52
+[INFO]	Chosen Tips : [0]107 
+[INFO]	Pow time = 0.001
+** Event #620  t=0.085967399392   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]42
+[INFO]	 Sending [1]42 to all nodes
+** Event #621  t=0.085967499392   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]42
+[INFO]	Updating the Tangle
+** Event #622  t=0.085967499392   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]42
+[INFO]	Updating the Tangle
+** Event #623  t=0.085967499392   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #624  t=0.085967599392   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]108
+[INFO]	Updating the Tangle
+** Event #625  t=0.085967599392   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]108
+[INFO]	Updating the Tangle
+** Event #626  t=0.086978061496   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]43
+[INFO]	Selected tips :
+[INFO]	[0]108 chosen time : 56 walk time : 53
+[INFO]	[1]42 chosen time : 44 walk time : 57
+[INFO]	Chosen Tips : [0]108 
+[INFO]	Pow time = 0.001
+** Event #627  t=0.087978061496   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]43
+[INFO]	 Sending [1]43 to all nodes
+** Event #628  t=0.087978161496   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]43
+[INFO]	Updating the Tangle
+** Event #629  t=0.087978161496   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]43
+[INFO]	Updating the Tangle
+** Event #630  t=0.087978161496   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #631  t=0.087978261496   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]109
+[INFO]	Updating the Tangle
+** Event #632  t=0.087978261496   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]109
+[INFO]	Updating the Tangle
+** Event #633  t=0.088398299647   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]41
+[INFO]	Selected tips :
+[INFO]	[1]43 chosen time : 55 walk time : 53
+[INFO]	[0]109 chosen time : 45 walk time : 58
+[INFO]	Chosen Tips : [1]43 
+[INFO]	Pow time = 0.001
+** Event #634  t=0.08876810028   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]44
+[INFO]	Selected tips :
+[INFO]	[1]43 chosen time : 55 walk time : 54
+[INFO]	[0]109 chosen time : 45 walk time : 58
+[INFO]	Chosen Tips : [1]43 
+[INFO]	Pow time = 0.001
+** Event #635  t=0.089398299647   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]41
+[INFO]	 Sending [2]41 to all nodes
+** Event #636  t=0.089398399647   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]41
+[INFO]	Updating the Tangle
+** Event #637  t=0.089398399647   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]41
+[INFO]	Updating the Tangle
+** Event #638  t=0.089398399647   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #639  t=0.089398499647   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]110
+[INFO]	Updating the Tangle
+** Event #640  t=0.089398499647   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]110
+[INFO]	Updating the Tangle
+** Event #641  t=0.08976810028   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]44
+[INFO]	 Sending [1]44 to all nodes
+** Event #642  t=0.08976820028   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]44
+[INFO]	Updating the Tangle
+** Event #643  t=0.08976820028   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]44
+[INFO]	Updating the Tangle
+** Event #644  t=0.08976820028   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #645  t=0.08976830028   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]111
+[INFO]	Updating the Tangle
+** Event #646  t=0.08976830028   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]111
+[INFO]	Updating the Tangle
+** Event #647  t=0.090034303908   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]45
+[INFO]	Selected tips :
+[INFO]	[0]111 chosen time : 52 walk time : 60
+[INFO]	[2]41 chosen time : 25 walk time : 55
+[INFO]	[1]44 chosen time : 23 walk time : 55
+[INFO]	Chosen Tips : [0]111 
+[INFO]	Pow time = 0.001
+** Event #648  t=0.090084305823   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]42
+[INFO]	Selected tips :
+[INFO]	[0]111 chosen time : 45 walk time : 60
+[INFO]	[2]41 chosen time : 29 walk time : 55
+[INFO]	[1]44 chosen time : 26 walk time : 55
+[INFO]	Chosen Tips : [0]111 
+[INFO]	Pow time = 0.001
+** Event #649  t=0.091034303908   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]45
+[INFO]	 Sending [1]45 to all nodes
+** Event #650  t=0.091034403908   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]45
+[INFO]	Updating the Tangle
+** Event #651  t=0.091034403908   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]45
+[INFO]	Updating the Tangle
+** Event #652  t=0.091034403908   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #653  t=0.091034503908   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]112
+[INFO]	Updating the Tangle
+** Event #654  t=0.091034503908   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]112
+[INFO]	Updating the Tangle
+** Event #655  t=0.091084305823   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]42
+[INFO]	 Sending [2]42 to all nodes
+** Event #656  t=0.091084405823   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]42
+[INFO]	Updating the Tangle
+** Event #657  t=0.091084405823   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]42
+[INFO]	Updating the Tangle
+** Event #658  t=0.091084405823   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #659  t=0.091084505823   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]113
+[INFO]	Updating the Tangle
+** Event #660  t=0.091084505823   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]113
+[INFO]	Updating the Tangle
+** Event #661  t=0.091156386361   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]43
+[INFO]	Selected tips :
+[INFO]	[0]113 chosen time : 45 walk time : 57
+[INFO]	[2]42 chosen time : 29 walk time : 61
+[INFO]	[1]45 chosen time : 26 walk time : 61
+[INFO]	Chosen Tips : [0]113 
+[INFO]	Pow time = 0.001
+** Event #662  t=0.09157626409   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]46
+[INFO]	Selected tips :
+[INFO]	[0]113 chosen time : 46 walk time : 57
+[INFO]	[2]42 chosen time : 30 walk time : 62
+[INFO]	[1]45 chosen time : 24 walk time : 61
+[INFO]	Chosen Tips : [0]113 
+[INFO]	Pow time = 0.001
+** Event #663  t=0.092156386361   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]43
+[INFO]	 Sending [2]43 to all nodes
+** Event #664  t=0.092156486361   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]43
+[INFO]	Updating the Tangle
+** Event #665  t=0.092156486361   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]43
+[INFO]	Updating the Tangle
+** Event #666  t=0.092156486361   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #667  t=0.092156586361   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]114
+[INFO]	Updating the Tangle
+** Event #668  t=0.092156586361   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]114
+[INFO]	Updating the Tangle
+** Event #669  t=0.09257626409   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]46
+[INFO]	 Sending [1]46 to all nodes
+** Event #670  t=0.09257636409   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]46
+[INFO]	Updating the Tangle
+** Event #671  t=0.09257636409   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]46
+[INFO]	Updating the Tangle
+** Event #672  t=0.09257636409   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #673  t=0.09257646409   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]115
+[INFO]	Updating the Tangle
+** Event #674  t=0.09257646409   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]115
+[INFO]	Updating the Tangle
+** Event #675  t=0.093277140266   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]44
+[INFO]	Selected tips :
+[INFO]	[0]115 chosen time : 46 walk time : 63
+[INFO]	[2]43 chosen time : 29 walk time : 58
+[INFO]	[1]46 chosen time : 25 walk time : 58
+[INFO]	Chosen Tips : [0]115 
+[INFO]	Pow time = 0.001
+** Event #676  t=0.093943472338   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]47
+[INFO]	Selected tips :
+[INFO]	[0]115 chosen time : 50 walk time : 64
+[INFO]	[1]46 chosen time : 33 walk time : 58
+[INFO]	[2]43 chosen time : 17 walk time : 58
+[INFO]	Chosen Tips : [0]115 
+[INFO]	Pow time = 0.001
+** Event #677  t=0.094277140266   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]44
+[INFO]	 Sending [2]44 to all nodes
+** Event #678  t=0.094277240266   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]44
+[INFO]	Updating the Tangle
+** Event #679  t=0.094277240266   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]44
+[INFO]	Updating the Tangle
+** Event #680  t=0.094277240266   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #681  t=0.094277340266   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]116
+[INFO]	Updating the Tangle
+** Event #682  t=0.094277340266   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]116
+[INFO]	Updating the Tangle
+** Event #683  t=0.094943472338   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]47
+[INFO]	 Sending [1]47 to all nodes
+** Event #684  t=0.094943572338   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]47
+[INFO]	Updating the Tangle
+** Event #685  t=0.094943572338   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]47
+[INFO]	Updating the Tangle
+** Event #686  t=0.094943572338   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #687  t=0.094943672338   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]117
+[INFO]	Updating the Tangle
+** Event #688  t=0.094943672338   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]117
+[INFO]	Updating the Tangle
+** Event #689  t=0.094999817704   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]48
+[INFO]	Selected tips :
+[INFO]	[0]117 chosen time : 45 walk time : 60
+[INFO]	[1]47 chosen time : 40 walk time : 64
+[INFO]	[2]44 chosen time : 15 walk time : 64
+[INFO]	Chosen Tips : [0]117 
+[INFO]	Pow time = 0.001
+** Event #690  t=0.095495189808   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]45
+[INFO]	Selected tips :
+[INFO]	[0]117 chosen time : 46 walk time : 60
+[INFO]	[2]44 chosen time : 29 walk time : 64
+[INFO]	[1]47 chosen time : 25 walk time : 64
+[INFO]	Chosen Tips : [0]117 
+[INFO]	Pow time = 0.001
+** Event #691  t=0.095999817704   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]48
+[INFO]	 Sending [1]48 to all nodes
+** Event #692  t=0.095999917704   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]48
+[INFO]	Updating the Tangle
+** Event #693  t=0.095999917704   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]48
+[INFO]	Updating the Tangle
+** Event #694  t=0.095999917704   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #695  t=0.096000017704   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]118
+[INFO]	Updating the Tangle
+** Event #696  t=0.096000017704   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]118
+[INFO]	Updating the Tangle
+** Event #697  t=0.096114891924   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]49
+[INFO]	Selected tips :
+[INFO]	[1]48 chosen time : 51 walk time : 61
+[INFO]	[0]118 chosen time : 49 walk time : 66
+[INFO]	Chosen Tips : [1]48 
+[INFO]	Pow time = 0.001
+** Event #698  t=0.096495189808   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]45
+[INFO]	 Sending [2]45 to all nodes
+** Event #699  t=0.096495289808   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]45
+[INFO]	Updating the Tangle
+** Event #700  t=0.096495289808   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]45
+[INFO]	Updating the Tangle
+** Event #701  t=0.096495289808   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #702  t=0.096495389808   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]119
+[INFO]	Updating the Tangle
+** Event #703  t=0.096495389808   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]119
+[INFO]	Updating the Tangle
+** Event #704  t=0.096911739401   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]46
+[INFO]	Selected tips :
+[INFO]	[0]119 chosen time : 54 walk time : 66
+[INFO]	[2]45 chosen time : 27 walk time : 61
+[INFO]	[1]48 chosen time : 19 walk time : 61
+[INFO]	Chosen Tips : [0]119 
+[INFO]	Pow time = 0.001
+** Event #705  t=0.097114891924   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]49
+[INFO]	 Sending [1]49 to all nodes
+** Event #706  t=0.097114991924   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]49
+[INFO]	Updating the Tangle
+** Event #707  t=0.097114991924   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]49
+[INFO]	Updating the Tangle
+** Event #708  t=0.097114991924   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #709  t=0.097115091924   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]120
+[INFO]	Updating the Tangle
+** Event #710  t=0.097115091924   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]120
+[INFO]	Updating the Tangle
+** Event #711  t=0.097437814458   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [1]50
+[INFO]	Selected tips :
+[INFO]	[0]120 chosen time : 54 walk time : 67
+[INFO]	[1]49 chosen time : 46 walk time : 62
+[INFO]	Chosen Tips : [0]120 
+[INFO]	Pow time = 0.001
+** Event #712  t=0.097911739401   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]46
+[INFO]	 Sending [2]46 to all nodes
+** Event #713  t=0.097911839401   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]46
+[INFO]	Updating the Tangle
+** Event #714  t=0.097911839401   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]46
+[INFO]	Updating the Tangle
+** Event #715  t=0.097911839401   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #716  t=0.097911939401   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]121
+[INFO]	Updating the Tangle
+** Event #717  t=0.097911939401   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]121
+[INFO]	Updating the Tangle
+** Event #718  t=0.098216098756   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]47
+[INFO]	Selected tips :
+[INFO]	[0]121 chosen time : 47 walk time : 63
+[INFO]	[0]120 chosen time : 28 walk time : 68
+[INFO]	[2]46 chosen time : 25 walk time : 66
+[INFO]	Chosen Tips : [0]121 
+[INFO]	Pow time = 0.001
+** Event #719  t=0.098437814458   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Pow time finished for [1]50
+[INFO]	 Sending [1]50 to all nodes
+** Event #720  t=0.098437914458   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [1]50
+[INFO]	Updating the Tangle
+** Event #721  t=0.098437914458   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [1]50
+[INFO]	Updating the Tangle
+** Event #722  t=0.098437914458   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #723  t=0.098438014458   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]122
+[INFO]	Updating the Tangle
+** Event #724  t=0.098438014458   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]122
+[INFO]	Updating the Tangle
+** Event #725  t=0.099087829018   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Number of transactions reached : stopping issuing
+** Event #726  t=0.099216098756   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]47
+[INFO]	 Sending [2]47 to all nodes
+** Event #727  t=0.099216198756   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]47
+[INFO]	Updating the Tangle
+** Event #728  t=0.099216198756   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]47
+[INFO]	Updating the Tangle
+** Event #729  t=0.099216198756   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche2
+[INFO]	Chosen branche to be balanced : 2
+[INFO]	Updated the balance of the branches
+** Event #730  t=0.099216298756   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]123
+[INFO]	Updating the Tangle
+** Event #731  t=0.099216298756   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]123
+[INFO]	Updating the Tangle
+** Event #732  t=0.099437790698   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]48
+[INFO]	Selected tips :
+[INFO]	[0]123 chosen time : 49 walk time : 69
+[INFO]	[0]122 chosen time : 27 walk time : 64
+[INFO]	[2]47 chosen time : 24 walk time : 64
+[INFO]	Chosen Tips : [0]123 
+[INFO]	Pow time = 0.001
+** Event #733  t=0.100437790698   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]48
+[INFO]	 Sending [2]48 to all nodes
+** Event #734  t=0.100437890698   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]48
+[INFO]	Updating the Tangle
+** Event #735  t=0.100437890698   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]48
+[INFO]	Updating the Tangle
+** Event #736  t=0.100437890698   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #737  t=0.100437990698   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]124
+[INFO]	Updating the Tangle
+** Event #738  t=0.100437990698   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]124
+[INFO]	Updating the Tangle
+** Event #739  t=0.100597315219   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]49
+[INFO]	Selected tips :
+[INFO]	[2]48 chosen time : 56 walk time : 71
+[INFO]	[0]124 chosen time : 44 walk time : 65
+[INFO]	Chosen Tips : [2]48 
+[INFO]	Pow time = 0.001
+** Event #740  t=0.101597315219   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]49
+[INFO]	 Sending [2]49 to all nodes
+** Event #741  t=0.101597415219   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]49
+[INFO]	Updating the Tangle
+** Event #742  t=0.101597415219   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]49
+[INFO]	Updating the Tangle
+** Event #743  t=0.101597415219   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #744  t=0.101597515219   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]125
+[INFO]	Updating the Tangle
+** Event #745  t=0.101597515219   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]125
+[INFO]	Updating the Tangle
+** Event #746  t=0.101793837643   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Issuing a new transaction
+[INFO]	TSA procedure for [2]50
+[INFO]	Selected tips :
+[INFO]	[2]49 chosen time : 54 walk time : 72
+[INFO]	[0]125 chosen time : 46 walk time : 66
+[INFO]	Chosen Tips : [2]49 
+[INFO]	Pow time = 0.001
+** Event #747  t=0.102793837643   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Pow time finished for [2]50
+[INFO]	 Sending [2]50 to all nodes
+** Event #748  t=0.102793937643   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Received a new transaction [2]50
+[INFO]	Updating the Tangle
+** Event #749  t=0.102793937643   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [2]50
+[INFO]	Updating the Tangle
+** Event #750  t=0.102793937643   FullGraph.Nodes[0] (NodeModule, id=2)
+[INFO]	Updated branche1
+[INFO]	Chosen branche to be balanced : 1
+[INFO]	Updated the balance of the branches
+** Event #751  t=0.102794037643   FullGraph.Nodes[1] (NodeModule, id=3)
+[INFO]	Received a new transaction [0]126
+[INFO]	Updating the Tangle
+** Event #752  t=0.102794037643   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Received a new transaction [0]126
+[INFO]	Updating the Tangle
+** Event #753  t=0.1036949442   FullGraph.Nodes[2] (NodeModule, id=4)
+[INFO]	Number of transactions reached : stopping issuing
 
-<!> No more events, simulation completed -- at t=0.26386085186s, event #11117
+<!> No more events, simulation completed -- at t=0.1036949442s, event #753
 
 Calling finish() at end of Run #0...
 [INFO]	By NodeModule[0] : Simulation ended - Deleting my local Tangle
 [INFO]	By NodeModule[1] : Simulation ended - Deleting my local Tangle
 [INFO]	By NodeModule[2] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[3] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[4] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[5] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[6] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[7] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[8] : Simulation ended - Deleting my local Tangle
-[INFO]	By NodeModule[9] : Simulation ended - Deleting my local Tangle
