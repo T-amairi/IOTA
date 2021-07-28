@@ -10,8 +10,5 @@ IOTA
 !/data/image/.keep
 !/data/debug/.keep
 !/data/tracking/.keep
-!/data/archive/.keep
-!/data/archive/benchmark TSA.zip
-!/data/archive/v1.0 (without conflict case).zip
 !/topologies/exp_CSV/.keep
 !/topologies/ws_CSV/.keep
