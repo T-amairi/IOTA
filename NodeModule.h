@@ -77,6 +77,7 @@ class NodeModule : public cSimpleModule
         cMessage * msgIssue;
         cMessage * msgPoW;
         cMessage * msgUpdate;
+        cMessage * msgKC;
         cMessage * msgMB;
 
         //data sent
@@ -141,7 +142,7 @@ class NodeModule : public cSimpleModule
         void updateBuffer();
 
         //update the local tangle when a new transaction is received
-        void updateTangle(MsgUpdate* Msg, simtime_t attachTime);
+        void updateTangle(MsgUpdate* Msg);
 
         //read csv file to connect modules (for ws & exp topo)
         std::vector<int> readCSV(bool IfExp);
@@ -150,10 +151,13 @@ class NodeModule : public cSimpleModule
         VpTr_S getParasiteChain(pTr_S RootTip, std::string TargetID, int ChainLength, int NbTipsChain);
 
         //build the two branches in conflict (splitting attack scenario)
-        std::vector<VpTr_S> iniSplittingAttack(int SizeBranches);
+        std::vector<VpTr_S> iniSplittingAttack();
 
         //Maintain the balance between the two branches
         VpTr_S MaintainingBalance();
+
+        //check if the other nodes have finished (i.e txCount > txLimit) to stop the sim during a splitting attack
+        bool IfNodesfinished();
 
     private:
         //how many transactions the node can issue (set in NED file)
@@ -183,9 +187,15 @@ class NodeModule : public cSimpleModule
         //keep a record of all double spend transaction (starting with a "-")
         VpTr_S myDoubleSpendTx;
 
+        //number of transaction to issue during a splitting attack scenario
+        int toCreateSA;
+
         //keep a record of the transactions present in the branches (SplittingAttack)
         VpTr_S branche1;
         VpTr_S branche2;
+
+        //allow to check if the node is maintaining the balance
+        bool IfMaintain;
 
         //Keep a record of all the current unapproved transactions
         std::map<std::string,pTr_S> myTips;
@@ -221,7 +231,4 @@ struct MsgUpdate
 
     //The node that issued this transaction
     NodeModule* issuedBy;
-
-    //Simulation time when the transaction was issued - set by the Node
-    simtime_t issuedTime;
 };
