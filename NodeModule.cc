@@ -1,6 +1,6 @@
 #include "NodeModule.h"
 
-enum MessageType{SETTING,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack,KeepCheck,MaintainBalance};
+enum MessageType{SETTING,ISSUE,POW,UPDATE,ParasiteChainAttack,SplittingAttack,MaintainBalance};
 
 Define_Module(NodeModule);
 
@@ -366,7 +366,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
 
             for(int k = 0; k < static_cast<int>(cs.size()); k++)
             {
-                if(probWalkChoice > cs1[k] & probWalkChoice < cs[k])
+                if(probWalkChoice > cs1[k] && probWalkChoice < cs[k])
                 {
                     nextCurrentIndex = k;
                     break;
@@ -430,7 +430,7 @@ pTr_S NodeModule::RandomWalk(pTr_S start, int &walk_time)
 
             for(int k = 0; k < static_cast<int>(cs.size()); k++)
             {
-                if(probWalkChoice > cs1[k] & probWalkChoice < cs[k])
+                if(probWalkChoice > cs1[k] && probWalkChoice < cs[k])
                 {
                     nextCurrentIndex = k;
                     break;
@@ -808,12 +808,16 @@ VpTr_S NodeModule::GIOTA(double alphaVal, int W, int N)
     for(auto pair : avgConfTips)
     {
         auto tip = pair.second;
-        auto tup3 = IfLegitTip(tip->pathID);
 
-        if(!IfConflict(tup1,tup3,chosenTips[0]->pathID,tip->pathID) && !IfConflict(tup2,tup3,chosenTips[1]->pathID,tip->pathID))
+        if(tip->ID != chosenTips[0]->ID && tip->ID != chosenTips[1]->ID)
         {
-            chosenTips.push_back(tip);
-            break;
+            auto tup3 = IfLegitTip(tip->pathID);
+
+            if(!IfConflict(tup1,tup3,chosenTips[0]->pathID,tip->pathID) && !IfConflict(tup2,tup3,chosenTips[1]->pathID,tip->pathID))
+            {
+                chosenTips.push_back(tip);
+                break;
+            }
         }
     }
 
@@ -837,12 +841,12 @@ VpTr_S NodeModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha
     return IOTA(highAlpha,W,N);
 }
 
-void NodeModule::updateTangle(MsgUpdate* Msg)
+void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 {
     pTr_S newTx = new Site;
     newTx->ID = Msg->ID;
     newTx->issuedBy = Msg->issuedBy;
-    newTx->issuedTime = simTime();
+    newTx->issuedTime = Msg->issuedTime;
 
     for(auto tipSelected : Msg->S_approved)
     {
@@ -855,7 +859,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg)
 
                 if(!(tx->isApproved))
                 {
-                    tx->approvedTime = simTime();
+                    tx->approvedTime = attachTime;
                     tx->isApproved = true;
                 }
 
@@ -884,6 +888,11 @@ void NodeModule::updateTangle(MsgUpdate* Msg)
     if(newTx->ID[0] == '-')
     {
         myDoubleSpendTx.push_back(newTx);
+    }
+
+    if(!branch1.empty() && !branch2.empty())
+    {
+        updateBranches(newTx);
     }
 
     myTips.insert({newTx->ID,newTx});
@@ -939,7 +948,7 @@ void NodeModule::updateBuffer()
             {
                 test = true;
                 EV << "Updating the Buffer : " << (*it)->ID << " can be added" << std::endl;
-                updateTangle((*it));
+                updateTangle((*it),simTime());
                 delete (*it);
                 it = myBuffer.erase(it);
                 break;
@@ -1047,25 +1056,25 @@ VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int Cha
     return TheChain;
 }
 
-std::vector<VpTr_S> NodeModule::iniSplittingAttack()
+std::vector<VpTr_S> NodeModule::iniSplittingAttack(int SizeBranches)
 {
-    myTangle.push_back(branche1[0]);
-    myTangle.push_back(branche2[0]);
+    myTangle.push_back(branch1[0]);
+    myTangle.push_back(branch2[0]);
 
-    myTips.insert({branche1[0]->ID,branche1[0]});
-    myTips.insert({branche2[0]->ID,branche2[0]});
+    myTips.insert({branch1[0]->ID,branch1[0]});
+    myTips.insert({branch2[0]->ID,branch2[0]});
 
-    for(int i = 0; i < toCreateSA ; i++)
+    for(int i = 0; i < SizeBranches; i++)
     {
         txCount++;
         auto tx1 = createSite(ID + std::to_string(txCount));
         txCount++;
         auto tx2 = createSite(ID + std::to_string(txCount));
 
-        int r = intuniform(0,branche1.size() - 1);
-        auto tip1 = branche1[r];
-        r = intuniform(0,branche2.size() - 1);
-        auto tip2 = branche2[r];
+        int r = intuniform(0,branch1.size() - 1);
+        auto tip1 = branch1[r];
+        r = intuniform(0,branch2.size() - 1);
+        auto tip2 = branch2[r];
 
         tx1->pathID = tip1->pathID;
         tx1->pathID.insert(tx1->ID);
@@ -1102,96 +1111,122 @@ std::vector<VpTr_S> NodeModule::iniSplittingAttack()
         myTangle.push_back(tx2);
         myTips.insert({tx2->ID,tx2});
 
-        branche1.push_back(tx1);
-        branche2.push_back(tx2);
+        branch1.push_back(tx1);
+        branch2.push_back(tx2);
     }
 
     std::vector<VpTr_S> toSend;
-    toSend.push_back(branche1);
-    toSend.push_back(branche2);
+    toSend.push_back(branch1);
+    toSend.push_back(branch2);
 
     return toSend;
 }
 
-VpTr_S NodeModule::MaintainingBalance()
+void NodeModule::updateBranches(pTr_S newTx)
 {
-    VpTr_S toSend;
-    VpTr_S Vtips;
-    VpTr_S toIterOver;
+    auto it = newTx->pathID.find(branch1[0]->ID);
 
-    if(toCreateSA > 0)
+    if(it != newTx->pathID.end())
     {
-        toIterOver =  branche2;
+        branch1.push_back(newTx);
     }
 
     else
     {
-        toIterOver = branche1;
-    }
+        it = newTx->pathID.find(branch2[0]->ID);
 
-    for(auto tx : toIterOver)
-    {
-       if(!tx->isApproved)
-       {
-           Vtips.push_back(tx);
-       }
-    }
-
-    for(int i = 0; i < std::abs(toCreateSA); i++)
-    {
-        txCount++;
-        auto tx = createSite(ID + std::to_string(txCount));
-
-        int r = intuniform(0,Vtips.size() - 1);
-        auto tip = Vtips[r];
-        Vtips.erase(Vtips.begin() + r);
-
-        tx->pathID = tip->pathID;
-        tx->pathID.insert(tx->ID);
-        tx->S_approved.push_back(tip);
-
-        tip->approvedBy.push_back(tx);
-        tip->isApproved = true;
-        tip->approvedTime = simTime();
-
-        VpTr_S temp;
-        temp.push_back(tip);
-        ReconcileTips(temp,myTips);
-        temp.clear();
-
-        if(!Vtips.empty())
+        if(it != newTx->pathID.end())
         {
-            r = intuniform(0,Vtips.size() - 1);
-            tip = Vtips[r];
+            branch2.push_back(newTx);
+        }
+    }
+}
+
+VpTr_S NodeModule::MaintainingBalance(int diff)
+{
+    VpTr_S toSend;
+
+    if(diff != 0)
+    {
+        VpTr_S Vtips;
+        VpTr_S toIterOver;
+
+        if(diff > 0)
+        {
+            EV << "Chosen branche to be balanced : 1\n";
+            toIterOver =  branch2;
+        }
+
+        else
+        {
+            EV << "Chosen branche to be balanced : 2\n";
+            toIterOver = branch1;
+        }
+
+        for(auto tx : toIterOver)
+        {
+           if(!tx->isApproved)
+           {
+               Vtips.push_back(tx);
+           }
+        }
+
+        for(int i = 0; i < std::abs(diff); i++)
+        {
+            txCount++;
+            auto tx = createSite(ID + std::to_string(txCount));
+
+            int r = intuniform(0,Vtips.size() - 1);
+            auto tip = Vtips[r];
             Vtips.erase(Vtips.begin() + r);
 
-            tx->pathID.insert(tip->ID);
+            tx->pathID = tip->pathID;
+            tx->pathID.insert(tx->ID);
             tx->S_approved.push_back(tip);
 
             tip->approvedBy.push_back(tx);
             tip->isApproved = true;
             tip->approvedTime = simTime();
 
+            VpTr_S temp;
             temp.push_back(tip);
             ReconcileTips(temp,myTips);
             temp.clear();
+
+            if(!Vtips.empty())
+            {
+                r = intuniform(0,Vtips.size() - 1);
+                tip = Vtips[r];
+                Vtips.erase(Vtips.begin() + r);
+
+                tx->pathID.insert(tip->ID);
+                tx->S_approved.push_back(tip);
+
+                tip->approvedBy.push_back(tx);
+                tip->isApproved = true;
+                tip->approvedTime = simTime();
+
+                temp.push_back(tip);
+                ReconcileTips(temp,myTips);
+                temp.clear();
+            }
+
+            if(diff > 0)
+            {
+                branch2.push_back(tx);
+            }
+
+            else
+            {
+                branch1.push_back(tx);
+            }
+
+            myTangle.push_back(tx);
+            myTips.insert({tx->ID,tx});
+
+            Vtips.push_back(tx);
+            toSend.push_back(tx);
         }
-
-        if(toCreateSA > 0)
-        {
-            branche2.push_back(tx);
-        }
-
-        else
-        {
-            branche1.push_back(tx);
-        }
-
-        myTangle.push_back(tx);
-        myTips.insert({tx->ID,tx});
-
-        Vtips.push_back(tx);
-        toSend.push_back(tx);
     }
 
     return toSend;
@@ -1515,14 +1550,13 @@ void NodeModule::handleMessage(cMessage * msg)
             auto T_diff = TargetTx->issuedTime - RootTx->issuedTime;
             double meanPC = par("PropComputingPower");
             meanPC = meanPC * mean.dbl();
-            int countDist = int(T_diff.dbl()/meanPC);
+            int weightChain = int(T_diff.dbl()/meanPC);
 
             double PropChainTips = par("PropChainTips");
-            int ChainLength = (int) countDist*PropChainTips;
-            int NbTipsChain = (int) countDist*(1 - PropChainTips);
+            int ChainLength = (int) weightChain*PropChainTips;
+            int NbTipsChain = (int) weightChain*(1 - PropChainTips);
 
-            EV << "RootTx weight : " << ComputeWeight(RootTx) << std::endl;
-            EV << "Chain weight : " << countDist << std::endl;
+            EV << "Chain weight : " << weightChain << std::endl;
 
             auto TheChain = getParasiteChain(RootTx, TargetTx->ID, ChainLength, NbTipsChain);
 
@@ -1543,6 +1577,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
                     MsgU->ID = tx->ID;
                     MsgU->issuedBy = tx->issuedBy;
+                    MsgU->issuedTime = tx->issuedTime;
 
                     for(auto approvedTips : tx->S_approved)
                     {
@@ -1570,7 +1605,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
         for(auto tx : myTangle)
         {
-            if(tx->approvedBy.size() > 2 && !tx->isGenesisBlock)
+            if(tx->approvedBy.size() > 2)
             {
                 cpyTx.push_back(tx);
             }
@@ -1587,8 +1622,8 @@ void NodeModule::handleMessage(cMessage * msg)
 
         else
         {
-            cpyTx.clear();
             auto RootTx = cpyTx[0];
+            cpyTx.clear();
 
             auto tx1 = createSite(ID + std::to_string(txCount));
             auto tx2 = createSite("-" + ID + std::to_string(txCount));
@@ -1604,47 +1639,14 @@ void NodeModule::handleMessage(cMessage * msg)
             RootTx->approvedBy.push_back(tx1);
             RootTx->approvedBy.push_back(tx2);
 
-            branche1.push_back(tx1);
-            branche2.push_back(tx2);
+            branch1.push_back(tx1);
+            branch2.push_back(tx2);
 
             myDoubleSpendTx.push_back(tx2);
 
-            msgKC = new cMessage("Start checking the balance of the branches",KeepCheck);
-            msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
-            scheduleAt(simTime(), msgKC);
-        }
-    }
-
-    else if(msg->getKind() == KeepCheck)
-    {
-        if(IfNodesfinished())
-        {
-            EV << "Stop maintaining branches : the other nodes have finished issuing their transactions" << std::endl;
-            delete msgKC;
-            delete msgMB;
-        }
-
-        else if(!branche1[0]->isApproved && !branche2[0]->isApproved)
-        {
-            EV << "Creating the first tips for both branches" << std::endl;
-
-            int SizeBranches = 0;
-            auto RootTx = branche1[0]->S_approved[0];
-
-            for(auto tx : RootTx->approvedBy)
-            {
-                int weight = ComputeWeight(tx);
-
-                if(SizeBranches < weight)
-                {
-                    SizeBranches = weight;
-                }
-            }
-
-            toCreateSA = SizeBranches;
-
             simtime_t meanMB = par("meanMB");
             simtime_t delayMB = 0.0;
+            int SizeBranches = par("SizeBranches");
 
             for(int i = 0; i < SizeBranches + 2; i++)
             {
@@ -1652,73 +1654,18 @@ void NodeModule::handleMessage(cMessage * msg)
                 delayMB += tempSim;
             }
 
+            msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
             scheduleAt(simTime() + 0, msgMB);
-        }
-
-        else
-        {
-            IfMaintain = true;
-            EV << "Checking the balance between branches :" << std::endl;
-
-            for(auto tx : myTangle)
-            {
-                auto it1 = std::find_if(branche1.begin(), branche1.end(), [&tx](const pTr_S& Tx) {return Tx->ID == tx->ID;});
-                auto it2 = std::find_if(branche2.begin(), branche2.end(), [&tx](const pTr_S& Tx) {return Tx->ID == tx->ID;});
-
-                if(it1 == branche1.end())
-                {
-                    auto it = tx->pathID.find(branche1[0]->ID);
-
-                    if(it != tx->pathID.end())
-                    {
-                        EV << "Updated branche1\n";
-                        branche1.push_back(tx);
-                    }
-                }
-
-                if(it2 == branche2.end())
-                {
-                    auto it = tx->pathID.find(branche2[0]->ID);
-
-                    if(it != tx->pathID.end())
-                    {
-                        EV << "Updated branche2\n";
-                        branche2.push_back(tx);
-                    }
-                }
-            }
-
-            toCreateSA = branche1.size() - branche2.size();
-
-            if(toCreateSA != 0)
-            {
-                simtime_t meanMB = par("meanMB");
-                simtime_t delayMB = 0.0;
-
-                for(int i = 0; i < toCreateSA; i++)
-                {
-                    simtime_t tempSim = exponential(meanMB);
-                    delayMB += tempSim;
-                }
-
-                scheduleAt(simTime() + 0, msgMB);
-            }
-
-            else
-            {
-                IfMaintain = false;
-                EV << "The branches have the same weight" << std::endl;
-            }
         }
     }
 
     else if(msg->getKind() == MaintainBalance)
     {
-        if(!branche1[0]->isApproved && !branche2[0]->isApproved)
+        if(!branch1[0]->isApproved && !branch2[0]->isApproved)
         {
-            EV << "Sending the splitting attack now" << std::endl;
+            EV << "Creating the first tips for both branches" << std::endl;
 
-            auto toSend = iniSplittingAttack();
+            auto toSend = iniSplittingAttack(par("SizeBranches"));
 
             for(auto vec : toSend)
             {
@@ -1730,6 +1677,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
                         MsgU->ID = tx->ID;
                         MsgU->issuedBy = tx->issuedBy;
+                        MsgU->issuedTime = tx->issuedTime;
 
                         for(auto approvedTips : tx->S_approved)
                         {
@@ -1748,9 +1696,9 @@ void NodeModule::handleMessage(cMessage * msg)
 
         else
         {
-            EV << "Updated the balance of the branches, sending new transactions now" << std::endl;
+            auto toSend = MaintainingBalance(diffBranches);
 
-            auto toSend = MaintainingBalance();
+            EV << "Updated the balance of the branches" << std::endl;
 
             for(auto tx : toSend)
             {
@@ -1760,6 +1708,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
                     MsgU->ID = tx->ID;
                     MsgU->issuedBy = tx->issuedBy;
+                    MsgU->issuedTime = tx->issuedTime;
 
                     for(auto approvedTips : tx->S_approved)
                     {
@@ -1774,8 +1723,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
             toSend.clear();
         }
-
-        IfMaintain = false;
     }
 
     else if(msg->getKind() == ISSUE)
@@ -1795,7 +1742,6 @@ void NodeModule::handleMessage(cMessage * msg)
                 if(!IfAttack &&  myTangle.size() >= AttackStage*txLimit*NodeModuleNb && (par("ParasiteChainAttack") || par("SplittingAttack")))
                 {
                     cMessage * msgAttack = nullptr;
-                    IfMaintain = true;
                     IfAttack = true;
                     Ifattack = true;
 
@@ -1897,6 +1843,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
             MsgU->ID = newTx->ID;
             MsgU->issuedBy = newTx->issuedBy;
+            MsgU->issuedTime = newTx->issuedTime;
 
             for(auto approvedTips : newTx->S_approved)
             {
@@ -1942,6 +1889,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
                        MsgU->ID = Msg->ID;
                        MsgU->issuedBy = Msg->issuedBy;
+                       MsgU->issuedTime = Msg->issuedTime;
 
                        for(auto approvedTipsID : Msg->S_approved)
                        {
@@ -1960,17 +1908,30 @@ void NodeModule::handleMessage(cMessage * msg)
            if(ifAddTangle(Msg->S_approved))
            {
                EV << "Updating the Tangle" << std::endl;
-               updateTangle(Msg);
+               updateTangle(Msg,simTime());
                updateBuffer();
                delete Msg;
 
                if(par("SplittingAttack") && IfAttack)
-              {
-                   if(!IfMaintain)
+               {
+                   diffBranches = branch1.size() - branch2.size();
+
+                   simtime_t meanMB = par("meanMB");
+                   simtime_t delayMB = 0.0;
+
+                   for(int i = 0; i < std::abs(diffBranches); i++)
                    {
-                       scheduleAt(simTime(), msgKC);
+                       simtime_t tempSim = exponential(meanMB);
+                       delayMB += tempSim;
                    }
-              }
+
+                   scheduleAt(simTime() + 0, msgMB);
+
+                   if(IfNodesfinished())
+                   {
+                       IfAttack = false;
+                   }
+               }
            }
 
            else
@@ -2002,4 +1963,9 @@ void NodeModule::finish()
     delete msgPoW;
     delete msgUpdate;
     delete MsgP;
+
+    if(par("SplittingAttack") && strcmp(par("AttackID"),ID.c_str()) == 0)
+    {
+        delete msgMB;
+    }
 }

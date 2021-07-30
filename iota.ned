@@ -18,8 +18,8 @@ simple NodeModule
 {
     parameters:
         //here we take the transaction rate of VISA which is 1700 tx per sec, hence, each tx is spaced by 0.000588s
-        volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean) to issuing transaction  
-        volatile double powTime @unit(s) = 0.00s; //Proof of Work 
+        volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
+        volatile double powTime @unit(s) = 0.001s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "IOTA";
@@ -28,8 +28,8 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
-       	int N = 50; //number of walkers
+        double WProp = 0.5; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
+       	int N = 100; //number of walkers
 
         //EIOTA
         double p1 = 0.1;
@@ -45,6 +45,9 @@ simple NodeModule
     	
     	//to initiate a Splitting Attack
     	bool SplittingAttack = true;
+    	
+    	//sizes of the branches at ini
+    	int SizeBranches = 20;
     	
     	//similar to mean but here it is to maintain the two branches
     	volatile double meanMB @unit(s) = 0.000588s;
@@ -71,7 +74,7 @@ network FullGraph
         int NodeNumber = default(3); 
         
         //how much transactions each node will issue
-        int transactionLimit = 25; 
+        int transactionLimit = 50; 
         
         //random delay
     	bool ifRandDelay = false;
@@ -83,7 +86,7 @@ network FullGraph
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 0.000588s;
+	        delay = 0.0001ms;
 	    }
       
     submodules:
