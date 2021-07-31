@@ -77,7 +77,6 @@ class NodeModule : public cSimpleModule
         cMessage * msgIssue;
         cMessage * msgPoW;
         cMessage * msgUpdate;
-        cMessage * msgMB;
 
         //data sent
         MsgPoW * MsgP;
@@ -141,7 +140,7 @@ class NodeModule : public cSimpleModule
         void updateBuffer();
 
         //update the local tangle when a new transaction is received
-        void updateTangle(MsgUpdate* Msg, simtime_t attachTime);
+        void updateTangle(MsgUpdate* Msg);
 
         //read csv file to connect modules (for ws & exp topo)
         std::vector<int> readCSV(bool IfExp);
@@ -193,8 +192,8 @@ class NodeModule : public cSimpleModule
         VpTr_S branch1;
         VpTr_S branch2;
 
-        //difference of transaction between the two branches
-        int diffBranches;
+        //keep a record of all self-messages created during a splitting Attack
+        std::vector<cMessage*> selfMsgCache;
 
         //Keep a record of all the current unapproved transactions
         std::map<std::string,pTr_S> myTips;
@@ -230,7 +229,4 @@ struct MsgUpdate
 
     //The node that issued this transaction
     NodeModule* issuedBy;
-
-    //Simulation time when the transaction was issued - set by the Node
-    simtime_t issuedTime;
 };

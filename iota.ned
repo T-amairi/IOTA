@@ -47,7 +47,7 @@ simple NodeModule
     	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
-    	int SizeBranches = 20;
+    	int SizeBranches = 5;
     	
     	//similar to mean but here it is to maintain the two branches
     	volatile double meanMB @unit(s) = 0.000588s;

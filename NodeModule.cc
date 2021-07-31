@@ -841,12 +841,12 @@ VpTr_S NodeModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha
     return IOTA(highAlpha,W,N);
 }
 
-void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
+void NodeModule::updateTangle(MsgUpdate* Msg)
 {
     pTr_S newTx = new Site;
     newTx->ID = Msg->ID;
     newTx->issuedBy = Msg->issuedBy;
-    newTx->issuedTime = Msg->issuedTime;
+    newTx->issuedTime = simTime();
 
     for(auto tipSelected : Msg->S_approved)
     {
@@ -859,7 +859,7 @@ void NodeModule::updateTangle(MsgUpdate* Msg, simtime_t attachTime)
 
                 if(!(tx->isApproved))
                 {
-                    tx->approvedTime = attachTime;
+                    tx->approvedTime = simTime();
                     tx->isApproved = true;
                 }
 
@@ -948,7 +948,7 @@ void NodeModule::updateBuffer()
             {
                 test = true;
                 EV << "Updating the Buffer : " << (*it)->ID << " can be added" << std::endl;
-                updateTangle((*it),simTime());
+                updateTangle((*it));
                 delete (*it);
                 it = myBuffer.erase(it);
                 break;
@@ -1577,7 +1577,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
                     MsgU->ID = tx->ID;
                     MsgU->issuedBy = tx->issuedBy;
-                    MsgU->issuedTime = tx->issuedTime;
 
                     for(auto approvedTips : tx->S_approved)
                     {
@@ -1650,11 +1649,11 @@ void NodeModule::handleMessage(cMessage * msg)
 
             for(int i = 0; i < SizeBranches + 2; i++)
             {
-                simtime_t tempSim = exponential(meanMB);
-                delayMB += tempSim;
+                delayMB += exponential(meanMB);
             }
 
-            msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
+            auto msgMB = new cMessage("Creating the first tips for both branches",MaintainBalance);
+            selfMsgCache.push_back(msgMB);
             scheduleAt(simTime() + 0, msgMB);
         }
     }
@@ -1663,6 +1662,7 @@ void NodeModule::handleMessage(cMessage * msg)
     {
         if(!branch1[0]->isApproved && !branch2[0]->isApproved)
         {
+            delete msg;
             EV << "Creating the first tips for both branches" << std::endl;
 
             auto toSend = iniSplittingAttack(par("SizeBranches"));
@@ -1677,7 +1677,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
                         MsgU->ID = tx->ID;
                         MsgU->issuedBy = tx->issuedBy;
-                        MsgU->issuedTime = tx->issuedTime;
 
                         for(auto approvedTips : tx->S_approved)
                         {
@@ -1696,6 +1695,11 @@ void NodeModule::handleMessage(cMessage * msg)
 
         else
         {
+            int* ptr = (int*) msg->getContextPointer();
+            int diffBranches = *ptr;
+            delete ptr;
+            delete msg;
+
             auto toSend = MaintainingBalance(diffBranches);
 
             EV << "Updated the balance of the branches" << std::endl;
@@ -1708,7 +1712,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
                     MsgU->ID = tx->ID;
                     MsgU->issuedBy = tx->issuedBy;
-                    MsgU->issuedTime = tx->issuedTime;
 
                     for(auto approvedTips : tx->S_approved)
                     {
@@ -1843,7 +1846,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
             MsgU->ID = newTx->ID;
             MsgU->issuedBy = newTx->issuedBy;
-            MsgU->issuedTime = newTx->issuedTime;
 
             for(auto approvedTips : newTx->S_approved)
             {
@@ -1889,7 +1891,6 @@ void NodeModule::handleMessage(cMessage * msg)
 
                        MsgU->ID = Msg->ID;
                        MsgU->issuedBy = Msg->issuedBy;
-                       MsgU->issuedTime = Msg->issuedTime;
 
                        for(auto approvedTipsID : Msg->S_approved)
                        {
@@ -1908,28 +1909,44 @@ void NodeModule::handleMessage(cMessage * msg)
            if(ifAddTangle(Msg->S_approved))
            {
                EV << "Updating the Tangle" << std::endl;
-               updateTangle(Msg,simTime());
+               updateTangle(Msg);
                updateBuffer();
                delete Msg;
 
                if(par("SplittingAttack") && IfAttack)
                {
-                   diffBranches = branch1.size() - branch2.size();
-
-                   simtime_t meanMB = par("meanMB");
-                   simtime_t delayMB = 0.0;
-
-                   for(int i = 0; i < std::abs(diffBranches); i++)
-                   {
-                       simtime_t tempSim = exponential(meanMB);
-                       delayMB += tempSim;
-                   }
-
-                   scheduleAt(simTime() + 0, msgMB);
-
                    if(IfNodesfinished())
                    {
-                       IfAttack = false;
+                      IfAttack = false;
+
+                      for(auto msgMB : selfMsgCache)
+                      {
+                          if(msgMB != nullptr)
+                          {
+                              int* ptr = (int*) msgMB->getContextPointer();
+                              delete ptr;
+                              cancelAndDelete(msgMB);
+                          }
+                       }
+                   }
+
+                   else
+                   {
+                       auto ptr = new int;
+                       *ptr =  branch1.size() - branch2.size();
+
+                       simtime_t meanMB = par("meanMB");
+                       simtime_t delayMB = 0.0;
+
+                       for(int i = 0; i < std::abs(*ptr); i++)
+                       {
+                           delayMB += exponential(meanMB);
+                       }
+
+                       auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
+                       selfMsgCache.push_back(msgMB);
+                       msgMB->setContextPointer(ptr);
+                       scheduleAt(simTime() + 0, msgMB);
                    }
                }
            }
@@ -1963,9 +1980,4 @@ void NodeModule::finish()
     delete msgPoW;
     delete msgUpdate;
     delete MsgP;
-
-    if(par("SplittingAttack") && strcmp(par("AttackID"),ID.c_str()) == 0)
-    {
-        delete msgMB;
-    }
 }
