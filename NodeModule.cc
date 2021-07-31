@@ -1645,31 +1645,80 @@ void NodeModule::handleMessage(cMessage * msg)
 
             simtime_t meanMB = par("meanMB");
             simtime_t delayMB = 0.0;
-            int SizeBranches = par("SizeBranches");
+            int* ptr = new int;
+            *ptr = par("SizeBranches");
 
-            for(int i = 0; i < SizeBranches + 2; i++)
+            for(int i = 0; i < (*ptr) + 2; i++)
             {
                 delayMB += exponential(meanMB);
             }
 
             auto msgMB = new cMessage("Creating the first tips for both branches",MaintainBalance);
-            selfMsgCache.push_back(msgMB);
+            msgMB->setContextPointer(ptr);
             scheduleAt(simTime() + 0, msgMB);
         }
     }
 
     else if(msg->getKind() == MaintainBalance)
     {
-        if(!branch1[0]->isApproved && !branch2[0]->isApproved)
+        if(IfAttack)
         {
-            delete msg;
-            EV << "Creating the first tips for both branches" << std::endl;
-
-            auto toSend = iniSplittingAttack(par("SizeBranches"));
-
-            for(auto vec : toSend)
+            if(IfNodesfinished())
             {
-                for(auto tx : vec)
+                IfAttack = false;
+            }
+
+            if(!branch1[0]->isApproved && !branch2[0]->isApproved)
+            {
+                EV << "Creating the first tips for both branches" << std::endl;
+
+                int* ptr = (int*) msg->getContextPointer();
+                int SizeBranches = *ptr;
+
+                delete ptr;
+                delete msg;
+
+                auto toSend = iniSplittingAttack(SizeBranches);
+
+                for(auto vec : toSend)
+                {
+                    for(auto tx : vec)
+                    {
+                        for(int i = 0; i < NeighborsNumber; i++)
+                        {
+                            MsgUpdate * MsgU = new MsgUpdate;
+
+                            MsgU->ID = tx->ID;
+                            MsgU->issuedBy = tx->issuedBy;
+
+                            for(auto approvedTips : tx->S_approved)
+                            {
+                                MsgU->S_approved.push_back(approvedTips->ID);
+                            }
+
+                            msgUpdate->setContextPointer(MsgU);
+
+                            send(msgUpdate->dup(),"NodeOut",i);
+                        }
+                    }
+                }
+
+                toSend.clear();
+            }
+
+            else
+            {
+                int* ptr = (int*) msg->getContextPointer();
+                int diffBranches = *ptr;
+
+                delete ptr;
+                delete msg;
+
+                auto toSend = MaintainingBalance(diffBranches);
+
+                EV << "Updated the balance of the branches" << std::endl;
+
+                for(auto tx : toSend)
                 {
                     for(int i = 0; i < NeighborsNumber; i++)
                     {
@@ -1688,43 +1737,16 @@ void NodeModule::handleMessage(cMessage * msg)
                         send(msgUpdate->dup(),"NodeOut",i);
                     }
                 }
-            }
 
-            toSend.clear();
+                toSend.clear();
+            }
         }
 
         else
         {
             int* ptr = (int*) msg->getContextPointer();
-            int diffBranches = *ptr;
             delete ptr;
             delete msg;
-
-            auto toSend = MaintainingBalance(diffBranches);
-
-            EV << "Updated the balance of the branches" << std::endl;
-
-            for(auto tx : toSend)
-            {
-                for(int i = 0; i < NeighborsNumber; i++)
-                {
-                    MsgUpdate * MsgU = new MsgUpdate;
-
-                    MsgU->ID = tx->ID;
-                    MsgU->issuedBy = tx->issuedBy;
-
-                    for(auto approvedTips : tx->S_approved)
-                    {
-                        MsgU->S_approved.push_back(approvedTips->ID);
-                    }
-
-                    msgUpdate->setContextPointer(MsgU);
-
-                    send(msgUpdate->dup(),"NodeOut",i);
-                }
-            }
-
-            toSend.clear();
         }
     }
 
@@ -1915,39 +1937,20 @@ void NodeModule::handleMessage(cMessage * msg)
 
                if(par("SplittingAttack") && IfAttack)
                {
-                   if(IfNodesfinished())
-                   {
-                      IfAttack = false;
+                   int* ptr = new int;
+                   *ptr =  branch1.size() - branch2.size();
 
-                      for(auto msgMB : selfMsgCache)
-                      {
-                          if(msgMB != nullptr)
-                          {
-                              int* ptr = (int*) msgMB->getContextPointer();
-                              delete ptr;
-                              cancelAndDelete(msgMB);
-                          }
-                       }
+                   simtime_t meanMB = par("meanMB");
+                   simtime_t delayMB = 0.0;
+
+                   for(int i = 0; i < std::abs(*ptr); i++)
+                   {
+                       delayMB += exponential(meanMB);
                    }
 
-                   else
-                   {
-                       auto ptr = new int;
-                       *ptr =  branch1.size() - branch2.size();
-
-                       simtime_t meanMB = par("meanMB");
-                       simtime_t delayMB = 0.0;
-
-                       for(int i = 0; i < std::abs(*ptr); i++)
-                       {
-                           delayMB += exponential(meanMB);
-                       }
-
-                       auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
-                       selfMsgCache.push_back(msgMB);
-                       msgMB->setContextPointer(ptr);
-                       scheduleAt(simTime() + 0, msgMB);
-                   }
+                   auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
+                   msgMB->setContextPointer(ptr);
+                   scheduleAt(simTime() + 0, msgMB);
                }
            }
 

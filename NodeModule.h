@@ -192,9 +192,6 @@ class NodeModule : public cSimpleModule
         VpTr_S branch1;
         VpTr_S branch2;
 
-        //keep a record of all self-messages created during a splitting Attack
-        std::vector<cMessage*> selfMsgCache;
-
         //Keep a record of all the current unapproved transactions
         std::map<std::string,pTr_S> myTips;
 
