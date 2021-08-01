@@ -179,6 +179,9 @@ class NodeModule : public cSimpleModule
         //for attack scenarios (to avoid performing twice)
         bool IfAttack = false;
 
+        //to control the splitting attack (e.g resume & stop)
+        bool IfAttackSP = false;
+
         //PoW
         simtime_t powTime;
 

@@ -1058,12 +1058,6 @@ VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int Cha
 
 std::vector<VpTr_S> NodeModule::iniSplittingAttack(int SizeBranches)
 {
-    myTangle.push_back(branch1[0]);
-    myTangle.push_back(branch2[0]);
-
-    myTips.insert({branch1[0]->ID,branch1[0]});
-    myTips.insert({branch2[0]->ID,branch2[0]});
-
     for(int i = 0; i < SizeBranches; i++)
     {
         txCount++;
@@ -1641,6 +1635,12 @@ void NodeModule::handleMessage(cMessage * msg)
             branch1.push_back(tx1);
             branch2.push_back(tx2);
 
+            myTangle.push_back(branch1[0]);
+            myTangle.push_back(branch2[0]);
+
+            myTips.insert({branch1[0]->ID,branch1[0]});
+            myTips.insert({branch2[0]->ID,branch2[0]});
+
             myDoubleSpendTx.push_back(tx2);
 
             simtime_t meanMB = par("meanMB");
@@ -1655,58 +1655,59 @@ void NodeModule::handleMessage(cMessage * msg)
 
             auto msgMB = new cMessage("Creating the first tips for both branches",MaintainBalance);
             msgMB->setContextPointer(ptr);
-            scheduleAt(simTime() + 0, msgMB);
+            scheduleAt(simTime() + delayMB, msgMB);
         }
     }
 
     else if(msg->getKind() == MaintainBalance)
     {
-        if(IfAttack)
+        if(!branch1[0]->isApproved && !branch2[0]->isApproved)
+        {
+            EV << "Creating the first tips for both branches" << std::endl;
+
+            int* ptr = (int*) msg->getContextPointer();
+            int SizeBranches = *ptr;
+
+            delete ptr;
+            delete msg;
+
+            auto toSend = iniSplittingAttack(SizeBranches);
+
+            for(auto vec : toSend)
+            {
+                for(auto tx : vec)
+                {
+                    for(int i = 0; i < NeighborsNumber; i++)
+                    {
+                        MsgUpdate * MsgU = new MsgUpdate;
+
+                        MsgU->ID = tx->ID;
+                        MsgU->issuedBy = tx->issuedBy;
+
+                        for(auto approvedTips : tx->S_approved)
+                        {
+                            MsgU->S_approved.push_back(approvedTips->ID);
+                        }
+
+                        msgUpdate->setContextPointer(MsgU);
+
+                        send(msgUpdate->dup(),"NodeOut",i);
+                    }
+                }
+            }
+
+            IfAttackSP = true;
+            toSend.clear();
+        }
+
+        else if(IfAttackSP)
         {
             if(IfNodesfinished())
             {
-                IfAttack = false;
+                IfAttackSP = false;
             }
 
-            if(!branch1[0]->isApproved && !branch2[0]->isApproved)
-            {
-                EV << "Creating the first tips for both branches" << std::endl;
-
-                int* ptr = (int*) msg->getContextPointer();
-                int SizeBranches = *ptr;
-
-                delete ptr;
-                delete msg;
-
-                auto toSend = iniSplittingAttack(SizeBranches);
-
-                for(auto vec : toSend)
-                {
-                    for(auto tx : vec)
-                    {
-                        for(int i = 0; i < NeighborsNumber; i++)
-                        {
-                            MsgUpdate * MsgU = new MsgUpdate;
-
-                            MsgU->ID = tx->ID;
-                            MsgU->issuedBy = tx->issuedBy;
-
-                            for(auto approvedTips : tx->S_approved)
-                            {
-                                MsgU->S_approved.push_back(approvedTips->ID);
-                            }
-
-                            msgUpdate->setContextPointer(MsgU);
-
-                            send(msgUpdate->dup(),"NodeOut",i);
-                        }
-                    }
-                }
-
-                toSend.clear();
-            }
-
-            else
+            if(IfAttackSP)
             {
                 int* ptr = (int*) msg->getContextPointer();
                 int diffBranches = *ptr;
@@ -1744,6 +1745,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
         else
         {
+            EV << "The other nodes have finished the simulation, can't maintain the balance" << std::endl;
             int* ptr = (int*) msg->getContextPointer();
             delete ptr;
             delete msg;
@@ -1935,7 +1937,7 @@ void NodeModule::handleMessage(cMessage * msg)
                updateBuffer();
                delete Msg;
 
-               if(par("SplittingAttack") && IfAttack)
+               if(par("SplittingAttack") && IfAttackSP)
                {
                    int* ptr = new int;
                    *ptr =  branch1.size() - branch2.size();
@@ -1950,7 +1952,7 @@ void NodeModule::handleMessage(cMessage * msg)
 
                    auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
                    msgMB->setContextPointer(ptr);
-                   scheduleAt(simTime() + 0, msgMB);
+                   scheduleAt(simTime() + delayMB, msgMB);
                }
            }
 
@@ -1977,6 +1979,9 @@ void NodeModule::finish()
     printTangle();
     //printTipsLeft();
     //stats();
+
+    EV << branch1.size();
+    EV << branch2.size();
 
     DeleteTangle();
     delete msgIssue;
