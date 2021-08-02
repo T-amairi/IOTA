@@ -1136,97 +1136,84 @@ void NodeModule::updateBranches(pTr_S newTx)
     }
 }
 
-VpTr_S NodeModule::MaintainingBalance(int diff)
+pTr_S NodeModule::MaintainingBalance(int whichBranch)
 {
-    VpTr_S toSend;
+    VpTr_S Vtips;
+    VpTr_S toIterOver;
 
-    if(diff != 0)
+    if(whichBranch == 2)
     {
-        VpTr_S Vtips;
-        VpTr_S toIterOver;
-
-        if(diff > 0)
-        {
-            EV << "Chosen branche to be balanced : 1\n";
-            toIterOver =  branch2;
-        }
-
-        else
-        {
-            EV << "Chosen branche to be balanced : 2\n";
-            toIterOver = branch1;
-        }
-
-        for(auto tx : toIterOver)
-        {
-           if(!tx->isApproved)
-           {
-               Vtips.push_back(tx);
-           }
-        }
-
-        for(int i = 0; i < std::abs(diff); i++)
-        {
-            txCount++;
-            auto tx = createSite(ID + std::to_string(txCount));
-
-            int r = intuniform(0,Vtips.size() - 1);
-            auto tip = Vtips[r];
-            Vtips.erase(Vtips.begin() + r);
-
-            tx->pathID = tip->pathID;
-            tx->pathID.insert(tx->ID);
-            tx->S_approved.push_back(tip);
-
-            tip->approvedBy.push_back(tx);
-            tip->isApproved = true;
-            tip->approvedTime = simTime();
-
-            VpTr_S temp;
-            temp.push_back(tip);
-            ReconcileTips(temp,myTips);
-            temp.clear();
-
-            if(!Vtips.empty())
-            {
-                r = intuniform(0,Vtips.size() - 1);
-                tip = Vtips[r];
-                Vtips.erase(Vtips.begin() + r);
-
-                tx->pathID.insert(tip->ID);
-                tx->S_approved.push_back(tip);
-
-                tip->approvedBy.push_back(tx);
-                tip->isApproved = true;
-                tip->approvedTime = simTime();
-
-                temp.push_back(tip);
-                ReconcileTips(temp,myTips);
-                temp.clear();
-            }
-
-            if(diff > 0)
-            {
-                branch2.push_back(tx);
-            }
-
-            else
-            {
-                branch1.push_back(tx);
-            }
-
-            myTangle.push_back(tx);
-            myTips.insert({tx->ID,tx});
-
-            Vtips.push_back(tx);
-            toSend.push_back(tx);
-        }
+        EV << "Chosen branche to be balanced : 1\n";
+        toIterOver =  branch2;
     }
 
-    return toSend;
+    else
+    {
+        EV << "Chosen branche to be balanced : 2\n";
+        toIterOver = branch1;
+    }
+
+    for(auto tx : toIterOver)
+    {
+       if(!tx->isApproved)
+       {
+           Vtips.push_back(tx);
+       }
+    }
+
+    txCount++;
+    auto tx = createSite(ID + std::to_string(txCount));
+
+    int r = intuniform(0,Vtips.size() - 1);
+    auto tip = Vtips[r];
+    Vtips.erase(Vtips.begin() + r);
+
+    tx->pathID = tip->pathID;
+    tx->pathID.insert(tx->ID);
+    tx->S_approved.push_back(tip);
+
+    tip->approvedBy.push_back(tx);
+    tip->isApproved = true;
+    tip->approvedTime = simTime();
+
+    VpTr_S temp;
+    temp.push_back(tip);
+    ReconcileTips(temp,myTips);
+
+    if(!Vtips.empty())
+    {
+        r = intuniform(0,Vtips.size() - 1);
+        tip = Vtips[r];
+        Vtips.erase(Vtips.begin() + r);
+
+        tx->pathID.insert(tip->ID);
+        tx->S_approved.push_back(tip);
+
+        tip->approvedBy.push_back(tx);
+        tip->isApproved = true;
+        tip->approvedTime = simTime();
+
+        temp.push_back(tip);
+        ReconcileTips(temp,myTips);
+        temp.clear();
+    }
+
+    if(whichBranch == 2)
+    {
+        branch2.push_back(tx);
+    }
+
+    else
+    {
+        branch1.push_back(tx);
+    }
+
+    myTangle.push_back(tx);
+    myTips.insert({tx->ID,tx});
+    return tx;
 }
 
-bool NodeModule::IfNodesfinished()
+void NodeModule::IfNodesfinished()
 {
     int count = NodeModuleNb - 1;
 
@@ -1247,10 +1234,8 @@ bool NodeModule::IfNodesfinished()
 
     if(count == 0)
     {
-        return true;
+        IfSimFinished = true;
     }
-
-    return false;
 }
 
 void NodeModule::initialize()
@@ -1643,112 +1628,145 @@ void NodeModule::handleMessage(cMessage * msg)
 
             myDoubleSpendTx.push_back(tx2);
 
-            simtime_t meanMB = par("meanMB");
+            simtime_t rateMB = par("rateMB");
             simtime_t delayMB = 0.0;
-            int* ptr = new int;
-            *ptr = par("SizeBranches");
 
-            for(int i = 0; i < (*ptr) + 2; i++)
+            int SizeBranches = par("SizeBranches");
+
+            for(int i = 0; i < 2*(SizeBranches) + 2; i++)
             {
-                delayMB += exponential(meanMB);
+                delayMB += rateMB;
             }
 
             auto msgMB = new cMessage("Creating the first tips for both branches",MaintainBalance);
-            msgMB->setContextPointer(ptr);
             scheduleAt(simTime() + delayMB, msgMB);
         }
     }
 
     else if(msg->getKind() == MaintainBalance)
     {
-        if(!branch1[0]->isApproved && !branch2[0]->isApproved)
+        delete msg;
+
+        if(!IfSimFinished)
         {
-            EV << "Creating the first tips for both branches" << std::endl;
+            IfNodesfinished();
 
-            int* ptr = (int*) msg->getContextPointer();
-            int SizeBranches = *ptr;
-
-            delete ptr;
-            delete msg;
-
-            auto toSend = iniSplittingAttack(SizeBranches);
-
-            for(auto vec : toSend)
+            if(!branch1[0]->isApproved && !branch2[0]->isApproved && !IfSimFinished)
             {
-                for(auto tx : vec)
+                EV << "Creating the first tips for both branches" << std::endl;
+
+                int SizeBranches = par("SizeBranches");
+                auto toSend = iniSplittingAttack(SizeBranches);
+
+                for(auto vec : toSend)
                 {
-                    for(int i = 0; i < NeighborsNumber; i++)
+                    for(auto tx : vec)
                     {
-                        MsgUpdate * MsgU = new MsgUpdate;
-
-                        MsgU->ID = tx->ID;
-                        MsgU->issuedBy = tx->issuedBy;
-
-                        for(auto approvedTips : tx->S_approved)
+                        for(int i = 0; i < NeighborsNumber; i++)
                         {
-                            MsgU->S_approved.push_back(approvedTips->ID);
+                            MsgUpdate * MsgU = new MsgUpdate;
+
+                            MsgU->ID = tx->ID;
+                            MsgU->issuedBy = tx->issuedBy;
+
+                            for(auto approvedTips : tx->S_approved)
+                            {
+                                MsgU->S_approved.push_back(approvedTips->ID);
+                            }
+
+                            msgUpdate->setContextPointer(MsgU);
+
+                            send(msgUpdate->dup(),"NodeOut",i);
                         }
-
-                        msgUpdate->setContextPointer(MsgU);
-
-                        send(msgUpdate->dup(),"NodeOut",i);
                     }
                 }
+
+                IfAttackSP = true;
+                toSend.clear();
             }
 
-            IfAttackSP = true;
-            toSend.clear();
-        }
-
-        else if(IfAttackSP)
-        {
-            if(IfNodesfinished())
+            else if(!IfSimFinished)
             {
-                IfAttackSP = false;
-            }
-
-            if(IfAttackSP)
-            {
-                int* ptr = (int*) msg->getContextPointer();
-                int diffBranches = *ptr;
-
-                delete ptr;
-                delete msg;
-
-                auto toSend = MaintainingBalance(diffBranches);
+                auto tx = MaintainingBalance(whichBranch);
+                countMB--;
 
                 EV << "Updated the balance of the branches" << std::endl;
+                EV << "With transaction : " << tx->ID << std::endl;
+                EV << "countMB : " << countMB << std::endl;
 
-                for(auto tx : toSend)
+                for(int i = 0; i < NeighborsNumber; i++)
                 {
-                    for(int i = 0; i < NeighborsNumber; i++)
+                    MsgUpdate * MsgU = new MsgUpdate;
+
+                    MsgU->ID = tx->ID;
+                    MsgU->issuedBy = tx->issuedBy;
+
+                    for(auto approvedTips : tx->S_approved)
                     {
-                        MsgUpdate * MsgU = new MsgUpdate;
+                        MsgU->S_approved.push_back(approvedTips->ID);
+                    }
 
-                        MsgU->ID = tx->ID;
-                        MsgU->issuedBy = tx->issuedBy;
+                    msgUpdate->setContextPointer(MsgU);
 
-                        for(auto approvedTips : tx->S_approved)
-                        {
-                            MsgU->S_approved.push_back(approvedTips->ID);
-                        }
+                    send(msgUpdate->dup(),"NodeOut",i);
+                }
 
-                        msgUpdate->setContextPointer(MsgU);
+                if(countMB == 0 && IfScheduleMB)
+                {
+                    EV << "Checking the balance..." << std::endl;
+                    int diff = branch1.size() - branch2.size();
 
-                        send(msgUpdate->dup(),"NodeOut",i);
+                    IfScheduleMB = false;
+
+                    if(diff != 0)
+                    {
+                       EV << "The weight of the two branches is not the same : maintaining..." << std::endl;
+
+                       if(diff > 0)
+                       {
+                           whichBranch = 2;
+                       }
+
+                       else
+                       {
+                           whichBranch = 1;
+                       }
+
+                       countMB = std::abs(diff);
+                       IfAttackSP = false;
+
+                       EV << "with countMB : " << countMB << std::endl;
+                       EV << "with whichBranch : " << whichBranch << std::endl;
+
+                       simtime_t rateMB = par("rateMB");
+                       int temp = txCount;
+
+                       for(int i = 0; i < std::abs(diff); i++)
+                       {
+                           temp++;
+                           EV << "Sending " << ID + std::to_string(temp) << " with a delay of " << (i+1)*rateMB << std::endl;
+                           auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
+                           scheduleAt(simTime() + (i+1)*rateMB, msgMB);
+                       }
+                    }
+
+                    else
+                    {
+                       IfAttackSP = true;
+                       EV << "The weight of the two branches is the same" << std::endl;
                     }
                 }
 
-                toSend.clear();
+                else if(countMB == 0)
+                {
+                    IfAttackSP = true;
+                }
             }
         }
 
         else
         {
             EV << "The other nodes have finished the simulation, can't maintain the balance" << std::endl;
-            int* ptr = (int*) msg->getContextPointer();
-            delete ptr;
-            delete msg;
         }
     }
 
@@ -1937,22 +1955,56 @@ void NodeModule::handleMessage(cMessage * msg)
                updateBuffer();
                delete Msg;
 
-               if(par("SplittingAttack") && IfAttackSP)
+               if(par("SplittingAttack") && strcmp(par("AttackID"),ID.c_str()) == 0)
                {
-                   int* ptr = new int;
-                   *ptr =  branch1.size() - branch2.size();
-
-                   simtime_t meanMB = par("meanMB");
-                   simtime_t delayMB = 0.0;
-
-                   for(int i = 0; i < std::abs(*ptr); i++)
+                   if(IfAttackSP && !IfSimFinished)
                    {
-                       delayMB += exponential(meanMB);
-                   }
+                       EV << "Received a new transaction, checking the balance..." << std::endl;
+                       int diff = branch1.size() - branch2.size();
 
-                   auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
-                   msgMB->setContextPointer(ptr);
-                   scheduleAt(simTime() + delayMB, msgMB);
+                       if(diff != 0)
+                       {
+                           EV << "The weight of the two branches is not the same : maintaining..." << std::endl;
+
+                            if(diff > 0)
+                            {
+                                whichBranch = 2;
+                            }
+
+                            else
+                            {
+                                whichBranch = 1;
+                            }
+
+                            countMB = std::abs(diff);
+                            IfAttackSP = false;
+
+                            EV << "with countMB : " << countMB << std::endl;
+                            EV << "with whichBranch : " << whichBranch << std::endl;
+
+                            simtime_t rateMB = par("rateMB");
+                            int temp = txCount;
+
+                            for(int i = 0; i < std::abs(diff); i++)
+                            {
+                                temp++;
+                                EV << "Sending " << ID + std::to_string(temp) << " with a delay of " << (i+1)*rateMB << std::endl;
+                                auto msgMB = new cMessage("Maintaining the balance between the two branches",MaintainBalance);
+                                scheduleAt(simTime() + (i+1)*rateMB, msgMB);
+                            }
+                        }
+
+                        else
+                        {
+                            IfAttackSP = true;
+                            EV << "The weight of the two branches is the same" << std::endl;
+                        }
+                    }
+                }
+
+               else if(!IfSimFinished)
+               {
+                   IfScheduleMB = true;
                }
            }
 
@@ -1971,6 +2023,13 @@ void NodeModule::finish()
 {
     EV << "By NodeModule" + ID << " : Simulation ended - Deleting my local Tangle" << std::endl;
 
+    if(strcmp(par("AttackID"),ID.c_str()) == 0 && par("SplittingAttack"))
+    {
+        EV << "Size branch 1 : " << branch1.size() << std::endl;
+        EV << "Size branch 2 : " << branch2.size() << std::endl;
+        printChain();
+    }
+
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
     {
         printChain();
@@ -1979,9 +2038,6 @@ void NodeModule::finish()
     printTangle();
     //printTipsLeft();
     //stats();
-
-    EV << branch1.size();
-    EV << branch2.size();
 
     DeleteTangle();
     delete msgIssue;

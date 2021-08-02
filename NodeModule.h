@@ -155,10 +155,10 @@ class NodeModule : public cSimpleModule
         void updateBranches(pTr_S newTx);
 
         //Maintain the balance between the two branches
-        VpTr_S MaintainingBalance(int diff);
+        pTr_S MaintainingBalance(int whichBranch);
 
         //check if the other nodes have finished (i.e txCount > txLimit) to stop the sim during a splitting attack
-        bool IfNodesfinished();
+        void IfNodesfinished();
 
     private:
         //how many transactions the node can issue (set in NED file)
@@ -181,6 +181,18 @@ class NodeModule : public cSimpleModule
 
         //to control the splitting attack (e.g resume & stop)
         bool IfAttackSP = false;
+
+        //a buffer to know if you have to check the balance (during a splitting attack)
+        bool IfScheduleMB = true;
+
+        //to know if the other nodes have finished i.e txCount >= txLimit (during a splitting attack)
+        bool IfSimFinished = false;
+
+        //a counter to track the number of transaction created (during a splitting attack)
+        int countMB = 0;
+
+        //to know which branch to maintain (during a splitting attack)
+        int whichBranch;
 
         //PoW
         simtime_t powTime;

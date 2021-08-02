@@ -49,14 +49,14 @@ simple NodeModule
     	//sizes of the branches at ini
     	int SizeBranches = 5;
     	
-    	//similar to mean but here it is to maintain the two branches
-    	volatile double meanMB @unit(s) = 0.000588s;
+    	//the frequency at which transactions can be created by the attacker
+    	volatile double rateMB @unit(s) = 0.0000588s;
     	
     	//to initiate a Parasite Chain Attack
     	bool ParasiteChainAttack = false;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
-    	double PropComputingPower = 0.5;
+    	double PropComputingPower = 1.5;
     	
     	//the closer to 1, the higher the proportion of transactions in the chain is and vice versa
     	double PropChainTips = 0.0;
