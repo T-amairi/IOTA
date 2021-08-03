@@ -15,7 +15,7 @@ As OMNeT++ does not implement natively the last two, you have to use the **topol
 
 The **data** folder contains the tracking files allowing to : 
 - generate an image of the Tangle via the script **TangleGen.py** (you need to install the modules : **graphviz, csv, glob and glob**). Moreover, the figure will be saved in the **image** folder.
-- to know the **number of tips** at the end of each simulation and the simulation **execution time**. The script **Stats.py** allows to make an empirical average of these results.
+- know the **number of tips** at the end of each simulation and the simulation **execution time**. The script **Stats.py** allows to make an empirical average of these results.
 
 These different metrics will be in .txt format in two different folders: 
 - **log** for the execution time which will be given directly by OMNeT++.
@@ -23,7 +23,7 @@ These different metrics will be in .txt format in two different folders:
 
 Finally, the **Results.py** script allows to create a histogram in the **image** folder of these different results. 
 
-The simulation implements three **TSA** (Tips Selection Algorithm): 
+The simulation implements three different **TSA** (Tips Selection Algorithm): 
 - **IOTA**: www.descryptions.com/Iota.pdf
 - **G-IOTA**: https://ieeexplore.ieee.org/document/8845163
 - **E-IOTA**: https://ieeexplore.ieee.org/document/9223294
