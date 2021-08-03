@@ -183,7 +183,7 @@ class NodeModule : public cSimpleModule
         bool IfAttackSP = false;
 
         //a buffer to know if you have to check the balance (during a splitting attack)
-        bool IfScheduleMB = true;
+        bool IfScheduleMB = false;
 
         //to know if the other nodes have finished i.e txCount >= txLimit (during a splitting attack)
         bool IfSimFinished = false;

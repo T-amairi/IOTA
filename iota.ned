@@ -19,7 +19,7 @@ simple NodeModule
     parameters:
         //here we take the transaction rate of VISA which is 1700 tx per sec, hence, each tx is spaced by 0.000588s
         volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 0.001s; //Proof of Work 
+        volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
         string TSA = "IOTA";
@@ -28,8 +28,8 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        double WProp = 0.5; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
-       	int N = 100; //number of walkers
+        double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
+       	int N = 50; //number of walkers
 
         //EIOTA
         double p1 = 0.1;
@@ -44,12 +44,12 @@ simple NodeModule
     	double AttackStage = 0.2; //have to be in [0,1], based on the size of the final Tangle
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = true;
+    	bool SplittingAttack = false;
     	
     	//sizes of the branches at ini
     	int SizeBranches = 5;
     	
-    	//the frequency at which transactions can be created by the attacker
+    	//the rate at which transactions can be created by the attacker during a splitting attack
     	volatile double rateMB @unit(s) = 0.0000588s;
     	
     	//to initiate a Parasite Chain Attack
@@ -71,10 +71,10 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(3); 
+        int NodeNumber = default(10); 
         
         //how much transactions each node will issue
-        int transactionLimit = 50; 
+        int transactionLimit = 100; 
         
         //random delay
     	bool ifRandDelay = false;
@@ -86,7 +86,7 @@ network FullGraph
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 0.0001ms;
+	        delay = 0.000588s;
 	    }
       
     submodules:

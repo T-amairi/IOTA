@@ -1143,13 +1143,13 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
 
     if(whichBranch == 2)
     {
-        EV << "Chosen branche to be balanced : 1\n";
+        EV << "Chosen branche to be balanced : 2\n";
         toIterOver =  branch2;
     }
 
     else
     {
-        EV << "Chosen branche to be balanced : 2\n";
+        EV << "Chosen branche to be balanced : 1\n";
         toIterOver = branch1;
     }
 
@@ -1628,15 +1628,11 @@ void NodeModule::handleMessage(cMessage * msg)
 
             myDoubleSpendTx.push_back(tx2);
 
-            simtime_t rateMB = par("rateMB");
-            simtime_t delayMB = 0.0;
-
             int SizeBranches = par("SizeBranches");
+            simtime_t rateMB = par("rateMB");
+            simtime_t delayMB = (2*(SizeBranches) + 2)*rateMB;
 
-            for(int i = 0; i < 2*(SizeBranches) + 2; i++)
-            {
-                delayMB += rateMB;
-            }
+            EV << "With a delay of : " << delayMB << std::endl;
 
             auto msgMB = new cMessage("Creating the first tips for both branches",MaintainBalance);
             scheduleAt(simTime() + delayMB, msgMB);
@@ -2000,11 +1996,12 @@ void NodeModule::handleMessage(cMessage * msg)
                             EV << "The weight of the two branches is the same" << std::endl;
                         }
                     }
-                }
 
-               else if(!IfSimFinished)
-               {
-                   IfScheduleMB = true;
+                   else if(!IfSimFinished && branch1.size() > 1 && branch2.size() > 1)
+                   {
+                       EV << "Currently maintaining the balance, buffering the request..." << std::endl;
+                       IfScheduleMB = true;
+                   }
                }
            }
 
@@ -2027,7 +2024,6 @@ void NodeModule::finish()
     {
         EV << "Size branch 1 : " << branch1.size() << std::endl;
         EV << "Size branch 2 : " << branch2.size() << std::endl;
-        printChain();
     }
 
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
@@ -2035,8 +2031,8 @@ void NodeModule::finish()
         printChain();
     }
 
-    printTangle();
-    //printTipsLeft();
+    //printTangle();
+    printTipsLeft();
     //stats();
 
     DeleteTangle();

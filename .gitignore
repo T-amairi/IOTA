@@ -6,6 +6,7 @@ Makefile
 *_dbg
 IOTA
 *.exe
+omnetpp.ini
 !/data/log/.keep
 !/data/image/.keep
 !/data/debug/.keep
