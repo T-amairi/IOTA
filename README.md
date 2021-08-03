@@ -32,7 +32,7 @@ And two types of **attacks** explained in the IOTA [paper](www.descryptions.com/
 - **Splitting Attack**
 - **Parasite Chain Attack**
 
-### Credit
+## Credit
 
 I did this project while I was an intern at [LIP6](https://www.lip6.fr/), so I want to thank all its team.  
 
