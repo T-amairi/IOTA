@@ -11,7 +11,7 @@ This simulation can use several topologies:
 - **Expander**
 - **Watts-Strogatz**
 
-As OMNeT++ does not implement natively the last two, you have to use the **topologies** folder which contains two **python scripts** allowing each to generate an Expander or Watts-Strogatz network. The simulation will then read the .CSV created by the scripts to build the network. It is also necessary to install the **networkx and numpy modules.**
+As OMNeT++ does not implement natively the last two, you have to use the **topologies** folder which contains two **python scripts** allowing each to generate an Expander or Watts-Strogatz network. The simulation will then read the .csv created by the scripts to build the network. It is also necessary to install the **networkx and numpy modules.**
 
 The **data** folder contains the tracking files allowing to : 
 - generate an image of the Tangle via the script **TangleGen.py** (you need to install the modules : **graphviz, csv, PIL and glob**). Moreover, the figure will be saved in the **image** folder.
@@ -29,8 +29,12 @@ The simulation implements three different **TSA** (Tips Selection Algorithm):
 - **E-IOTA**: https://ieeexplore.ieee.org/document/9223294
 
 And two types of **attacks** explained in the IOTA [paper](www.descryptions.com/Iota.pdf): 
-- **Splitting Attack**
+- **Splitting Attack** 
 - **Parasite Chain Attack**
+
+To evaluate the success of each of these attacks, there will be some .txt files in the tracking folder itemizing:
+- regarding the splitting attack we will check the **percentage difference** in size between the two branches
+- as for the parasite chain attack we will go over the **number** of transactions that are part of the parasite chain
 
 ## Credit
 
