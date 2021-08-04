@@ -14,7 +14,7 @@ This simulation can use several topologies:
 As OMNeT++ does not implement natively the last two, you have to use the **topologies** folder which contains two **python scripts** allowing each to generate an Expander or Watts-Strogatz network. The simulation will then read the .CSV created by the scripts to build the network. It is also necessary to install the **networkx and numpy modules.**
 
 The **data** folder contains the tracking files allowing to : 
-- generate an image of the Tangle via the script **TangleGen.py** (you need to install the modules : **graphviz, csv, glob and glob**). Moreover, the figure will be saved in the **image** folder.
+- generate an image of the Tangle via the script **TangleGen.py** (you need to install the modules : **graphviz, csv, PIL and glob**). Moreover, the figure will be saved in the **image** folder.
 - know the **number of tips** at the end of each simulation and the simulation **execution time**. The script **Stats.py** allows to make an empirical average of these results.
 
 These different metrics will be in .txt format in two different folders: 
