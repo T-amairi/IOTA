@@ -73,6 +73,12 @@ class NodeModule : public cSimpleModule
         //ID of the Node
         std::string ID;
 
+        //counts the number of transactions issued by the node
+        int txCount = 0;
+
+        //how many transactions the node can issue (set in NED file)
+        int txLimit;
+
         //timers
         cMessage * msgIssue;
         cMessage * msgPoW;
@@ -95,6 +101,8 @@ class NodeModule : public cSimpleModule
         void printTipsLeft();
         void stats();
         void printChain();
+        void PercentDiffBranch();
+        void PercentTxChain();
 
         //Random walk based on a MCMC
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_time);
@@ -145,6 +153,9 @@ class NodeModule : public cSimpleModule
         //read csv file to connect modules (for ws & exp topo)
         std::vector<int> readCSV(bool IfExp);
 
+        //check if we can launch an attack based on the par AttackStage in the ned file
+        bool IfAttackStage();
+
         //build the parasite chain
         VpTr_S getParasiteChain(pTr_S RootTip, std::string TargetID, int ChainLength, int NbTipsChain);
 
@@ -161,9 +172,6 @@ class NodeModule : public cSimpleModule
         void IfNodesfinished();
 
     private:
-        //how many transactions the node can issue (set in NED file)
-        int txLimit;
-
         //exponential distribution with the given mean (that is, with parameter lambda=1/mean).
         simtime_t mean;
 
@@ -172,9 +180,6 @@ class NodeModule : public cSimpleModule
 
         //number of nodes present in the simulation
         int NodeModuleNb = 0;
-
-        //counts the number of transactions issued by the node
-        int txCount = 0;
 
         //for attack scenarios (to avoid performing twice)
         bool IfAttack = false;

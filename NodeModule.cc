@@ -184,6 +184,62 @@ void NodeModule::printChain()
     file.close();
 }
 
+void NodeModule::PercentDiffBranch()
+{
+    std::fstream file;
+    std::string path = "./data/tracking/DiffBranch" + ID + ".txt";
+    //remove(path.c_str());
+    file.open(path,std::ios::app);
+
+    if(branch2.size() == 0)
+    {
+        file << "null" << std::endl;
+    }
+
+    else
+    {
+        file << std::abs((double)(branch1.size() - branch2.size())*100/branch2.size()) << std::endl;
+    }
+
+    file.close();
+}
+
+void NodeModule::PercentTxChain()
+{
+    std::fstream file;
+    std::string path = "./data/tracking/PercentTxChain" + ID + ".txt";
+    //remove(path.c_str());
+    file.open(path,std::ios::app);
+
+    if(myDoubleSpendTx.size() == 0)
+    {
+        file << "null" << std::endl;
+    }
+
+    else
+    {
+        for(auto dblTx : myDoubleSpendTx)
+        {
+            file << dblTx->ID << ";";
+            int count = -1;
+
+            for(auto tx : myTangle)
+            {
+                auto it = tx->pathID.find(dblTx->ID);
+
+                if(it != tx->pathID.end())
+                {
+                    count++;
+                }
+            }
+
+            file << count << std::endl;
+        }
+    }
+
+    file.close();
+}
+
 int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current)
 {
     if(current->approvedBy.size() == 0)
@@ -361,8 +417,8 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
             std::vector<double> cs1;
             cs1.resize(p1.size());
 
-            partial_sum(p.begin(),p.end(),cs.begin());
-            partial_sum(p1.begin(),p1.end(),cs1.begin());
+            std::partial_sum(p.begin(),p.end(),cs.begin());
+            std::partial_sum(p1.begin(),p1.end(),cs1.begin());
 
             for(int k = 0; k < static_cast<int>(cs.size()); k++)
             {
@@ -425,8 +481,8 @@ pTr_S NodeModule::RandomWalk(pTr_S start, int &walk_time)
             std::vector<double> cs1;
             cs1.resize(p1.size());
 
-            partial_sum(p.begin(),p.end(),cs.begin());
-            partial_sum(p1.begin(),p1.end(),cs1.begin());
+            std::partial_sum(p.begin(),p.end(),cs.begin());
+            std::partial_sum(p1.begin(),p1.end(),cs1.begin());
 
             for(int k = 0; k < static_cast<int>(cs.size()); k++)
             {
@@ -967,6 +1023,34 @@ void NodeModule::updateBuffer()
     }
 }
 
+bool NodeModule::IfAttackStage()
+{
+    int count = NodeModuleNb - 1;
+    double AttackStage = par("AttackStage");
+
+    for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
+    {
+        cModule *submodule = *iter;
+
+        if(submodule->getId() != getId())
+        {
+            NodeModule* node = check_and_cast<NodeModule*>(submodule);
+
+            if(node->txCount >= node->txLimit*AttackStage)
+            {
+                count--;
+            }
+        }
+    }
+
+    if(count == 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int ChainLength, int NbTipsChain)
 {
     auto RootChain = createSite("-" + TargetID);
@@ -1186,7 +1270,7 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
         tip = Vtips[r];
         Vtips.erase(Vtips.begin() + r);
 
-        tx->pathID.insert(tip->ID);
+        tx->pathID.insert(tip->pathID.begin(),tip->pathID.end());
         tx->S_approved.push_back(tip);
 
         tip->approvedBy.push_back(tx);
@@ -1569,7 +1653,6 @@ void NodeModule::handleMessage(cMessage * msg)
             }
 
             TheChain.clear();
-            scheduleAt(simTime() + exponential(mean), msgIssue);
         }
     }
 
@@ -1579,43 +1662,47 @@ void NodeModule::handleMessage(cMessage * msg)
 
         EV << "Starting a splitting attack" << std::endl;
 
-        VpTr_S cpyTx;
+        VpTr_S cpyTip;
 
-        for(auto tx : myTangle)
+        for(auto tip : myTips)
         {
-            if(tx->approvedBy.size() > 2)
-            {
-                cpyTx.push_back(tx);
-            }
+            cpyTip.push_back(tip.second);
         }
 
-        std::sort(cpyTx.begin(), cpyTx.end(), [](const pTr_S& tx1, const pTr_S& tx2){return tx1->issuedTime > tx2->issuedTime;});
+        std::sort(cpyTip.begin(), cpyTip.end(), [](const pTr_S& tip1, const pTr_S& tip2){return tip1->issuedTime > tip2->issuedTime;});
 
-        if(cpyTx.empty())
+        if(cpyTip.empty())
         {
-            cpyTx.clear();
+            cpyTip.clear();
             EV << "Can not find a tip for the splitting attack, retrying later" << std::endl;
             scheduleAt(simTime() + exponential(mean), msgIssue);
         }
 
         else
         {
-            auto RootTx = cpyTx[0];
-            cpyTx.clear();
+            auto RootTip = cpyTip[0];
+            cpyTip.clear();
 
             auto tx1 = createSite(ID + std::to_string(txCount));
             auto tx2 = createSite("-" + ID + std::to_string(txCount));
 
-            tx1->pathID = RootTx->pathID;
+            tx1->pathID = RootTip->pathID;
             tx1->pathID.insert(tx1->ID);
-            tx1->S_approved.push_back(RootTx);
+            tx1->S_approved.push_back(RootTip);
 
-            tx2->pathID = RootTx->pathID;
+            tx2->pathID = RootTip->pathID;
             tx2->pathID.insert(tx2->ID);
-            tx2->S_approved.push_back(RootTx);
+            tx2->S_approved.push_back(RootTip);
 
-            RootTx->approvedBy.push_back(tx1);
-            RootTx->approvedBy.push_back(tx2);
+            RootTip->approvedBy.push_back(tx1);
+            RootTip->approvedBy.push_back(tx2);
+            RootTip->approvedTime = simTime();
+            RootTip->isApproved = true;
+
+            VpTr_S temp;
+            temp.push_back(RootTip);
+            ReconcileTips(temp,myTips);
+            temp.clear();
 
             branch1.push_back(tx1);
             branch2.push_back(tx2);
@@ -1778,9 +1865,9 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(strcmp(par("AttackID"),ID.c_str()) == 0)
             {
-                double AttackStage = par("AttackStage");
+                bool test = IfAttackStage();
 
-                if(!IfAttack &&  myTangle.size() >= AttackStage*txLimit*NodeModuleNb && (par("ParasiteChainAttack") || par("SplittingAttack")))
+                if(!IfAttack &&  test && (par("ParasiteChainAttack") || par("SplittingAttack")))
                 {
                     cMessage * msgAttack = nullptr;
                     IfAttack = true;
@@ -2024,15 +2111,21 @@ void NodeModule::finish()
     {
         EV << "Size branch 1 : " << branch1.size() << std::endl;
         EV << "Size branch 2 : " << branch2.size() << std::endl;
+        PercentDiffBranch();
     }
 
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
     {
         printChain();
+
+        if(par("ParasiteChainAttack"))
+        {
+            PercentTxChain();
+        }
     }
 
-    //printTangle();
-    printTipsLeft();
+    printTangle();
+    //printTipsLeft();
     //stats();
 
     DeleteTangle();

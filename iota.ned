@@ -28,7 +28,7 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
+        double WProp = 0.1; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
        	int N = 50; //number of walkers
 
         //EIOTA
@@ -41,10 +41,10 @@ simple NodeModule
     	string AttackID = "[0]";
     	
     	//when initiate an attack 
-    	double AttackStage = 0.2; //have to be in [0,1], based on the size of the final Tangle
+    	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = false;
+    	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
     	int SizeBranches = 5;
@@ -56,7 +56,7 @@ simple NodeModule
     	bool ParasiteChainAttack = false;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
-    	double PropComputingPower = 1.5;
+    	double PropComputingPower = 0.1;
     	
     	//the closer to 1, the higher the proportion of transactions in the chain is and vice versa
     	double PropChainTips = 0.0;
@@ -71,10 +71,10 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(3); 
         
         //how much transactions each node will issue
-        int transactionLimit = 100; 
+        int transactionLimit = 50; 
         
         //random delay
     	bool ifRandDelay = false;
