@@ -36,4 +36,4 @@ And two types of **attacks** explained in the IOTA [paper](www.descryptions.com/
 
 I did this project while I was an intern at [LIP6](https://www.lip6.fr/), so I want to thank all its team.  
 
-Special thank to **Richard Gardner** (@richardg93) who helped me a lot during the beginning thanks to his [git](https://github.com/richardg93/TangleSim) but also to **Gewu Bu** (@GewuBU) who guided me during my internship.   
+Special thank to **Richard Gardner** ([@richardg93](https://github.com/richardg93)) who helped me a lot during the beginning thanks to his [git](https://github.com/richardg93/TangleSim) but also to **Gewu Bu** ([@GewuBU](https://github.com/GewuBU)) who guided me during my internship.   
