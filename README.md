@@ -2,7 +2,7 @@
 
 This git is a decentralized simulation of [IOTA](https://www.iota.org/) which is a crypto-currency  using [OMNeT++](https://omnetpp.org/). 
 
-The source files for the simulation are **NodeModule.h** which is the header containing the structures and classes of the **NodeModule.cc** file. This one contains the code executed by the simulation. Finally **iota.ini & iota.ned** are the files to configure the simulation (topology used, number of nodes, communication delay between nodes etc...). It is also possible to set **random** delays between nodes in the iota.ned file. 
+The source files for the simulation are **NodeModule.h** which is the header containing the structures and classes of the **NodeModule.cc** file. This one contains the code executed by the simulation. Finally **iota.ini & iota.ned** are the files to configure the simulation (used topology, number of nodes, communication delay between nodes etc...). It is also possible to set **random** delays between nodes in the iota.ned file. 
 
 This simulation can use several topologies: 
 - **Complete graph**
