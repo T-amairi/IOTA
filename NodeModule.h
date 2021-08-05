@@ -160,7 +160,7 @@ class NodeModule : public cSimpleModule
         VpTr_S getParasiteChain(pTr_S RootTip, std::string TargetID, int ChainLength, int NbTipsChain);
 
         //build the two branches in conflict (splitting attack scenario)
-        std::vector<VpTr_S> iniSplittingAttack(int SizeBranches);
+        void iniSplittingAttack();
 
         //update the branches when a new transaction is received
         void updateBranches(pTr_S newTx);
@@ -186,6 +186,9 @@ class NodeModule : public cSimpleModule
 
         //to control the splitting attack (e.g resume & stop)
         bool IfAttackSP = false;
+
+        //to check if the splitting attack initialization has finished
+        bool IfIniSP = true;
 
         //a buffer to know if you have to check the balance (during a splitting attack)
         bool IfScheduleMB = false;

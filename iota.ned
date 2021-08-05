@@ -28,7 +28,7 @@ simple NodeModule
         double alpha = 0.5; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        double WProp = 0.1; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
+        double WProp = 0.5; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
        	int N = 50; //number of walkers
 
         //EIOTA
@@ -47,7 +47,7 @@ simple NodeModule
     	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
-    	int SizeBranches = 5;
+    	double SizeBrancheProp = 10;
     	
     	//the rate at which transactions can be created by the attacker during a splitting attack
     	volatile double rateMB @unit(s) = 0.0000588s;

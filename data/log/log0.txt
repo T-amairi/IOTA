@@ -1,6 +1,6 @@
 
 Running configuration General, run #0...
-Assigned runID=General-0-20210804-19:29:45-26784
+Assigned runID=General-0-20210805-18:22:19-10977
 Setting up network "FullGraph"...
 Initializing...
 
@@ -8,15 +8,15 @@ Running simulation...
 ** Event #0   t=0   Elapsed: 7e-06s (0m 00s)
      Speed:     ev/sec=0   simsec/sec=0   ev/simsec=0
      Messages:  created: 9   present: 9   in FES: 3
-** Event #689   t=0.034081892895   Elapsed: 0.098133s (0m 00s)
-     Speed:     ev/sec=7021.58   simsec/sec=0.34498   ev/simsec=20353.6
-     Messages:  created: 463   present: 9   in FES: 0
+** Event #685   t=0.025235740003   Elapsed: 0.25274s (0m 00s)
+     Speed:     ev/sec=2710.38   simsec/sec=0.0998518   ev/simsec=27144
+     Messages:  created: 454   present: 9   in FES: 0
 
-<!> No more events, simulation completed -- at t=0.034081892895s, event #689
+<!> No more events, simulation completed -- at t=0.025235740003s, event #685
 
 Calling finish() at end of Run #0...
 [INFO]	By NodeModule[0] : Simulation ended - Deleting my local Tangle
 [INFO]	Size branch 1 : 71
-[INFO]	Size branch 2 : 73
+[INFO]	Size branch 2 : 68
 [INFO]	By NodeModule[1] : Simulation ended - Deleting my local Tangle
 [INFO]	By NodeModule[2] : Simulation ended - Deleting my local Tangle
