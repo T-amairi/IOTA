@@ -32,9 +32,9 @@ And two types of **attacks** explained in the IOTA [paper](www.descryptions.com/
 - **Splitting Attack** 
 - **Parasite Chain Attack**
 
-To evaluate the success of each of these attacks, there will be some .txt files in the tracking folder itemizing:
-- regarding the splitting attack we will check the **percentage difference** in size between the two branches
-- as for the parasite chain attack we will go over the **number** of transactions that are part of the parasite chain
+To evaluate the success of each of these attacks, there will be some .txt files in the tracking folder allowing to:
+- check the **percentage difference** in size between the two branches (splitting attack)
+- go over the **number** of transactions that are part of the parasite chain (parasite chain attack)
 
 ## Credit
 
