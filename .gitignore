@@ -13,3 +13,4 @@ omnetpp.ini
 !/data/tracking/.keep
 !/topologies/exp_CSV/.keep
 !/topologies/ws_CSV/.keep
+!/data/archive/.keep

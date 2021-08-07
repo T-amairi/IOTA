@@ -35,4 +35,19 @@ autolabel(rects1)
 autolabel(rects2)
 autolabel(rects3)
 
-fig.savefig('TSA.png',bbox_inches='tight')
+#fig.savefig('TSA.png',bbox_inches='tight')
+
+##########################################
+
+y = [46.0,74.5,88.2,98.7,147.4]
+x = np.arange(0.02,0.12,0.02)
+
+plt.figure(figsize=(8,5))
+plt.scatter(x,y)
+plt.xlabel(r"$\alpha$ value")
+plt.ylabel(r"Average tips")
+
+for i, txt in enumerate(y):
+    plt.annotate(txt, (x[i] - 0.0025, y[i] + 2.5))
+
+plt.savefig('alphaIOTA.png',bbox_inches='tight')

@@ -25,10 +25,10 @@ simple NodeModule
         string TSA = "IOTA";
         
         //IOTA && GIOTA 
-        double alpha = 0.5; //alpha in Pxy prob 
+        double alpha = 0.08; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
-        double WProp = 0.5; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
+        double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
        	int N = 50; //number of walkers
 
         //EIOTA
@@ -44,7 +44,7 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = true;
+    	bool SplittingAttack = false;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 10;
@@ -71,10 +71,10 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(3); 
+        int NodeNumber = default(10); 
         
         //how much transactions each node will issue
-        int transactionLimit = 50; 
+        int transactionLimit = 100; 
         
         //random delay
     	bool ifRandDelay = false;
