@@ -14,4 +14,4 @@ omnetpp.ini
 !/topologies/exp_CSV/.keep
 !/topologies/ws_CSV/.keep
 !/data/archive/.keep
-!/data/archive/alpha
+!/data/archive/alpha/.keep
