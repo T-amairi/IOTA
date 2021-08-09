@@ -370,9 +370,6 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
         walkCounts++;
         VpTr_S currentView = current->approvedBy;
 
-        EV << "Current : ";
-        EV << current->ID << std::endl;
-
         if(currentView.size() == 0)
         {
             break;
@@ -406,13 +403,6 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
                prob = double(exp(double(-alphaVal*(start_weight - sitesWeight[j]))));
                prob = prob/sum_exp;
                p.push_back(prob);
-
-               EV << "Site : ";
-               EV << currentView[j]->ID;
-               EV << " Weight : ";
-               EV << sitesWeight[j];
-               EV << " Prob : ";
-               EV << prob << std::endl;
             }
 
             int nextCurrentIndex = 0;
@@ -439,16 +429,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
                 }
             }
 
-            EV << "Rand : ";
-            EV << probWalkChoice << std::endl;
-
             current = currentView[nextCurrentIndex];
-
-            EV << "Choice : ";
-            EV << current->ID << std::endl;
-
-            EV << std::endl;
-
         }
     }
 
@@ -1231,12 +1212,38 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
         toIterOver = branch1;
     }
 
+    int countTips = 0;
+
     for(auto tx : toIterOver)
     {
-       if(tx->isApproved)
-       {
-           Vtips.push_back(tx);
-       }
+        if(!tx->isApproved)
+        {
+            countTips++;
+        }
+    }
+
+    bool Iftip = countTips <= NodeModuleNb - 1;
+
+    if(Iftip)
+    {
+        for(auto tx : toIterOver)
+        {
+           if(tx->isApproved)
+           {
+               Vtips.push_back(tx);
+           }
+        }
+    }
+
+    else
+    {
+        for(auto tx : toIterOver)
+        {
+           if(!tx->isApproved)
+           {
+               Vtips.push_back(tx);
+           }
+        }
     }
 
     txCount++;
@@ -1254,9 +1261,12 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
     tip->isApproved = true;
     tip->approvedTime = simTime();
 
-    /*VpTr_S temp;
-    temp.push_back(tip);
-    ReconcileTips(temp,myTips);*/
+    if(!Iftip)
+    {
+        VpTr_S temp;
+        temp.push_back(tip);
+        ReconcileTips(temp,myTips);
+    }
 
     if(!Vtips.empty())
     {
@@ -1271,9 +1281,12 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
         tip->isApproved = true;
         tip->approvedTime = simTime();
 
-        /*temp.push_back(tip);
-        ReconcileTips(temp,myTips);
-        temp.clear();*/
+        if(!Iftip)
+        {
+            VpTr_S temp;
+            temp.push_back(tip);
+            ReconcileTips(temp,myTips);
+        }
     }
 
     if(whichBranch == 2)
@@ -1807,8 +1820,8 @@ void NodeModule::handleMessage(cMessage * msg)
 
             if(!IfSimFinished)
             {
-                auto tx = MaintainingBalance(whichBranch);
                 countMB--;
+                auto tx = MaintainingBalance(whichBranch);
 
                 EV << "Updated the balance of the branches" << std::endl;
                 EV << "With transaction : " << tx->ID << std::endl;
@@ -2161,8 +2174,8 @@ void NodeModule::finish()
         }
     }
 
-    //printTangle();
-    printTipsLeft();
+    printTangle();
+    //printTipsLeft();
     //stats();
 
     DeleteTangle();

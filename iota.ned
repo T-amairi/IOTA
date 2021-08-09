@@ -22,10 +22,10 @@ simple NodeModule
         volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "IOTA";
+        string TSA = "EIOTA";
         
         //IOTA && GIOTA 
-        double alpha = 0.08; //alpha in Pxy prob 
+        double alpha = 0.05; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
         double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
@@ -34,8 +34,8 @@ simple NodeModule
         //EIOTA
         double p1 = 0.1;
         double p2 = 0.65;
-        double lowAlpha = 0.1;
-    	double highAlpha = 5.0;
+        double lowAlpha = 0.08;
+    	double highAlpha = 2.5;
     	
     	//ID of the node that will initiate an attack (i.e [ + idx of the node + ])
     	string AttackID = "[0]";
@@ -44,7 +44,7 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = false;
+    	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 10;
@@ -71,10 +71,10 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(3); 
         
         //how much transactions each node will issue
-        int transactionLimit = 100; 
+        int transactionLimit = 50; 
         
         //random delay
     	bool ifRandDelay = false;
