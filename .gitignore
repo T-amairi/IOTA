@@ -17,3 +17,5 @@ omnetpp.ini
 !/data/archive/alpha/.keep
 !/data/archive/alpha/IOTA
 !/data/archive/alpha/E-IOTA
+!/data/archive/attack/.keep
+!/data/archive/attack/*

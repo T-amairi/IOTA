@@ -22,10 +22,10 @@ simple NodeModule
         volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "EIOTA";
+        string TSA = "IOTA";
         
         //IOTA && GIOTA 
-        double alpha = 0.05; //alpha in Pxy prob 
+        double alpha = 0.08; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
         double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
@@ -53,10 +53,10 @@ simple NodeModule
     	volatile double rateMB @unit(s) = 0.0000588s;
     	
     	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = false;
+    	bool ParasiteChainAttack = true;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
-    	double PropComputingPower = 0.1;
+    	double PropComputingPower = 0.06;
     	
     	//the closer to 1, the higher the proportion of transactions in the chain is and vice versa
     	double PropChainTips = 0.0;
@@ -71,7 +71,7 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(11); 
         
         //how much transactions each node will issue
         int transactionLimit = 100; 

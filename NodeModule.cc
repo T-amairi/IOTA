@@ -218,22 +218,35 @@ void NodeModule::PercentTxChain()
 
     else
     {
-        for(auto dblTx : myDoubleSpendTx)
+        double prop = par("PropComputingPower");
+        file << prop << ";";
+
+        for(auto DoubleSpendTx : myDoubleSpendTx)
         {
-            file << dblTx->ID << ";";
-            int count = -1;
+            file << DoubleSpendTx->ID << ";";
+
+            int c1 = 0;
+            int c2 = 0;
 
             for(auto tx : myTangle)
             {
-                auto it = tx->pathID.find(dblTx->ID);
-
-                if(it != tx->pathID.end())
+                if(tx->issuedTime >= DoubleSpendTx->issuedTime && tx->ID != DoubleSpendTx->ID)
                 {
-                    count++;
+                    auto it = tx->pathID.find(DoubleSpendTx->ID);
+
+                    if(it != tx->pathID.end())
+                    {
+                        c1++;
+                    }
+
+                    else
+                    {
+                        c2++;
+                    }
                 }
             }
 
-            file << count << std::endl;
+           file << c1 - c2 << std::endl;
         }
     }
 
@@ -2164,18 +2177,18 @@ void NodeModule::finish()
         PercentDiffBranch();
     }
 
+    else if(strcmp(par("AttackID"),ID.c_str()) == 0 && par("ParasiteChainAttack"))
+    {
+        PercentTxChain();
+    }
+
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
     {
-        printChain();
-
-        if(par("ParasiteChainAttack"))
-        {
-            PercentTxChain();
-        }
+        //printChain();
     }
 
     //printTangle();
-    printTipsLeft();
+    //printTipsLeft();
     //stats();
 
     DeleteTangle();
