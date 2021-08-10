@@ -19,3 +19,8 @@ omnetpp.ini
 !/data/archive/alpha/E-IOTA
 !/data/archive/attack/.keep
 !/data/archive/attack/Parasite Chain Attack/IOTA
+!/data/archive/attack/Parasite Chain Attack/E-IOTA
+!/data/archive/attack/Parasite Chain Attack/G-IOTA
+!/data/archive/attack/Splitting Attack/IOTA
+!/data/archive/attack/Splitting Attack/G-IOTA
+!/data/archive/attack/Splitting Attack/E-IOTA
