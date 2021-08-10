@@ -2174,8 +2174,8 @@ void NodeModule::finish()
         }
     }
 
-    printTangle();
-    //printTipsLeft();
+    //printTangle();
+    printTipsLeft();
     //stats();
 
     DeleteTangle();
