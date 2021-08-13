@@ -102,7 +102,7 @@ class NodeModule : public cSimpleModule
         void stats();
         void printChain();
         void PercentDiffBranch();
-        void PercentTxChain();
+        void DiffTxChain();
 
         //Random walk based on a MCMC
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_time);

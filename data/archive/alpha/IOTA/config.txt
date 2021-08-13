@@ -10,7 +10,7 @@ simple NodeModule
         string TSA = "IOTA";
         
         //IOTA && GIOTA 
-        double alpha = 1.0; //alpha in Pxy prob 
+        double alpha = x; //alpha in Pxy prob 
        
         //IOTA && GIOTA && EIOTA
         double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
@@ -19,8 +19,8 @@ simple NodeModule
         //EIOTA
         double p1 = 0.1;
         double p2 = 0.65;
-        double lowAlpha = 0.1;
-    	double highAlpha = 5.0;
+        double lowAlpha = 0.08;
+    	double highAlpha = 2.5;
     	
     	//ID of the node that will initiate an attack (i.e [ + idx of the node + ])
     	string AttackID = "[0]";

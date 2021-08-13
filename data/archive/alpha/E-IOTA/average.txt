@@ -1,3 +1,5 @@
+lowAlpha = 0.08
+highAlpha = 2.5
 avg = 100,42
 //
 111

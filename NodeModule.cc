@@ -204,10 +204,10 @@ void NodeModule::PercentDiffBranch()
     file.close();
 }
 
-void NodeModule::PercentTxChain()
+void NodeModule::DiffTxChain()
 {
     std::fstream file;
-    std::string path = "./data/tracking/PercentTxChain" + ID + ".txt";
+    std::string path = "./data/tracking/DiffTxChain" + ID + ".txt";
     //remove(path.c_str());
     file.open(path,std::ios::app);
 
@@ -2179,7 +2179,7 @@ void NodeModule::finish()
 
     else if(strcmp(par("AttackID"),ID.c_str()) == 0 && par("ParasiteChainAttack"))
     {
-        PercentTxChain();
+        DiffTxChain();
     }
 
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
@@ -2188,7 +2188,7 @@ void NodeModule::finish()
     }
 
     //printTangle();
-    //printTipsLeft();
+    printTipsLeft();
     //stats();
 
     DeleteTangle();
