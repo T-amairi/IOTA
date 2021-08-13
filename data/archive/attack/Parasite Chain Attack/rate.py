@@ -37,19 +37,3 @@ for i in range(0,3):
             else:
                 print("PropComputingPower value: {}, Success rate: {:.2f}%, Fail rate: {:.2f}%".format(k,100.0*sr/(sr+fr),100.0*fr/(sr+fr)))
     print('\n')
-        
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
