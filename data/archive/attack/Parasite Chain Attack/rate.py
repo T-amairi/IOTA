@@ -31,11 +31,11 @@ for i in range(0,3):
             sr = float(v[0])
             fr = float(v[1])
             if sr == 0.0:
-                print("alpha: {}, Success rate: 0.0%, Fail rate: 100.0%".format(k))
+                print("PropComputingPower value: {}, Success rate: 0.0%, Fail rate: 100.0%".format(k))
             elif fr == 0.0:
-                print("alpha: {}, Success rate: 100.0%, Fail rate: 0.0%".format(k))
+                print("PropComputingPower value: {}, Success rate: 100.0%, Fail rate: 0.0%".format(k))
             else:
-                print("alpha: {}, Success rate: {:.2f}%, Fail rate: {:.2f}%".format(k,100.0*sr/(sr+fr),100.0*fr/(sr+fr)))
+                print("PropComputingPower value: {}, Success rate: {:.2f}%, Fail rate: {:.2f}%".format(k,100.0*sr/(sr+fr),100.0*fr/(sr+fr)))
     print('\n')
         
 
