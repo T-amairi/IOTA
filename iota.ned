@@ -53,10 +53,10 @@ simple NodeModule
     	volatile double rateMB @unit(s) = 0.0000588s;
     	
     	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = false;
+    	bool ParasiteChainAttack = true;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
-    	double PropComputingPower = 0.05;
+    	double PropComputingPower = 0.01;
     	
     	//the closer to 1, the higher the proportion of transactions in the chain is and vice versa
     	double PropChainTips = 0.0;
