@@ -99,10 +99,10 @@ class NodeModule : public cSimpleModule
         //tracking
         void printTangle();
         void printTipsLeft();
-        void stats();
+        void printStats();
         void printChain();
-        void PercentDiffBranch();
-        void DiffTxChain();
+        void printBranchSize();
+        void printDiffTxChain();
 
         //Random walk based on a MCMC
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_time);

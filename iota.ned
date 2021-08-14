@@ -50,7 +50,7 @@ simple NodeModule
     	double SizeBrancheProp = 10;
     	
     	//the rate at which transactions can be created by the attacker during a splitting attack
-    	double PropRateMB = 0.5;
+    	double PropRateMB = 1.0;
     	
     	//to initiate a Parasite Chain Attack
     	bool ParasiteChainAttack = false;

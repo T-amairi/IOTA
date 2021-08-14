@@ -126,7 +126,7 @@ void NodeModule::printTipsLeft()
     file.close();
 }
 
-void NodeModule::stats()
+void NodeModule::printStats()
 {
     std::fstream file;
     std::string path = "./data/tracking/Stats" + ID + ".txt";
@@ -184,7 +184,7 @@ void NodeModule::printChain()
     file.close();
 }
 
-void NodeModule::PercentDiffBranch()
+void NodeModule::printBranchSize()
 {
     std::fstream file;
     std::string path = "./data/tracking/DiffBranch" + ID + ".txt";
@@ -199,13 +199,13 @@ void NodeModule::PercentDiffBranch()
     else
     {
         double PropRateMB = par("PropRateMB");
-        file << PropRateMB << ";" << std::abs((double)(branch1.size() - branch2.size())*100/branch2.size()) << std::endl;
+        file << PropRateMB << ";" << branch1.size() << ";" << branch2.size() << std::endl;
     }
 
     file.close();
 }
 
-void NodeModule::DiffTxChain()
+void NodeModule::printDiffTxChain()
 {
     std::fstream file;
     std::string path = "./data/tracking/DiffTxChain" + ID + ".txt";
@@ -2179,12 +2179,12 @@ void NodeModule::finish()
     {
         EV << "Size branch 1 : " << branch1.size() << std::endl;
         EV << "Size branch 2 : " << branch2.size() << std::endl;
-        PercentDiffBranch();
+        printBranchSize();
     }
 
     else if(strcmp(par("AttackID"),ID.c_str()) == 0 && par("ParasiteChainAttack"))
     {
-        DiffTxChain();
+        printDiffTxChain();
     }
 
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
