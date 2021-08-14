@@ -44,16 +44,16 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = false;
+    	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 10;
     	
     	//the rate at which transactions can be created by the attacker during a splitting attack
-    	volatile double rateMB @unit(s) = 0.0000588s;
+    	double PropRateMB = 0.5;
     	
     	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = true;
+    	bool ParasiteChainAttack = false;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
     	double PropComputingPower = 0.01;

@@ -198,7 +198,8 @@ void NodeModule::PercentDiffBranch()
 
     else
     {
-        file << std::abs((double)(branch1.size() - branch2.size())*100/branch2.size()) << std::endl;
+        double PropRateMB = par("PropRateMB");
+        file << PropRateMB << ";" << std::abs((double)(branch1.size() - branch2.size())*100/branch2.size()) << std::endl;
     }
 
     file.close();
@@ -1697,7 +1698,8 @@ void NodeModule::handleMessage(cMessage * msg)
             branch1.push_back(tx1);
             branch2.push_back(tx2);
 
-            simtime_t rateMB = par("rateMB");
+            double PropRateMB = par("PropRateMB");
+            simtime_t rateMB = mean*PropRateMB;
             auto msgIni = new cMessage("Initializating the first tips for both branches",InitializationSplittingAttack);
             scheduleAt(simTime() + 2*rateMB, msgIni);
         }
@@ -1798,7 +1800,8 @@ void NodeModule::handleMessage(cMessage * msg)
         {
             EV << "Not reached ! Issuing new tips..." << std::endl;
             iniSplittingAttack();
-            simtime_t rateMB = par("rateMB");
+            double PropRateMB = par("PropRateMB");
+            simtime_t rateMB = mean*PropRateMB;
             scheduleAt(simTime() + 2*rateMB, msg);
         }
 
@@ -1884,7 +1887,8 @@ void NodeModule::handleMessage(cMessage * msg)
                        EV << "with countMB : " << countMB << std::endl;
                        EV << "with whichBranch : " << whichBranch << std::endl;
 
-                       simtime_t rateMB = par("rateMB");
+                       double PropRateMB = par("PropRateMB");
+                       simtime_t rateMB = mean*PropRateMB;
                        int temp = txCount;
 
                        for(int i = 0; i < std::abs(diff); i++)
@@ -2128,7 +2132,8 @@ void NodeModule::handleMessage(cMessage * msg)
                             EV << "with countMB : " << countMB << std::endl;
                             EV << "with whichBranch : " << whichBranch << std::endl;
 
-                            simtime_t rateMB = par("rateMB");
+                            double PropRateMB = par("PropRateMB");
+                            simtime_t rateMB = mean*PropRateMB;
                             int temp = txCount;
 
                             for(int i = 0; i < std::abs(diff); i++)
