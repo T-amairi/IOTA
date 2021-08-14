@@ -50,20 +50,21 @@ for i in range(0,3):
 os.chdir(r"..\.")
 
 x = np.arange(0.01,0.11,0.01)
-
 L.reverse()
 LG.reverse()
 LE.reverse()
 
 plt.figure(figsize=(8,5))
-plt.xticks(x)
 
 plt.plot(x,L,label="IOTA")
 plt.plot(x,LG,label="G-IOTA")
 plt.plot(x,LE,label="E-OTA")
 
+plt.xticks(x)
+plt.gca().invert_xaxis()
+
 plt.xlabel(r"PropComputingPower value")
-plt.ylabel(r"Fail rate in %")
+plt.ylabel(r"Resistance in %")
 plt.legend()
 
-plt.savefig('FailRatePCA.png',bbox_inches='tight')
+plt.savefig('ResistancePCA.png',bbox_inches='tight')
