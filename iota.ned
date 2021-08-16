@@ -44,7 +44,7 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = true;
+    	bool SplittingAttack = false;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 10;
@@ -53,10 +53,10 @@ simple NodeModule
     	double PropRateMB = 1.0;
     	
     	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = false;
+    	bool ParasiteChainAttack = true;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
-    	double PropComputingPower = 0.01;
+    	double PropComputingPower = 0.02;
     	
     	//the closer to 1, the higher the proportion of transactions in the chain is and vice versa
     	double PropChainTips = 0.0;
@@ -71,7 +71,7 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(11); 
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
