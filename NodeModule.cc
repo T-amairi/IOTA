@@ -187,19 +187,42 @@ void NodeModule::printChain()
 void NodeModule::printBranchSize()
 {
     std::fstream file;
-    std::string path = "./data/tracking/DiffBranch" + ID + ".txt";
+    std::string path = "./data/tracking/BranchSize" + ID + ".txt";
     //remove(path.c_str());
     file.open(path,std::ios::app);
 
-    if(branch2.size() == 0)
+    double PropRateMB = par("PropRateMB");
+
+    if(branch1.size() == 0)
     {
-        file << "null" << std::endl;
+        file << PropRateMB << ";" << "null" << std::endl;
+    }
+
+    else if(branch1[0]== nullptr)
+    {
+        file << PropRateMB << ";" << "fail" << std::endl;
     }
 
     else
     {
-        double PropRateMB = par("PropRateMB");
-        file << PropRateMB << ";" << branch1.size() << ";" << branch2.size() << std::endl;
+        auto TxRoot = branch1[0]->S_approved[0];
+        int count = 0;
+
+        for(auto tx : myTangle)
+        {
+            if(tx->issuedTime > TxRoot->issuedTime)
+            {
+                auto it1 = tx->pathID.find(branch1[0]->ID);
+                auto it2 = tx->pathID.find(branch2[0]->ID);
+
+                if(it1 == tx->pathID.end() && it2 == tx->pathID.end())
+                {
+                    count++;
+                }
+            }
+        }
+
+        file << PropRateMB <<";" << count << ";" << branch1.size() << ";" << branch2.size() << std::endl;
     }
 
     file.close();
@@ -1343,6 +1366,24 @@ void NodeModule::IfNodesfinished()
     }
 }
 
+void NodeModule::setTxLimitNodes()
+{
+    EV << "Setting new txLimit for each node:" << std::endl;
+
+    for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
+    {
+        cModule *submodule = *iter;
+
+        if(submodule->getId() != getId())
+        {
+            NodeModule* node = check_and_cast<NodeModule*>(submodule);
+            node->txLimit += node->txCount;
+
+            EV << "Node: " << submodule->getId() << ", new txLimit: " << node->txLimit << std::endl;
+        }
+    }
+}
+
 void NodeModule::initialize()
 {
     ID = "[" + std::to_string(getId() - 2) + "]";
@@ -1794,6 +1835,7 @@ void NodeModule::handleMessage(cMessage * msg)
             IfAttackSP = true;
             IfIniSP = false;
             toSend.clear();
+            setTxLimitNodes();
         }
 
         else if(!IfSimFinished)
@@ -1823,6 +1865,7 @@ void NodeModule::handleMessage(cMessage * msg)
             }
 
             toSend.clear();
+            branch1[0] = nullptr;
         }
     }
 
@@ -2192,7 +2235,7 @@ void NodeModule::finish()
         //printChain();
     }
 
-    //printTangle();
+    printTangle();
     //printTipsLeft();
     //stats();
 

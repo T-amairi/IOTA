@@ -171,6 +171,9 @@ class NodeModule : public cSimpleModule
         //check if the other nodes have finished (i.e txCount > txLimit) to stop the sim during a splitting attack
         void IfNodesfinished();
 
+        //set a new txLimit value
+        void setTxLimitNodes();
+
     private:
         //exponential distribution with the given mean (that is, with parameter lambda=1/mean).
         simtime_t mean;

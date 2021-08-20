@@ -22,7 +22,7 @@ simple NodeModule
         volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "GIOTA";
+        string TSA = "EIOTA";
         
         //IOTA && GIOTA 
         double alpha = 2.5; //alpha in Pxy prob 
@@ -44,16 +44,16 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = false;
+    	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
-    	double SizeBrancheProp = 10;
+    	double SizeBrancheProp = 5;
     	
     	//the rate at which transactions can be created by the attacker during a splitting attack
     	double PropRateMB = 1.0;
     	
     	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = true;
+    	bool ParasiteChainAttack = false;
     	
     	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
     	double PropComputingPower = 0.02;
