@@ -22,7 +22,7 @@ simple NodeModule
         volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "EIOTA";
+        string TSA = "GIOTA";
         
         //IOTA && GIOTA 
         double alpha = 2.5; //alpha in Pxy prob 
@@ -50,7 +50,7 @@ simple NodeModule
     	double SizeBrancheProp = 5;
     	
     	//the rate at which transactions can be created by the attacker during a splitting attack
-    	double PropRateMB = 1.0;
+    	double PropRateMB = 0.19;
     	
     	//to initiate a Parasite Chain Attack
     	bool ParasiteChainAttack = false;

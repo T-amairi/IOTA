@@ -2235,7 +2235,7 @@ void NodeModule::finish()
         //printChain();
     }
 
-    printTangle();
+    //printTangle();
     //printTipsLeft();
     //stats();
 

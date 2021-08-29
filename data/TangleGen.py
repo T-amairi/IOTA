@@ -135,5 +135,5 @@ for nodeID, sites in NodeModules.items():
                 if neib != '':
                     g.edge(node[0],neib,dir="back")
 
-    g.render('TangleNodeModule[' + str(nodeID) + ']')
+    g.render('TangleNodeModule[' + str(nodeID) + ']',format="svg")
     os.remove('TangleNodeModule[' + str(nodeID) + ']') 
