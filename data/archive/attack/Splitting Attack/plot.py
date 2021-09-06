@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 paths = [r".\data\archive\attack\Splitting Attack\IOTA",r"..\G-IOTA",r"..\E-IOTA"]
 
 res = []
-MaxDiff = 0.9
+MaxDiff = 0.1
 
 for path in paths:
     os.chdir(path)
@@ -55,7 +55,7 @@ for i in range(0,3):
 os.chdir(r"..\.")
 
 temp = np.arange(0.1,0.21,0.01)
-temp = np.append(temp,0.5)
+#temp = np.append(temp,0.5)
 x =  ["%.2f" % n for n in temp]
 
 L.reverse()
