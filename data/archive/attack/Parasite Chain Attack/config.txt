@@ -1,0 +1,17 @@
+mean = 0.000588s
+powTime = 0.00s
+IOTA = 0.08 (alpha)
+GIOTA = 2.5 (alpha)
+EIOTA = 0.08 (low alpha)/2.5 (high alpha)/0.1 (p1)/0.65 (p2)
+WProp = 0.25
+N = 50
+AttackID = "[0]"	
+AttackStage = 0.25
+PropChainTips = 0.0
+FullGraph
+NodeNumber = 11
+transactionLimit = 100
+ifRandDelay = false
+delay = 0.000588s
+	    
+    

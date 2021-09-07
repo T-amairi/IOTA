@@ -49,7 +49,7 @@ simple NodeModule
     	//sizes of the branches at ini
     	double SizeBrancheProp = 5;
     	
-    	//the rate at which transactions can be created by the attacker during a splitting attack
+    	//by how much is multiplied mean, this allows to obtain the power of the malicious node (e.g if PropRateMB = 0.5, the attacker is twice as fast as an honest node). 
     	double PropRateMB = 0.5;
     	
     	//to initiate a Parasite Chain Attack

@@ -1344,6 +1344,7 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
 void NodeModule::IfNodesfinished()
 {
     int count = NodeModuleNb - 1;
+    bool IfOneFinished = false;
 
     for(SubmoduleIterator iter(getParentModule()); !iter.end(); iter++)
     {
@@ -1356,12 +1357,20 @@ void NodeModule::IfNodesfinished()
             if(node->txCount >= node->txLimit)
             {
                 count--;
+                IfOneFinished = true;
             }
         }
     }
 
     if(count == 0)
     {
+        EV << "All nodes have finished the simulation, can't initiate the attack" << std::endl;
+        IfSimFinished = true;
+    }
+
+    else if(IfOneFinished && IfIniSP)
+    {
+        EV << "One node have finished the simulation, can't initiate the attack" << std::endl;
         IfSimFinished = true;
     }
 }
@@ -1748,13 +1757,13 @@ void NodeModule::handleMessage(cMessage * msg)
 
     else if(msg->getKind() == InitializationSplittingAttack)
     {
-        EV << "Preparing the two branches in offline..." << std::endl;
-
-        IfNodesfinished();
         double SizeBrancheProp = par("SizeBrancheProp");
 
+        EV << "Preparing the two branches in offline..." << std::endl;
         EV << "Branches size : " << branch1.size() + branch2.size() << std::endl;
         EV << "The threshold to reach : " << myTips.size()*SizeBrancheProp << std::endl;
+
+        IfNodesfinished();
 
         if(branch1.size() + branch2.size() >= myTips.size()*SizeBrancheProp && !IfSimFinished)
         {
@@ -1851,7 +1860,6 @@ void NodeModule::handleMessage(cMessage * msg)
         {
             delete msg;
 
-            EV << "The other nodes have finished the simulation, can't initiate the attack" << std::endl;
             std::vector<VpTr_S> toSend;
             toSend.push_back(branch1);
             toSend.push_back(branch2);

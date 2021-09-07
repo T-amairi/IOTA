@@ -1,85 +1,10 @@
-//NodeModule : user issuing transactions 
-simple NodeModule
-{
-    parameters:
-        //here we take the transaction rate of VISA which is 1700 tx per sec, hence, each tx is spaced by 0.000588s
-        volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
-        volatile double powTime @unit(s) = 0.00s; //Proof of Work 
-        
-        //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "GIOTA";
-        
-        //IOTA && GIOTA 
-        double alpha = 2.5; //alpha in Pxy prob 
-       
-        //IOTA && GIOTA && EIOTA
-        double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
-       	int N = 50; //number of walkers
-
-        //EIOTA
-        double p1 = 0.1;
-        double p2 = 0.65;
-        double lowAlpha = 0.08;
-    	double highAlpha = 2.5;
-    	
-    	//ID of the node that will initiate an attack (i.e [ + idx of the node + ])
-    	string AttackID = "[0]";
-    	
-    	//when initiate an attack 
-    	double AttackStage = 0.25; //have to be in [0,1]
-    	
-    	//to initiate a Splitting Attack
-    	bool SplittingAttack = false;
-    	
-    	//sizes of the branches at ini
-    	double SizeBrancheProp = 10;
-    	
-    	//the rate at which transactions can be created by the attacker during a splitting attack
-    	volatile double rateMB @unit(s) = 0.0000588s;
-    	
-    	//to initiate a Parasite Chain Attack
-    	bool ParasiteChainAttack = false;
-    	
-    	//determine the computing power of the malicious node according to mean (e.g if PropComputingPower = 0.5, the node can send twice as many transactions)
-    	double PropComputingPower = 0.1;
-    	
-    	//the closer to 1, the higher the proportion of transactions in the chain is and vice versa
-    	double PropChainTips = 0.0;
-    	
-    gates:
-        input NodeIn[];
-        output NodeOut[];
-}
-
-// A generated network with complete graph topology.
-network FullGraph
-{
-    parameters:
-        //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
-        
-        //how much transactions each node will issue
-        int transactionLimit = 100; 
-        
-        //random delay
-    	bool ifRandDelay = false;
-    	
-    	//parameters used by the uniform distribution during NodeModule initialization for setting the delay in SECONDS !
-        double minDelay = 50.0; 
-        double maxDelay = 100.0;
-        
-	types:
-        channel Channel extends ned.DelayChannel
-	    {
-	        delay = 0.000588s;
-	    }
-      
-    submodules:
-        Nodes[NodeNumber]: NodeModule;
-        
-    connections: //each module is connecting to his neighbors
-        for i = 0 .. NodeNumber - 1, for j = 0 .. NodeNumber - 1, if i != j
-        {
-            Nodes[i].NodeOut++ --> Channel --> Nodes[j].NodeIn++;
-        }
-}
+mean = 0.000588s
+powTime = 0.00s
+alpha = x
+WProp = 0.25
+N = 50
+NodeNumber = 10
+FullGraph
+transactionLimit = 100
+ifRandDelay = false
+delay = 0.000588s
