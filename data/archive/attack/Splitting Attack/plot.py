@@ -7,7 +7,6 @@ paths = [r".\data\archive\attack\Splitting Attack\IOTA",r"..\G-IOTA",r"..\E-IOTA
 
 res = []
 MaxDiff = 0.1
-TxCount = 750
 
 for path in paths:
     os.chdir(path)
@@ -29,10 +28,7 @@ for path in paths:
                     if (max(l) - min(l))/min(l) > MaxDiff:
                         temp[row[0]][1] += 1
                     else:
-                        if min(l) < TxCount:
-                            temp[row[0]][1] += 1
-                        else:
-                            temp[row[0]][0] += 1 
+                        temp[row[0]][0] += 1 
     res.append(temp)
 
 tsa = ["IOTA","G-IOTA","E-IOTA"]
