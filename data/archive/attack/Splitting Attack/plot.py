@@ -57,7 +57,7 @@ for i in range(0,3):
 
 os.chdir(r"..\.")
 
-temp = np.arange(0.1,0.21,0.01)
+temp = np.arange(0.08,0.21,0.01)
 temp = np.append(temp,0.5)
 x =  ["%.2f" % n for n in temp]
 
