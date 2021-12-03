@@ -74,7 +74,7 @@ plt.plot(x,LE,label="E-OTA")
 plt.xticks(x)
 plt.gca().invert_xaxis()
 
-plt.xlabel(r"PropRateMB value")
+plt.xlabel(r"RMB value")
 plt.ylabel(r"Resistance in %")
 plt.legend()
 

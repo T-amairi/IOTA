@@ -1,4 +1,5 @@
 #generate a watts strogatz graph (into a CSV file)
+import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import os
@@ -6,16 +7,15 @@ import os
 path = r".\topologies\ws_CSV"
 os.chdir(path)
 
-n = 10 #Number of nodes
-p = 1 #The probability of rewiring each edge
-k = 2 #number of adj nodes
+n = 1000 #Number of nodes
+p = 0.05 #The probability of rewiring each edge
+k = 20 #number of adj nodes
 rep = 1 #number of files (always > 0)
-
 
 for graph_num in range(0,rep):
     top = dict()
-    network = nx.watts_strogatz_graph(n, k, p)
-
+    network = nx.connected_watts_strogatz_graph(n, k, p)
+    
     for(u,v,c) in network.edges.data():
         if u in top:
             top[u].append(v)
@@ -40,3 +40,8 @@ for graph_num in range(0,rep):
                     csvfile.write(str(neib) + '\n')
                 else:
                     csvfile.write(str(neib) + ',')
+    
+    
+    #fig = plt.figure(figsize=(40, 40)) 
+    #nx.draw(network)
+    #fig.savefig("ws" + str(graph_num) + ".svg")

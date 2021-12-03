@@ -18,7 +18,7 @@ simple NodeModule
 {
     parameters:
         //here we take the transaction rate of VISA which is 1700 tx per sec, hence, each tx is spaced by 0.000588s
-        volatile double mean @unit(s) = 0.000588s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
+        volatile double mean @unit(s) = 0.5s; //exponential distribution with the given mean (that is, with parameter lambda=1/mean). 
         volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
@@ -44,7 +44,7 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = true;
+    	bool SplittingAttack = false;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 5;
@@ -185,7 +185,7 @@ network Expander
         //how much transactions each node will issue
         int transactionLimit = 100;
         
-        //Initial delay
+        //Initial delay in s 
         double delay = 0.001; 
         
         //random delay
@@ -204,13 +204,13 @@ network WattsStrogatz
 {
     parameters: 
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(10); 
+        int NodeNumber = default(1000); 
         
         //how much transactions each node will issue
         int transactionLimit = 100;
         
-        //Initial delay
-        double delay = 0.001;
+        //Initial delay in s
+        double delay = 0.25;
         
         //random delay
     	bool ifRandDelay = false;

@@ -63,7 +63,7 @@ plt.plot(x,LE,label="E-OTA")
 plt.xticks(x)
 plt.gca().invert_xaxis()
 
-plt.xlabel(r"PropComputingPower value")
+plt.xlabel(r"PCP value")
 plt.ylabel(r"Resistance in %")
 plt.legend()
 
