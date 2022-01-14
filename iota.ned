@@ -210,7 +210,7 @@ network WattsStrogatz
         int transactionLimit = 100;
         
         //Initial delay in s
-        double delay = 0.25;
+        double delay = 0.25; //set delay to zero 
         
         //random delay
     	bool ifRandDelay = false;

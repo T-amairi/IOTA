@@ -2147,8 +2147,6 @@ void NodeModule::handleMessage(cMessage * msg)
                }
            }
 
-           updateBuffer();
-
            if(ifAddTangle(Msg->S_approved))
            {
                EV << "Updating the Tangle" << std::endl;
@@ -2244,7 +2242,7 @@ void NodeModule::finish()
     }
 
     //printTangle();
-    printTipsLeft();
+    //printTipsLeft();
     //stats();
 
     DeleteTangle();
