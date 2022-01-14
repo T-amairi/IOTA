@@ -22,7 +22,7 @@ simple NodeModule
         volatile double powTime @unit(s) = 0.00s; //Proof of Work 
         
         //determines which TSA the node uses : IOTA or GIOTA or EIOTA
-        string TSA = "GIOTA";
+        string TSA = "EIOTA";
         
         //IOTA && GIOTA 
         double alpha = 2.5; //alpha in Pxy prob 
@@ -36,7 +36,7 @@ simple NodeModule
         double p2 = 0.65;
         double lowAlpha = 0.08;
     	double highAlpha = 2.5;
-    	
+    	    	
     	//ID of the node that will initiate an attack (i.e [ + idx of the node + ])
     	string AttackID = "[0]";
     	
@@ -44,7 +44,7 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = false;
+    	bool SplittingAttack = true;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 5;
@@ -71,7 +71,7 @@ network FullGraph
 {
     parameters:
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(11); 
+        int NodeNumber = default(10); 
         
         //how much transactions each node will issue
         int transactionLimit = 100; 
@@ -86,7 +86,7 @@ network FullGraph
 	types:
         channel Channel extends ned.DelayChannel
 	    {
-	        delay = 0.000588s;
+	        delay = 200 ms;
 	    }
       
     submodules:

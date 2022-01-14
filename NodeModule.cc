@@ -2238,10 +2238,10 @@ void NodeModule::finish()
 
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
     {
-        //printChain();
+        printChain();
     }
 
-    //printTangle();
+    printTangle();
     //printTipsLeft();
     //stats();
 

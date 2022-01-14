@@ -132,6 +132,9 @@ class NodeModule : public cSimpleModule
         //select start site for the random walk
         pTr_S getWalkStart(int backTrackDist);
 
+        //maintain for each node a threshold of transaction
+        void autoDelete();
+
         //remove newly confirmed tips from myTips;
         void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);
 
@@ -228,9 +231,9 @@ class NodeModule : public cSimpleModule
         pTr_S genesisBlock;
 
     protected:
-        virtual void initialize() override;
-        virtual void handleMessage(cMessage * msg) override;
-        virtual void finish() override;
+        void initialize() override;
+        void handleMessage(cMessage * msg) override;
+        void finish() override;
 };
 
 struct MsgPoW

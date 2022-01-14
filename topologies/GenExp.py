@@ -1,4 +1,5 @@
 #generate an expander graph (into a CSV file for omnetpp template)
+import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import os
@@ -8,6 +9,7 @@ os.chdir(path)
 
 n = 10 #Number of nodes
 rep = 1 #number of files (always > 0)
+save = False #to save the output as a SVG file
 
 for graph_num in range(0,rep):
     top = dict()
@@ -41,3 +43,9 @@ for graph_num in range(0,rep):
                     csvfile.write(str(neib) + '\n')
                 else:
                     csvfile.write(str(neib) + ',')
+
+    if(save):
+        fig = plt.figure(figsize=(40, 40)) 
+        nx.draw(network)
+        fig.savefig("exp" + str(graph_num) + ".svg")
+    

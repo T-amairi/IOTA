@@ -1,6 +1,5 @@
 #modules
-from graphviz import Digraph 
-from PIL import Image
+from graphviz import Digraph
 import os
 import csv
 import glob

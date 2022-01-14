@@ -11,6 +11,7 @@ n = 200 #Number of nodes
 p = 0.05 #The probability of rewiring each edge
 k = 10 #number of adj nodes
 rep = 1 #number of files (always > 0)
+save = True #to save the output as a SVG file
 
 for graph_num in range(0,rep):
     top = dict()
@@ -41,7 +42,7 @@ for graph_num in range(0,rep):
                 else:
                     csvfile.write(str(neib) + ',')
     
-    
-    fig = plt.figure(figsize=(40, 40)) 
-    nx.draw(network)
-    fig.savefig("ws" + str(graph_num) + ".svg")
+    if(save):
+        fig = plt.figure(figsize=(40, 40)) 
+        nx.draw(network)
+        fig.savefig("ws" + str(graph_num) + ".svg")
