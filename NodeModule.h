@@ -61,10 +61,6 @@ struct Site
 
     //Simulation time when this transaction ceased to be a tip (i.e has been approved)
     simtime_t approvedTime;
-
-    //contain the site ID and all transactions ID approved directly or indirectly by it
-    std::unordered_set<std::string> pathID;
-
 };
 
 class NodeModule : public cSimpleModule
@@ -108,14 +104,31 @@ class NodeModule : public cSimpleModule
         pTr_S WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_time);
         pTr_S RandomWalk(pTr_S start, int &walk_time);
 
-        //give the right pathID without any duplicates
-        std::unordered_set<std::string> getpathID(VpTr_S chosenTips);
-
         //find if a tip is legit (i.e if it approves at the same time two conflicted transactions)
-        std::tuple<bool,std::string> IfLegitTip(std::unordered_set<std::string> path);
+        std::tuple<bool,std::string> IfLegitTip(pTr_S tx);
+
+        //find if there is a double depense tx in the path of tx
+        void getDoubleDepTx(pTr_S startTx, std::string& id);
+        void _getdoubledeptx(pTr_S current, VpTr_S& visited, std::string& id);
+
+        //check if there is a transaction with a specific id in the path of tx
+        void ifApp(pTr_S startTx, std::string id, bool& res);
+        void _ifapp(pTr_S current, VpTr_S& visited, std::string id, bool& res);
+
+        //compute confidence for each transaction
+        void computeConfidence(pTr_S startTx, double conf);
+        void _computeconfidence(pTr_S current, VpTr_S& visited, double conf);
+
+        //compute the avg confidence of a tip
+        void getAvgConf(pTr_S startTx, double& avg);
+        void _getavgconf(pTr_S current, VpTr_S& visited, double& avg);
+
+        //Compute Weight
+        int computeWeight(pTr_S tx);
+        int _computeweight(VpTr_S& visited, pTr_S& current);
 
         //check if two transactions are in conflict
-        bool IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, std::unordered_set<std::string> path1, std::unordered_set<std::string> path2);
+        bool IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, pTr_S tx1, pTr_S tx2);
 
         //get confidence for one site (to resolve conflict)
         int getConfidence(std::string id);
@@ -125,15 +138,8 @@ class NodeModule : public cSimpleModule
         VpTr_S GIOTA(double alphaVal, int W, int N);
         VpTr_S EIOTA(double p1, double p2, double lowAlpha, double highAlpha, int W, int N);
 
-        //Compute Weight
-        int _computeWeight(VpTr_S& visited, pTr_S& current);
-        int ComputeWeight(pTr_S tr);
-
         //select start site for the random walk
         pTr_S getWalkStart(int backTrackDist);
-
-        //maintain for each node a threshold of transaction
-        void autoDelete();
 
         //remove newly confirmed tips from myTips;
         void ReconcileTips(const VpTr_S& removeTips, std::map<std::string,pTr_S>& myTips);

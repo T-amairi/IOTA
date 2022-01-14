@@ -149,9 +149,10 @@ void NodeModule::printChain()
     {
        for(auto tx : myTangle)
        {
-           auto it = tx->pathID.find(DoubleSpendTx->ID);
+           bool res = false;
+           ifApp(tx,DoubleSpendTx->ID,res);
 
-           if(it != tx->pathID.end())
+           if(res)
            {
                file << tx->ID << std::endl;
            }
@@ -172,9 +173,10 @@ void NodeModule::printChain()
        {
            auto id = DoubleSpendTx->ID;
            id.erase(id.begin());
-           auto it = tx->pathID.find(id);
+           bool res = false;
+           ifApp(tx,id,res);
 
-           if(it != tx->pathID.end())
+           if(res)
            {
                file << tx->ID << std::endl;
            }
@@ -212,10 +214,13 @@ void NodeModule::printBranchSize()
         {
             if(tx->issuedTime > TxRoot->issuedTime)
             {
-                auto it1 = tx->pathID.find(branch1[0]->ID);
-                auto it2 = tx->pathID.find(branch2[0]->ID);
+                bool res1 = false;
+                ifApp(tx,branch1[0]->ID,res1);
 
-                if(it1 == tx->pathID.end() && it2 == tx->pathID.end())
+                bool res2 = false;
+                ifApp(tx,branch2[0]->ID,res2);
+
+                if(res1 && res2)
                 {
                     count++;
                 }
@@ -256,9 +261,10 @@ void NodeModule::printDiffTxChain()
             {
                 if(tx->issuedTime >= DoubleSpendTx->issuedTime && tx->ID != DoubleSpendTx->ID)
                 {
-                    auto it = tx->pathID.find(DoubleSpendTx->ID);
+                    bool res = false;
+                    ifApp(tx,DoubleSpendTx->ID,res);
 
-                    if(it != tx->pathID.end())
+                    if(res)
                     {
                         c1++;
                     }
@@ -277,47 +283,188 @@ void NodeModule::printDiffTxChain()
     file.close();
 }
 
-int NodeModule::_computeWeight(VpTr_S& visited, pTr_S& current)
+void NodeModule::getDoubleDepTx(pTr_S startTx, std::string& id)
+{
+    VpTr_S visited;
+    _getdoubledeptx(startTx,visited,id);
+
+    for(auto tx : visited)
+    {
+        tx->isVisited = false;
+    }
+
+    startTx->isVisited = false;
+}
+
+void NodeModule::_getdoubledeptx(pTr_S current, VpTr_S& visited, std::string& id)
+{
+    if(current->ID[0] == '-')
+    {
+        id = current->ID;
+        current->isVisited = true;
+        visited.push_back(current);
+        return;
+    }
+
+    if(current->S_approved.size() == 0)
+    {
+        current->isVisited = true;
+        visited.push_back(current);
+        return;
+    }
+
+    current->isVisited = true;
+    visited.push_back(current);
+
+    for(auto tx : current->S_approved)
+    {
+        if(!tx->isVisited)
+        {
+            _getdoubledeptx(tx,visited,id);
+        }
+    }
+}
+
+void NodeModule::ifApp(pTr_S startTx, std::string id, bool& res)
+{
+    VpTr_S visited;
+   _ifapp(startTx,visited,id,res);
+
+   for(auto tx : visited)
+   {
+       tx->isVisited = false;
+   }
+
+   startTx->isVisited = false;
+}
+
+void NodeModule::_ifapp(pTr_S current, VpTr_S& visited, std::string id, bool& res)
+{
+    if(current->ID == id)
+    {
+        res = true;
+        current->isVisited = true;
+        visited.push_back(current);
+        return;
+    }
+
+    if(current->S_approved.size() == 0)
+    {
+        current->isVisited = true;
+        visited.push_back(current);
+        return;
+    }
+
+    current->isVisited = true;
+    visited.push_back(current);
+
+    for(auto tx : current->S_approved)
+    {
+        if(!tx->isVisited)
+        {
+            _ifapp(tx,visited,id,res);
+        }
+    }
+}
+
+void NodeModule::computeConfidence(pTr_S startTx, double conf)
+{
+   VpTr_S visited;
+   _computeconfidence(startTx,visited,conf);
+
+   for(auto tx : visited)
+   {
+       tx->isVisited = false;
+   }
+
+   startTx->isVisited = false;
+}
+
+void NodeModule::_computeconfidence(pTr_S current, VpTr_S& visited, double conf)
+{
+    if(!current->isVisited)
+    {
+        current->isVisited = true;
+        visited.push_back(current);
+        current->confidence += conf;
+
+        for(auto tx : current->S_approved)
+        {
+            if(!tx->isVisited)
+            {
+                _computeconfidence(tx,visited,conf);
+            }
+        }
+    }
+}
+
+void NodeModule::getAvgConf(pTr_S startTx, double& avg)
+{
+    VpTr_S visited;
+    _getavgconf(startTx,visited,avg);
+
+    for(auto tx : visited)
+    {
+        tx->isVisited = false;
+    }
+
+    startTx->isVisited = false;
+}
+
+void NodeModule::_getavgconf(pTr_S current, VpTr_S& visited, double& avg)
+{
+    if(!current->isVisited)
+    {
+        current->isVisited = true;
+        visited.push_back(current);
+        avg += current->confidence;
+
+        for(auto tx : current->S_approved)
+        {
+            if(!tx->isVisited)
+            {
+                _getavgconf(tx,visited,avg);
+            }
+        }
+    }
+}
+
+int NodeModule::computeWeight(pTr_S tx)
+{
+    VpTr_S visited;
+    int weight = _computeweight(visited,tx);
+
+    for(auto tx : visited)
+    {
+        tx->isVisited = false;
+    }
+
+    tx->isVisited = false;
+    return weight + 1;
+}
+
+int NodeModule::_computeweight(VpTr_S& visited, pTr_S& current)
 {
     if(current->approvedBy.size() == 0)
     {
-        visited.push_back(current);
         current->isVisited = true;
+        visited.push_back(current);
         return 0;
     }
 
-    visited.push_back(current);
-
     current->isVisited = true;
+    visited.push_back(current);
     int weight = 0;
 
-    for(int i = 0; i < static_cast<int>(current->approvedBy.size()); ++i)
+    for(auto tx : current->approvedBy)
     {
-        if(!current->approvedBy.at(i)->isVisited)
+        if(!tx->isVisited)
         {
-            weight += 1 + _computeWeight(visited, current->approvedBy.at(i));
+            weight += 1 + _computeweight(visited,tx);
         }
     }
 
     return weight;
-}
-
-int NodeModule::ComputeWeight(pTr_S tr)
-{
-    VpTr_S visited;
-    int weight = _computeWeight(visited, tr);
-
-    for(int i = 0; i < static_cast<int>(visited.size()); ++i)
-    {
-        for(int j = 0; j < static_cast<int>(visited.at(i)->approvedBy.size()); ++j)
-        {
-            visited.at(i)->approvedBy.at(j)->isVisited = false;
-        }
-
-    }
-
-    tr->isVisited = false;
-    return weight + 1;
 }
 
 pTr_S NodeModule::getWalkStart(int backTrackDist)
@@ -382,8 +529,6 @@ pTr_S NodeModule::attach(std::string ID, simtime_t attachTime, VpTr_S& chosen)
     }
 
     new_tips->S_approved = chosen;
-    new_tips->pathID = getpathID(chosen);
-    new_tips->pathID.insert(new_tips->ID);
     ReconcileTips(chosen,myTips);
 
     myTangle.push_back(new_tips);
@@ -420,7 +565,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
         else
         {
             std::vector<int> sitesWeight;
-            int start_weight = ComputeWeight(current);
+            int start_weight = computeWeight(current);
             std::vector<double> p;
 
             double sum_exp = 0.0;
@@ -428,7 +573,7 @@ pTr_S NodeModule::WeightedRandomWalk(pTr_S start, double alphaVal, int &walk_tim
 
             for(int j = 0; j < static_cast<int>(currentView.size()); j++)
             {
-                weight = ComputeWeight(currentView[j]);
+                weight = computeWeight(currentView[j]);
                 sum_exp = sum_exp + double(exp(double(-alphaVal*(start_weight - weight))));
                 sitesWeight.push_back(weight);
             }
@@ -540,68 +685,29 @@ pTr_S NodeModule::RandomWalk(pTr_S start, int &walk_time)
     return current;
 }
 
-std::unordered_set<std::string> NodeModule::getpathID(VpTr_S chosenTips)
-{
-    std::unordered_set<std::string> pathID;
-
-    if(chosenTips.size() == 1)
-    {
-        pathID = chosenTips[0]->pathID;
-        return pathID;
-    }
-
-    else if(chosenTips[0]->pathID.size() > chosenTips[1]->pathID.size())
-    {
-        pathID = chosenTips[0]->pathID;
-        pathID.insert(chosenTips[1]->pathID.begin(),chosenTips[1]->pathID.end());
-    }
-
-    else
-    {
-        pathID = chosenTips[1]->pathID;
-        pathID.insert(chosenTips[0]->pathID.begin(),chosenTips[0]->pathID.end());
-    }
-
-    return pathID;
-}
-
-std::tuple<bool,std::string> NodeModule::IfLegitTip(std::unordered_set<std::string> path)
+std::tuple<bool,std::string> NodeModule::IfLegitTip(pTr_S tx)
 {
     std::string id;
-
-    for(auto it = path.begin(); it != path.end(); it++)
-    {
-        auto txID = (*it);
-
-        if(txID[0] == '-')
-        {
-            id = (*it);
-            break;
-        }
-    }
+    getDoubleDepTx(tx,id);
 
     if(id.empty())
     {
-        auto res = std::make_tuple(true,id);
-        return res;
+        return std::make_tuple(true,id);
     }
 
     id.erase(id.begin());
+    bool res = false;
+    ifApp(tx,id,res);
 
-    for(auto it = path.begin(); it != path.end(); it++)
+    if(res)
     {
-        if((*it) == id)
-        {
-            auto res = std::make_tuple(false,id);
-            return res;
-        }
+        return std::make_tuple(false,id);
     }
 
-    auto res = std::make_tuple(true,id);
-    return res;
+    return std::make_tuple(true,id);
 }
 
-bool NodeModule::IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, std::unordered_set<std::string> path1, std::unordered_set<std::string> path2)
+bool NodeModule::IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, pTr_S tx1, pTr_S tx2)
 {
     if(!std::get<0>(tup1) || !std::get<0>(tup2))
     {
@@ -620,9 +726,10 @@ bool NodeModule::IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,s
 
     else if(std::get<1>(tup1).empty() && !std::get<1>(tup2).empty())
     {
-        auto it = path1.find(std::get<1>(tup2));
+        bool res = false;
+        ifApp(tx1,std::get<1>(tup2),res);
 
-        if(it == path1.end())
+        if(!res)
         {
             return false;
         }
@@ -630,9 +737,10 @@ bool NodeModule::IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,s
 
     else if(!std::get<1>(tup1).empty() && std::get<1>(tup2).empty())
     {
-        auto it = path2.find(std::get<1>(tup1));
+        bool res = false;
+        ifApp(tx2,std::get<1>(tup1),res);
 
-        if(it == path2.end())
+        if(!res)
         {
             return false;
         }
@@ -648,9 +756,10 @@ int NodeModule::getConfidence(std::string id)
     for(auto key : myTips)
     {
         auto tip = key.second;
-        auto it = tip->pathID.find(id);
+        bool res = false;
+        ifApp(tip,id,res);
 
-        if(it != tip->pathID.end())
+        if(res)
         {
             count++;
         }
@@ -718,7 +827,7 @@ VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
 
     if(selected_tips.size() == 1)
     {
-        auto tup = IfLegitTip(std::get<0>(selected_tips[0])->pathID);
+        auto tup = IfLegitTip(std::get<0>(selected_tips[0]));
 
         if(std::get<0>(tup))
         {
@@ -739,7 +848,7 @@ VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
 
         if(legitTips.empty())
         {
-            tup1 = IfLegitTip(tip->pathID);
+            tup1 = IfLegitTip(tip);
 
             if(std::get<0>(tup1))
             {
@@ -754,7 +863,7 @@ VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
 
         else
         {
-            tup2 = IfLegitTip(tip->pathID);
+            tup2 = IfLegitTip(tip);
 
             if(std::get<0>(tup2))
             {
@@ -775,7 +884,12 @@ VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
         return tipstoApprove;
     }
 
-    if(!IfConflict(tup1,tup2,std::get<0>(legitTips[0])->pathID,std::get<0>(legitTips[1])->pathID))
+    if(legitTips.empty())
+    {
+        printTangle();
+    }
+
+    if(!IfConflict(tup1,tup2,std::get<0>(legitTips[0]),std::get<0>(legitTips[1])))
     {
         tipstoApprove.push_back(std::get<0>(legitTips[0]));
         tipstoApprove.push_back(std::get<0>(legitTips[1]));
@@ -810,9 +924,9 @@ VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
 
             if(it == DoNotCheck.end())
             {
-                tup2 = IfLegitTip(tip->pathID);
+                tup2 = IfLegitTip(tip);
 
-                if(!IfConflict(tup1,tup2,tipstoApprove[0]->pathID,tip->pathID))
+                if(!IfConflict(tup1,tup2,tipstoApprove[0],tip))
                 {
                     tipstoApprove.push_back(tip);
                     break;
@@ -864,13 +978,9 @@ VpTr_S NodeModule::GIOTA(double alphaVal, int W, int N)
     {
         if(tip->countSelected != 0)
         {
-           for(auto id : tip->pathID)
+           for(auto tx : tip->S_approved)
             {
-                if(id != tip->ID)
-                {
-                    auto it = std::find_if(myTangle.begin(), myTangle.end(), [&id](const pTr_S& tx){return tx->ID == id;});
-                    (*it)->confidence += double(tip->countSelected/N);
-                }
+               computeConfidence(tx,double(tip->countSelected/N));
             }
         }
     }
@@ -881,13 +991,9 @@ VpTr_S NodeModule::GIOTA(double alphaVal, int W, int N)
     {
         double avg = 0.0;
 
-        for(auto id : tip->pathID)
+        for(auto tx : tip->S_approved)
         {
-            if(id != tip->ID)
-            {
-                auto it = std::find_if(myTangle.begin(), myTangle.end(), [&id](const pTr_S& tx){return tx->ID == id;});
-                avg += (*it)->confidence;
-            }
+            getAvgConf(tx,avg);
         }
 
         avgConfTips.push_back(std::make_pair(avg,tip));
@@ -895,8 +1001,8 @@ VpTr_S NodeModule::GIOTA(double alphaVal, int W, int N)
 
     std::sort(avgConfTips.begin(), avgConfTips.end(),[](const std::pair<long double,pTr_S> &a, const std::pair<long double,pTr_S> &b){return a.first < b.first;});
 
-    auto tup1 = IfLegitTip(chosenTips[0]->pathID);
-    auto tup2 = IfLegitTip(chosenTips[1]->pathID);
+    auto tup1 = IfLegitTip(chosenTips[0]);
+    auto tup2 = IfLegitTip(chosenTips[1]);
 
     for(auto pair : avgConfTips)
     {
@@ -904,11 +1010,11 @@ VpTr_S NodeModule::GIOTA(double alphaVal, int W, int N)
 
         if(tip->ID != chosenTips[0]->ID && tip->ID != chosenTips[1]->ID)
         {
-            auto tup3 = IfLegitTip(tip->pathID);
+            auto tup3 = IfLegitTip(tip);
 
             if(std::get<0>(tup3))
             {
-                if(!IfConflict(tup1,tup3,chosenTips[0]->pathID,tip->pathID) && !IfConflict(tup2,tup3,chosenTips[1]->pathID,tip->pathID))
+                if(!IfConflict(tup1,tup3,chosenTips[0],tip) && !IfConflict(tup2,tup3,chosenTips[1],tip))
                 {
                     chosenTips.push_back(tip);
                     break;
@@ -977,9 +1083,6 @@ void NodeModule::updateTangle(MsgUpdate* Msg)
             }
         }
     }
-
-    newTx->pathID = getpathID(newTx->S_approved);
-    newTx->pathID.insert(newTx->ID);
 
     if(newTx->ID[0] == '-')
     {
@@ -1094,10 +1197,7 @@ bool NodeModule::IfAttackStage()
 VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int ChainLength, int NbTipsChain)
 {
     auto RootChain = createSite("-" + TargetID);
-    RootChain->pathID = RootTip->pathID;
-    RootChain->pathID.insert(RootChain->ID);
     RootChain->S_approved.push_back(RootTip);
-
     RootTip->approvedBy.push_back(RootChain);
     RootTip->isApproved = true;
     RootTip->approvedTime = simTime();
@@ -1117,13 +1217,9 @@ VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int Cha
         {
             auto NodeChain = createSite(ID + std::to_string(txCount));
             NodeChain->S_approved.push_back(RootChain);
-            NodeChain->pathID = RootChain->pathID;
-            NodeChain->pathID.insert(NodeChain->ID);
-
             RootChain->approvedBy.push_back(NodeChain);
             RootChain->approvedTime = simTime();
             RootChain->isApproved = true;
-
             TheChain.push_back(NodeChain);
         }
 
@@ -1133,13 +1229,9 @@ VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int Cha
 
             auto NodeChain = createSite(ID + std::to_string(txCount));
             NodeChain->S_approved.push_back(TheChain.back());
-            NodeChain->pathID = TheChain.back()->pathID;
-            NodeChain->pathID.insert(NodeChain->ID);
-
             TheChain.back()->approvedBy.push_back(NodeChain);
             TheChain.back()->approvedTime = simTime();
             TheChain.back()->isApproved = true;
-
             TheChain.push_back(NodeChain);
         }
     }
@@ -1155,24 +1247,16 @@ VpTr_S NodeModule::getParasiteChain(pTr_S RootTip, std::string TargetID, int Cha
         if(i == 0)
         {
             TipChain->S_approved.push_back(BackChain);
-            TipChain->pathID = BackChain->pathID;
-            TipChain->pathID.insert(TipChain->ID);
-
             BackChain->approvedBy.push_back(TipChain);
             BackChain->approvedTime = simTime();
             BackChain->isApproved = true;
-
             TheChain.push_back(TipChain);
         }
 
         else
         {
             TipChain->S_approved.push_back(BackChain);
-            TipChain->pathID = BackChain->pathID;
-            TipChain->pathID.insert(TipChain->ID);
-
             BackChain->approvedBy.push_back(TipChain);
-
             TheChain.push_back(TipChain);
         }
     }
@@ -1214,18 +1298,19 @@ void NodeModule::iniSplittingAttack()
 
 void NodeModule::updateBranches(pTr_S newTx)
 {
-    auto it = newTx->pathID.find(branch1[0]->ID);
+    bool res = false;
+    ifApp(newTx,branch1[0]->ID,res);
 
-    if(it != newTx->pathID.end())
+    if(res)
     {
         branch1.push_back(newTx);
     }
 
     else
     {
-        it = newTx->pathID.find(branch2[0]->ID);
+        ifApp(newTx,branch2[0]->ID,res);
 
-        if(it != newTx->pathID.end())
+        if(res)
         {
             branch2.push_back(newTx);
         }
@@ -1290,10 +1375,7 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
     auto tip = Vtips[r];
     Vtips.erase(Vtips.begin() + r);
 
-    tx->pathID = tip->pathID;
-    tx->pathID.insert(tx->ID);
     tx->S_approved.push_back(tip);
-
     tip->approvedBy.push_back(tx);
     tip->isApproved = true;
     tip->approvedTime = simTime();
@@ -1311,9 +1393,7 @@ pTr_S NodeModule::MaintainingBalance(int whichBranch)
         tip = Vtips[r];
         Vtips.erase(Vtips.begin() + r);
 
-        tx->pathID.insert(tip->pathID.begin(),tip->pathID.end());
         tx->S_approved.push_back(tip);
-
         tip->approvedBy.push_back(tx);
         tip->isApproved = true;
         tip->approvedTime = simTime();
@@ -1656,7 +1736,7 @@ void NodeModule::handleMessage(cMessage * msg)
             {
                 if(tx->issuedTime < TargetTx->issuedTime)
                 {
-                    cpyTxLegit.push_back(std::make_pair(ComputeWeight(tx),tx));
+                    cpyTxLegit.push_back(std::make_pair(computeWeight(tx),tx));
                 }
             }
 
@@ -1783,12 +1863,7 @@ void NodeModule::handleMessage(cMessage * msg)
             auto tx1 = branch1[0];
             auto tx2 = branch2[0];
 
-            tx1->pathID = RootTip->pathID;
-            tx1->pathID.insert(tx1->ID);
             tx1->S_approved.push_back(RootTip);
-
-            tx2->pathID = RootTip->pathID;
-            tx2->pathID.insert(tx2->ID);
             tx2->S_approved.push_back(RootTip);
 
             RootTip->approvedBy.push_back(tx1);
@@ -1815,8 +1890,6 @@ void NodeModule::handleMessage(cMessage * msg)
                 {
                     if(!tx->isApproved)
                     {
-                        tx->pathID = vec[0]->pathID;
-                        tx->pathID.insert(tx->ID);
                         myTips.insert({tx->ID,tx});
                     }
 
@@ -2243,7 +2316,6 @@ void NodeModule::finish()
 
     printTangle();
     //printTipsLeft();
-    //stats();
 
     DeleteTangle();
     delete msgIssue;
