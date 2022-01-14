@@ -28,7 +28,7 @@ The simulation implements three different **TSA** (Tips Selection Algorithm):
 - **G-IOTA**: https://ieeexplore.ieee.org/document/8845163
 - **E-IOTA**: https://ieeexplore.ieee.org/document/9223294
 
-And two types of **attacks** explained in the IOTA [paper](www.descryptions.com/Iota.pdf): 
+And two types of **attacks** explained in the IOTA paper: 
 - **Splitting Attack** 
 - **Parasite Chain Attack**
 
