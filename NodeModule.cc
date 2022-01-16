@@ -132,7 +132,7 @@ void NodeModule::printStats()
     std::string path = "./data/tracking/Stats" + ID + ".txt";
     //remove(path.c_str());
     file.open(path,std::ios::app);
-    file << getParentModule()->getName() << ";" << myTangle.size() << ";" << myTips.size() << ";" << myBuffer.size() << std::endl;
+    file << getParentModule()->getName() << ";" << txCount << ";" << myTangle.size() << ";" << myTips.size() << ";" << myBuffer.size() << std::endl;
     file.close();
 }
 
@@ -298,7 +298,12 @@ void NodeModule::getDoubleDepTx(pTr_S startTx, std::string& id)
 
 void NodeModule::_getdoubledeptx(pTr_S current, VpTr_S& visited, std::string& id)
 {
-    if(current->ID[0] == '-')
+    if(current->isVisited)
+    {
+        return;
+    }
+
+    else if(current->ID[0] == '-')
     {
         id = current->ID;
         current->isVisited = true;
@@ -306,7 +311,7 @@ void NodeModule::_getdoubledeptx(pTr_S current, VpTr_S& visited, std::string& id
         return;
     }
 
-    if(current->S_approved.size() == 0)
+    else if(current->S_approved.size() == 0)
     {
         current->isVisited = true;
         visited.push_back(current);
@@ -340,7 +345,12 @@ void NodeModule::ifApp(pTr_S startTx, std::string id, bool& res)
 
 void NodeModule::_ifapp(pTr_S current, VpTr_S& visited, std::string id, bool& res)
 {
-    if(current->ID == id)
+    if(current->isVisited)
+    {
+        return;
+    }
+
+    else if(current->ID == id)
     {
         res = true;
         current->isVisited = true;
@@ -348,7 +358,7 @@ void NodeModule::_ifapp(pTr_S current, VpTr_S& visited, std::string id, bool& re
         return;
     }
 
-    if(current->S_approved.size() == 0)
+    else if(current->S_approved.size() == 0)
     {
         current->isVisited = true;
         visited.push_back(current);
@@ -443,9 +453,14 @@ int NodeModule::computeWeight(pTr_S tx)
     return weight + 1;
 }
 
-int NodeModule::_computeweight(VpTr_S& visited, pTr_S& current)
+int NodeModule::_computeweight(pTr_S current, VpTr_S& visited)
 {
-    if(current->approvedBy.size() == 0)
+    if(current->isVisited)
+    {
+        return 0;
+    }
+
+    else if(current->approvedBy.size() == 0)
     {
         current->isVisited = true;
         visited.push_back(current);
@@ -882,11 +897,6 @@ VpTr_S NodeModule::IOTA(double alphaVal, int W, int N)
     {
         tipstoApprove.push_back(std::get<0>(legitTips[0]));
         return tipstoApprove;
-    }
-
-    if(legitTips.empty())
-    {
-        printTangle();
     }
 
     if(!IfConflict(tup1,tup2,std::get<0>(legitTips[0]),std::get<0>(legitTips[1])))
@@ -2049,6 +2059,7 @@ void NodeModule::handleMessage(cMessage * msg)
         if(txCount < txLimit)
         {
             txCount++;
+            printStats();
             VpTr_S chosenTips;
             int tipsNb = 0;
             std::string trId;
@@ -2311,11 +2322,8 @@ void NodeModule::finish()
 
     if(par("ParasiteChainAttack") || par("SplittingAttack"))
     {
-        printChain();
+        //printChain();
     }
-
-    printTangle();
-    //printTipsLeft();
 
     DeleteTangle();
     delete msgIssue;

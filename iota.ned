@@ -44,7 +44,7 @@ simple NodeModule
     	double AttackStage = 0.25; //have to be in [0,1]
     	
     	//to initiate a Splitting Attack
-    	bool SplittingAttack = true;
+    	bool SplittingAttack = false;
     	
     	//sizes of the branches at ini
     	double SizeBrancheProp = 5;
@@ -204,13 +204,13 @@ network WattsStrogatz
 {
     parameters: 
         //always > 0, number of nodes in the simulation
-        int NodeNumber = default(1000); 
+        int NodeNumber = default(200); 
         
         //how much transactions each node will issue
         int transactionLimit = 100;
         
         //Initial delay in s
-        double delay = 0.25; //set delay to zero 
+        double delay = 0.2; //set delay to zero 
         
         //random delay
     	bool ifRandDelay = false;

@@ -107,7 +107,7 @@ class NodeModule : public cSimpleModule
         //find if a tip is legit (i.e if it approves at the same time two conflicted transactions)
         std::tuple<bool,std::string> IfLegitTip(pTr_S tx);
 
-        //find if there is a double depense tx in the path of tx
+        //find if there is a double depense in the path of tx
         void getDoubleDepTx(pTr_S startTx, std::string& id);
         void _getdoubledeptx(pTr_S current, VpTr_S& visited, std::string& id);
 
@@ -125,7 +125,7 @@ class NodeModule : public cSimpleModule
 
         //Compute Weight
         int computeWeight(pTr_S tx);
-        int _computeweight(VpTr_S& visited, pTr_S& current);
+        int _computeweight(pTr_S current, VpTr_S& visited);
 
         //check if two transactions are in conflict
         bool IfConflict(std::tuple<bool,std::string> tup1, std::tuple<bool,std::string> tup2, pTr_S tx1, pTr_S tx2);
