@@ -442,7 +442,7 @@ void NodeModule::_getavgconf(pTr_S current, VpTr_S& visited, double& avg)
 int NodeModule::computeWeight(pTr_S tx)
 {
     VpTr_S visited;
-    int weight = _computeweight(visited,tx);
+    int weight = _computeweight(tx,visited);
 
     for(auto tx : visited)
     {
@@ -475,7 +475,7 @@ int NodeModule::_computeweight(pTr_S current, VpTr_S& visited)
     {
         if(!tx->isVisited)
         {
-            weight += 1 + _computeweight(visited,tx);
+            weight += 1 + _computeweight(tx,visited);
         }
     }
 
