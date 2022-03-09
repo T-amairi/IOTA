@@ -1,26 +1,49 @@
-out
-README.md
-.*
-!.gitignore
-Makefile
-*_dbg
-IOTA
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
 *.exe
-omnetpp.ini
+*.out
+*.app
+
+# .gitignore
+!.gitignore 
+
+# OMNeT++ generated files
+.*
+Makefile
+
+# VScode workspace
+*.code-workspace
+
+# .keep
 !/data/log/.keep
 !/data/image/.keep
-!/data/debug/.keep
 !/data/tracking/.keep
-!/topologies/exp_CSV/.keep
-!/topologies/ws_CSV/.keep
-!/data/archive/.keep
-!/data/archive/alpha/.keep
-!/data/archive/alpha/IOTA
-!/data/archive/alpha/E-IOTA
-!/data/archive/attack/.keep
-!/data/archive/attack/Parasite Chain Attack/IOTA
-!/data/archive/attack/Parasite Chain Attack/E-IOTA
-!/data/archive/attack/Parasite Chain Attack/G-IOTA
-!/data/archive/attack/Splitting Attack/IOTA
-!/data/archive/attack/Splitting Attack/G-IOTA
-!/data/archive/attack/Splitting Attack/E-IOTA
+!/topologies/CSV/.keep
+!/topologies/SVG/.keep
