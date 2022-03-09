@@ -1,42 +1,37 @@
 # IOTA Simulation using OMNeT++
 
-This git is a decentralized simulation of [IOTA](https://www.iota.org/) which is a crypto-currency using [OMNeT++](https://omnetpp.org/). 
+This git is a decentralized simulation of [IOTA](https://www.iota.org/) which is a crypto-currency using [OMNeT++](https://omnetpp.org/). It implements two kind of modules : the malicious ones that can launch an attack and the honest ones representing the regular user.
 
-The source files for the simulation are **NodeModule.h** which is the header containing the structures and classes of the **NodeModule.cc** file. This one contains the code executed by the simulation. Finally **iota.ini** and **iota.ned** are the files to configure the simulation (used topology, number of nodes, communication delay between nodes, proof of work time, etc...). It is also possible to set **random** delays between nodes in the iota.ned file. 
+This simulation can use several topologies:
 
-This simulation can use several topologies: 
 - **Complete graph**
 - **2D grid**
 - **Torus**
 - **Expander**
 - **Watts-Strogatz**
 
-As OMNeT++ does not implement natively the last two, you have to use the **topologies** folder which contains two **python scripts** allowing each to generate an Expander or Watts-Strogatz network. The simulation will then read the .csv created by the scripts to build the network. It is also necessary to install the **networkx and numpy modules.**
+As the simulation is handling two types of modules and the .NED format is very restrictive, you have to use the **topologies** folder which contains the **GenTopo.py** script allowing to generate the wanted topology. The simulation will then read the .csv created by the script to build the network (this part is done by the **ConfiguratorModule**). It is also necessary to install the **networkx and the matplotlib modules.**
 
-The **data** folder contains the tracking files allowing to : 
-- generate an image of the Tangle via the script **TangleGen.py** (you need to install the modules : **graphviz, csv, PIL and glob**). Moreover, the figure will be saved in the **image** folder.
-- know the **number of tips** at the end of each simulation and the simulation **execution time**. The script **Stats.py** allows to make an average of these results.
+The **data** folder contains all the tracking files allowing to:
 
-These different metrics will be in .txt format in two different folders: 
-- **log** for the execution time which will be given directly by OMNeT++.
-- **tracking** which will contain all the files created by the simulation directly (i.e. by the C++ code). 
+- generate an image of the Tangle using the script **TangleGen.py** (you need however to install the **graphviz** module). The SVG figure will then be saved in the **image** folder.
+- compute an average of the **number of tips** at the end of each simulation and the simulation **execution time** using the **Stats.py** script (**glob** module needed).
 
-The **Results.py** script allows to create a histogram in the **image** folder of these different results. 
+The simulation implements three different **TSA** (Tips Selection Algorithm):
 
-The simulation implements three different **TSA** (Tips Selection Algorithm): 
 - **IOTA**: www.descryptions.com/Iota.pdf
-- **G-IOTA**: https://ieeexplore.ieee.org/document/8845163
-- **E-IOTA**: https://ieeexplore.ieee.org/document/9223294
+- **G-IOTA**: <https://ieeexplore.ieee.org/document/8845163>
+- **E-IOTA**: <https://ieeexplore.ieee.org/document/9223294>
 
-And two types of **attacks** explained in the IOTA paper: 
-- **Splitting Attack** 
+And two types of **attacks** explained in the IOTA [paper](www.descryptions.com/Iota.pdf):
+
+- **Splitting Attack**
 - **Parasite Chain Attack**
 
-To evaluate the success of each of these attacks, there will be some .txt files in the tracking folder allowing to:
-- check the **percentage difference** in size between the two branches (splitting attack)
-- go over the **number** of transactions that are part of the parasite chain (parasite chain attack)
+To evaluate the success of each of these attacks, the simulation can compute and export the following data in the tracking folder:
 
-Finally, the **archive** folder contains several benchmark results (resistance of each TSA to the attacks for example) and some python scripts to plot these results.  
+- the **percentage difference** in size between the two branches (splitting attack)
+- the **number** of transactions that are part of the parasite chain (parasite chain attack)
 
 ## Credit
 

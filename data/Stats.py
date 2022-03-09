@@ -23,7 +23,7 @@ if t:
 path = r"..\tracking"
 os.chdir(path)
 
-TipsFile = glob.glob("Number*.txt")
+TipsFile = glob.glob("TipsNumber*.csv")
 NbModule = 0
 
 for file in TipsFile:
