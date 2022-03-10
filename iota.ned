@@ -80,7 +80,7 @@ network Network
 		
 		//******* NODES *******//
 		int nbMaliciousNode = 0; //number of malicious nodes in the simulation
-        int nbHonestNode = 300; //number of honest nodes in the simulation
+        int nbHonestNode = 100; //number of honest nodes in the simulation
         
 		//******* DELAY *******// 
         double delay = 0.25; //the delay in SECONDS !
