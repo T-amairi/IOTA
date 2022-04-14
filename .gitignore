@@ -37,6 +37,10 @@
 # OMNeT++ generated files
 .*
 Makefile
+IOTA
+
+# Perf file
+/perf/*
 
 # VScode workspace
 *.code-workspace

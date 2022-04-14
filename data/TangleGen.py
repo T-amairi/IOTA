@@ -1,14 +1,20 @@
-#modules
+#import a Tangle CSV file to a SVG file  
 from graphviz import Digraph
 import os
 import csv
 
-#id of the file to be read
+############################################################################
+#                             PARAMETERS                                   #
+############################################################################
+
+### ID OF THE FILE TO BE READ ###
 ID = 1
 
-#########################################################################################################################
+############################################################################
+#                             FUNCTIONS                                    #
+############################################################################
 
-os.chdir(r".\\data\tracking")
+os.chdir(r"./data/tracking")
 
 Tangle = list()
 numberTips = 0
@@ -50,7 +56,7 @@ for tx in Tangle:
             else:    
                 dictApp[tx[0]] = list(set(dictApp[tx[0]] + dictApp[neib]))
 
-os.chdir(r"..\\image")
+os.chdir(r"../image")
 colors = ['green','orange','red','blue','purple']
 conf = 0.5
 

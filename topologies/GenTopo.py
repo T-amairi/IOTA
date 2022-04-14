@@ -9,7 +9,7 @@ import os
 
 #### FOR ALL TOPO ####
 name = "WattsStrogatz" #name of the wanted topo : FullGraph or Grid or Torus or WattsStrogatz (case sensitive !)
-n = 100 #number of nodes
+n = 10 #number of nodes
 
 #### 2D GRID & TORUS ####
 rows = 2 #number of rows
@@ -74,9 +74,9 @@ def toDict(network):
 def toSave(network):
     fig = plt.figure(figsize=(40,40)) 
     nx.draw(network)
-    os.chdir(r".\topologies\SVG")
+    os.chdir(r"./topologies/SVG")
     fig.savefig(name + ".svg")
-    os.chdir(r"..\..")
+    os.chdir(r"../..")
 
 def getTopo():
     if(name == "FullGraph"):
@@ -94,7 +94,7 @@ def getTopo():
         raise ValueError("Topologie name not recognized")
 
 top = getTopo()
-os.chdir(r".\topologies\CSV")
+os.chdir(r"./topologies/CSV")
 
 with open(name + '.csv', 'w+') as csvfile:
     for site,neibs in top.items():

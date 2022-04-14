@@ -4,6 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <numeric>
+#include <omp.h>
 #include "Structures.h"
 
 using namespace omnetpp;
@@ -27,6 +28,14 @@ class AbstractModule : public cSimpleModule
         void printTipsLeft(bool ifDeleteFile) const; //export the amount of tips at the end of the simulation in a CSV file
         void printStats(bool ifDeleteFile = false) const; //write in a CSV file some stats of the simulation at a given time (i.e when the function is called) 
 
+        /* return a vector of tuple containing:
+            - the pointer of the selected tip after the random walk
+            - the number of time that this tip has been selected
+            - its walk time during the random walk
+        */
+        std::vector<std::tuple<Tx*,int,int>> getSelectedTipsPara(double alphaVal, int W, int N); //OpenMP implementation
+        std::vector<std::tuple<Tx*,int,int>> getSelectedTips(double alphaVal, int W, int N); //single threaded version
+
         //TSA
         VpTx IOTA(double alphaVal, int W, int N);
         VpTx GIOTA(double alphaVal, int W, int N);
@@ -43,8 +52,8 @@ class AbstractModule : public cSimpleModule
         Tx* getWalkStart(int backTrackDist) const;
 
         void unionConflictTx(Tx* theSource, Tx* toUpdate); //get the union between two conflictTx attribute
-        bool isLegitTip(Tx* tip); //check if a tip is legit (i.e do not approves conflicted transaction)
-        bool ifConflictedTips(Tx* tip1, Tx* tip2); //check if there is a conflict between two tips
+        bool isLegitTip(Tx* tip) const; //check if a tip is legit (i.e do not approves conflicted transaction)
+        bool ifConflictedTips(Tx* tip1, Tx* tip2) const; //check if there is a conflict between two tips
 
         //update the conflictTx attribute of a transaction
         void updateConflictTx(Tx* startTx);
@@ -60,11 +69,11 @@ class AbstractModule : public cSimpleModule
 
         //compute the confidence for each transaction
         void computeConfidence(Tx* startTx, double conf);
-        void _computeconfidence(Tx* currentTx, VpTx& visitedTx, int& distance, double conf);
+        void _computeconfidence(Tx* currentTx, VpTx& visitedTx, int distance, double conf);
 
         //compute the avg confidence of a tip
         void getAvgConf(Tx* startTx, double& avg);
-        void _getavgconf(Tx* currentTx, VpTx& visitedTx, int& distance, double& avg);
+        void _getavgconf(Tx* currentTx, VpTx& visitedTx, int distance, double& avg);
 
         bool isPresent(std::string txID) const; //check if a transaction is already present in the myTangle vector
         Tx* attachTx(simtime_t attachTime, VpTx chosenTips); //creates a new transaction, then adds the new transaction to the tip

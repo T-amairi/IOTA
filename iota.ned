@@ -18,7 +18,7 @@ simple HonestModule
 		
 		//******* IOTA & GIOTA & EIOTA *******//
         double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
-        int N = 50; //number of walkers
+        int N = 25; //number of walkers
         
         //******* IOTA & GIOTA *******//
         double alpha = 0.08; //alpha in Pxy prob 
@@ -58,7 +58,7 @@ simple MaliciousModule extends HonestModule
         double propChainTips = 0.0; //the closer to 1, the higher the proportion of transactions in the chain is and vice versa  
 
         //******* SPlITTING ATTACK *******// 
-        bool SPattack = true; //to initiate a Splitting Attack
+        bool SPattack = false; //to initiate a Splitting Attack
         double sizeBrancheProp = 10; //sizes of the branches at ini 
         double propRateMB = 0.08; //by how much is multiplied rateMean, this allows to obtain the power of the malicious node (e.g if PropRateMB = 0.5, the attacker is twice as fast as an honest node).
         
@@ -77,6 +77,9 @@ network Network
     parameters:
         //name of the used topology : FullGraph or Grid or Torus or WattsStrogatz
         string topology = "WattsStrogatz"; //this parameter is case sensitive, be careful !
+
+        //******* OPENMP *******//
+        bool ifPara = true; //enable openmp implementation
 		
 		//******* NODES *******//
 		int nbMaliciousNode = 0; //number of malicious nodes in the simulation

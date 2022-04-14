@@ -29,6 +29,7 @@ struct Tx
     simtime_t approvedTime; //simulation time when this transaction ceased to be a tip (i.e has been approved)
 
     std::map<std::string,std::pair<bool,bool>> conflictTx; //stores conflicted transaction approved by this transaction
+    std::map<int,bool> isVisitedByThread; //used during the recursion weight compute process (OpenMP implementation)
 };
 
 //data to send to others modules to update their tangles

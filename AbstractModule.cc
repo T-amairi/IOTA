@@ -85,15 +85,84 @@ void AbstractModule::printStats(bool ifDeleteFile) const
     file.close();
 }
 
-VpTx AbstractModule::IOTA(double alphaVal, int W, int N)
+std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTipsPara(double alphaVal, int W, int N)
 {
-    if(myTips.size() == 1)
+    std::vector<std::tuple<Tx*,int,int>> selectedTips;
+
+    #pragma omp parallel
     {
-        VpTx tipsToApprove;
-        if(isLegitTip(myTips[0])) tipsToApprove.push_back(myTips[0]);
-        return tipsToApprove;
+        int walkTime;
+        Tx* tip;
+        std::vector<std::tuple<Tx*,int,int>> selectedByThread;
+
+        #pragma omp for
+        for(size_t i = 0; i < myTangle.size(); i++)
+        {
+            if(myTangle[i]->isVisitedByThread.empty())
+            {
+                for(int j = 0; j < omp_get_num_threads(); j++)
+                {
+                    myTangle[i]->isVisitedByThread[j] = false;
+                }
+            }
+        }
+
+        #pragma omp for
+        for(int i = 0; i < N; i++)
+        {
+            int w = intuniform(W,2*W);
+            Tx* startTx = getWalkStart(w);
+
+            alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
+            auto it = selectedByThread.begin();
+
+            for(; it != selectedByThread.end(); it++)
+            {
+                if(std::get<0>(*it)->ID == tip->ID)
+                {
+                    std::get<1>(*it)++;
+                    break;
+                }
+            }
+
+            if(it == selectedByThread.end() && isLegitTip(tip))
+            {
+                selectedByThread.push_back(std::make_tuple(tip,1,walkTime));
+            }
+        }
+
+        #pragma omp barrier
+        {
+            #pragma omp critical
+            {
+                for(const auto tup : selectedByThread)
+                {
+                    auto tipID = std::get<0>(tup)->ID;        
+                    auto it = selectedTips.begin();
+                    
+                    for(; it != selectedTips.end(); it++)
+                    {
+                        if(std::get<0>(*it)->ID == tipID)
+                        {
+                            std::get<1>(*it) += std::get<1>(tup);
+                            break;
+                        }
+                    }
+
+                    if(it == selectedTips.end())
+                    {
+                        selectedTips.push_back(std::make_tuple(std::get<0>(tup),std::get<1>(tup),std::get<2>(tup)));
+                    }
+                }
+            }
+        }
     }
 
+    return selectedTips;
+}
+
+std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alphaVal, int W, int N)
+{
     std::vector<std::tuple<Tx*,int,int>> selectedTips;
     int walkTime;
     Tx* tip;
@@ -119,6 +188,31 @@ VpTx AbstractModule::IOTA(double alphaVal, int W, int N)
         {
             selectedTips.push_back(std::make_tuple(tip,1,walkTime));
         }
+    }
+
+    return selectedTips;
+}
+
+VpTx AbstractModule::IOTA(double alphaVal, int W, int N)
+{
+    if(myTips.size() == 1)
+    {
+        VpTx tipsToApprove;
+        if(isLegitTip(myTips[0])) tipsToApprove.push_back(myTips[0]);
+        return tipsToApprove;
+    }
+
+    std::vector<std::tuple<Tx*,int,int>> selectedTips;
+    bool ifPara = getParentModule()->par("ifPara");
+
+    if(ifPara)
+    {
+        selectedTips = getSelectedTipsPara(alphaVal,W,N);
+    }
+
+    else
+    {
+        selectedTips = getSelectedTips(alphaVal,W,N);
     }
 
     std::sort(selectedTips.begin(),selectedTips.end(),[](const std::tuple<Tx*,int,int>& tup1,const std::tuple<Tx*,int,int>& tup2){return std::get<1>(tup1) > std::get<1>(tup2);});
@@ -226,7 +320,7 @@ VpTx AbstractModule::getTipsTSA()
     EV << "TSA procedure for the next transaction to be issued: " << ID + std::to_string(txCount) << "\n";
 
     double WProp = par("WProp");
-    int W = std::round(WProp * myTangle.size());
+    int W = std::min(myTips.size(),(size_t) 100); //std::round(WProp * myTangle.size());
 
     if(strcmp(par("TSA"),"GIOTA") == 0)
     {
@@ -394,7 +488,7 @@ void AbstractModule::unionConflictTx(Tx* theSource, Tx* toUpdate)
     }
 }
 
-bool AbstractModule::isLegitTip(Tx* tip)
+bool AbstractModule::isLegitTip(Tx* tip) const
 {
     for(const auto key : tip->conflictTx)
     {
@@ -407,7 +501,7 @@ bool AbstractModule::isLegitTip(Tx* tip)
     return true;
 }
 
-bool AbstractModule::ifConflictedTips(Tx* tip1, Tx* tip2)
+bool AbstractModule::ifConflictedTips(Tx* tip1, Tx* tip2) const
 {
     std::map<std::string,std::pair<bool,bool>> outerMap;
     std::map<std::string,std::pair<bool,bool>> innerMap;
@@ -526,34 +620,34 @@ int AbstractModule::computeWeight(Tx* tx)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisited = false;
+        tx->isVisitedByThread[omp_get_thread_num()] = false;
     }
 
-    tx->isVisited = false;
+    tx->isVisitedByThread[omp_get_thread_num()] = false;
     return weight + 1;
 }
 
 int AbstractModule::_computeweight(Tx* currentTx, VpTx& visitedTx)
 {
-    if(currentTx->isVisited)
+    if(currentTx->isVisitedByThread[omp_get_thread_num()])
     {
         return 0;
     }
 
     else if(currentTx->approvedBy.size() == 0)
     {
-        currentTx->isVisited = true;
+        currentTx->isVisitedByThread[omp_get_thread_num()] = true;
         visitedTx.push_back(currentTx);
         return 0;
     }
 
-    currentTx->isVisited = true;
+    currentTx->isVisitedByThread[omp_get_thread_num()] = true;
     visitedTx.push_back(currentTx);
     int weight = 0;
 
     for(auto tx : currentTx->approvedBy)
     {
-        if(!tx->isVisited)
+        if(!tx->isVisitedByThread[omp_get_thread_num()])
         {
             weight += 1 + _computeweight(tx,visitedTx);
         }
@@ -576,9 +670,9 @@ void AbstractModule::computeConfidence(Tx* startTx, double conf)
     startTx->isVisited = false;
 }
 
-void AbstractModule::_computeconfidence(Tx* currentTx, VpTx& visitedTx, int& distance, double conf)
+void AbstractModule::_computeconfidence(Tx* currentTx, VpTx& visitedTx, int distance, double conf)
 {
-    if(!currentTx->isVisited && distance > 0)
+    if(!currentTx->isVisited && distance >= 0)
     {
         currentTx->isVisited = true;
         currentTx->confidence += conf;
@@ -609,9 +703,9 @@ void AbstractModule::getAvgConf(Tx* startTx, double& avg)
     startTx->isVisited = false;
 }
 
-void AbstractModule::_getavgconf(Tx* currentTx, VpTx& visitedTx, int& distance, double& avg)
+void AbstractModule::_getavgconf(Tx* currentTx, VpTx& visitedTx, int distance, double& avg)
 {
-    if(!currentTx->isVisited && distance > 0)
+    if(!currentTx->isVisited && distance >= 0)
     {
         currentTx->isVisited = true;
         visitedTx.push_back(currentTx);
