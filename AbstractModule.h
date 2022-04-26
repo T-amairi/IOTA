@@ -33,8 +33,7 @@ class AbstractModule : public cSimpleModule
             - the number of time that this tip has been selected
             - its walk time during the random walk
         */
-        std::vector<std::tuple<Tx*,int,int>> getSelectedTipsPara(double alphaVal, int W, int N); //OpenMP implementation
-        std::vector<std::tuple<Tx*,int,int>> getSelectedTips(double alphaVal, int W, int N); //single threaded version
+        std::vector<std::tuple<Tx*,int,int>> getSelectedTips(double alphaVal, int W, int N);
 
         //TSA
         VpTx IOTA(double alphaVal, int W, int N);
@@ -66,7 +65,7 @@ class AbstractModule : public cSimpleModule
         //compute the weight of a transaction
         int computeWeight(Tx* tx);
         int _computeweight(Tx* currentTx, VpTx& visitedTx);
-
+        
         //compute the confidence for each transaction
         void computeConfidence(Tx* startTx, double conf);
         void _computeconfidence(Tx* currentTx, VpTx& visitedTx, int distance, double conf);

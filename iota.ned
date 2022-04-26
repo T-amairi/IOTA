@@ -33,7 +33,7 @@ simple HonestModule
         double highAlpha = 2.5;
         
         //******* LOG *******//
-        bool exportTangle = false;
+        bool exportTangle = true;
         bool exportTipsNumber = false;
         bool wipeLogTipsNumber = false;
          
@@ -68,7 +68,6 @@ simple MaliciousModule extends HonestModule
         bool wipeLogDiffTxChain = false;
         bool exportBranchSize = false;
         bool wipeLogBranchSize = false;
-        
 }
 
 //A generated network based on the python script "GenTopo.py" in the topologies folder
@@ -78,12 +77,9 @@ network Network
         //name of the used topology : FullGraph or Grid or Torus or WattsStrogatz
         string topology = "WattsStrogatz"; //this parameter is case sensitive, be careful !
 
-        //******* OPENMP *******//
-        bool ifPara = true; //enable openmp implementation
-		
 		//******* NODES *******//
 		int nbMaliciousNode = 0; //number of malicious nodes in the simulation
-        int nbHonestNode = 100; //number of honest nodes in the simulation
+        int nbHonestNode = 10; //number of honest nodes in the simulation
         
 		//******* DELAY *******// 
         double delay = 0.25; //the delay in SECONDS !

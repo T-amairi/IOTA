@@ -38,12 +38,14 @@
 .*
 Makefile
 IOTA
+IOTA_dbg
 
 # Perf file
 /perf/*
 
-# VScode workspace
+# VScode
 *.code-workspace
+.vscode
 
 # .keep
 !/data/log/.keep

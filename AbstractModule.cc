@@ -85,82 +85,6 @@ void AbstractModule::printStats(bool ifDeleteFile) const
     file.close();
 }
 
-std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTipsPara(double alphaVal, int W, int N)
-{
-    std::vector<std::tuple<Tx*,int,int>> selectedTips;
-
-    #pragma omp parallel
-    {
-        int walkTime;
-        Tx* tip;
-        std::vector<std::tuple<Tx*,int,int>> selectedByThread;
-
-        #pragma omp for
-        for(size_t i = 0; i < myTangle.size(); i++)
-        {
-            if(myTangle[i]->isVisitedByThread.empty())
-            {
-                for(int j = 0; j < omp_get_num_threads(); j++)
-                {
-                    myTangle[i]->isVisitedByThread[j] = false;
-                }
-            }
-        }
-
-        #pragma omp for
-        for(int i = 0; i < N; i++)
-        {
-            int w = intuniform(W,2*W);
-            Tx* startTx = getWalkStart(w);
-
-            alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
-            auto it = selectedByThread.begin();
-
-            for(; it != selectedByThread.end(); it++)
-            {
-                if(std::get<0>(*it)->ID == tip->ID)
-                {
-                    std::get<1>(*it)++;
-                    break;
-                }
-            }
-
-            if(it == selectedByThread.end() && isLegitTip(tip))
-            {
-                selectedByThread.push_back(std::make_tuple(tip,1,walkTime));
-            }
-        }
-
-        #pragma omp barrier
-        {
-            #pragma omp critical
-            {
-                for(const auto tup : selectedByThread)
-                {
-                    auto tipID = std::get<0>(tup)->ID;        
-                    auto it = selectedTips.begin();
-                    
-                    for(; it != selectedTips.end(); it++)
-                    {
-                        if(std::get<0>(*it)->ID == tipID)
-                        {
-                            std::get<1>(*it) += std::get<1>(tup);
-                            break;
-                        }
-                    }
-
-                    if(it == selectedTips.end())
-                    {
-                        selectedTips.push_back(std::make_tuple(std::get<0>(tup),std::get<1>(tup),std::get<2>(tup)));
-                    }
-                }
-            }
-        }
-    }
-
-    return selectedTips;
-}
-
 std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alphaVal, int W, int N)
 {
     std::vector<std::tuple<Tx*,int,int>> selectedTips;
@@ -203,18 +127,7 @@ VpTx AbstractModule::IOTA(double alphaVal, int W, int N)
     }
 
     std::vector<std::tuple<Tx*,int,int>> selectedTips;
-    bool ifPara = getParentModule()->par("ifPara");
-
-    if(ifPara)
-    {
-        selectedTips = getSelectedTipsPara(alphaVal,W,N);
-    }
-
-    else
-    {
-        selectedTips = getSelectedTips(alphaVal,W,N);
-    }
-
+    selectedTips = getSelectedTips(alphaVal,W,N);
     std::sort(selectedTips.begin(),selectedTips.end(),[](const std::tuple<Tx*,int,int>& tup1,const std::tuple<Tx*,int,int>& tup2){return std::get<1>(tup1) > std::get<1>(tup2);});
 
     if(selectedTips.size() == 1)
@@ -246,7 +159,7 @@ VpTx AbstractModule::GIOTA(double alphaVal, int W, int N)
         tx->confidence = 0.0;
         tx->countSelected = 0;
     }
-
+    
     auto chosenTips = IOTA(alphaVal,W,N);
 
     if(chosenTips.size() == 1)
@@ -319,7 +232,7 @@ VpTx AbstractModule::getTipsTSA()
 {
     EV << "TSA procedure for the next transaction to be issued: " << ID + std::to_string(txCount) << "\n";
 
-    double WProp = par("WProp");
+    //double WProp = par("WProp");
     int W = std::min(myTips.size(),(size_t) 100); //std::round(WProp * myTangle.size());
 
     if(strcmp(par("TSA"),"GIOTA") == 0)
@@ -357,13 +270,15 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
         else
         {
             std::vector<int> txWeight;
-            int startWeight = computeWeight(startTx);
+            int startWeight;
+            startWeight = computeWeight(startTx);
             std::vector<double> p;
             double sumExpo = 0.0;
             
             for(auto tx : currentView)
             {
-                int weight = computeWeight(tx);
+                int weight;
+                weight = computeWeight(tx); 
                 sumExpo += double(exp(double(-alphaVal*(startWeight - weight))));
                 txWeight.push_back(weight);
             }
@@ -399,7 +314,7 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
                 }
             }
 
-            startTx = currentView[nextIndex];
+            startTx = currentView.at(nextIndex);
         }
     }
 
@@ -410,7 +325,7 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
 Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 {
     walkTime = 0;
-    
+     
     while(startTx->isApproved)
     {
         walkTime++;
@@ -429,7 +344,7 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
         else
         {   
             int nextIndex = intuniform(0,currentView.size() - 1);
-            startTx = currentView[nextIndex];
+            startTx = currentView.at(nextIndex);
         }
     }
 
@@ -449,7 +364,7 @@ Tx* AbstractModule::getWalkStart(int backTrackDist) const
     while(!startTip->isGenesisBlock && backTrackDist > 0)
     {
         randomIndex = intuniform(0,startTip->approvedTx.size() - 1);
-        startTip = startTip->approvedTx[randomIndex];
+        startTip = startTip->approvedTx.at(randomIndex);
         backTrackDist--;
     }
 
@@ -620,34 +535,34 @@ int AbstractModule::computeWeight(Tx* tx)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisitedByThread[omp_get_thread_num()] = false;
+        tx->isVisited = false;
     }
 
-    tx->isVisitedByThread[omp_get_thread_num()] = false;
+    tx->isVisited = false;
     return weight + 1;
 }
 
 int AbstractModule::_computeweight(Tx* currentTx, VpTx& visitedTx)
 {
-    if(currentTx->isVisitedByThread[omp_get_thread_num()])
+    if(currentTx->isVisited)
     {
         return 0;
     }
 
     else if(currentTx->approvedBy.size() == 0)
     {
-        currentTx->isVisitedByThread[omp_get_thread_num()] = true;
+        currentTx->isVisited = true;
         visitedTx.push_back(currentTx);
         return 0;
     }
 
-    currentTx->isVisitedByThread[omp_get_thread_num()] = true;
+    currentTx->isVisited = true;
     visitedTx.push_back(currentTx);
     int weight = 0;
 
     for(auto tx : currentTx->approvedBy)
     {
-        if(!tx->isVisitedByThread[omp_get_thread_num()])
+        if(!tx->isVisited)
         {
             weight += 1 + _computeweight(tx,visitedTx);
         }
