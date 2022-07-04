@@ -40,6 +40,10 @@ Makefile
 IOTA
 IOTA_dbg
 
+# Log file
+*.csv
+*.svg
+
 # Perf file
 /perf/*
 
