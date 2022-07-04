@@ -8,6 +8,7 @@
 
 using namespace omnetpp;
 
+//ConfiguratorModule : non-networked module setting up the topology
 class ConfiguratorModule : public cSimpleModule
 {
     public:

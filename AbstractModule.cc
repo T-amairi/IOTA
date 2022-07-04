@@ -88,31 +88,67 @@ void AbstractModule::printStats(bool ifDeleteFile) const
 std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alphaVal, int W, int N)
 {
     std::vector<std::tuple<Tx*,int,int>> selectedTips;
-    int walkTime;
-    Tx* tip;
-
-    for(int i = 0; i < N; i++)
+    
+    #pragma omp parallel
     {
-        int w = intuniform(W,2*W);
-        Tx* startTx = getWalkStart(w);
+        std::vector<std::tuple<Tx*,int,int>> selectedByThread;
+        int walkTime;
+        Tx* startTx;
+        Tx* tip;
+        int w;
 
-        alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
-        auto it = selectedTips.begin();
-
-        for(; it != selectedTips.end(); it++)
+        #pragma omp for nowait
+        for(int i = 0; i < N; i++)
         {
-            if(std::get<0>(*it)->ID == tip->ID)
+            w = myRNG->intuniform(50,100);
+            startTx = getWalkStart(w);
+            alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
+
+            auto it = selectedByThread.begin();
+
+            for(; it != selectedByThread.end(); it++)
             {
-                std::get<1>(*it)++;
-                break;
+                if(std::get<0>(*it)->ID == tip->ID)
+                {
+                    std::get<1>(*it)++;
+                    break;
+                }
+            }
+
+            if(it == selectedByThread.end() && isLegitTip(tip))
+            {
+                selectedByThread.push_back(std::make_tuple(tip,1,walkTime));
+            }  
+        }
+
+        #pragma omp critical
+        {
+            for(const auto tup : selectedByThread)
+            {
+                auto tipID = std::get<0>(tup)->ID;        
+                auto it = selectedTips.begin();
+
+                for(; it != selectedTips.end(); it++)
+                {
+                    if(std::get<0>(*it)->ID == tipID)
+                    {
+                        std::get<1>(*it) += std::get<1>(tup);
+                        break;
+                    }
+                }
+
+                if(it == selectedTips.end())
+                {
+                    selectedTips.push_back(std::make_tuple(std::get<0>(tup),std::get<1>(tup),std::get<2>(tup)));
+                }
             }
         }
-
-        if(it == selectedTips.end() && isLegitTip(tip))
-        {
-            selectedTips.push_back(std::make_tuple(tip,1,walkTime));
-        }
     }
+
+    // for(auto it = selectedTips.begin(); it != selectedTips.end(); it++)
+    // {
+    //     std::cout << "Tip ID : " << std::get<0>(*it)->ID << " " << std::get<1>(*it) << " " << std::get<2>(*it) << "\n";
+    // }
 
     return selectedTips;
 }
@@ -232,8 +268,8 @@ VpTx AbstractModule::getTipsTSA()
 {
     EV << "TSA procedure for the next transaction to be issued: " << ID + std::to_string(txCount) << "\n";
 
-    //double WProp = par("WProp");
-    int W = std::min(myTips.size(),(size_t) 100); //std::round(WProp * myTangle.size());
+    double WProp = par("WProp");
+    int W = std::round(WProp * myTangle.size());
 
     if(strcmp(par("TSA"),"GIOTA") == 0)
     {
@@ -318,7 +354,9 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
         }
     }
 
+    #pragma omp atomic
     startTx->countSelected++;
+    
     return startTx;
 }
 
@@ -343,7 +381,7 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
         else
         {   
-            int nextIndex = intuniform(0,currentView.size() - 1);
+            int nextIndex = myRNG->intuniform(0,currentView.size() - 1);
             startTx = currentView.at(nextIndex);
         }
     }
@@ -354,17 +392,13 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
 Tx* AbstractModule::getWalkStart(int backTrackDist) const
 {
-    int randomIndex = intuniform(0,myTips.size() - 1);
-    auto it(myTips.begin());
-
-    if(myTips.size() > 1) std::advance(it,randomIndex);
-    
-    auto startTip = *(it);
+    int randomIdx = myRNG->intuniform(0,myTips.size() - 1);
+    auto startTip = myTips.at(randomIdx);
 
     while(!startTip->isGenesisBlock && backTrackDist > 0)
     {
-        randomIndex = intuniform(0,startTip->approvedTx.size() - 1);
-        startTip = startTip->approvedTx.at(randomIndex);
+        randomIdx = myRNG->intuniform(0,startTip->approvedTx.size() - 1);
+        startTip = startTip->approvedTx.at(randomIdx);
         backTrackDist--;
     }
 
@@ -462,18 +496,18 @@ void AbstractModule::updateConflictTx(Tx* startTx)
 
    for(auto tx : visitedTx)
    {
-       tx->isVisited = false;
+       tx->isVisited[0] = false;
    }
 
    startTx->conflictTx["-" + startTx->ID] = std::make_pair(true,false);
-   startTx->isVisited = false;
+   startTx->isVisited[0] = false;
 }
 
 void AbstractModule::_updateconflictTx(Tx* currentTx, VpTx& visitedTx, std::string conflictID)
 {
-    if(currentTx->isVisited) return;
+    if(currentTx->isVisited[0]) return;
 
-    currentTx->isVisited = true;
+    currentTx->isVisited[0] = true;
     visitedTx.push_back(currentTx);
 
     auto it = currentTx->conflictTx.find("-" + conflictID);
@@ -482,7 +516,7 @@ void AbstractModule::_updateconflictTx(Tx* currentTx, VpTx& visitedTx, std::stri
     
     for(auto tx : currentTx->approvedBy)
     {
-        if(!tx->isVisited)
+        if(!tx->isVisited[0])
         {
             _updateconflictTx(tx,visitedTx,conflictID);
         }
@@ -498,19 +532,19 @@ bool AbstractModule::isApp(Tx* startTx, std::string idToCheck)
 
    for(auto tx : visitedTx)
    {
-       tx->isVisited = false;
+       tx->isVisited[0] = false;
    }
 
-   startTx->isVisited = false;
+   startTx->isVisited[0] = false;
 
    return res;
 }
 
 void AbstractModule::_isapp(Tx* currentTx, VpTx& visitedTx, std::string idToCheck, bool& res)
 {
-    if(currentTx->isVisited) return;
+    if(currentTx->isVisited[0]) return;
 
-    currentTx->isVisited = true;
+    currentTx->isVisited[0] = true;
     visitedTx.push_back(currentTx);
 
     if(currentTx->ID == idToCheck)
@@ -521,7 +555,7 @@ void AbstractModule::_isapp(Tx* currentTx, VpTx& visitedTx, std::string idToChec
 
     for(auto tx : currentTx->approvedTx)
     {
-        if(!tx->isVisited)
+        if(!tx->isVisited[0])
         {
             _isapp(tx,visitedTx,idToCheck,res);
         }
@@ -535,34 +569,34 @@ int AbstractModule::computeWeight(Tx* tx)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisited = false;
+        tx->isVisited[omp_get_thread_num()] = false;
     }
 
-    tx->isVisited = false;
+    tx->isVisited[omp_get_thread_num()] = false;
     return weight + 1;
 }
 
 int AbstractModule::_computeweight(Tx* currentTx, VpTx& visitedTx)
 {
-    if(currentTx->isVisited)
+    if(currentTx->isVisited[omp_get_thread_num()])
     {
         return 0;
     }
 
     else if(currentTx->approvedBy.size() == 0)
     {
-        currentTx->isVisited = true;
+        currentTx->isVisited[omp_get_thread_num()] = true;
         visitedTx.push_back(currentTx);
         return 0;
     }
 
-    currentTx->isVisited = true;
+    currentTx->isVisited[omp_get_thread_num()] = true;
     visitedTx.push_back(currentTx);
     int weight = 0;
 
     for(auto tx : currentTx->approvedBy)
     {
-        if(!tx->isVisited)
+        if(!tx->isVisited[omp_get_thread_num()])
         {
             weight += 1 + _computeweight(tx,visitedTx);
         }
@@ -579,24 +613,24 @@ void AbstractModule::computeConfidence(Tx* startTx, double conf)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisited = false;
+        tx->isVisited[0] = false;
     }
 
-    startTx->isVisited = false;
+    startTx->isVisited[0] = false;
 }
 
 void AbstractModule::_computeconfidence(Tx* currentTx, VpTx& visitedTx, int distance, double conf)
 {
-    if(!currentTx->isVisited && distance >= 0)
+    if(!currentTx->isVisited[0] && distance >= 0)
     {
-        currentTx->isVisited = true;
+        currentTx->isVisited[0] = true;
         currentTx->confidence += conf;
         visitedTx.push_back(currentTx);
         distance--;
 
         for(auto tx : currentTx->approvedTx)
         {
-            if(!tx->isVisited)
+            if(!tx->isVisited[0])
             {
                 _computeconfidence(tx,visitedTx,distance,conf);
             }
@@ -612,24 +646,24 @@ void AbstractModule::getAvgConf(Tx* startTx, double& avg)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisited = false;
+        tx->isVisited[0] = false;
     }
 
-    startTx->isVisited = false;
+    startTx->isVisited[0] = false;
 }
 
 void AbstractModule::_getavgconf(Tx* currentTx, VpTx& visitedTx, int distance, double& avg)
 {
-    if(!currentTx->isVisited && distance >= 0)
+    if(!currentTx->isVisited[0] && distance >= 0)
     {
-        currentTx->isVisited = true;
+        currentTx->isVisited[0] = true;
         visitedTx.push_back(currentTx);
         avg += currentTx->confidence;
         distance--;
 
         for(auto tx : currentTx->approvedTx)
         {
-            if(!tx->isVisited)
+            if(!tx->isVisited[0])
             {
                 _getavgconf(tx,visitedTx,distance,avg);
             }
@@ -792,12 +826,16 @@ void AbstractModule::_initialize()
     rateMean = par("rateMean");
     powTime = par("powTime");
     txLimit = par("transactionLimit");
-
+    
     createGenBlock();
 
     msgIssue = new cMessage("Issuing a new transaction",ISSUE);
     msgPoW = new cMessage("PoW time",POW);
     msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
+
+    int currentRun = getEnvir()->getConfigEx()->getActiveRunNumber();
+    int seed = currentRun + getId();
+    myRNG = new randomNumberGenerator(seed,1/rateMean.dbl());
 }
 
 void AbstractModule::_finish(bool exportTangle, std::pair<bool,bool> exportTipsNumber)
@@ -815,6 +853,7 @@ void AbstractModule::_finish(bool exportTangle, std::pair<bool,bool> exportTipsN
     }
 
     deleteTangle();
+    delete myRNG;
     delete msgIssue;
     delete msgPoW;
     delete msgUpdate;

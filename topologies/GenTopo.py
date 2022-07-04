@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #generate a network with a specific topology (into a CSV file)
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -93,14 +95,18 @@ def getTopo():
     else:
         raise ValueError("Topologie name not recognized")
 
-top = getTopo()
-os.chdir(r"./topologies/CSV")
+def main():
+    top = getTopo()
+    os.chdir(r"./topologies/CSV")
 
-with open(name + '.csv', 'w+') as csvfile:
-    for site,neibs in top.items():
-        csvfile.write(str(site) + ',')
-        for neib in neibs:
-            if neib == neibs[-1]:
-                csvfile.write(str(neib) + '\n')
-            else:
-                csvfile.write(str(neib) + ',')    
+    with open(name + '.csv', 'w+') as csvfile:
+        for site,neibs in top.items():
+            csvfile.write(str(site) + ',')
+            for neib in neibs:
+                if neib == neibs[-1]:
+                    csvfile.write(str(neib) + '\n')
+                else:
+                    csvfile.write(str(neib) + ',')  
+
+if __name__ == "__main__":
+    main()  

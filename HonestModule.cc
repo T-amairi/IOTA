@@ -9,7 +9,7 @@ void HonestModule::caseISSUE()
         if(chosenTips.empty())
         {
             EV << "The TSA did not give legit tips to approve: attempting again\n";
-            scheduleAt(simTime() + exponential(rateMean), msgIssue);
+            scheduleAt(simTime() + myRNG->exp(), msgIssue);
             return;
         }
 
@@ -44,7 +44,7 @@ void HonestModule::casePOW(cMessage* msg)
     EV << "Pow time finished for " << newTx->ID << ", sending it to all nodes\n";
     
     broadcastTx(newTx);
-    scheduleAt(simTime() + exponential(rateMean), msgIssue);
+    scheduleAt(simTime() + myRNG->exp(), msgIssue);
 }
 
 void HonestModule::caseUPDATE(cMessage* msg)
@@ -74,7 +74,7 @@ void HonestModule::initialize()
     _initialize();
 
     EV << "Initialization complete\n";
-    scheduleAt(simTime() + exponential(rateMean), msgIssue);
+    scheduleAt(simTime() + myRNG->exp(), msgIssue);
 }
 
 void HonestModule::handleMessage(cMessage* msg)
