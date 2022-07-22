@@ -11,7 +11,7 @@ import os
 
 #### FOR ALL TOPO ####
 name = "WattsStrogatz" #name of the wanted topo : FullGraph or Grid or Torus or WattsStrogatz (case sensitive !)
-n = 10 #number of nodes
+n = 100 #number of nodes
 
 #### 2D GRID & TORUS ####
 rows = 2 #number of rows

@@ -28,7 +28,7 @@ class AbstractModule : public cSimpleModule
         /* return a vector of tuple containing:
             - the pointer of the selected tip after the random walk
             - the number of time that this tip has been selected
-            - its walk time during the random walk
+            - its first walk time during the random walk
         */
         std::vector<std::tuple<Tx*,int,int>> getSelectedTips(double alphaVal, int W, int N);
 

@@ -14,7 +14,7 @@ simple HonestModule
         double rateMean @unit(s) = 0.5s; //exponential distribution with the given mean  (!= 0)
         double powTime @unit(s) = 0.00s; //Proof of Work 
         int transactionLimit = 100; //how much transactions the node will issue
-        string TSA = "IOTA"; //determines which TSA the node uses : IOTA or GIOTA or EIOTA
+        string TSA = "GIOTA"; //determines which TSA the node uses : IOTA or GIOTA or EIOTA
 		
 		//******* IOTA & GIOTA & EIOTA *******//
         double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
@@ -79,7 +79,7 @@ network Network
 
 		//******* NODES *******//
 		int nbMaliciousNode = 0; //number of malicious nodes in the simulation
-        int nbHonestNode = 10; //number of honest nodes in the simulation
+        int nbHonestNode = 100; //number of honest nodes in the simulation
         
 		//******* DELAY *******// 
         double delay = 0.25; //the delay in SECONDS !

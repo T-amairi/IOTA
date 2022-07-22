@@ -18,13 +18,15 @@ struct Tx
         for(int i = 0; i < omp_get_num_procs(); i++)
         {
             isVisited.push_back(false);
+            confidence.push_back(0.0);
+            countSelected.push_back(0);
         }
     };
 
     const std::string ID; //the ID of the transaction
     
-    double confidence = 0.0; //confidence (for G-IOTA)
-    int countSelected = 0; //how much a tip has been selected during a TSA (for G-IOTA)
+    std::vector<double> confidence; //confidence (for G-IOTA) (each idx is associated with a thread based on his ID)
+    std::vector<int> countSelected; //how much a tip has been selected during a TSA (for G-IOTA) (each idx is associated with a thread based on his ID)
 
     bool isGenesisBlock = false;
     bool isApproved = false; 

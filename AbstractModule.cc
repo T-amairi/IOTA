@@ -100,7 +100,7 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
         #pragma omp for nowait
         for(int i = 0; i < N; i++)
         {
-            w = myRNG->intuniform(50,100);
+            w = myRNG->intuniform(250,500);
             startTx = getWalkStart(w);
             alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
 
@@ -145,11 +145,6 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
         }
     }
 
-    // for(auto it = selectedTips.begin(); it != selectedTips.end(); it++)
-    // {
-    //     std::cout << "Tip ID : " << std::get<0>(*it)->ID << " " << std::get<1>(*it) << " " << std::get<2>(*it) << "\n";
-    // }
-
     return selectedTips;
 }
 
@@ -190,10 +185,16 @@ VpTx AbstractModule::IOTA(double alphaVal, int W, int N)
 
 VpTx AbstractModule::GIOTA(double alphaVal, int W, int N)
 {
-    for(auto tx : myTangle)
+    #pragma omp parallel for
+    for(size_t i = 0; i < myTangle.size(); i++)
     {
-        tx->confidence = 0.0;
-        tx->countSelected = 0;
+        auto tx = myTangle[i];
+
+        for(int j = 0; j < omp_get_num_procs(); j++)
+        {
+            tx->confidence[j] = 0.0;
+            tx->countSelected[j] = 0;
+        }
     }
     
     auto chosenTips = IOTA(alphaVal,W,N);
@@ -203,29 +204,48 @@ VpTx AbstractModule::GIOTA(double alphaVal, int W, int N)
         return chosenTips;
     }
 
-    for(auto tip : myTips)
+    #pragma omp parallel for
+    for(size_t i = 0; i < myTips.size(); i++)
     {
-        if(tip->countSelected && isLegitTip(tip))
+        auto tip = myTips[i];
+        int sumCountSelected = std::accumulate(tip->countSelected.begin(),tip->countSelected.end(),0);
+
+        if(sumCountSelected && isLegitTip(tip))
         {
            for(auto tx : tip->approvedTx)
             {
-               computeConfidence(tx,double(tip->countSelected/N));
+               computeConfidence(tx,double(sumCountSelected/N));
             }
         }
     }
 
     std::vector<std::pair<double,Tx*>> avgConfTips;
 
-    for(auto tip : myTips)
+    #pragma omp parallel
     {
-        double avg = 0.0;
+        std::vector<std::pair<double,Tx*>> avgConfTipsByThread;
 
-        for(auto tx : tip->approvedTx)
+        #pragma omp for nowait
+        for(size_t i = 0; i < myTips.size(); i++)
         {
-            getAvgConf(tx,avg);
+            auto tip = myTips[i];
+            double avg = 0.0;
+
+            for(auto tx : tip->approvedTx)
+            {
+                getAvgConf(tx,avg);
+            }
+
+            avgConfTipsByThread.push_back(std::make_pair(avg,tip));
         }
 
-        avgConfTips.push_back(std::make_pair(avg,tip));
+        #pragma omp critical
+        {
+            for(auto pair : avgConfTipsByThread)
+            {
+                avgConfTips.push_back(std::make_pair(pair.first,pair.second));
+            }
+        }
     }
 
     std::sort(avgConfTips.begin(), avgConfTips.end(),[](const std::pair<double,Tx*> &tip1, const std::pair<double,Tx*> &tip2){return tip1.first < tip2.first;});
@@ -354,9 +374,8 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
         }
     }
 
-    #pragma omp atomic
-    startTx->countSelected++;
-    
+    startTx->countSelected[omp_get_thread_num()]++;
+
     return startTx;
 }
 
@@ -386,7 +405,7 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
         }
     }
 
-    startTx->countSelected++;
+    startTx->countSelected[omp_get_thread_num()]++;
     return startTx;
 }
 
@@ -613,24 +632,24 @@ void AbstractModule::computeConfidence(Tx* startTx, double conf)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisited[0] = false;
+        tx->isVisited[omp_get_thread_num()] = false;
     }
 
-    startTx->isVisited[0] = false;
+    startTx->isVisited[omp_get_thread_num()] = false;
 }
 
 void AbstractModule::_computeconfidence(Tx* currentTx, VpTx& visitedTx, int distance, double conf)
 {
-    if(!currentTx->isVisited[0] && distance >= 0)
+    if(!currentTx->isVisited[omp_get_thread_num()] && distance >= 0)
     {
-        currentTx->isVisited[0] = true;
-        currentTx->confidence += conf;
+        currentTx->isVisited[omp_get_thread_num()] = true;
+        currentTx->confidence[omp_get_thread_num()] += conf;
         visitedTx.push_back(currentTx);
         distance--;
 
         for(auto tx : currentTx->approvedTx)
         {
-            if(!tx->isVisited[0])
+            if(!tx->isVisited[omp_get_thread_num()])
             {
                 _computeconfidence(tx,visitedTx,distance,conf);
             }
@@ -646,24 +665,24 @@ void AbstractModule::getAvgConf(Tx* startTx, double& avg)
 
     for(auto tx : visitedTx)
     {
-        tx->isVisited[0] = false;
+        tx->isVisited[omp_get_thread_num()] = false;
     }
 
-    startTx->isVisited[0] = false;
+    startTx->isVisited[omp_get_thread_num()] = false;
 }
 
 void AbstractModule::_getavgconf(Tx* currentTx, VpTx& visitedTx, int distance, double& avg)
 {
-    if(!currentTx->isVisited[0] && distance >= 0)
+    if(!currentTx->isVisited[omp_get_thread_num()] && distance >= 0)
     {
-        currentTx->isVisited[0] = true;
+        currentTx->isVisited[omp_get_thread_num()] = true;
         visitedTx.push_back(currentTx);
-        avg += currentTx->confidence;
+        avg += std::accumulate(currentTx->countSelected.begin(),currentTx->countSelected.end(),0);
         distance--;
 
         for(auto tx : currentTx->approvedTx)
         {
-            if(!tx->isVisited[0])
+            if(!tx->isVisited[omp_get_thread_num()])
             {
                 _getavgconf(tx,visitedTx,distance,avg);
             }
