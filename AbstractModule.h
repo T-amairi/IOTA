@@ -1,13 +1,10 @@
 //includes
 #pragma once
-#include <omnetpp.h>
 #include <fstream>
 #include <algorithm>
 #include <numeric>
-#include <omp.h>
-#include "Structures.h"
 
-using namespace omnetpp;
+#include "Structures.h"
 
 //Abstract class for the HonestModule class & MaliciousModule class
 class AbstractModule : public cSimpleModule
@@ -31,7 +28,7 @@ class AbstractModule : public cSimpleModule
         /* return a vector of tuple containing:
             - the pointer of the selected tip after the random walk
             - the number of time that this tip has been selected
-            - its walk time during the random walk
+            - its first walk time during the random walk
         */
         std::vector<std::tuple<Tx*,int,int>> getSelectedTips(double alphaVal, int W, int N);
 
@@ -107,6 +104,7 @@ class AbstractModule : public cSimpleModule
         cMessage* msgPoW; //to wait during the pow time
         cMessage* msgUpdate; //to send to others modules
         
+        randomNumberGenerator* myRNG; //rng class for the uniform & exponential distribution 
         VpTx myTangle; //local Tangle
         VpTx myTips; //keep a record of all the current unapproved transactions
         std::vector<std::string> myBuffer; //a buffer for all conflicted transaction to be checked  

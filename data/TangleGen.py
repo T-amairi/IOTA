@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #import a Tangle CSV file to a SVG file  
 from graphviz import Digraph
 import os

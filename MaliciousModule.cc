@@ -389,7 +389,7 @@ Tx* MaliciousModule::maintainBalance()
         else if(!tx->isApproved && !ifAppTx) candidatesTx.push_back(tx);
     }
 
-    int randomIdx = intuniform(0,candidatesTx.size() - 1);
+    int randomIdx = myRNG->intUniform(0,candidatesTx.size() - 1);
     auto txToApp = candidatesTx[randomIdx];
     candidatesTx.erase(candidatesTx.begin() + randomIdx);
 
@@ -399,7 +399,7 @@ Tx* MaliciousModule::maintainBalance()
 
     if(!candidatesTx.empty())
     {
-        randomIdx = intuniform(0,candidatesTx.size() - 1);
+        randomIdx = myRNG->intUniform(0,candidatesTx.size() - 1);
         txToApp = candidatesTx[randomIdx];
 
         linkChain(newTip,txToApp);
@@ -442,7 +442,7 @@ void MaliciousModule::casePCA()
     if(targetTx == nullptr)
     {
         EV << "Can not find a legit transaction for the chain, retrying later\n";
-        scheduleAt(simTime() + exponential(rateMean), msgParasiteChain);
+        scheduleAt(simTime() + myRNG->exp(), msgParasiteChain);
         return;
     }
 
@@ -451,7 +451,7 @@ void MaliciousModule::casePCA()
     if(rootTx == nullptr)
     {
         EV << "Can not find a legit transaction for the chain, retrying later\n";
-        scheduleAt(simTime() + exponential(rateMean), msgParasiteChain);
+        scheduleAt(simTime() + myRNG->exp(), msgParasiteChain);
         return;
     }
 
@@ -551,13 +551,15 @@ void MaliciousModule::caseISSUE()
         if(chosenTips.empty())
         {
             EV << "The TSA did not give legit tips to approve: attempting again\n";
-            scheduleAt(simTime() + exponential(rateMean), msgIssue);
+            scheduleAt(simTime() + myRNG->exp(), msgIssue);
             return;
         }
 
         EV << "Chosen Tips: ";
 
-        for(const auto tip : chosenTips) EV << tip->ID << " "; EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
+        for(const auto tip : chosenTips) EV << tip->ID << " "; 
+        
+        EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
 
         msgPoW->setContextPointer(&chosenTips);
 
@@ -586,7 +588,7 @@ void MaliciousModule::casePOW(cMessage* msg)
     EV << "Pow time finished for " << newTx->ID << ", sending it to all nodes\n";
 
     broadcastTx(newTx);
-    scheduleAt(simTime() + exponential(rateMean), msgIssue);
+    scheduleAt(simTime() + myRNG->exp(), msgIssue);
 }
 
 void MaliciousModule::caseUPDATE(cMessage* msg)
@@ -644,7 +646,7 @@ void MaliciousModule::initialize()
     }
 
     EV << "Initialization complete\n";
-    scheduleAt(simTime() + exponential(rateMean), msgIssue);
+    scheduleAt(simTime() + myRNG->exp(), msgIssue);
 }
 
 void MaliciousModule::handleMessage(cMessage* msg)

@@ -1,1 +1,2 @@
-CXXFLAGS += -O3 -march=native
+CXXFLAGS += -Wall -O3 -march=native -fopenmp
+LDFLAGS += -fopenmp

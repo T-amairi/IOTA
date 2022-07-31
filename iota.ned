@@ -11,20 +11,20 @@ simple HonestModule
     	@display("i=,blue");
     	
         //******* PARAMETERS *******//
-        double rateMean @unit(s) = 0.5s; //exponential distribution with the given mean  
+        double rateMean @unit(s) = 0.5s; //exponential distribution with the given mean  (!= 0)
         double powTime @unit(s) = 0.00s; //Proof of Work 
         int transactionLimit = 100; //how much transactions the node will issue
         string TSA = "IOTA"; //determines which TSA the node uses : IOTA or GIOTA or EIOTA
 		
 		//******* IOTA & GIOTA & EIOTA *******//
         double WProp = 0.25; //for the interval [W,2W] and have to be in [0,1] :  e.g if WProp = 0.5 => W = 0.5 * myTangle.size()
-        int N = 25; //number of walkers
+        int N = 50; //number of walkers
         
         //******* IOTA & GIOTA *******//
-        double alpha = 0.08; //alpha in Pxy prob 
+        double alpha = 0.8; //alpha in Pxy prob 
 
         //******* GIOTA *******//
-        int confDistance = 10; //the maximum number of steps to be performed when computing the confidence
+        int confDistance = 20; //the maximum number of steps to be performed when computing the confidence
 
         //******* EIOTA *******//
         double p1 = 0.1;
@@ -33,8 +33,8 @@ simple HonestModule
         double highAlpha = 2.5;
         
         //******* LOG *******//
-        bool exportTangle = true;
-        bool exportTipsNumber = false;
+        bool exportTangle = false;
+        bool exportTipsNumber = true;
         bool wipeLogTipsNumber = false;
          
     gates:
@@ -79,7 +79,7 @@ network Network
 
 		//******* NODES *******//
 		int nbMaliciousNode = 0; //number of malicious nodes in the simulation
-        int nbHonestNode = 10; //number of honest nodes in the simulation
+        int nbHonestNode = 100; //number of honest nodes in the simulation
         
 		//******* DELAY *******// 
         double delay = 0.25; //the delay in SECONDS !

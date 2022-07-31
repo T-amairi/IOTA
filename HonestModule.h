@@ -2,6 +2,7 @@
 #pragma once
 #include "AbstractModule.h"
 
+//HonestModule : honest user issuing transactions
 class HonestModule : public AbstractModule
 {
     public:

@@ -2,6 +2,7 @@
 #pragma once
 #include "AbstractModule.h"
 
+//MaliciousModule : a malicious node launching attacks
 class MaliciousModule : public AbstractModule
 {
     public:
