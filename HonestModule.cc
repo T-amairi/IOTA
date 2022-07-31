@@ -2,7 +2,7 @@
 
 void HonestModule::caseISSUE()
 {
-    if(txCount <= txLimit)
+    if(txCount < txLimit)
     {
         auto chosenTips = getTipsTSA();
 
