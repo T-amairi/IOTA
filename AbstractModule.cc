@@ -100,7 +100,7 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
         #pragma omp for nowait
         for(int i = 0; i < N; i++)
         {
-            w = myRNG->intuniform(250,500);
+            w = myRNG->intUniform(W,2*W);
             startTx = getWalkStart(w);
             alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
 
@@ -123,7 +123,7 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
 
         #pragma omp critical
         {
-            for(const auto tup : selectedByThread)
+            for(const auto& tup : selectedByThread)
             {
                 auto tipID = std::get<0>(tup)->ID;        
                 auto it = selectedTips.begin();
@@ -269,7 +269,7 @@ VpTx AbstractModule::GIOTA(double alphaVal, int W, int N)
 
 VpTx AbstractModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha, int W, int N)
 {
-    auto r = uniform(0.0,1.0);
+    auto r = myRNG->doubleUniformBetweenZeroOne();
 
     if(r < p1)
     {
@@ -358,10 +358,10 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
             std::partial_sum(p.begin(),p.end(),cs.begin());
             std::partial_sum(p1.begin(),p1.end(),cs1.begin());
 
-            int nextIndex = 0;
-            double probWalkChoice = uniform(0.0,1.0);
+            size_t nextIndex = 0;
+            double probWalkChoice = myRNG->doubleUniformBetweenZeroOne();
 
-            for(int k = 0; k < static_cast<int>(cs.size()); k++)
+            for(size_t k = 0; k < cs.size(); k++)
             {
                 if(probWalkChoice > cs1[k] && probWalkChoice < cs[k])
                 {
@@ -400,7 +400,7 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
         else
         {   
-            int nextIndex = myRNG->intuniform(0,currentView.size() - 1);
+            int nextIndex = myRNG->intUniform(0,currentView.size() - 1);
             startTx = currentView.at(nextIndex);
         }
     }
@@ -411,12 +411,12 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
 Tx* AbstractModule::getWalkStart(int backTrackDist) const
 {
-    int randomIdx = myRNG->intuniform(0,myTips.size() - 1);
+    int randomIdx = myRNG->intUniform(0,myTips.size() - 1);
     auto startTip = myTips.at(randomIdx);
 
     while(!startTip->isGenesisBlock && backTrackDist > 0)
     {
-        randomIdx = myRNG->intuniform(0,startTip->approvedTx.size() - 1);
+        randomIdx = myRNG->intUniform(0,startTip->approvedTx.size() - 1);
         startTip = startTip->approvedTx.at(randomIdx);
         backTrackDist--;
     }
@@ -432,7 +432,7 @@ void AbstractModule::unionConflictTx(Tx* theSource, Tx* toUpdate)
         return; 
     }
 
-    for(const auto key : theSource->conflictTx)
+    for(const auto& key : theSource->conflictTx)
     {
         auto it = toUpdate->conflictTx.find(key.first);
 
@@ -458,7 +458,7 @@ void AbstractModule::unionConflictTx(Tx* theSource, Tx* toUpdate)
 
 bool AbstractModule::isLegitTip(Tx* tip) const
 {
-    for(const auto key : tip->conflictTx)
+    for(const auto& key : tip->conflictTx)
     {
         if(key.second.first && key.second.second)
         {
@@ -486,7 +486,7 @@ bool AbstractModule::ifConflictedTips(Tx* tip1, Tx* tip2) const
         innerMap = tip2->conflictTx;
     }
 
-    for(const auto keyOuter : outerMap)
+    for(const auto& keyOuter : outerMap)
     {
         auto it = innerMap.find(keyOuter.first);
 
@@ -734,7 +734,7 @@ Tx* AbstractModule::updateTangle(const dataUpdate* data)
         myBuffer.push_back(std::string(newTx->ID.begin() + 1, newTx->ID.end()));
     }
 
-    for(const auto tipID : data->approvedTx)
+    for(const auto& tipID : data->approvedTx)
     {
         auto it = std::find_if(myTangle.rbegin(), myTangle.rend(), [tipID](const Tx* tx) {return tx->ID == tipID;});
         

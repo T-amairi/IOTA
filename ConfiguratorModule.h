@@ -1,12 +1,7 @@
 //includes
 #pragma once
-#include <omnetpp.h>
-#include <string>
-#include <vector>
 #include <fstream>
-#include <map>
-
-using namespace omnetpp;
+#include "Structures.h"
 
 //ConfiguratorModule : non-networked module setting up the topology
 class ConfiguratorModule : public cSimpleModule
@@ -15,7 +10,7 @@ class ConfiguratorModule : public cSimpleModule
         //Split a line (from the CSV file) in a list of int according to the delimeter ','
         std::vector<int> split(const std::string& line) const;
         //Connect two modules
-        void connectModules(cModule* moduleOut, cModule* moduleIn);
+        void connectModules(cModule* moduleOut, cModule* moduleIn, randomNumberGenerator& myRNG);
 
         //Return the edge list (using a map : [Node (key)] -> Adjacent nodes (value)) of the used topology from the csv file in the topologies folder
         std::map<int,std::vector<int>> getEdgeList() const;

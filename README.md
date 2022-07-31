@@ -1,13 +1,12 @@
 # IOTA Simulation using OMNeT++
 
-This git is a decentralized simulation of [IOTA](https://www.iota.org/) which is a crypto-currency using [OMNeT++](https://omnetpp.org/). It implements two kind of modules : the malicious ones that can launch an attack and the honest ones representing the regular user.
+This git is a decentralized simulation of [IOTA](https://www.iota.org/) which is a crypto-currency using [OMNeT++](https://omnetpp.org/). It implements two kind of modules : the malicious ones that can launch an attack and the honest ones representing the regular user. For better performance, the simulation uses OpenMP for multithreading.
 
 This simulation can use several topologies:
 
 - **Complete graph**
 - **2D grid**
 - **Torus**
-- **Expander**
 - **Watts-Strogatz**
 
 As the simulation is handling two types of modules and the .NED format is very restrictive, you have to use the **topologies** folder which contains the **GenTopo.py** script allowing to generate the wanted topology. The simulation will then read the .csv created by the script to build the network (this part is done by the **ConfiguratorModule**). It is also necessary to install the **networkx and the matplotlib modules.**

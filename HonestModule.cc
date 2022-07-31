@@ -15,7 +15,9 @@ void HonestModule::caseISSUE()
 
         EV << "Chosen Tips: ";
 
-        for(const auto tip : chosenTips) EV << tip->ID << " "; EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
+        for(const auto tip : chosenTips) EV << tip->ID << " "; 
+        
+        EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
 
         msgPoW->setContextPointer(&chosenTips);
 

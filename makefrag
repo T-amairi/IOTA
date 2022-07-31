@@ -1,2 +1,2 @@
-CFLAGS += -O3 -march=native -fopenmp
+CXXFLAGS += -Wall -O3 -march=native -fopenmp
 LDFLAGS += -fopenmp

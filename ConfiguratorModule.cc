@@ -37,7 +37,7 @@ std::map<int,std::vector<int>> ConfiguratorModule::getEdgeList() const
     return myTopo;
 }
 
-void ConfiguratorModule::connectModules(cModule* moduleOut, cModule* moduleIn)
+void ConfiguratorModule::connectModules(cModule* moduleOut, cModule* moduleIn, randomNumberGenerator& myRNG)
 {
     double delay = 0.0;
 
@@ -45,7 +45,7 @@ void ConfiguratorModule::connectModules(cModule* moduleOut, cModule* moduleIn)
     {
        double minDelay = getParentModule()->par("minDelay");
        double maxDelay = getParentModule()->par("maxDelay");
-       delay = uniform(minDelay,maxDelay);
+       delay = myRNG.doubleUniform(minDelay,maxDelay);
     }
 
     else
@@ -97,10 +97,13 @@ void ConfiguratorModule::initialize()
 {
     EV << "Setting up connections:" << std::endl;
 
+    int currentRun = getEnvir()->getConfigEx()->getActiveRunNumber();
+
     auto myTopo = getEdgeList();
     auto myModules = getModules();
+    auto myRNG = randomNumberGenerator(currentRun,1.0);
 
-    for(auto const edge : myTopo)
+    for(const auto& edge : myTopo)
     {
         checkError(edge.first,myModules.size());
         auto moduleOut = myModules[edge.first];
@@ -109,7 +112,7 @@ void ConfiguratorModule::initialize()
         {
             checkError(idx,myModules.size());
             auto moduleIn = myModules[idx];
-            connectModules(moduleOut,moduleIn);
+            connectModules(moduleOut,moduleIn,myRNG);
             EV << "Module " << moduleOut->getId() - 3 << " ---> Module " << moduleIn->getId() - 3 << std::endl;
         }
     }

@@ -389,7 +389,7 @@ Tx* MaliciousModule::maintainBalance()
         else if(!tx->isApproved && !ifAppTx) candidatesTx.push_back(tx);
     }
 
-    int randomIdx = myRNG->intuniform(0,candidatesTx.size() - 1);
+    int randomIdx = myRNG->intUniform(0,candidatesTx.size() - 1);
     auto txToApp = candidatesTx[randomIdx];
     candidatesTx.erase(candidatesTx.begin() + randomIdx);
 
@@ -399,7 +399,7 @@ Tx* MaliciousModule::maintainBalance()
 
     if(!candidatesTx.empty())
     {
-        randomIdx = myRNG->intuniform(0,candidatesTx.size() - 1);
+        randomIdx = myRNG->intUniform(0,candidatesTx.size() - 1);
         txToApp = candidatesTx[randomIdx];
 
         linkChain(newTip,txToApp);
@@ -557,7 +557,9 @@ void MaliciousModule::caseISSUE()
 
         EV << "Chosen Tips: ";
 
-        for(const auto tip : chosenTips) EV << tip->ID << " "; EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
+        for(const auto tip : chosenTips) EV << tip->ID << " "; 
+        
+        EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
 
         msgPoW->setContextPointer(&chosenTips);
 
