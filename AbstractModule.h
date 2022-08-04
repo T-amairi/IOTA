@@ -96,6 +96,7 @@ class AbstractModule : public cSimpleModule
         std::string ID; //the ID of the module
         int txCount = 0; //counts the number of transactions issued by the module
         int txLimit; //how many transactions the module can issue (set in NED file)
+        int WThreshold; //the maximum limit that W can take (check the NED file for more precision)
 
         simtime_t rateMean; //exponential distribution with the given mean (set in the NED file)
         simtime_t powTime; //PoW time (set in NED file)

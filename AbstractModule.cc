@@ -101,6 +101,12 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
         for(int i = 0; i < N; i++)
         {
             w = myRNG->intUniform(W,2*W);
+
+            if(w > WThreshold)
+            {
+                w = WThreshold;
+            }
+
             startTx = getWalkStart(w);
             alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
 
@@ -845,7 +851,12 @@ void AbstractModule::_initialize()
     rateMean = par("rateMean");
     powTime = par("powTime");
     txLimit = par("transactionLimit");
-    
+
+    auto network = getParentModule();
+    int totalNumberNodes = int(network->par("nbMaliciousNode")) + int(network->par("nbHonestNode"));
+    double WPercentageThreshold =  par("WPercentageThreshold");
+    WThreshold = std::floor(WPercentageThreshold * txLimit * totalNumberNodes);
+
     createGenBlock();
 
     msgIssue = new cMessage("Issuing a new transaction",ISSUE);
