@@ -5,23 +5,12 @@ from graphviz import Digraph
 import os
 import csv
 
-############################################################################
-#                             PARAMETERS                                   #
-############################################################################
-
-### ID OF THE FILE TO BE READ ###
-ID = 1
-
-############################################################################
-#                             FUNCTIONS                                    #
-############################################################################
-
 os.chdir(r"./data/tracking")
 
 Tangle = list()
 numberTips = 0
 listTips = list()
-with open("Tangle[{}].csv".format(ID), 'r',) as file:
+with open("Tangle.csv", 'r',) as file:
     reader = csv.reader(file, delimiter = ';')
     for row in reader:
         temp = row[1].split(",")
@@ -33,16 +22,16 @@ with open("Tangle[{}].csv".format(ID), 'r',) as file:
             Tangle.append((row[0],temp))
 
 listNotLegit = list()
-if os.path.exists("NotLegit[{}].csv".format(ID)):
-    with open("NotLegit[{}].csv".format(ID), 'r',) as file:
+if os.path.exists("NotLegit.csv"):
+    with open("NotLegit.csv", 'r',) as file:
         reader = csv.reader(file, delimiter = ';')
         for row in reader:
             listNotLegit.append(row[1])
         listNotLegit = list(set(listNotLegit))
 
 listLegit = list()
-if os.path.exists("Legit[{}].csv".format(ID)):
-    with open("Legit[{}].csv".format(ID), 'r',) as file:
+if os.path.exists("Legit.csv"):
+    with open("Legit.csv", 'r',) as file:
         reader = csv.reader(file, delimiter = ';')
         for row in reader:
             listLegit.append(row[1])
@@ -62,9 +51,9 @@ os.chdir(r"../image")
 colors = ['green','orange','red','blue','purple']
 conf = 0.5
 
-g = Digraph(comment='Tangle Module[{}]'.format(ID),format='svg',node_attr={'shape': 'box','style': 'filled'})
+g = Digraph(comment='Tangle',format='svg',node_attr={'shape': 'box','style': 'filled'})
 g.attr(rankdir='LR')
-g.attr(label='Tangle Module[{}]'.format(ID),labelloc='t')
+g.attr(label='Tangle',labelloc='t')
 
 for tx in Tangle:
     if len(tx[1]) == 0:
@@ -94,5 +83,5 @@ for tx in Tangle:
         for neib in tx[1]:
             g.edge(tx[0],neib,dir="back")
 
-g.render('Tangle Module[{}]'.format(ID),format="svg")
-os.remove('Tangle Module[{}]'.format(ID))
+g.render('Tangle',format="svg")
+os.remove('Tangle')

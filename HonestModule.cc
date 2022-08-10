@@ -102,5 +102,5 @@ void HonestModule::handleMessage(cMessage* msg)
 
 void HonestModule::finish()
 {
-    _finish(static_cast<bool>(par("exportTangle")),std::make_pair(static_cast<bool>(par("exportTipsNumber")),static_cast<bool>(par("wipeLogTipsNumber"))));
+    _finish(bool(par("exportTangle")),std::make_pair(bool(par("exportTipsNumber")),bool(par("wipeLogTipsNumber"))));
 }

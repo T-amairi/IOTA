@@ -11,7 +11,7 @@ import os
 
 #### FOR ALL TOPO ####
 name = "WattsStrogatz" #name of the wanted topo : FullGraph or Grid or Torus or WattsStrogatz (case sensitive !)
-n = 100 #number of nodes
+n = 150 #number of nodes
 
 #### 2D GRID & TORUS ####
 rows = 2 #number of rows
@@ -19,7 +19,7 @@ columns = 5 #number of columns
 
 #### WATTS STROGATZ ####
 p = 0.05 #the probability of rewiring each edge
-k = 5 #number of adj nodes
+k = 15 #number of adj nodes
 save = True #to save the output as a SVG file
 
 ############################################################################

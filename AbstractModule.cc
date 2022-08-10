@@ -36,7 +36,7 @@ void AbstractModule::setTxLimit(int newLimit)
 void AbstractModule::printTangle() const
 {
     std::fstream file;
-    std::string path = "./data/tracking/Tangle" + ID + ".csv";
+    std::string path = "./data/tracking/Tangle.csv";
     remove(path.c_str());
     file.open(path,std::ios::app);
 
@@ -68,7 +68,7 @@ void AbstractModule::printTangle() const
 void AbstractModule::printTipsLeft(bool ifDeleteFile) const
 {
     std::fstream file;
-    std::string path = "./data/tracking/TipsNumber" + ID + ".csv";
+    std::string path = "./data/tracking/TipsNumber.csv";
     if(ifDeleteFile) remove(path.c_str());
     file.open(path,std::ios::app);
     file << myTips.size() << "\n";
@@ -870,16 +870,35 @@ void AbstractModule::_initialize()
 
 void AbstractModule::_finish(bool exportTangle, std::pair<bool,bool> exportTipsNumber)
 {
-    EV << "Exporting data to csv files and clearing memory\n";
+    bool toExport = false;
 
-    if(exportTangle)
+    auto network = getParentModule();
+    auto firstHonestModule = network->getSubmodule("Honest",0);
+    auto firstMaliciousModule = network->getSubmodule("Malicious",0);
+
+    if(firstMaliciousModule)
     {
-        printTangle();
+        toExport = getId() == firstMaliciousModule->getId();
     }
 
-    if(exportTipsNumber.first)
+    else
     {
-        printTipsLeft(exportTipsNumber.second);
+        toExport = getId() == firstHonestModule->getId();
+    }
+
+    if(toExport)
+    {
+        EV << "Exporting data to csv files\n";
+
+        if(exportTangle)
+        {
+            printTangle();
+        }
+
+        if(exportTipsNumber.first)
+        {
+            printTipsLeft(exportTipsNumber.second);
+        }
     }
 
     deleteTangle();

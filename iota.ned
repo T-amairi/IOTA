@@ -11,10 +11,10 @@ simple HonestModule
     	@display("i=,blue");
     	
         //******* PARAMETERS *******//
-        double rateMean @unit(s) = 0.5s; //exponential distribution with the given mean  (!= 0 because lambda = 1 / rateMean)
+        double rateMean @unit(s) = 0.50s; //exponential distribution with the given mean  (!= 0 because lambda = 1 / rateMean)
         double powTime @unit(s) = 0.00s; //Proof of Work 
-        int transactionLimit = 10; //how much transactions the node will issue
-        string TSA = "IOTA"; //determines which TSA the node uses : IOTA or GIOTA or EIOTA
+        int transactionLimit = 100; //how much transactions the node will issue
+        string TSA = "GIOTA"; //determines which TSA the node uses : IOTA or GIOTA or EIOTA
 		
 		//******* IOTA & GIOTA & EIOTA *******//
         //for the interval [W,2W] and have to be in [0,1]:  
@@ -23,14 +23,14 @@ simple HonestModule
         //to limit the value of W based on the final size of the Tangle:
         //e.g if WPercentageThreshold = 0.10 -> W <= 0.10 * myTangle.finalSize()
         double WPercentageThreshold = 0.10;
-        int N = 50; //number of walkers
+        int N = 25; //number of walkers
         
         //******* IOTA & GIOTA *******//
-        double alpha = 0.08; //alpha in Pxy prob 
+        double alpha = 2.5; //alpha in Pxy prob 
 
         //******* GIOTA *******//
         //the maximum number of steps to be performed when computing the confidence
-        int confDistance = 20;
+        int confDistance = 50;
 
         //******* EIOTA *******//
         double p1 = 0.1;
@@ -39,7 +39,7 @@ simple HonestModule
         double highAlpha = 2.5;
         
         //******* LOG *******//
-        bool exportTangle = false;
+        bool exportTangle = true;
         bool exportTipsNumber = true;
         bool wipeLogTipsNumber = false;
          
@@ -55,21 +55,25 @@ simple MaliciousModule extends HonestModule
         @class(MaliciousModule);
     	@display("i=,red");
     	
-        //when initiate an attack 
-        double attackStage = 0.25; //have to be in [0,1] : based on the size of the Tangle
+        //when initiate an attack based on the final size of the Tangle and have to be in [0,1]:
+        //e.g if attackStage = 0.5, the attack is launched when myTangle.size() == myTangle.finalSize() * 0.5
+        double attackStage = 0.25;
 
         //******* PARASITE CHAIN ATTACK *******//
         bool PCattack = false; //to initiate a Parasite Chain Attack
-        //determine the computing power of the malicious node according to rateMean:
-        //e.g if PropComputingPower = 0.5, the node can send twice as many transactions
+        //set the computing power of the malicious node according to rateMean:
+        //e.g if PropComputingPower = 0.5, the node can send twice as many transactions  (check in the cpp how it is used)
         double propComputingPower = 0.02;
         //the closer to 1, the higher the proportion of transactions in the chain is and vice versa
         double propChainTips = 0.0; 
 
         //******* SPlITTING ATTACK *******// 
         bool SPattack = false; //to initiate a Splitting Attack
-        double sizeBrancheProp = 10; //sizes of the branches at initialization
-        //by how much is multiplied rateMean, this allows to obtain the power of the malicious node: 
+        //size of the branches at initialization:
+        //e.g sizeBrancheProp = 10, this condition has to be respected in order to go online:
+        //myBranch1.size() + myBranch2.size() >= myTips.size() * 10
+        double sizeBrancheProp = 10;
+        //by how much is multiplied rateMean, this allows to obtain the power of the malicious node when maintaining the branches: 
         //e.g if PropRateMB = 0.5, the attacker is twice as fast as an honest node
         double propRateMB = 0.08;
         
@@ -90,10 +94,10 @@ network Network
 
 		//******* NODES *******//
 		int nbMaliciousNode = 0; //number of malicious nodes in the simulation
-        int nbHonestNode = 100; //number of honest nodes in the simulation
+        int nbHonestNode = 150; //number of honest nodes in the simulation
         
 		//******* DELAY *******// 
-        double delay = 0.2; //the delay in SECONDS !
+        double delay = 0.20; //the delay in SECONDS !
         bool ifRandDelay = false; //to set up a random delay
         //parameter used by the uniform distribution during initialization for setting the delay in SECONDS !
         double minDelay = 50.0;

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import re
 import glob
 import os
@@ -23,18 +25,12 @@ if t:
 path = r"..\tracking"
 os.chdir(path)
 
-TipsFile = glob.glob("TipsNumber*.csv")
-NbModule = 0
-
-for file in TipsFile:
-    NbTips = 0
-    Nbrun = 0
-    f = open(file,'r')
+NbTips = 0
+Nbrun = 0
+with open("TipsNumber.csv",'r') as f:
     for line in f.readlines():
         NbTips += int(line)
         Nbrun += 1
 
     NbTips = NbTips/Nbrun
-    print("Average number of tips for NodeModule[" + str(NbModule) + "]:",NbTips)
-    NbModule += 1
-    f.close()
+    print("Average number of tips:",NbTips)

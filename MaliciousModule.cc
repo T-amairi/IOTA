@@ -66,11 +66,11 @@ void MaliciousModule::setTxLimitModules()
 void MaliciousModule::printConflictTx()
 {
     std::fstream file1;
-    std::string path = "./data/tracking/NotLegit" + ID + ".csv";
+    std::string path = "./data/tracking/NotLegit.csv";
     remove(path.c_str());
     file1.open(path,std::ios::app);
 
-    path = "./data/tracking/Legit" + ID + ".csv";
+    path = "./data/tracking/Legit.csv";
     remove(path.c_str());
     std::fstream file2;
     file2.open(path,std::ios::app);
@@ -687,24 +687,24 @@ void MaliciousModule::handleMessage(cMessage* msg)
 
 void MaliciousModule::finish()
 {
-    _finish(static_cast<bool>(par("exportTangle")),std::make_pair(static_cast<bool>(par("exportTipsNumber")),static_cast<bool>(par("wipeLogTipsNumber"))));
+    _finish(bool(par("exportTangle")),std::make_pair(bool(par("exportTipsNumber")),bool(par("wipeLogTipsNumber"))));
 
     delete msgAttack;
 
-    if((msgParasiteChain || msgSplitting) && static_cast<bool>(par("exportConflictTx")))
+    if((msgParasiteChain || msgSplitting) && bool(par("exportConflictTx")))
     {
         printConflictTx();
     }
 
     if(msgParasiteChain)
     {
-        if(static_cast<bool>(par("exportDiffTxChain"))) printDiffTxChain(static_cast<bool>(par("wipeLogDiffTxChain")));
+        if(bool(par("exportDiffTxChain"))) printDiffTxChain(bool(par("wipeLogDiffTxChain")));
         delete msgParasiteChain;
     }
 
     else if(msgSplitting)
     {
-        if(static_cast<bool>(par("exportBranchSize"))) printBranchSize(static_cast<bool>(par("wipeLogBranchSize")));
+        if(bool(par("exportBranchSize"))) printBranchSize(bool(par("wipeLogBranchSize")));
         delete msgSplitting;
         if(msgMaintainBalance) delete msgMaintainBalance;
     }

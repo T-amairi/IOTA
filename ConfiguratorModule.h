@@ -9,6 +9,7 @@ class ConfiguratorModule : public cSimpleModule
     public:
         //Split a line (from the CSV file) in a list of int according to the delimeter ','
         std::vector<int> split(const std::string& line) const;
+
         //Connect two modules
         void connectModules(cModule* moduleOut, cModule* moduleIn, randomNumberGenerator& myRNG);
 
@@ -17,8 +18,11 @@ class ConfiguratorModule : public cSimpleModule
         //Return a vector containing pointers for all modules (Honest and Malicious)
         std::vector<cModule*> getModules() const;
 
-        //throw an error if there is a conflict between the CSV file and the parameters in the NED file (e.g number of modules)
+        //Throw an error if there is a conflict between the CSV file and the parameters in the NED file (e.g number of modules)
         void checkError(int nodeID, int totalModules) const;
+
+        //Log the current configuration
+        void logConfig() const;
 
         //Overriding the initialize() function from the cSimpleModule class
         void initialize() override;

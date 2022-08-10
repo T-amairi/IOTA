@@ -93,6 +93,102 @@ void ConfiguratorModule::checkError(int nodeID, int totalModules) const
     }
 }
 
+void ConfiguratorModule::logConfig() const
+{
+    std::cout << std::boolalpha;
+    std::cout << "\n~~~~~~~~~~~~ OMNeT++ IOTA SIMULATION CONFIGURATION ~~~~~~~~~~~~\n";
+
+    auto network = getParentModule();
+    auto honestModule = network->getSubmodule("Honest",0);
+    auto maliciousModule = network->getSubmodule("Malicious",0);
+
+    std::cout << "\n-------------- Network settings --------------\n"
+         << "* Selected topology: " << std::string(network->par("topology")) << "\n"
+         << "* Number of malicious nodes: " << int(network->par("nbMaliciousNode")) << "\n"
+         << "* Number of honest nodes: " << int(network->par("nbHonestNode")) << "\n";
+
+    bool ifRandDelay = network->par("ifRandDelay");
+    std::cout << "* To set up a random delay based on an interval: " << ifRandDelay << "\n";
+
+    if(ifRandDelay)
+    {
+        std::cout << "\t- Minimum delay: " << double(network->par("minDelay")) << " seconds\n";
+        std::cout << "\t- Maximum delay: " << double(network->par("maxDelay")) << " seconds\n";
+    }
+
+    else
+    {
+        std::cout << "\t- Fixed delay: " << double(network->par("delay")) << " seconds\n";
+    }
+
+    if(honestModule)
+    {
+        std::cout << "\n------------ Honest node settings ------------\n"
+             << "* The exponential distribution mean of the issuing rate: " << double(honestModule->par("rateMean")) << " per seconds\n"
+             << "* Proof of work time: " << double(honestModule->par("powTime")) << " seconds\n"
+             << "* Transaction limit: " << int(honestModule->par("transactionLimit")) << "\n";
+
+        std::string TSA = honestModule->par("TSA");
+        std::cout << "* Tips selection algorithm: " << TSA << "\n"
+             << "\t- WProp: " << double(honestModule->par("WProp")) << "\n"
+             << "\t- WPercentageThreshold: " << double(honestModule->par("WPercentageThreshold")) << "\n"
+             << "\t- N: " << int(honestModule->par("N")) << "\n";
+
+        if(TSA == "IOTA" || TSA == "GIOTA")
+        {
+            std::cout << "\t- Alpha: " << double(honestModule->par("alpha")) << "\n";
+
+            if(TSA == "GIOTA")
+            {
+                std::cout << "\t- confDistance: " << int(honestModule->par("confDistance")) << "\n";
+            }
+        }
+
+        else
+        {
+            std::cout << "\t- p1: " << double(honestModule->par("p1")) << "\n"
+                 << "\t- p2: " << double(honestModule->par("p2")) << "\n"
+                 << "\t- Low alpha: " << double(honestModule->par("lowAlpha")) << "\n"
+                 << "\t- High alpha: " << double(honestModule->par("highAlpha")) << "\n";
+        }
+
+        std::cout << "* Log settings:\n"
+             << "\t- Export Tangle: " << bool(honestModule->par("exportTangle")) << "\n"
+             << "\t- Export tips number: " << bool(honestModule->par("exportTipsNumber")) << "\n"
+             << "\t- Delete tips number logs before: " << bool(honestModule->par("wipeLogTipsNumber")) << "\n";
+    }
+
+    if(maliciousModule)
+    {
+        std::cout << "\n----------- Malicious node settings -----------\n"
+                  << "* Attack stage: " << double(maliciousModule->par("attackStage")) << "\n";
+
+        bool PCattack = maliciousModule->par("PCattack");
+        bool SPattack = maliciousModule->par("SPattack");
+
+        if(PCattack)
+        {
+            std::cout << "* Parasite chain attack settings:\n"
+                      << "\t- The computing power of the node: " << double(maliciousModule->par("propComputingPower")) << "\n"
+                      << "\t- The proportion of transactions in the chain: " << double(maliciousModule->par("propChainTips")) << "\n";
+        }
+
+        if(SPattack)
+        {
+            std::cout << "* Splitting attack settings:\n"
+                      << "\t- The value to set the size of the branches at initialization: " << double(maliciousModule->par("sizeBrancheProp")) << "\n"
+                      << "\t- The computing power of the node when maintaining the branches: " << double(maliciousModule->par("propRateMB")) << "\n";
+        }
+
+        std::cout << "* Log settings:\n"
+             << "\t- Export the conflicted transactions: " << bool(maliciousModule->par("exportConflictTx")) << "\n"
+             << "\t- Export the resilience of the parasite chain attack: " << bool(maliciousModule->par("exportDiffTxChain")) << "\n"
+             << "\t- Delete parasite chain attack logs before: " << bool(maliciousModule->par("wipeLogTipsNumber")) << "\n"
+             << "\t- Export the resilience of the splitting attack: " << bool(maliciousModule->par("exportBranchSize")) << "\n"
+             << "\t- Delete splitting attack logs before: " << bool(maliciousModule->par("wipeLogBranchSize")) << "\n";
+    }
+}
+
 void ConfiguratorModule::initialize()
 {
     EV << "Setting up connections:" << std::endl;
@@ -116,4 +212,6 @@ void ConfiguratorModule::initialize()
             EV << "Module " << moduleOut->getId() - 3 << " ---> Module " << moduleIn->getId() - 3 << std::endl;
         }
     }
+
+    logConfig();
 }
