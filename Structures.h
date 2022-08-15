@@ -1,7 +1,6 @@
 //includes 
 #pragma once
 #include <omnetpp.h>
-#include <random>
 #include <omp.h>
 
 using namespace omnetpp;
@@ -46,51 +45,4 @@ struct dataUpdate
 {
     std::string ID;  //the ID of the transaction
     std::vector<std::string> approvedTx; //transactions approved by this transaction
-};
-
-/* a rng class to avoid the use of the built in rng functions because, sometimes, 
-*  the omnet++ exponential distribution returns a high negative value leading to msgs be sended in the past. 
-*  This bug appeared since the introduction of the OpenMP code and I duno why ?
-*  The setted seed is unique for each module and each run (check AbstractModule::_initialize())
-*/
-class randomNumberGenerator
-{
-    public:
-        //constructor
-        randomNumberGenerator(int seed, double lambda):eng(rd()), 
-                                                       exponential(std::exponential_distribution<double>(lambda)),
-                                                       uniformBetweenZeroOne(std::uniform_real_distribution<double>{0.0,1.0})
-        {
-            eng.seed(seed);
-        };
-
-        //exponential distribution with the given mean setted in the construction
-        double exp()
-        {
-            return exponential(eng);
-        };
-
-        //uniform discrete distribution with the given interval (int)
-        int intUniform(int a, int b)
-        {
-            return std::uniform_int_distribution<int>{a,b}(eng);
-        };
-
-        //uniform discrete distribution in the interval [0.0,1.0) (double)
-        double doubleUniformBetweenZeroOne()
-        {
-            return uniformBetweenZeroOne(eng);
-        };
-
-        //uniform discrete distribution with the given interval (double)
-        double doubleUniform(double a, double b)
-        {
-            return std::uniform_real_distribution<double>{a,b}(eng);
-        };
-
-    private:
-        std::random_device rd; //random device
-        std::mt19937 eng; //Mersenne twister engine
-        std::exponential_distribution<double> exponential; //STL exponential distribution
-        std::uniform_real_distribution<double> uniformBetweenZeroOne; //STL uniform distribution in [0.0,1.0)
 };

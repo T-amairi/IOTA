@@ -69,7 +69,12 @@ void AbstractModule::printTipsLeft(bool ifDeleteFile) const
 {
     std::fstream file;
     std::string path = "./data/tracking/TipsNumber.csv";
-    if(ifDeleteFile) remove(path.c_str());
+
+    if(ifDeleteFile)
+    {
+        remove(path.c_str());
+    }
+
     file.open(path,std::ios::app);
     file << myTips.size() << "\n";
     file.close();
@@ -79,7 +84,12 @@ void AbstractModule::printStats(bool ifDeleteFile) const
 {
     std::fstream file;
     std::string path = "./data/tracking/Stats" + ID + ".csv";
-    if(ifDeleteFile) remove(path.c_str());
+
+    if(ifDeleteFile)
+    {
+        remove(path.c_str());
+    }
+
     file.open(path,std::ios::app);
     file << getParentModule()->getName() << ";" << txCount << ";" << myTangle.size() << ";" << myTips.size() << ";\n";
     file.close();
@@ -100,7 +110,7 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
         #pragma omp for nowait
         for(int i = 0; i < N; i++)
         {
-            w = myRNG->intUniform(W,2*W);
+            w = intuniform(W,2*W);
 
             if(w > WThreshold)
             {
@@ -159,7 +169,12 @@ VpTx AbstractModule::IOTA(double alphaVal, int W, int N)
     if(myTips.size() == 1)
     {
         VpTx tipsToApprove;
-        if(isLegitTip(myTips[0])) tipsToApprove.push_back(myTips[0]);
+
+        if(isLegitTip(myTips[0]))
+        {
+            tipsToApprove.push_back(myTips[0]);
+        }
+
         return tipsToApprove;
     }
 
@@ -275,7 +290,7 @@ VpTx AbstractModule::GIOTA(double alphaVal, int W, int N)
 
 VpTx AbstractModule::EIOTA(double p1, double p2, double lowAlpha, double highAlpha, int W, int N)
 {
-    auto r = myRNG->doubleUniformBetweenZeroOne();
+    auto r = uniform(0.0,1.0);
 
     if(r < p1)
     {
@@ -297,12 +312,12 @@ VpTx AbstractModule::getTipsTSA()
     double WProp = par("WProp");
     int W = std::round(WProp * myTangle.size());
 
-    if(strcmp(par("TSA"),"GIOTA") == 0)
+    if(par("TSA").str() == "GIOTA")
     {
         return GIOTA(par("alpha"),W,par("N"));
     }
 
-    else if(strcmp(par("TSA"),"EIOTA") == 0)
+    else if(par("TSA").str() == "EIOTA")
     {
         return EIOTA(par("p1"),par("p2"),par("lowAlpha"),par("highAlpha"),W,par("N"));
     }
@@ -365,7 +380,7 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
             std::partial_sum(p1.begin(),p1.end(),cs1.begin());
 
             size_t nextIndex = 0;
-            double probWalkChoice = myRNG->doubleUniformBetweenZeroOne();
+            double probWalkChoice = uniform(0.0,1.0);
 
             for(size_t k = 0; k < cs.size(); k++)
             {
@@ -406,7 +421,7 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
         else
         {   
-            int nextIndex = myRNG->intUniform(0,currentView.size() - 1);
+            int nextIndex = intuniform(0,currentView.size() - 1);
             startTx = currentView.at(nextIndex);
         }
     }
@@ -417,12 +432,12 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
 Tx* AbstractModule::getWalkStart(int backTrackDist) const
 {
-    int randomIdx = myRNG->intUniform(0,myTips.size() - 1);
+    int randomIdx = intuniform(0,myTips.size() - 1);
     auto startTip = myTips.at(randomIdx);
 
     while(!startTip->isGenesisBlock && backTrackDist > 0)
     {
-        randomIdx = myRNG->intUniform(0,startTip->approvedTx.size() - 1);
+        randomIdx = intuniform(0,startTip->approvedTx.size() - 1);
         startTip = startTip->approvedTx.at(randomIdx);
         backTrackDist--;
     }
@@ -530,14 +545,25 @@ void AbstractModule::updateConflictTx(Tx* startTx)
 
 void AbstractModule::_updateconflictTx(Tx* currentTx, VpTx& visitedTx, std::string conflictID)
 {
-    if(currentTx->isVisited[0]) return;
+    if(currentTx->isVisited[0])
+    {
+        return;
+    }
 
     currentTx->isVisited[0] = true;
     visitedTx.push_back(currentTx);
 
     auto it = currentTx->conflictTx.find("-" + conflictID);
-    if(it == currentTx->conflictTx.end()) currentTx->conflictTx["-" + conflictID] = std::make_pair(true,false);
-    else (*it).second.first = true;
+
+    if(it == currentTx->conflictTx.end())
+    {
+        currentTx->conflictTx["-" + conflictID] = std::make_pair(true,false);
+    }
+
+    else
+    {
+        (*it).second.first = true;
+    }
     
     for(auto tx : currentTx->approvedBy)
     {
@@ -567,7 +593,10 @@ bool AbstractModule::isApp(Tx* startTx, std::string idToCheck)
 
 void AbstractModule::_isapp(Tx* currentTx, VpTx& visitedTx, std::string idToCheck, bool& res)
 {
-    if(currentTx->isVisited[0]) return;
+    if(currentTx->isVisited[0])
+    {
+        return;
+    }
 
     currentTx->isVisited[0] = true;
     visitedTx.push_back(currentTx);
@@ -848,24 +877,27 @@ void AbstractModule::deleteTangle()
 void AbstractModule::_initialize()
 {
     ID = "[" + std::to_string(getId() - 2) + "]";
-    rateMean = par("rateMean");
-    powTime = par("powTime");
+    rateMean = par("rateMean").doubleValue();
+    powTime = par("powTime").doubleValue();
     txLimit = par("transactionLimit");
 
     auto network = getParentModule();
-    int totalNumberNodes = int(network->par("nbMaliciousNode")) + int(network->par("nbHonestNode"));
-    double WPercentageThreshold =  par("WPercentageThreshold");
+    int totalNumberNodes = network->par("nbMaliciousNode").intValue() + network->par("nbHonestNode").intValue();
+    double WPercentageThreshold = par("WPercentageThreshold");
     WThreshold = std::floor(WPercentageThreshold * txLimit * totalNumberNodes);
 
-    createGenBlock();
+    exponential = std::exponential_distribution<double>(1/rateMean);
+    std::random_device rd;
+    eng = std::mt19937(rd());
+    int currentRun = getEnvir()->getConfigEx()->getActiveRunNumber();
+    int seed = currentRun + getId();
+    eng.seed(seed);
 
     msgIssue = new cMessage("Issuing a new transaction",ISSUE);
     msgPoW = new cMessage("PoW time",POW);
     msgUpdate = new cMessage("Broadcasting a new transaction",UPDATE);
 
-    int currentRun = getEnvir()->getConfigEx()->getActiveRunNumber();
-    int seed = currentRun + getId();
-    myRNG = new randomNumberGenerator(seed,1/rateMean.dbl());
+    createGenBlock();
 }
 
 void AbstractModule::_finish(bool exportTangle, std::pair<bool,bool> exportTipsNumber)
@@ -902,7 +934,6 @@ void AbstractModule::_finish(bool exportTangle, std::pair<bool,bool> exportTipsN
     }
 
     deleteTangle();
-    delete myRNG;
     delete msgIssue;
     delete msgPoW;
     delete msgUpdate;

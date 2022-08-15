@@ -11,7 +11,7 @@ class ConfiguratorModule : public cSimpleModule
         std::vector<int> split(const std::string& line) const;
 
         //Connect two modules
-        void connectModules(cModule* moduleOut, cModule* moduleIn, randomNumberGenerator& myRNG);
+        void connectModules(cModule* moduleOut, cModule* moduleIn);
 
         //Return the edge list (using a map : [Node (key)] -> Adjacent nodes (value)) of the used topology from the csv file in the topologies folder
         std::map<int,std::vector<int>> getEdgeList() const;
@@ -26,6 +26,12 @@ class ConfiguratorModule : public cSimpleModule
 
         //Overriding the initialize() function from the cSimpleModule class
         void initialize() override;
+
+    private:
+        //delays
+        double delay;
+        double minDelay;
+        double maxDelay;
 };
 
 Define_Module(ConfiguratorModule);

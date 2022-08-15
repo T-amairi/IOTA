@@ -84,8 +84,15 @@ void MaliciousModule::printConflictTx()
         {    
             if(DoubleSpendTx->ID != tx->ID)
             {
-                if(isApp(tx,DoubleSpendTx->ID)) file1 << DoubleSpendTx->ID << ";" << tx->ID << std::endl;
-                if(isApp(tx,legitID)) file2 << legitID << ";" << tx->ID << std::endl;
+                if(isApp(tx,DoubleSpendTx->ID))
+                {
+                    file1 << DoubleSpendTx->ID << ";" << tx->ID << "\n";
+                }
+
+                if(isApp(tx,legitID))
+                {
+                    file2 << legitID << ";" << tx->ID << "\n";
+                }
             }
         }
     }
@@ -98,12 +105,17 @@ void MaliciousModule::printBranchSize(bool ifDeleteFile)
 {
     std::fstream file;
     std::string path = "./data/tracking/BranchSize" + ID + ".csv";
-    if(ifDeleteFile) remove(path.c_str());
+
+    if(ifDeleteFile)
+    {
+        remove(path.c_str());
+    }
+
     file.open(path,std::ios::app);
 
     if(myBranch1.empty())
     {
-        file << rateMB << ";" << "fail" << std::endl;
+        file << rateMB << ";" << "fail" << "\n";
     }
 
     else
@@ -122,7 +134,7 @@ void MaliciousModule::printBranchSize(bool ifDeleteFile)
             }
         }
 
-        file << rateMB <<";" << count << ";" << myBranch1.size() << ";" << myBranch2.size() << std::endl;
+        file << rateMB <<";" << count << ";" << myBranch1.size() << ";" << myBranch2.size() << "\n";
     }
 
     file.close();
@@ -132,12 +144,17 @@ void MaliciousModule::printDiffTxChain(bool ifDeleteFile)
 {
     std::fstream file;
     std::string path = "./data/tracking/DiffTxChain" + ID + ".csv";
-    if(ifDeleteFile) remove(path.c_str());
+
+    if(ifDeleteFile)
+    {
+        remove(path.c_str());
+    }
+
     file.open(path,std::ios::app);
 
     if(myDoubleSpendTx.size() == 0)
     {
-        file << "fail" << std::endl;
+        file << "fail" << "\n";
     }
 
     else
@@ -160,7 +177,7 @@ void MaliciousModule::printDiffTxChain(bool ifDeleteFile)
                 }
             }
 
-           file << c1 - c2 << std::endl;
+           file << c1 - c2 << "\n";
         }
     }
 
@@ -309,7 +326,10 @@ void MaliciousModule::mergeAndBroadcast()
         {
             myTangle.push_back(tx);
 
-            if(!tx->isApproved) myTips.push_back(tx);
+            if(!tx->isApproved)
+            {
+                myTips.push_back(tx);
+            }
 
             broadcastTx(tx);
         }
@@ -350,9 +370,8 @@ void MaliciousModule::handleBalance()
     {
         EV << "The weight of the two branches is not the same : maintaining...\n";
 
-        if(sizeDiff > 0) whichBranch = 2;
-        else whichBranch = 1;
-    
+        (sizeDiff > 0) ? whichBranch = 2 : whichBranch = 1;
+        
         for(int i = 0; i < std::abs(sizeDiff); i++)
         {
             scheduleAt(simTime() + (i+1)*rateMB, msgMaintainBalance->dup());
@@ -367,17 +386,20 @@ void MaliciousModule::handleBalance()
 
 Tx* MaliciousModule::maintainBalance()
 {
-    VpTx chosenBranch;
-
-    if(whichBranch == 2) chosenBranch = myBranch2;
-    else chosenBranch = myBranch1;
-    
+    VpTx chosenBranch = (whichBranch == 2) ? myBranch2 : myBranch1;
     int countTips = 0;
 
     for(auto tx : chosenBranch)
     {
-        if(!tx->isApproved) countTips++;
-        if(countTips > totalModules - 1) break;
+        if(!tx->isApproved)
+        {
+            countTips++;
+        }
+
+        if(countTips > totalModules - 1)
+        {
+            break;
+        }
     }
     
     bool ifAppTx = countTips <= totalModules - 1;
@@ -385,30 +407,43 @@ Tx* MaliciousModule::maintainBalance()
 
     for(auto tx : chosenBranch)
     {
-        if(tx->isApproved && ifAppTx) candidatesTx.push_back(tx);
-        else if(!tx->isApproved && !ifAppTx) candidatesTx.push_back(tx);
+        if(tx->isApproved && ifAppTx)
+        {
+            candidatesTx.push_back(tx);
+        }
+
+        else if(!tx->isApproved && !ifAppTx)
+        {
+            candidatesTx.push_back(tx);
+        }
     }
 
-    int randomIdx = myRNG->intUniform(0,candidatesTx.size() - 1);
+    int randomIdx = intuniform(0,candidatesTx.size() - 1);
     auto txToApp = candidatesTx[randomIdx];
     candidatesTx.erase(candidatesTx.begin() + randomIdx);
 
     auto newTip = createTx();
     linkChain(newTip,txToApp);
-    if(!ifAppTx) updateMyTips(txToApp->ID);
+
+    if(!ifAppTx)
+    {
+        updateMyTips(txToApp->ID);
+    }
 
     if(!candidatesTx.empty())
     {
-        randomIdx = myRNG->intUniform(0,candidatesTx.size() - 1);
+        randomIdx = intuniform(0,candidatesTx.size() - 1);
         txToApp = candidatesTx[randomIdx];
 
         linkChain(newTip,txToApp);
-        if(!ifAppTx) updateMyTips(txToApp->ID);
+
+        if(!ifAppTx)
+        {
+            updateMyTips(txToApp->ID);
+        }
     }
 
-    if(whichBranch == 2) myBranch2.push_back(newTip);
-    else myBranch1.push_back(newTip);
-
+    (whichBranch == 2) ? myBranch2.push_back(newTip) : myBranch1.push_back(newTip);
     myTangle.push_back(newTip);
     myTips.push_back(newTip);
 
@@ -442,7 +477,7 @@ void MaliciousModule::casePCA()
     if(targetTx == nullptr)
     {
         EV << "Can not find a legit transaction for the chain, retrying later\n";
-        scheduleAt(simTime() + myRNG->exp(), msgParasiteChain);
+        scheduleAt(simTime() + exponential(eng), msgParasiteChain);
         return;
     }
 
@@ -451,14 +486,14 @@ void MaliciousModule::casePCA()
     if(rootTx == nullptr)
     {
         EV << "Can not find a legit transaction for the chain, retrying later\n";
-        scheduleAt(simTime() + myRNG->exp(), msgParasiteChain);
+        scheduleAt(simTime() + exponential(eng), msgParasiteChain);
         return;
     }
 
     auto T_diff = targetTx->issuedTime - rootTx->issuedTime;
     double PCP = par("propComputingPower");
     double PCT = par("propChainTips");
-    PCP = PCP * rateMean.dbl();
+    PCP = PCP * rateMean;
     int weightChain = int(T_diff.dbl()/PCP);
 
     EV << "Launching a Parasite Chain Attack !\n";
@@ -518,7 +553,10 @@ void MaliciousModule::caseMB(cMessage* msg)
 
     ifSimFinished = ifModulesFinished();
 
-    if(ifSimFinished) return;
+    if(ifSimFinished)
+    {
+        return;
+    }
 
     if(countMB != 0)
     {
@@ -551,7 +589,7 @@ void MaliciousModule::caseISSUE()
         if(chosenTips.empty())
         {
             EV << "The TSA did not give legit tips to approve: attempting again\n";
-            scheduleAt(simTime() + myRNG->exp(), msgIssue);
+            scheduleAt(simTime() + exponential(eng), msgIssue);
             return;
         }
 
@@ -588,7 +626,7 @@ void MaliciousModule::casePOW(cMessage* msg)
     EV << "Pow time finished for " << newTx->ID << ", sending it to all nodes\n";
 
     broadcastTx(newTx);
-    scheduleAt(simTime() + myRNG->exp(), msgIssue);
+    scheduleAt(simTime() + exponential(eng), msgIssue);
 }
 
 void MaliciousModule::caseUPDATE(cMessage* msg)
@@ -613,8 +651,15 @@ void MaliciousModule::caseUPDATE(cMessage* msg)
         
         if(!ifSimFinished)
         {
-            if(countMB == 0) handleBalance();
-            else cachedRequest = true;
+            if(countMB == 0)
+            {
+                handleBalance();
+            }
+
+            else
+            {
+                cachedRequest = true;
+            }
         }
     } 
 
@@ -641,12 +686,12 @@ void MaliciousModule::initialize()
         sizeBrancheProp = par("sizeBrancheProp");
         double propRateMB = par("propRateMB");
         rateMB = rateMean * propRateMB;
-        totalModules = int(getParentModule()->par("nbMaliciousNode")) + int(getParentModule()->par("nbHonestNode"));
+        totalModules = getParentModule()->par("nbMaliciousNode").intValue() + getParentModule()->par("nbHonestNode").intValue();
         msgSplitting = new cMessage("Initiating a splitting attack",SPA);
     }
 
     EV << "Initialization complete\n";
-    scheduleAt(simTime() + myRNG->exp(), msgIssue);
+    scheduleAt(simTime() + exponential(eng), msgIssue);
 }
 
 void MaliciousModule::handleMessage(cMessage* msg)
@@ -687,25 +732,37 @@ void MaliciousModule::handleMessage(cMessage* msg)
 
 void MaliciousModule::finish()
 {
-    _finish(bool(par("exportTangle")),std::make_pair(bool(par("exportTipsNumber")),bool(par("wipeLogTipsNumber"))));
+    _finish(par("exportTangle"),std::make_pair(par("exportTipsNumber").boolValue(),par("wipeLogTipsNumber").boolValue()));
 
     delete msgAttack;
 
-    if((msgParasiteChain || msgSplitting) && bool(par("exportConflictTx")))
+    if((msgParasiteChain || msgSplitting) && par("exportConflictTx"))
     {
         printConflictTx();
     }
 
     if(msgParasiteChain)
     {
-        if(bool(par("exportDiffTxChain"))) printDiffTxChain(bool(par("wipeLogDiffTxChain")));
+        if(par("exportDiffTxChain"))
+        {
+            printDiffTxChain(par("wipeLogDiffTxChain"));
+        }
+           
         delete msgParasiteChain;
     }
 
     else if(msgSplitting)
     {
-        if(bool(par("exportBranchSize"))) printBranchSize(bool(par("wipeLogBranchSize")));
+        if(par("exportBranchSize"))
+        {   
+            printBranchSize(par("wipeLogBranchSize"));
+        }
+
+        if(msgMaintainBalance)
+        {
+            delete msgMaintainBalance;
+        }
+
         delete msgSplitting;
-        if(msgMaintainBalance) delete msgMaintainBalance;
     }
 }

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <algorithm>
 #include <numeric>
+#include <random>
 
 #include "Structures.h"
 
@@ -21,9 +22,9 @@ class AbstractModule : public cSimpleModule
         void setTxLimit(int newLimit);
 
         //track data
-        void printTangle() const; //export the Tangle in CSV format to be drawned with the python script 
+        void printTangle() const; //export the Tangle in CSV format to be drawned with the python script
         void printTipsLeft(bool ifDeleteFile) const; //export the amount of tips at the end of the simulation in a CSV file
-        void printStats(bool ifDeleteFile = false) const; //write in a CSV file some stats of the simulation at a given time (i.e when the function is called) 
+        void printStats(bool ifDeleteFile = false) const; //write in a CSV file some stats of the simulation at a given time (i.e when the function is called)
 
         /* return a vector of tuple containing:
             - the pointer of the selected tip after the random walk
@@ -98,15 +99,22 @@ class AbstractModule : public cSimpleModule
         int txLimit; //how many transactions the module can issue (set in NED file)
         int WThreshold; //the maximum limit that W can take (check the NED file for more precision)
 
-        simtime_t rateMean; //exponential distribution with the given mean (set in the NED file)
-        simtime_t powTime; //PoW time (set in NED file)
+        double rateMean; //exponential distribution with the given mean (set in the NED file)
+        double powTime; //PoW time (set in NED file)
 
         cMessage* msgIssue; //to issue a new transaction
         cMessage* msgPoW; //to wait during the pow time
         cMessage* msgUpdate; //to send to others modules
         
-        randomNumberGenerator* myRNG; //rng class for the uniform & exponential distribution 
         VpTx myTangle; //local Tangle
         VpTx myTips; //keep a record of all the current unapproved transactions
-        std::vector<std::string> myBuffer; //a buffer for all conflicted transaction to be checked  
+        std::vector<std::string> myBuffer; //a buffer for all conflicted transaction to be checked
+
+        std::mt19937 eng; //mersenne twister engine
+        /* STL exponential distribution to avoid the use of the built in rng functions because, sometimes, 
+           the OMNeT++ exponential distribution returns a high negative value leading to msgs be sended in the past 
+           This bug appeared since the introduction of the OpenMP code and I duno why ?
+           The setted seed is unique for each module and each run (check _initialize())
+        */
+        std::exponential_distribution<double> exponential;
 };

@@ -9,13 +9,16 @@ void HonestModule::caseISSUE()
         if(chosenTips.empty())
         {
             EV << "The TSA did not give legit tips to approve: attempting again\n";
-            scheduleAt(simTime() + myRNG->exp(), msgIssue);
+            scheduleAt(simTime() + exponential(eng), msgIssue);
             return;
         }
 
         EV << "Chosen Tips: ";
 
-        for(const auto tip : chosenTips) EV << tip->ID << " "; 
+        for(const auto tip : chosenTips)
+        {
+            EV << tip->ID << " ";
+        }
         
         EV << "\n Pow time:"  << chosenTips.size() * powTime << "\n";
 
@@ -46,7 +49,7 @@ void HonestModule::casePOW(cMessage* msg)
     EV << "Pow time finished for " << newTx->ID << ", sending it to all nodes\n";
     
     broadcastTx(newTx);
-    scheduleAt(simTime() + myRNG->exp(), msgIssue);
+    scheduleAt(simTime() + exponential(eng), msgIssue);
 }
 
 void HonestModule::caseUPDATE(cMessage* msg)
@@ -76,7 +79,7 @@ void HonestModule::initialize()
     _initialize();
 
     EV << "Initialization complete\n";
-    scheduleAt(simTime() + myRNG->exp(), msgIssue);
+    scheduleAt(simTime() + exponential(eng), msgIssue);
 }
 
 void HonestModule::handleMessage(cMessage* msg)
@@ -102,5 +105,5 @@ void HonestModule::handleMessage(cMessage* msg)
 
 void HonestModule::finish()
 {
-    _finish(bool(par("exportTangle")),std::make_pair(bool(par("exportTipsNumber")),bool(par("wipeLogTipsNumber"))));
+    _finish(par("exportTangle"),std::make_pair(par("exportTipsNumber").boolValue(),par("wipeLogTipsNumber").boolValue()));
 }

@@ -21,7 +21,10 @@ std::map<int,std::vector<int>> ConfiguratorModule::getEdgeList() const
     std::fstream file;
     file.open(path,std::ios::in);
 
-    if(!file.is_open()) throw std::runtime_error("Could not open CSV file");
+    if(!file.is_open())
+    {
+        throw std::runtime_error("Could not open CSV file");
+    }
 
     std::string line;
     std::map<int,std::vector<int>> myTopo;
@@ -37,24 +40,19 @@ std::map<int,std::vector<int>> ConfiguratorModule::getEdgeList() const
     return myTopo;
 }
 
-void ConfiguratorModule::connectModules(cModule* moduleOut, cModule* moduleIn, randomNumberGenerator& myRNG)
+void ConfiguratorModule::connectModules(cModule* moduleOut, cModule* moduleIn)
 {
-    double delay = 0.0;
+    auto channel = cDelayChannel::create("Channel");
 
     if(getParentModule()->par("ifRandDelay"))
     {
-       double minDelay = getParentModule()->par("minDelay");
-       double maxDelay = getParentModule()->par("maxDelay");
-       delay = myRNG.doubleUniform(minDelay,maxDelay);
+       channel->setDelay(uniform(minDelay,maxDelay));
     }
 
     else
     {
-       delay = getParentModule()->par("delay");
+        channel->setDelay(delay);
     }
-
-    auto channel = cDelayChannel::create("Channel");
-    channel->setDelay(delay);
 
     moduleOut->setGateSize("out",moduleOut->gateSize("out") + 1);
     moduleIn->setGateSize("in",moduleIn->gateSize("in") + 1);
@@ -103,65 +101,72 @@ void ConfiguratorModule::logConfig() const
     auto maliciousModule = network->getSubmodule("Malicious",0);
 
     std::cout << "\n-------------- Network settings --------------\n"
-         << "* Selected topology: " << std::string(network->par("topology")) << "\n"
-         << "* Number of malicious nodes: " << int(network->par("nbMaliciousNode")) << "\n"
-         << "* Number of honest nodes: " << int(network->par("nbHonestNode")) << "\n";
+         << "* Selected topology: " << network->par("topology").str() << "\n"
+         << "* Number of malicious nodes: " << network->par("nbMaliciousNode").intValue() << "\n"
+         << "* Number of honest nodes: " << network->par("nbHonestNode").intValue() << "\n";
 
     bool ifRandDelay = network->par("ifRandDelay");
     std::cout << "* To set up a random delay based on an interval: " << ifRandDelay << "\n";
 
     if(ifRandDelay)
     {
-        std::cout << "\t- Minimum delay: " << double(network->par("minDelay")) << " seconds\n";
-        std::cout << "\t- Maximum delay: " << double(network->par("maxDelay")) << " seconds\n";
+        cPar& parMinDelay = network->par("minDelay");
+        cPar& parMaxDelay = network->par("maxDelay");
+
+        std::cout << "\t- Minimum delay: " << minDelay << " " << parMinDelay.getUnit() << "\n";
+        std::cout << "\t- Maximum delay: " << maxDelay << " " << parMaxDelay.getUnit() << "\n";
     }
 
     else
     {
-        std::cout << "\t- Fixed delay: " << double(network->par("delay")) << " seconds\n";
+        cPar& parDelay = network->par("delay");
+        std::cout << "\t- Fixed delay: " << delay << " " << parDelay.getUnit() << "\n";
     }
 
     if(honestModule)
     {
+        cPar& parRateMean = honestModule->par("rateMean");
+        cPar& parPowTime = honestModule->par("powTime");
+
         std::cout << "\n------------ Honest node settings ------------\n"
-             << "* The exponential distribution mean of the issuing rate: " << double(honestModule->par("rateMean")) << " per seconds\n"
-             << "* Proof of work time: " << double(honestModule->par("powTime")) << " seconds\n"
-             << "* Transaction limit: " << int(honestModule->par("transactionLimit")) << "\n";
+             << "* The exponential distribution mean of the issuing rate: " << parRateMean.doubleValue() << " per " << parRateMean.getUnit() << "\n"
+             << "* Proof of work time: " << parPowTime.doubleValue() << " " << parPowTime.getUnit() << "\n"
+             << "* Transaction limit: " << honestModule->par("transactionLimit").intValue() << "\n";
 
         std::string TSA = honestModule->par("TSA");
         std::cout << "* Tips selection algorithm: " << TSA << "\n"
-             << "\t- WProp: " << double(honestModule->par("WProp")) << "\n"
-             << "\t- WPercentageThreshold: " << double(honestModule->par("WPercentageThreshold")) << "\n"
+             << "\t- WProp: " << honestModule->par("WProp").doubleValue() << "\n"
+             << "\t- WPercentageThreshold: " << honestModule->par("WPercentageThreshold").doubleValue() << "\n"
              << "\t- N: " << int(honestModule->par("N")) << "\n";
 
         if(TSA == "IOTA" || TSA == "GIOTA")
         {
-            std::cout << "\t- Alpha: " << double(honestModule->par("alpha")) << "\n";
+            std::cout << "\t- Alpha: " << honestModule->par("alpha").doubleValue() << "\n";
 
             if(TSA == "GIOTA")
             {
-                std::cout << "\t- confDistance: " << int(honestModule->par("confDistance")) << "\n";
+                std::cout << "\t- confDistance: " << honestModule->par("confDistance").intValue() << "\n";
             }
         }
 
         else
         {
-            std::cout << "\t- p1: " << double(honestModule->par("p1")) << "\n"
-                 << "\t- p2: " << double(honestModule->par("p2")) << "\n"
-                 << "\t- Low alpha: " << double(honestModule->par("lowAlpha")) << "\n"
-                 << "\t- High alpha: " << double(honestModule->par("highAlpha")) << "\n";
+            std::cout << "\t- p1: " << honestModule->par("p1").doubleValue() << "\n"
+                 << "\t- p2: " << honestModule->par("p2").doubleValue() << "\n"
+                 << "\t- Low alpha: " << honestModule->par("lowAlpha").doubleValue() << "\n"
+                 << "\t- High alpha: " << honestModule->par("highAlpha").doubleValue() << "\n";
         }
 
         std::cout << "* Log settings:\n"
-             << "\t- Export Tangle: " << bool(honestModule->par("exportTangle")) << "\n"
-             << "\t- Export tips number: " << bool(honestModule->par("exportTipsNumber")) << "\n"
-             << "\t- Delete tips number logs before: " << bool(honestModule->par("wipeLogTipsNumber")) << "\n";
+             << "\t- Export Tangle: " << honestModule->par("exportTangle").boolValue() << "\n"
+             << "\t- Export tips number: " << honestModule->par("exportTipsNumber").boolValue() << "\n"
+             << "\t- Delete tips number logs before: " << honestModule->par("wipeLogTipsNumber").boolValue() << "\n";
     }
 
     if(maliciousModule)
     {
         std::cout << "\n----------- Malicious node settings -----------\n"
-                  << "* Attack stage: " << double(maliciousModule->par("attackStage")) << "\n";
+                  << "* Attack stage: " << maliciousModule->par("attackStage").doubleValue() << "\n";
 
         bool PCattack = maliciousModule->par("PCattack");
         bool SPattack = maliciousModule->par("SPattack");
@@ -169,35 +174,36 @@ void ConfiguratorModule::logConfig() const
         if(PCattack)
         {
             std::cout << "* Parasite chain attack settings:\n"
-                      << "\t- The computing power of the node: " << double(maliciousModule->par("propComputingPower")) << "\n"
-                      << "\t- The proportion of transactions in the chain: " << double(maliciousModule->par("propChainTips")) << "\n";
+                      << "\t- The computing power of the node: " << maliciousModule->par("propComputingPower").doubleValue() << "\n"
+                      << "\t- The proportion of transactions in the chain: " << maliciousModule->par("propChainTips").doubleValue() << "\n";
         }
 
         if(SPattack)
         {
             std::cout << "* Splitting attack settings:\n"
-                      << "\t- The value to set the size of the branches at initialization: " << double(maliciousModule->par("sizeBrancheProp")) << "\n"
-                      << "\t- The computing power of the node when maintaining the branches: " << double(maliciousModule->par("propRateMB")) << "\n";
+                      << "\t- The value to set the size of the branches at initialization: " << maliciousModule->par("sizeBrancheProp").doubleValue() << "\n"
+                      << "\t- The computing power of the node when maintaining the branches: " << maliciousModule->par("propRateMB").doubleValue() << "\n";
         }
 
         std::cout << "* Log settings:\n"
-             << "\t- Export the conflicted transactions: " << bool(maliciousModule->par("exportConflictTx")) << "\n"
-             << "\t- Export the resilience of the parasite chain attack: " << bool(maliciousModule->par("exportDiffTxChain")) << "\n"
-             << "\t- Delete parasite chain attack logs before: " << bool(maliciousModule->par("wipeLogTipsNumber")) << "\n"
-             << "\t- Export the resilience of the splitting attack: " << bool(maliciousModule->par("exportBranchSize")) << "\n"
-             << "\t- Delete splitting attack logs before: " << bool(maliciousModule->par("wipeLogBranchSize")) << "\n";
+             << "\t- Export the conflicted transactions: " << maliciousModule->par("exportConflictTx").boolValue() << "\n"
+             << "\t- Export the resilience of the parasite chain attack: " << maliciousModule->par("exportDiffTxChain").boolValue() << "\n"
+             << "\t- Delete parasite chain attack logs before: " << maliciousModule->par("wipeLogTipsNumber").boolValue() << "\n"
+             << "\t- Export the resilience of the splitting attack: " << maliciousModule->par("exportBranchSize").boolValue() << "\n"
+             << "\t- Delete splitting attack logs before: " << maliciousModule->par("wipeLogBranchSize").boolValue() << "\n";
     }
 }
 
 void ConfiguratorModule::initialize()
 {
-    EV << "Setting up connections:" << std::endl;
-
-    int currentRun = getEnvir()->getConfigEx()->getActiveRunNumber();
+    EV << "Setting up connections:" << "\n";
 
     auto myTopo = getEdgeList();
     auto myModules = getModules();
-    auto myRNG = randomNumberGenerator(currentRun,1.0);
+
+    delay = getParentModule()->par("delay").doubleValue();
+    minDelay = getParentModule()->par("minDelay").doubleValue();
+    maxDelay = getParentModule()->par("maxDelay").doubleValue();
 
     for(const auto& edge : myTopo)
     {
@@ -208,8 +214,8 @@ void ConfiguratorModule::initialize()
         {
             checkError(idx,myModules.size());
             auto moduleIn = myModules[idx];
-            connectModules(moduleOut,moduleIn,myRNG);
-            EV << "Module " << moduleOut->getId() - 3 << " ---> Module " << moduleIn->getId() - 3 << std::endl;
+            connectModules(moduleOut,moduleIn);
+            EV << "Module " << moduleOut->getId() - 3 << " ---> Module " << moduleIn->getId() - 3 << "\n";
         }
     }
 
