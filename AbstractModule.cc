@@ -110,13 +110,13 @@ std::vector<std::tuple<Tx*,int,int>> AbstractModule::getSelectedTips(double alph
         #pragma omp for nowait
         for(int i = 0; i < N; i++)
         {
-            w = intuniform(W,2*W);
+            w = intuniform(W,2*W,omp_get_thread_num());
 
             if(w > WThreshold)
             {
                 w = WThreshold;
             }
-
+            
             startTx = getWalkStart(w);
             alphaVal ? tip = weightedRandomWalk(startTx,alphaVal,walkTime) : tip = randomWalk(startTx,walkTime);
 
@@ -380,7 +380,7 @@ Tx* AbstractModule::weightedRandomWalk(Tx* startTx, double alphaVal, int &walkTi
             std::partial_sum(p1.begin(),p1.end(),cs1.begin());
 
             size_t nextIndex = 0;
-            double probWalkChoice = uniform(0.0,1.0);
+            double probWalkChoice = uniform(0.0,1.0,omp_get_thread_num());
 
             for(size_t k = 0; k < cs.size(); k++)
             {
@@ -421,7 +421,7 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
         else
         {   
-            int nextIndex = intuniform(0,currentView.size() - 1);
+            int nextIndex = intuniform(0,currentView.size() - 1,omp_get_thread_num());
             startTx = currentView.at(nextIndex);
         }
     }
@@ -432,12 +432,12 @@ Tx* AbstractModule::randomWalk(Tx* startTx, int &walkTime)
 
 Tx* AbstractModule::getWalkStart(int backTrackDist) const
 {
-    int randomIdx = intuniform(0,myTips.size() - 1);
+    int randomIdx = intuniform(0,myTips.size() - 1,omp_get_thread_num());
     auto startTip = myTips.at(randomIdx);
 
     while(!startTip->isGenesisBlock && backTrackDist > 0)
     {
-        randomIdx = intuniform(0,startTip->approvedTx.size() - 1);
+        randomIdx = intuniform(0,startTip->approvedTx.size() - 1,omp_get_thread_num());
         startTip = startTip->approvedTx.at(randomIdx);
         backTrackDist--;
     }
@@ -885,13 +885,6 @@ void AbstractModule::_initialize()
     int totalNumberNodes = network->par("nbMaliciousNode").intValue() + network->par("nbHonestNode").intValue();
     double WPercentageThreshold = par("WPercentageThreshold");
     WThreshold = std::floor(WPercentageThreshold * txLimit * totalNumberNodes);
-
-    exponential = std::exponential_distribution<double>(1/rateMean);
-    std::random_device rd;
-    eng = std::mt19937(rd());
-    int currentRun = getEnvir()->getConfigEx()->getActiveRunNumber();
-    int seed = currentRun + getId();
-    eng.seed(seed);
 
     msgIssue = new cMessage("Issuing a new transaction",ISSUE);
     msgPoW = new cMessage("PoW time",POW);

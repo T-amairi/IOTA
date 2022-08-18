@@ -477,7 +477,7 @@ void MaliciousModule::casePCA()
     if(targetTx == nullptr)
     {
         EV << "Can not find a legit transaction for the chain, retrying later\n";
-        scheduleAt(simTime() + exponential(eng), msgParasiteChain);
+        scheduleAt(simTime() + exponential(rateMean), msgParasiteChain);
         return;
     }
 
@@ -486,7 +486,7 @@ void MaliciousModule::casePCA()
     if(rootTx == nullptr)
     {
         EV << "Can not find a legit transaction for the chain, retrying later\n";
-        scheduleAt(simTime() + exponential(eng), msgParasiteChain);
+        scheduleAt(simTime() + exponential(rateMean), msgParasiteChain);
         return;
     }
 
@@ -589,7 +589,7 @@ void MaliciousModule::caseISSUE()
         if(chosenTips.empty())
         {
             EV << "The TSA did not give legit tips to approve: attempting again\n";
-            scheduleAt(simTime() + exponential(eng), msgIssue);
+            scheduleAt(simTime() + exponential(rateMean), msgIssue);
             return;
         }
 
@@ -626,7 +626,7 @@ void MaliciousModule::casePOW(cMessage* msg)
     EV << "Pow time finished for " << newTx->ID << ", sending it to all nodes\n";
 
     broadcastTx(newTx);
-    scheduleAt(simTime() + exponential(eng), msgIssue);
+    scheduleAt(simTime() + exponential(rateMean), msgIssue);
 }
 
 void MaliciousModule::caseUPDATE(cMessage* msg)
@@ -691,7 +691,7 @@ void MaliciousModule::initialize()
     }
 
     EV << "Initialization complete\n";
-    scheduleAt(simTime() + exponential(eng), msgIssue);
+    scheduleAt(simTime() + exponential(rateMean), msgIssue);
 }
 
 void MaliciousModule::handleMessage(cMessage* msg)

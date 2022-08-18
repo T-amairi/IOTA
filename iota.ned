@@ -30,7 +30,7 @@ simple HonestModule
 
         //******* GIOTA *******//
         //the maximum number of steps to be performed when computing the confidence
-        int confDistance = 50;
+        int confDistance = 100;
 
         //******* EIOTA *******//
         double p1 = 0.1;

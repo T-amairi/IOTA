@@ -109,12 +109,4 @@ class AbstractModule : public cSimpleModule
         VpTx myTangle; //local Tangle
         VpTx myTips; //keep a record of all the current unapproved transactions
         std::vector<std::string> myBuffer; //a buffer for all conflicted transaction to be checked
-
-        std::mt19937 eng; //mersenne twister engine
-        /* STL exponential distribution to avoid the use of the built in rng functions because, sometimes, 
-           the OMNeT++ exponential distribution returns a high negative value leading to msgs be sended in the past 
-           This bug appeared since the introduction of the OpenMP code and I duno why ?
-           The setted seed is unique for each module and each run (check _initialize())
-        */
-        std::exponential_distribution<double> exponential;
 };
